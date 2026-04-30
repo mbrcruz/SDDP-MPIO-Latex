@@ -7,6 +7,6 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {4.1}{\ignorespaces Desempenho do Experimento SDumont com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup} e percentual de I/O.}}{13}{table.4.1}%
 \contentsline {table}{\numberline {4.2}{\ignorespaces Desempenho do Experimento SDumont com a implementação MPI-IO, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup} e percentual de I/O.}}{14}{table.4.2}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup} e percentual de I/O.}}{19}{table.4.3}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup} e percentual de I/O.}}{18}{table.4.3}%
 \contentsline {table}{\numberline {4.4}{\ignorespaces Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup} e percentual de I/O.}}{19}{table.4.4}%
 \addvspace {10\p@ }

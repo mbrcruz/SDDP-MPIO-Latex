@@ -506,21 +506,19 @@ núcleo físico, totalizando 24~cenários simultâneos por nó.
 \subsection{Avaliação da implementação atual}
 \label{sec:sdumont_atual}
 Esta subseção analisa o desempenho da arquitetura atual de E/S do SDDP
-no Experimento SDumont, em que um único processo recebe e grava todos
-os resultados via \texttt{MPI\_Send}/\texttt{MPI\_Recv}. A
-Tabela~\ref{tab:central_sdumont} sumariza os resultados, considerando
-1.536 cenários, três estágios mensais e 24 \textit{ranks} por nó.
+no Experimento SDumont. A Tabela~\ref{tab:central_sdumont} sumariza os
+resultados, considerando 1.536 cenários, três estágios mensais e 24
+\textit{ranks} por nó.
 
-Diferentemente do que se observou no AWS, o tempo total de execução não
-apresenta tendência monotônica de redução com o aumento do número de
-nós: cai de 8.444~s em 2~nós para 5.921~s em 4~nós, mas volta a crescer
-em 8 e 16~nós, atingindo 7.805~s nessa última escala. A banda agregada
-cai consistentemente, de 4{,}57~Gb/s em 2~nós para 0{,}84~Gb/s em
-16~nós. O percentual do tempo dedicado à comunicação se mantém em torno
-de 11--17\% em todas as escalas. Esse comportamento caracteriza um
-regime degradado sob \textit{strong scaling}, no qual a contenção do
-processo escritor mais do que compensa os ganhos de paralelismo
-computacional.
+O tempo total de execução não apresenta tendência monotônica de redução
+com o aumento do número de nós: cai de 8.444~s em 2~nós para 5.921~s em
+4~nós, mas volta a crescer em 8 e 16~nós, atingindo 7.805~s nessa última
+escala. A banda agregada cai consistentemente, de 4{,}57~Gb/s em 2~nós
+para 0{,}84~Gb/s em 16~nós. O percentual do tempo dedicado à comunicação
+se mantém em torno de 11--17\% em todas as escalas. Esse comportamento
+caracteriza um regime degradado sob \textit{strong scaling}, no qual a
+contenção do processo escritor mais do que compensa os ganhos de
+paralelismo computacional.
 
 \begin{table}[hbt]
 \centering
@@ -544,7 +542,6 @@ incluindo tempos de I/O, comunicação, tempo total, \textit{speedup} e percentu
 4  & $2{,}04 \pm 0{,}54$ & $2\,116{,}61 \pm 482{,}68$ & $921{,}08 \pm 55{,}50$    & $6\,841{,}99 \pm 479{,}20$ & $1{,}37\times$ & $30{,}94\%$ \\
 8  & $1{,}52 \pm 1{,}01$ & $4\,013{,}54 \pm 220{,}86$ & $1\,014{,}67 \pm 36{,}82$ & $6\,981{,}25 \pm 163{,}40$ & $1{,}34\times$ & $57{,}49\%$ \\
 16 & $0{,}84 \pm 0{,}75$ & $6\,602{,}61 \pm 671{,}38$ & $1\,277{,}79 \pm 30{,}77$ & $9\,082{,}37 \pm 174{,}91$ & $1{,}03\times$ & $72{,}70\%$ \\
-32 & \textcolor{red}{--} & \textcolor{red}{--} & \textcolor{red}{--} & \textcolor{red}{--} & \textcolor{red}{--} & \textcolor{red}{--} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -552,8 +549,8 @@ incluindo tempos de I/O, comunicação, tempo total, \textit{speedup} e percentu
 \subsection{Avaliação da implementação MPI-IO}
 \label{sec:sdumont_mpiio}
 Esta subseção analisa o desempenho da arquitetura proposta no
-Experimento SDumont, novamente baseada em escritas independentes com
-MPI-IO sobre o sistema de arquivos Lustre operado pelo ClusterStor L300. A
+Experimento SDumont, baseada em escritas independentes com MPI-IO sobre o
+sistema de arquivos Lustre operado pelo ClusterStor L300. A
 Tabela~\ref{tab:mpiio_sdumont} consolida os resultados.
 
 Em relação à implementação atual, o tempo total de execução cai
@@ -569,8 +566,6 @@ alta variabilidade. Os desvios padrão expressivos a partir de 8~nós
 instabilidade --- comportamento típico de saturação do sistema de
 metadados / coletivas no Lustre quando muitos processos abrem e
 fecham arquivos simultaneamente.
-\textcolor{red}{\textbf{ToDp:} a configuração de 32~nós ainda não foi
-executada nesta variante e será preenchida após a próxima bateria.}
 
 \begin{table}[hbt]
 \centering
@@ -594,7 +589,6 @@ incluindo tempos de I/O, comunicação, tempo total, \textit{speedup} e percentu
 4  & $2{,}76 \pm 0{,}53$ & $1\,186{,}44 \pm 414{,}20$ & $850{,}55 \pm 177{,}58$    & $6\,430{,}57 \pm 489{,}98$  & $1{,}61\times$ & $18{,}45\%$ \\
 8  & $2{,}08 \pm 0{,}63$ & $1\,884{,}36 \pm 2\,092{,}62$ & $976{,}98 \pm 213{,}86$ & $6\,342{,}98 \pm 2\,424{,}11$ & $1{,}63\times$ & $29{,}71\%$ \\
 16 & $1{,}63 \pm 0{,}56$ & $1\,958{,}12 \pm 2\,025{,}19$ & $1\,185{,}57 \pm 487{,}98$ & $7\,592{,}64 \pm 2\,840{,}08$ & $1{,}36\times$ & $25{,}79\%$ \\
-32 & \textcolor{red}{--} & \textcolor{red}{--} & \textcolor{red}{--} & \textcolor{red}{--} & \textcolor{red}{--} & \textcolor{red}{--} \\
 \bottomrule
 \end{tabular}
 \end{table}
