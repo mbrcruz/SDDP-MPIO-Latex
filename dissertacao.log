@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  29 APR 2026 22:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  30 APR 2026 16:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1187,35 +1187,34 @@ File: EnvioPorTamanho_AWS.png Graphic file (type png)
 Package pdftex.def Info: EnvioPorTamanho_AWS.png  used on input line 724.
 (pdftex.def)             Requested size: 426.79135pt x 115.03004pt.
  [17 <./Tempo_execucao_AWS.png> <./EnvioPorTamanho_AWS.png>] [18] [19]
-<Banda_SDumont.png, id=497, 686.565pt x 354.123pt>
+<Banda_SDumont.png, id=501, 686.565pt x 354.123pt>
 File: Banda_SDumont.png Graphic file (type png)
 <use Banda_SDumont.png>
-Package pdftex.def Info: Banda_SDumont.png  used on input line 882.
+Package pdftex.def Info: Banda_SDumont.png  used on input line 892.
 (pdftex.def)             Requested size: 426.79135pt x 220.13214pt.
 
-[20 <./Banda_SDumont.png>]
-<Tempo_execucao_SDumont.png, id=504, 755.9442pt x 678.6153pt>
+[20]
+<Tempo_execucao_SDumont.png, id=508, 755.9442pt x 678.6153pt>
 File: Tempo_execucao_SDumont.png Graphic file (type png)
 <use Tempo_execucao_SDumont.png>
-Package pdftex.def Info: Tempo_execucao_SDumont.png  used on input line 909.
+Package pdftex.def Info: Tempo_execucao_SDumont.png  used on input line 919.
 (pdftex.def)             Requested size: 426.79135pt x 383.12842pt.
- [21 <./Tempo_execucao_SDumont.png>]
-<EnvioPorTamanho_SDumont.png, id=511, 1264.725pt x 426.393pt>
+<EnvioPorTamanho_SDumont.png, id=510, 1264.725pt x 426.393pt>
 File: EnvioPorTamanho_SDumont.png Graphic file (type png)
 <use EnvioPorTamanho_SDumont.png>
-Package pdftex.def Info: EnvioPorTamanho_SDumont.png  used on input line 934.
+Package pdftex.def Info: EnvioPorTamanho_SDumont.png  used on input line 944.
 (pdftex.def)             Requested size: 426.79135pt x 143.88516pt.
- [22 <./EnvioPorTamanho_SDumont.png>]
-<Experimento_OSTs.png, id=518, 570.933pt x 353.4003pt>
+ [21 <./Banda_SDumont.png>] [22 <./Tempo_execucao_SDumont.png>] [23 <./EnvioPor
+Tamanho_SDumont.png>]
+<Experimento_OSTs.png, id=527, 570.933pt x 353.4003pt>
 File: Experimento_OSTs.png Graphic file (type png)
 <use Experimento_OSTs.png>
-Package pdftex.def Info: Experimento_OSTs.png  used on input line 1009.
+Package pdftex.def Info: Experimento_OSTs.png  used on input line 1019.
 (pdftex.def)             Requested size: 426.79135pt x 264.18677pt.
- [23]
-<Experimento_OSTs_banda.png, id=524, 570.933pt x 354.123pt>
+<Experimento_OSTs_banda.png, id=529, 570.933pt x 354.123pt>
 File: Experimento_OSTs_banda.png Graphic file (type png)
 <use Experimento_OSTs_banda.png>
-Package pdftex.def Info: Experimento_OSTs_banda.png  used on input line 1043.
+Package pdftex.def Info: Experimento_OSTs_banda.png  used on input line 1053.
 (pdftex.def)             Requested size: 426.79135pt x 264.72702pt.
  [24 <./Experimento_OSTs.png>] [25 <./Experimento_OSTs_banda.png>]
 Cap\'{\i }tulo 5.
@@ -1236,10 +1235,10 @@ Package rerunfilecheck Info: File `dissertacao.out' has not changed.
 (rerunfilecheck)             Checksum: 75CDCF2940729361CFA8EA4B16D0929D;5637.
  ) 
 Here is how much of TeX's memory you used:
- 29941 strings out of 467871
- 599619 string characters out of 5418376
- 1049918 words of memory out of 5000000
- 58193 multiletter control sequences out of 15000+600000
+ 29945 strings out of 467871
+ 599696 string characters out of 5418376
+ 1049977 words of memory out of 5000000
+ 58196 multiletter control sequences out of 15000+600000
  643336 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,12n,118p,465b,652s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1261,9 +1260,9 @@ mr10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmr12.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/publ
 ic/amsfonts/cm/cmr8.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmsy10.pfb>
-Output written on dissertacao.pdf (40 pages, 1133079 bytes).
+Output written on dissertacao.pdf (40 pages, 1137603 bytes).
 PDF statistics:
- 1067 PDF objects out of 1200 (max. 8388607)
- 107 named destinations out of 1000 (max. 500000)
+ 1076 PDF objects out of 1200 (max. 8388607)
+ 108 named destinations out of 1000 (max. 500000)
  433 words of extra memory for PDF output out of 10000 (max. 10000000)
 

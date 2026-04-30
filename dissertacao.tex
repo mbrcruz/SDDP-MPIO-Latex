@@ -756,13 +756,9 @@ núcleo físico, totalizando 24~cenários simultâneos por nó.
 \label{sec:sdumont_atual}
 Esta subseção analisa o desempenho da arquitetura atual de E/S do SDDP
 no Experimento SDumont, em que um único processo recebe e grava todos
-os resultados via \texttt{MPI\_Send}/\texttt{MPI\_Recv}. Em relação ao
-Experimento AWS, este experimento apresenta maior grau de concorrência
-agregada por causa do número de nós e dos recursos disponíveis em cada
-um deles, o que intensifica a contenção sobre o processo escritor
-único. A Tabela~\ref{tab:central_sdumont} sumariza os resultados,
-considerando 1.536 cenários, três estágios mensais e
-24 \textit{ranks} por nó.
+os resultados via \texttt{MPI\_Send}/\texttt{MPI\_Recv}. A
+Tabela~\ref{tab:central_sdumont} sumariza os resultados, considerando
+1.536 cenários, três estágios mensais e 24 \textit{ranks} por nó.
 
 Diferentemente do que se observou no AWS, o tempo total de execução não
 apresenta tendência monotônica de redução com o aumento do número de
@@ -876,6 +872,20 @@ as operações de E/S, mas também apresenta queda de desempenho nas maiores
 configurações, indicando que a escalabilidade no SDumont é limitada por
 fatores adicionais da infraestrutura de armazenamento e pela concorrência
 entre os processos.
+
+Um possível gargalo adicional no Experimento SDumont está associado ao
+subsistema de metadados do Lustre. A configuração utilizada possui um
+único MDS/MDT, responsável por manter o espaço de nomes, atributos,
+permissões, layouts e alocação inicial dos objetos de arquivos; embora o
+fluxo de dados seja transferido diretamente entre clientes e OSTs após a
+abertura dos arquivos, operações como criação, abertura, fechamento e
+atualização de metadados continuam passando pelo MDT e pelo gerenciador
+distribuído de locks do Lustre~\cite{Pjb:02,LustreManual}. Assim, quando
+diversos \textit{ranks} executam operações de E/S concorrentes, a
+contenção por \textit{metadata locks} e a serialização parcial de
+operações no MDT podem limitar a escalabilidade, explicando a
+variabilidade e a queda de banda observadas mesmo após a remoção do
+processo escritor centralizado.
 
 \begin{figure}[hbt]
   \centering

@@ -8,12 +8,12 @@
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Proposta com MPI-IO e Lustre.}}{10}{figure.3.1}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Histograma das mensagens.}}{12}{figure.4.1}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média no Experimento AWS.}}{16}{figure.4.2}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média no Experimento AWS.}}{15}{figure.4.2}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Tempo de execução no Experimento AWS.}}{17}{figure.4.3}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho das mensagens no Experimento AWS (escala logarítmica).}}{18}{figure.4.4}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Banda agregada média das implementações atual e MPI-IO no Experimento SDumont.}}{21}{figure.4.5}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{22}{figure.4.6}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de mensagem nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{23}{figure.4.7}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho das mensagens no Experimento AWS (escala logarítmica).}}{17}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Banda agregada média das implementações atual e MPI-IO no Experimento SDumont.}}{20}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{21}{figure.4.6}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de mensagem nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{22}{figure.4.7}%
 \contentsline {figure}{\numberline {4.8}{\ignorespaces Experimento com diferentes nós OSTs.}}{24}{figure.4.8}%
 \contentsline {figure}{\numberline {4.9}{\ignorespaces Banda agregada média no experimento de OSTs.}}{25}{figure.4.9}%
 \addvspace {10\p@ }
