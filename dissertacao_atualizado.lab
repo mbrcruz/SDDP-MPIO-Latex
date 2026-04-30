@@ -1,0 +1,53 @@
+
+\begin{theglossary}
+  \makeatletter
+  \item [AWS] Amazon Web Services\dotfill \hyperpage{3}
+
+  \indexspace
+
+  \item [E/S] Entrada/Saída\dotfill \hyperpage{1}
+  \item [EFA] Elastic Fabric Adapter\dotfill \hyperpage{3}
+
+  \indexspace
+
+  \item [FSx] Amazon FSx for Lustre\dotfill \hyperpage{3}
+
+  \indexspace
+
+  \item [HPC] High-Performance Computing\dotfill \hyperpage{1}
+
+  \indexspace
+
+  \item [LNCC] Laboratório Nacional de Computação Científica\dotfill 
+		\hyperpage{3}
+
+  \indexspace
+
+  \item [MDS] Metadata Server\dotfill \hyperpage{3}
+  \item [MDT] Metadata Target\dotfill \hyperpage{3}
+  \item [MPI] Message Passing Interface\dotfill \hyperpage{1}
+  \item [MPI-IO] MPI Input/Output\dotfill \hyperpage{3}
+
+  \indexspace
+
+  \item [ONS] Operador Nacional do Sistema Elétrico\dotfill 
+		\hyperpage{3}
+  \item [OSS] Object Storage Server\dotfill \hyperpage{3}
+  \item [OST] Object Storage Target\dotfill \hyperpage{3}
+
+  \indexspace
+
+  \item [PMO] Programa Mensal da Operação\dotfill \hyperpage{3}
+
+  \indexspace
+
+  \item [RDMA] Remote Direct Memory Access\dotfill \hyperpage{3}
+
+  \indexspace
+
+  \item [SDDP] Stochastic Dual Dynamic Programming\dotfill 
+		\hyperpage{1}
+  \item [SIN] Sistema Interligado Nacional\dotfill \hyperpage{3}
+  \item [SINAPAD] Sistema Nacional de Processamento de Alto Desempenho\dotfill 
+		\hyperpage{3}
+  \end{theglossary}

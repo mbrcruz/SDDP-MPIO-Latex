@@ -1,0 +1,1348 @@
+%===============================================================================
+% Dissertação de Mestrado - Marcelo B. da Cruz
+% Migrado do paper IEEEtran (sbaconf) para o template CoppeTeX (PESC/COPPE/UFRJ)
+%
+% Pré-requisitos no diretório:
+%   - coppe.cls
+%   - coppe-unsrt.bst (ou coppe-plain.bst)
+%   - coppe.ist
+%   - latexmkrc (opcional, para gerar listas de símbolos/abreviaturas)
+%   - bibliografy.bib
+%   - Figuras .png referenciadas (Banda_A, Tempo_execucao_A, ..., SDDP_architecture, etc.)
+%===============================================================================
+% Use a opção [numbers] se preferir citações no estilo numérico [1].
+% Sem [numbers], natbib usa formato autor-ano (Pereira & Pinto, 1991).
+\documentclass[msc]{coppe}
+
+\usepackage{booktabs}              % tabelas mais elegantes
+\usepackage{rotating}              % sidewaystable, se necessário
+\usepackage{longtable}             % tabelas longas
+\usepackage[most]{tcolorbox}       % caixas de texto
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}                % preserva os ToDo's em vermelho do paper original
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}              % opcional, para trechos de código
+
+\makelosymbols
+\makeloabbreviations
+
+\begin{document}
+
+  \title{Investigando Problemas de Escalabilidade de E/S no Algoritmo SDDP em Ambientes HPC}
+  \foreigntitle{Investigating I/O Scalability Issues in the SDDP Algorithm on HPC Environments}
+  \author{Marcelo}{Barros da Cruz}
+  \advisor{Prof.}{Nome do Orientador}{Sobrenome}{D.Sc.}
+  % Acrescente \advisor adicionais se houver coorientação:
+  % \advisor{Prof.}{Nome do Coorientador}{Sobrenome}{D.Sc.}
+  \examiner{Prof.}{Nome do Primeiro Examinador}{Sobrenome}{D.Sc.}
+  \examiner{Prof.}{Nome do Segundo Examinador}{Sobrenome}{D.Sc.}
+  \examiner{Prof.}{Nome do Terceiro Examinador}{Sobrenome}{D.Sc.}
+  \department{PESC}
+  \date{04}{2026}
+
+  \keyword{MPI-IO}
+  \keyword{Lustre}
+  \keyword{SDDP}
+  \keyword{Computação de Alto Desempenho}
+  \keyword{Escalabilidade de E/S}
+
+  \maketitle
+
+  \frontmatter
+
+  \dedication{Dedico esta dissertação a \textbf{[a definir]}.}
+
+  \chapter*{Agradecimentos}
+  \textcolor{red}{\textbf{ToDp: redigir agradecimentos finais.}}
+  Coloque aqui seus agradecimentos.
+
+  \begin{abstract}
+  A escalabilidade eficiente de E/S continua sendo um desafio crítico em
+  aplicações paralelas de dados massivos, especialmente em sistemas de alto
+  desempenho que lidam com grandes volumes de dados. Embora avanços como o uso
+  de MPI-IO e sistemas de arquivos paralelos como o Lustre tenham contribuído
+  significativamente, muitas aplicações ainda enfrentam gargalos que
+  comprometem a performance. Esse problema é particularmente evidente em
+  modelos de otimização utilizados no setor energético, como o SDDP, que
+  demandam acesso frequente e distribuído a grandes conjuntos de dados. A
+  eficiência da E/S torna-se, assim, um fator decisivo para a viabilidade e o
+  desempenho de simulações complexas em ambientes paralelos. Esta dissertação
+  investiga os gargalos de E/S do algoritmo SDDP e propõe uma arquitetura
+  descentralizada baseada em MPI-IO sobre Lustre, avaliada empiricamente nos
+  ambientes AWS (FSx for Lustre) e Santos Dumont (LNCC).
+  \end{abstract}
+
+  \begin{foreignabstract}
+  Efficient I/O scalability remains a major challenge for parallel
+  applications handling massive data volumes, particularly in
+  high-performance computing environments. Although advances such as MPI-IO
+  and parallel file systems like Lustre have significantly improved
+  performance, many applications still face I/O bottlenecks that hinder
+  scalability. This issue is particularly critical in energy sector
+  optimization models, such as Stochastic Dual Dynamic Programming (SDDP),
+  which require frequent and distributed access to large datasets. Therefore,
+  optimizing I/O operations becomes essential to ensure the feasibility and
+  efficiency of complex simulations in parallel computing systems. This
+  dissertation investigates the I/O bottlenecks of the SDDP algorithm and
+  proposes a decentralized architecture based on MPI-IO over Lustre,
+  empirically evaluated on AWS (FSx for Lustre) and on the Santos Dumont
+  supercomputer (LNCC).
+  \end{foreignabstract}
+
+  \tableofcontents
+  \listoffigures
+  \listoftables
+  \printlosymbols
+  \printloabbreviations
+
+  \mainmatter
+
+%===============================================================================
+\chapter{Introdução}
+\label{cap:introducao}
+
+\abbrev{HPC}{High-Performance Computing}
+\abbrev{MPI}{Message Passing Interface}
+\abbrev{E/S}{Entrada/Saída}
+\abbrev{SDDP}{Stochastic Dual Dynamic Programming}
+
+O aumento da complexidade e do volume de dados em aplicações científicas e
+de engenharia tem tornado a computação paralela uma ferramenta indispensável
+para atender às demandas de desempenho~\cite{refNeeed}. Entretanto, operações
+de entrada e saída (E/S) continuam sendo um dos principais gargalos em
+ambientes de alto desempenho (HPC), particularmente em aplicações que
+processam dados massivos~\cite{Rwe:99}. Nesse contexto, o uso de bibliotecas
+como o MPI-IO, padronizada pelo MPI-2, combinada com sistemas de arquivos
+paralelos como o Lustre, tornou-se uma abordagem fundamental para lidar com
+a escalabilidade e a eficiência no acesso aos dados~\cite{Rr:10, Pjb:02}.
+
+Paralelamente, a crescente inserção de fontes renováveis na matriz
+energética, como solar e eólica, tem introduzido novas dificuldades na
+formulação e resolução de problemas de otimização associados à operação dos
+sistemas elétricos. A variabilidade e incerteza dessas fontes requerem
+modelos computacionais mais complexos e dependentes de grandes volumes de
+dados, cuja execução eficiente depende tanto do paralelismo computacional
+quanto de soluções eficazes de E/S~\cite{Ajc:10, Ssr:19}.
+
+\textcolor{red}{\textbf{ToDp: precisamos expandir esse parágrafo, explicar o
+que implica essa mudança de paradigma na simulação tanto para o uso de
+recursos computacionais como para o uso dos resultados pelos usuários do
+SDDP.}}
+
+Assim como outras aplicações baseadas em tarefas independentes, o modelo
+SDDP (\textit{Stochastic Dual Dynamic Programming}) é amplamente utilizado
+para planejamento e despacho hidrotérmico em diversos países. À medida que
+os modelos se tornam mais detalhados, em resolução horária, e a quantidade
+de cenários aumenta, a execução do SDDP passa a demandar não apenas alto
+poder computacional, mas também operações intensivas de E/S~\cite{MvLm:91}.
+
+Nesse contexto, a análise do desempenho do MPI-IO sobre sistemas de arquivos
+paralelos como o Lustre, aplicada a esse tipo de aplicação, representa uma
+contribuição significativa para o desenvolvimento de soluções mais robustas
+e escaláveis em ambientes HPC.
+
+\textcolor{red}{\textbf{ToDp: Apresentar organização da dissertação ao final
+da introdução (capítulos 2--5).}}
+
+%===============================================================================
+\chapter{Fundamentação Teórica}
+\label{cap:fundamentacao}
+
+\abbrev{MPI-IO}{MPI Input/Output}
+\abbrev{OST}{Object Storage Target}
+\abbrev{MDS}{Metadata Server}
+\abbrev{MDT}{Metadata Target}
+\abbrev{OSS}{Object Storage Server}
+\abbrev{RDMA}{Remote Direct Memory Access}
+\abbrev{AWS}{Amazon Web Services}
+\abbrev{FSx}{Amazon FSx for Lustre}
+\abbrev{EFA}{Elastic Fabric Adapter}
+\abbrev{ONS}{Operador Nacional do Sistema Elétrico}
+\abbrev{PMO}{Programa Mensal da Operação}
+\abbrev{SIN}{Sistema Interligado Nacional}
+\abbrev{LNCC}{Laboratório Nacional de Computação Científica}
+\abbrev{SINAPAD}{Sistema Nacional de Processamento de Alto Desempenho}
+
+\section{MPI e protocolos de comunicação}
+O \textit{Message Passing Interface} (MPI) é o padrão para programação
+paralela baseada em troca de mensagens, sendo amplamente utilizado em
+\textit{clusters} e supercomputadores. Um aspecto essencial da sua
+implementação são os protocolos de comunicação: o \textit{eager}, que envia
+mensagens pequenas de forma imediata, sem necessidade de confirmação do
+receptor, favorecendo baixa latência; e o \textit{rendezvous}, que aguarda o
+\textit{handshake} do receptor antes de transmitir mensagens maiores,
+reduzindo \textit{overhead} de memória e aumentando a previsibilidade do
+desempenho em cargas intensivas~\cite{mpiCite}. A escolha entre os
+protocolos depende fortemente do tamanho da mensagem e da disponibilidade de
+\textit{buffers}: enquanto o \textit{eager} utiliza \textit{buffers}
+internos para armazenar temporariamente dados até que o receptor os
+processe, o \textit{rendezvous} elimina essa necessidade para mensagens
+grandes, evitando consumo excessivo de memória e garantindo maior
+estabilidade em aplicações de larga escala~\cite{Wea:99,Rrw:05}.
+
+\section{MPI-IO e operações paralelas de arquivos}
+O MPI também estende suas funcionalidades à entrada e saída de dados por
+meio da especificação MPI-IO~\cite{mpiioCite}, que define uma API
+padronizada para operações paralelas de arquivos. Essa interface possibilita
+que múltiplos processos acessem simultaneamente grandes volumes de dados,
+permitindo otimizações como \textit{collective I/O}, técnicas de agregação e
+\textit{data sieving}, que reduzem o número de operações pequenas e melhoram
+a eficiência do uso do sistema de arquivos. Entre as chamadas mais
+utilizadas, destacam-se \texttt{MPI\_File\_write\_at}, que realiza uma
+escrita independente em um deslocamento específico do arquivo, permitindo
+controle preciso sobre onde os dados serão gravados, e
+\texttt{MPI\_File\_write\_all}, que executa uma operação coletiva em que
+todos os processos participantes escrevem de forma coordenada. Enquanto a
+primeira é adequada para acessos irregulares ou não sincronizados, a segunda
+explora a comunicação coletiva para reduzir \textit{overhead} de metadados e
+alinhar requisições, sendo mais eficiente em ambientes com sistemas de
+arquivos distribuídos como o Lustre.
+
+\section{Sistema de arquivos paralelo Lustre}
+%https://sc25.supercomputing.org/proceedings/bof/bof_pages/bof197.html
+\textcolor{red}{O sistema de arquivos paralelo Lustre é utilizado na maioria
+dos supercomputadores da última lista do Top500~\cite{SC25LustreBoF}.}
+Projetado especificamente para cargas massivas de HPC, ele distribui os
+dados em \textit{Object Storage Targets} (OSTs) e os metadados em
+\textit{Metadata Servers} (MDS), permitindo acesso paralelo e balanceado a
+múltiplos clientes. Além disso, o Lustre utiliza a técnica de
+\textit{striping}, na qual um arquivo é dividido em blocos
+(\textit{chunks} ou \textit{stripes}) distribuídos entre diferentes OSTs.
+O tamanho do \textit{stripe} e o número de OSTs utilizados podem ser
+configurados de acordo com o padrão de acesso da aplicação, influenciando
+diretamente no \textit{throughput} e na escalabilidade: \textit{stripes}
+maiores tendem a favorecer grandes operações sequenciais, enquanto
+\textit{stripes} menores podem beneficiar acessos concorrentes e
+distribuídos~\cite{Pjb:02}. Graças a essa flexibilidade e alto desempenho,
+o Lustre tornou-se amplamente adotado em supercomputadores listados no
+TOP500, constituindo um elemento-chave para aplicações científicas e
+industriais que exigem desempenho extremo em E/S.
+
+\section{Adaptadores de rede em HPC: Ethernet e InfiniBand}
+Os adaptadores de rede são componentes críticos para o desempenho em
+sistemas de computação de alto desempenho, sendo a Ethernet e o InfiniBand
+as tecnologias mais utilizadas. A Ethernet, tradicionalmente projetada para
+redes locais corporativas, evoluiu para padrões de alta velocidade, como
+40/100/400~Gbps, oferecendo elevada taxa de transferência
+(\textit{bandwidth}), embora apresente latências relativamente maiores,
+frequentemente na ordem de dezenas de microssegundos. Já o InfiniBand foi
+desenvolvido especificamente para ambientes de HPC, combinando altas
+larguras de banda --- que podem ultrapassar 400~Gbps em implementações
+modernas --- com latências extremamente baixas, tipicamente abaixo de
+2~$\mu$s, graças a recursos como comunicação RDMA (\textit{Remote Direct
+Memory Access}). Essa diferença torna o InfiniBand preferido em
+supercomputadores e \textit{clusters} científicos, onde a baixa latência na
+troca de mensagens é tão relevante quanto a banda disponível, enquanto a
+Ethernet, pelo menor custo e ampla compatibilidade, mantém espaço em
+sistemas híbridos e \textit{datacenters}~\cite{Fds:03,RlGmmts:05}.
+
+\section{Computação em nuvem para HPC: AWS}
+A Amazon Web Services (AWS) tem se consolidado como uma das principais
+plataformas de computação em nuvem para aplicações de \textit{High
+Performance Computing} (HPC), oferecendo recursos sob demanda que permitem
+a execução de cargas de trabalho intensivas em computação e E/S. Entre os
+serviços disponíveis, destacam-se as instâncias otimizadas para HPC, como
+as famílias C, H e P, que fornecem alto poder de processamento aliado a
+interconexões de baixa latência por meio do \textit{Elastic Fabric Adapter}
+(EFA), permitindo a utilização de bibliotecas como MPI em escala. Para
+atender aplicações intensivas em dados, a AWS integra sistemas de
+armazenamento de alto desempenho, como o Amazon FSx for Lustre, que
+viabiliza acesso paralelo e em larga escala, semelhante a sistemas de
+arquivos utilizados em supercomputadores tradicionais. Essa combinação de
+infraestrutura elástica, rede de alto desempenho e suporte a ferramentas
+amplamente usadas em HPC torna a nuvem da AWS uma alternativa competitiva
+frente a \textit{clusters} locais, especialmente em cenários que demandam
+escalabilidade e flexibilidade~\cite{Krlkssj:10,Hmns:20}.
+
+\section{O Programa Mensal da Operação (PMO)}
+No setor elétrico brasileiro, o Programa Mensal da Operação (PMO) é um
+documento técnico elaborado pelo Operador Nacional do Sistema Elétrico
+(ONS) que estabelece as diretrizes de curto prazo para a operação do
+Sistema Interligado Nacional (SIN). O PMO contempla projeções de carga,
+disponibilidade de geração, restrições de transmissão e condições
+hidrológicas, servindo como referência para a programação da operação
+hidrotérmica de forma a garantir o equilíbrio entre oferta e demanda de
+energia elétrica. Além disso, define metas de despacho de usinas
+hidrelétricas e termelétricas, contribuindo para a segurança energética e
+para a otimização do uso dos recursos disponíveis. Por sua relevância, o
+PMO orienta não apenas as decisões operativas do ONS, mas também agentes
+do setor, incluindo geradores, comercializadores e distribuidores, sendo
+um instrumento fundamental para a gestão integrada e eficiente do
+SIN~\cite{ons:23}.
+
+\section{Algoritmo SDDP}
+\textcolor{red}{\textbf{ToDO: SDDP deve ser detalhado aqui, bem como sua
+E/S atual.}}
+\textcolor{red}{\textbf{ToDp: colocar figura cenários $\times$ estágios.}}
+
+\textcolor{red}{A aplicação SDDP é um modelo matemático baseado em MPI
+(\textit{Message Passing Interface}), projetado para resolver diversos
+problemas de forma paralela. Cada \textit{rank} de computação é responsável
+pela execução de uma instância do problema, enquanto um único processo
+centraliza todas as atividades de entrada/saída (E/S). Historicamente, essa
+abordagem não apresentava limitações de escalabilidade. No entanto, com o
+aumento da complexidade dos algoritmos e do detalhamento dos dados --- o
+que resultou em um volume significativamente maior de informações ---
+começaram a surgir gargalos relacionados à escalabilidade do sistema.}
+
+\subsection{Arquitetura atual de E/S do SDDP com um único processo escritor}
+\label{sec:arq_centralizada}
+Na arquitetura atual do SDDP, apenas um \textit{rank} MPI (o
+\textit{rank}~1) é designado para realizar todas as operações de E/S do
+sistema. Cada nó de computação, após resolver sua respectiva tarefa, envia
+os resultados por meio de um \textit{buffer} de dados utilizando a função
+\texttt{MPI\_Send}. Esse \textit{buffer} é então recebido pelo processo
+escritor através de uma chamada \texttt{MPI\_Recv} e, posteriormente, os
+dados são gravados em um sistema de arquivos distribuído. A
+Figura~\ref{fig:SDDP_architecture} ilustra o funcionamento dessa
+arquitetura.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{SDDP_architecture.png}
+  \caption{Algoritmo SDDP com processo escritor.}
+  \label{fig:SDDP_architecture}
+\end{figure}
+
+Independentemente do número de nós computacionais utilizados, apenas um
+processo é responsável pelas operações de E/S. Cada nó utiliza sua banda
+efetiva para enviar os \textit{buffers} de dados, enquanto o processo
+escritor utiliza sua banda para recebê-los. A primeira hipótese para as
+limitações de escalabilidade nessa arquitetura está relacionada ao
+adaptador de rede do servidor que executa o processo mestre.
+
+Adicionalmente, o \textit{rank}~0 é responsável pelo gerenciamento e
+controle da aplicação, como a distribuição de tarefas para os demais
+\textit{ranks} e o envio/recebimento das configurações do sistema. Essas
+atividades também utilizam o mesmo adaptador de rede empregado na
+recepção dos \textit{buffers} de dados. Outra hipótese é que o processo
+escritor opera continuamente em um fluxo sequencial de recepção e escrita
+dos dados, o que pode representar um gargalo adicional, sobretudo em
+sistemas com alto volume de dados. Por fim, se houver atrasos na recepção
+ou na gravação dos \textit{buffers} de dados por parte do processo mestre,
+os nós computacionais podem ser obrigados a aguardar, gerando sobrecarga
+no envio dos \textit{buffers} e aumentando o custo computacional da
+execução paralela.
+
+%===============================================================================
+\chapter{Paralelização dos Mecanismos de E/S do SDDP}
+\label{cap:proposta}
+
+\textcolor{red}{\textbf{ToDO: este capítulo apresenta a proposta. O texto
+introdutório foi mantido do paper original; revisar a redação para deixar
+claro que aqui se trata da proposta e não da apresentação do SDDP, que já
+foi feita no Capítulo~\ref{cap:fundamentacao}.}}
+
+A aplicação SDDP é um modelo matemático baseado em MPI (\textit{Message
+Passing Interface}), projetado para resolver diversos problemas de forma
+paralela. Cada \textit{rank} de computação é responsável pela execução de
+uma instância do problema, enquanto um único processo centraliza todas as
+atividades de entrada/saída (E/S). Historicamente, essa abordagem não
+apresentava limitações de escalabilidade. No entanto, com o aumento da
+complexidade dos algoritmos e do detalhamento dos dados --- o que resultou
+em um volume significativamente maior de informações --- começaram a surgir
+gargalos relacionados à escalabilidade do sistema.
+
+\section{Uso de MPI-IO com Lustre para escalabilidade de E/S}
+A atual arquitetura da aplicação SDDP, baseada na biblioteca MPI, utiliza
+apenas um processo --- tipicamente o \textit{rank}~1 --- para executar
+todas as operações de entrada/saída (E/S). Embora esse modelo tenha sido
+suficiente em versões anteriores da aplicação, o aumento no volume de
+dados, decorrente de maior detalhamento e da complexidade algorítmica,
+passou a gerar gargalos severos de desempenho e escalabilidade. Como
+hipótese para mitigar essas limitações, propõe-se a substituição do modelo
+centralizado de E/S por uma abordagem descentralizada, baseada na interface
+MPI-IO em conjunto com o sistema de arquivos distribuído Lustre.
+
+A interface MPI-IO, parte do padrão MPI-2, fornece mecanismos para a
+realização de operações de E/S por múltiplos processos MPI sobre arquivos
+compartilhados. Diferentemente do modelo tradicional de comunicação ponto a
+ponto (\texttt{MPI\_Send}/\texttt{MPI\_Recv}), o MPI-IO permite que cada
+processo realize operações de escrita em arquivos por meio de chamadas
+diretas como \texttt{MPI\_File\_write\_at}, sem a necessidade de
+coordenação com um processo centralizador~\cite{Rwe:99}. Essa flexibilidade
+possibilita que os próprios processos responsáveis pela computação escrevam
+seus resultados diretamente em disco, utilizando \textit{offsets} distintos
+e evitando conflitos de acesso. Isso é particularmente relevante em
+aplicações como o SDDP, em que os dados produzidos por cada \textit{rank}
+são independentes e podem ser gravados em posições previamente determinadas
+de um arquivo compartilhado, ou mesmo em arquivos separados.
+
+Aliado ao MPI-IO, propõe-se o uso do sistema de arquivos Lustre, amplamente
+adotado em ambientes de computação de alto desempenho (HPC). O Lustre foi
+projetado para oferecer alto rendimento e paralelismo no acesso a arquivos,
+distribuindo os dados entre múltiplos servidores de armazenamento (OSTs ---
+\textit{Object Storage Targets})~\cite{Pjb:02}. Essa característica torna o
+Lustre particularmente eficiente em cenários onde múltiplos nós executam
+operações simultâneas de escrita, como se espera com a integração do
+MPI-IO. A combinação das duas tecnologias permite que os \textit{ranks}
+MPI realizem operações de E/S em paralelo, aproveitando ao máximo a largura
+de banda disponível no sistema e reduzindo significativamente os gargalos
+causados pela centralização da escrita.
+
+Espera-se que essa nova arquitetura traga ganhos substanciais de
+desempenho. Primeiramente, ao eliminar o processo escritor único, a
+aplicação poderá distribuir dinamicamente a carga de E/S entre os próprios
+processos computacionais, reduzindo a sobrecarga sobre o adaptador de rede
+do nó mestre. Em segundo lugar, a redução da dependência de
+\textit{buffers} intermediários e de sincronizações entre \textit{ranks}
+minimiza a latência entre o término da computação e a persistência dos
+resultados. Além disso, a utilização do paralelismo nativo do Lustre deverá
+resultar em um melhor aproveitamento dos recursos de armazenamento,
+tornando o sistema mais escalável à medida que aumenta o número de nós.
+Por fim, essa abordagem alinha-se às boas práticas adotadas em aplicações
+científicas de larga escala, promovendo maior portabilidade, eficiência e
+adaptabilidade a infraestruturas HPC modernas. A
+Figura~\ref{fig:SDDP_architecture2} descreve o funcionamento da proposta.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{SDDP_architecture2.png}
+  \caption{Proposta com MPI-IO e Lustre.}
+  \label{fig:SDDP_architecture2}
+\end{figure}
+
+%===============================================================================
+\chapter{Avaliações}
+\label{cap:avaliacoes}
+
+Este capítulo apresenta a avaliação comparativa entre a implementação atual
+de entrada e saída (E/S) e a implementação proposta, com o objetivo de
+investigar ganhos de desempenho e melhorias de escalabilidade,
+principalmente em ambientes de computação em nuvem. A análise concentra-se
+em métricas de tempo de execução, tempo de comunicação, largura de banda e
+tempo de bloqueio das operações de E/S, considerando o impacto das
+estratégias adotadas para operações paralelas de E/S em cenários de alto
+desempenho~\cite{Rwe:99,Phrrbrw:09}.
+
+A base de dados utilizada nos experimentos corresponde ao PMO/PAR de
+outubro de 2023. Para a etapa de simulação horária, que constitui o foco
+principal deste estudo, foram considerados 1024 cenários \textit{forward}
+e 30 \textit{backward} no Experimento AWS, e 1536 cenários
+\textit{forward} e 30 \textit{backward} no Experimento SDumont, ambos com
+três estágios mensais.
+
+Como cada \textit{rank} MPI apresentou consumo de memória de até 4~GB, o
+número de \textit{ranks} por nó foi dimensionado em relação ao total de
+memória disponível, em função das limitações de recursos computacionais.
+
+Os experimentos conduzidos neste trabalho caracterizam um cenário de
+\textit{strong scaling}, no qual o tamanho do problema permanece fixo
+enquanto o número de nós computacionais é progressivamente aumentado.
+Nesse contexto, o acréscimo de recursos implica na redução do volume de
+trabalho por nó, sendo esperado, idealmente, que o tempo total de execução
+diminua de forma aproximadamente linear com o aumento do paralelismo. No
+entanto, essa tendência teórica pode não se concretizar na prática devido
+à presença de gargalos sistêmicos, especialmente aqueles relacionados às
+operações de entrada e saída (E/S) e à comunicação entre processos. À
+medida que o número de nós cresce, a intensificação da concorrência por
+recursos compartilhados --- como o sistema de arquivos e a rede --- pode
+introduzir sobrecargas adicionais, limitando a eficiência do escalonamento
+e reduzindo os ganhos esperados de desempenho.
+
+O tamanho das mensagens foi considerado um fator determinante para a
+análise de desempenho de E/S paralela. Em cada resolução de um problema, o
+padrão de mensagens permanece consistente, uma vez que a carga de saída é
+fixa por cenário. A Figura~\ref{fig:histograma_mensagens} apresenta a
+distribuição do tamanho das mensagens para um único cenário representativo;
+entretanto, esse comportamento se repete de forma consistente nos demais
+cenários avaliados. Observa-se que uma parcela significativa das mensagens
+concentra-se em tamanhos reduzidos, em torno de 1~kB, o que pode
+comprometer a escalabilidade, já que operações com granularidade fina
+tendem a aumentar a sobrecarga de metadados e a subutilizar a largura de
+banda disponível~\cite{Rwe:99,Phrrbrw:09}. Adicionalmente, será avaliado o
+tempo de envio das mensagens agrupadas por faixas de tamanho, de forma a
+analisar o impacto da granularidade das operações no desempenho da
+comunicação e da E/S.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{histograma_mensagens.png}
+  \caption{Histograma das mensagens.}
+  \label{fig:histograma_mensagens}
+\end{figure}
+
+% =============================================================
+\section{Experimento AWS}
+\label{sec:exp_aws}
+
+O Experimento AWS foi configurado na nuvem da Amazon Web Services (AWS),
+utilizando 32 nós da instância do tipo c7i.8xlarge. Essa instância é
+baseada na quarta geração de processadores Intel Xeon Scalable (Sapphire
+Rapids 8488C), operando a 3,2~GHz, e disponibiliza 16 núcleos físicos com
+suporte a \textit{hyper-threading}, totalizando 32 processadores lógicos.
+O sistema conta ainda com 64~GB de memória DDR5, que oferece maior largura
+de banda em relação às gerações anteriores, e um adaptador de rede
+Ethernet de 12,5~Gbps, projetado para cargas de trabalho intensivas em
+comunicação. Essa configuração enquadra-se na categoria de instâncias
+otimizadas para computação da AWS (\textit{compute-optimized}), voltadas
+para aplicações de HPC e cargas que demandam elevada capacidade de
+processamento paralelo. Nos experimentos, utilizou-se a biblioteca MPICH2
+versão~3.2 e um sistema de arquivos paralelo Lustre versão~2.12 de 12~TB,
+1~MDS de 350~GB e 10~OSTs de 1,165~TB e \textit{stripes} de 1~MB,
+disponibilizado por meio do serviço Amazon FSx for Lustre. Nesse ambiente,
+foi possível executar 16 cenários simultâneos por nó~\cite{intel:23,aws:24}.
+
+\subsection{Avaliação da implementação centralizada de E/S}
+Esta subseção analisa o comportamento de desempenho da arquitetura atual
+de entrada e saída (E/S) da aplicação SDDP, baseada em um modelo
+centralizado de escrita, no Experimento AWS. A avaliação concentra-se na
+identificação de possíveis limitações de escalabilidade decorrentes dessa
+abordagem, especialmente em cenários com elevado grau de paralelismo e
+grande volume de dados. Para isso, são consideradas métricas como tempo de
+execução, tempo de comunicação, largura de banda agregada e percentual de
+tempo dedicado às operações de comunicação.
+
+A Tabela~\ref{tab:centralA} apresenta o desempenho do Experimento AWS
+utilizando a implementação centralizada. Observa-se que o aumento do
+número de nós resulta em redução consistente do volume de dados por nó e
+do tempo total de execução, indicando ganho parcial de paralelismo
+computacional. Entretanto, esse ganho não se reflete de forma proporcional
+na camada de comunicação.
+
+A análise da banda agregada evidencia uma tendência de degradação à medida
+que o paralelismo aumenta, o que indica a incapacidade do sistema em
+sustentar o \textit{throughput} de dados sob maior concorrência. Esse
+comportamento decorre diretamente do modelo centralizado, no qual todas as
+operações de escrita são concentradas em um único processo, criando um
+ponto de contenção que limita o desempenho global.
+
+Ao analisar o percentual de tempo dedicado à comunicação, observa-se um
+crescimento progressivo dessa fração com o aumento do número de nós. Esse
+resultado indica que, embora o tempo total de execução diminua
+inicialmente com o aumento do paralelismo, a comunicação passa a
+representar uma parcela cada vez mais significativa do tempo total,
+tornando-se o principal fator limitante em configurações de maior escala.
+
+Além disso, o aumento do tempo absoluto de comunicação, combinado com a
+redução da banda efetiva, evidencia o impacto da contenção no processo
+escritor, que passa a ser sobrecarregado pelo volume crescente de dados
+provenientes dos demais \textit{ranks}. Esse comportamento compromete a
+escalabilidade da aplicação, demonstrando que o modelo centralizado não é
+adequado para cenários de maior porte, onde a concorrência de acesso ao
+sistema de arquivos se torna um fator crítico.
+
+\begin{table}[hbt]
+\centering
+\caption{Desempenho do Experimento AWS com implementação centralizada
+incluindo percentual de comunicação.}
+\label{tab:centralA}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccccc}
+\toprule
+\textbf{Nós} &
+\textbf{Ranks (Total)} &
+\textbf{Volume por nó (GiB)} &
+\textbf{Banda agregada (Gb/s)} &
+\textbf{Tempo de comunicação (s)} &
+\textbf{Tempo total (s)} &
+\textbf{\% Comunicação} \\
+\midrule
+2  & 32  & 188,90 & $45{,}82 \pm 2{,}38$   & $35{,}30$    & $9\,552{,}99$ & $0{,}37\%$ \\
+4  & 64  & 94,45  & $42{,}67 \pm 3{,}48$   & $54{,}24$    & $4\,873{,}90$ & $1{,}11\%$ \\
+8  & 128 & 47,23  & $16{,}62 \pm 1{,}74$   & $188{,}67$   & $2\,805{,}64$ & $6{,}72\%$ \\
+16 & 256 & 23,61  & $2{,}49 \pm 0{,}67$    & $1\,056{,}50$ & $2\,613{,}20$ & $40{,}43\%$ \\
+32 & 512 & 11,81  & $1{,}83 \pm 1{,}19$    & $1\,651{,}03$ & $2\,973{,}91$ & $55{,}52\%$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+A Figura~\ref{fig:Banda_A} apresenta a evolução da largura de banda
+agregada média no Experimento AWS, considerando a arquitetura centralizada
+de E/S. Observa-se que, embora a banda agregada atinja valores elevados
+nas configurações com menor número de nós, ocorre uma degradação acentuada
+à medida que o paralelismo aumenta.
+
+A partir de 8~nós, a redução da banda torna-se significativa, evidenciando
+que o sistema não consegue sustentar o \textit{throughput} de dados sob
+maior concorrência. Nas configurações com 16 e 32~nós, a banda agregada
+atinge valores bastante reduzidos, indicando a saturação do processo
+escritor.
+
+Esse comportamento está diretamente associado à centralização das
+operações de E/S em um único processo, que passa a atuar como ponto de
+contenção. Com o aumento do número de emissores concorrentes, intensifica-se
+a disputa por recursos de rede e processamento no nó responsável pela
+escrita, resultando na redução da vazão efetiva observada.
+
+Dessa forma, a figura evidencia que a limitação de desempenho não está
+relacionada à capacidade da infraestrutura de comunicação ou armazenamento,
+mas sim ao modelo centralizado de E/S adotado, que impede a exploração
+eficiente do paralelismo disponível.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Banda_A.png}
+  \caption{Banda agregada média no Experimento AWS (Implementação
+  centralizada).}
+  \label{fig:Banda_A}
+\end{figure}
+
+A Figura~\ref{fig:Tempo_execucao_A} apresenta a evolução do tempo total de
+execução no Experimento AWS em função do número de nós, considerando a
+arquitetura centralizada de E/S. Observa-se inicialmente uma redução no
+tempo de execução com o aumento do paralelismo, refletindo o ganho
+esperado decorrente da divisão da carga computacional. No entanto, a
+partir de um determinado ponto, esse comportamento deixa de ser observado,
+e o tempo total passa a apresentar uma tendência de estabilização, seguida
+de leve aumento nas maiores configurações. Esse padrão caracteriza um
+regime de saturação, no qual os benefícios do paralelismo são compensados
+pelo aumento do custo associado às operações de comunicação. Esse efeito
+está diretamente relacionado à centralização das operações de escrita em
+um único processo, que se torna um gargalo à medida que cresce o número de
+emissores concorrentes, limitando a eficiência paralela global da
+aplicação.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Tempo_execucao_A.png}
+  \caption{Tempo de execução no Experimento AWS (Implementação
+  centralizada).}
+  \label{fig:Tempo_execucao_A}
+\end{figure}
+
+A Figura~\ref{fig:EnvioPorTamanhoA} apresenta o tempo médio de bloqueio da
+operação \texttt{MPI\_Send} em função do tamanho das mensagens no
+Experimento AWS, em escala logarítmica. Observa-se que, para mensagens de
+até 1~KB, o tempo de bloqueio permanece extremamente baixo e praticamente
+estável em todas as configurações de nós, indicando baixa sensibilidade
+ao aumento do paralelismo.
+
+Para mensagens de até 128~KB, embora os tempos de bloqueio ainda
+permaneçam muito inferiores aos observados para mensagens maiores, já se
+verifica uma tendência clara de crescimento à medida que o número de nós
+aumenta. Esse comportamento indica que, nessa faixa intermediária, o custo
+de comunicação passa a ser mais sensível à concorrência entre processos,
+ainda que sem apresentar a degradação acentuada observada para mensagens
+de maior porte.
+
+Por outro lado, para mensagens de 1~MB e 50~MB, observa-se um aumento
+expressivo e progressivo no tempo de bloqueio com o crescimento do número
+de nós. Esse comportamento é compatível com a transição para o protocolo
+\textit{rendezvous}, no qual a transferência de dados depende de
+coordenação explícita entre emissor e receptor antes do envio efetivo,
+introduzindo latência adicional e maior sensibilidade à contenção de
+recursos.
+
+Além disso, nota-se que o impacto do aumento do tamanho das mensagens se
+intensifica com o aumento do paralelismo, evidenciando que a concorrência
+entre processos amplia significativamente o tempo de bloqueio nas
+mensagens de maior porte. Dessa forma, os resultados reforçam que o
+padrão de comunicação, em especial a granularidade das mensagens, exerce
+papel central no desempenho da aplicação em ambientes
+distribuídos~\cite{Wea:99,Rrw:05}.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{EnvioPorTamanhoA.png}
+  \caption{Tempo médio de bloqueio do \texttt{MPI\_Send}, em segundos, em
+  função do tamanho das mensagens no Experimento AWS (escala
+  logarítmica).}
+  \label{fig:EnvioPorTamanhoA}
+\end{figure}
+
+\subsection{Avaliação da implementação descentralizada de E/S}
+Esta subseção apresenta os experimentos realizados para avaliar a eficácia
+da arquitetura proposta de E/S descentralizada utilizando MPI-IO em
+conjunto com o sistema de arquivos Lustre no Experimento AWS. O objetivo
+principal é mensurar o impacto dessa abordagem sobre o desempenho e a
+escalabilidade do algoritmo SDDP, em comparação com o modelo tradicional
+baseado em um único processo escritor.
+
+A adoção da estratégia de escrita independente, baseada nas rotinas de
+MPI-IO, constitui um elemento central da solução proposta para a
+descentralização das operações de E/S. Nesta implementação, foi utilizada
+de forma consistente a abordagem assíncrona por meio da chamada
+\texttt{MPI\_File\_iwrite\_at}, na qual cada processo MPI realiza a
+escrita de seus próprios dados diretamente no sistema de arquivos
+paralelo, utilizando deslocamentos previamente definidos. Essa estratégia
+elimina a necessidade de um processo escritor central, reduzindo
+significativamente a contenção associada às operações de comunicação ponto
+a ponto e permitindo uma distribuição mais equilibrada da carga de E/S
+entre os nós computacionais. Além disso, ao explorar o paralelismo nativo
+do sistema de arquivos Lustre, a escrita independente possibilita maior
+aproveitamento da largura de banda agregada e reduz o impacto de
+sincronizações globais. O uso de operações não bloqueantes permite ainda a
+sobreposição entre computação e E/S, minimizando o tempo ocioso dos
+processos e contribuindo para uma execução mais eficiente. Dessa forma, a
+adoção sistemática de \texttt{MPI\_File\_iwrite\_at} configura-se como um
+fator determinante para a melhoria da escalabilidade e do desempenho
+global da aplicação~\cite{Wre:99}.
+
+A Tabela~\ref{tab:decentralA} apresenta o desempenho do Experimento AWS
+com a implementação descentralizada baseada em MPI-IO. Observa-se que o
+aumento do número de nós resulta em redução consistente do volume de dados
+por nó e do tempo total de execução, indicando ganho efetivo de
+escalabilidade tanto computacional quanto na camada de E/S.
+
+Diferentemente do modelo centralizado, a distribuição das operações de
+escrita entre os processos elimina o ponto único de contenção, permitindo
+que o sistema explore de forma mais eficiente o paralelismo disponível no
+sistema de arquivos. Como consequência, observa-se uma redução
+significativa no tempo de comunicação, acompanhada de maior estabilidade
+nas medições.
+
+A análise do percentual de tempo dedicado à E/S evidencia de forma clara
+essa diferença. No modelo descentralizado, a fração de tempo de
+comunicação permanece extremamente baixa ao longo de todas as
+configurações, variando aproximadamente entre 0{,}01\% e 0{,}1\%. Em
+contraste, no modelo centralizado apresentado na Tabela~\ref{tab:centralA},
+essa fração cresce progressivamente com o aumento do paralelismo,
+ultrapassando valores superiores a 60\% nas configurações de maior escala.
+Esse contraste evidencia que a E/S deixa de ser o principal fator
+limitante quando a arquitetura descentralizada é adotada.
+
+Adicionalmente, a baixa variabilidade nos tempos de comunicação e no tempo
+total de execução sugere um comportamento mais previsível e equilibrado do
+sistema, mesmo sob maior grau de paralelismo. Esses resultados demonstram
+que a abordagem descentralizada com MPI-IO é capaz de mitigar de forma
+efetiva os gargalos observados no modelo centralizado, proporcionando
+melhor aproveitamento dos recursos de armazenamento e maior eficiência
+global da aplicação.
+
+\begin{table}[hbt]
+\centering
+\caption{Desempenho do Experimento AWS com implementação descentralizada
+(MPI-IO) incluindo percentual de comunicação.}
+\label{tab:decentralA}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccccc}
+\toprule
+\textbf{Nós} &
+\textbf{Ranks (total)} &
+\textbf{Volume por nó (GiB)} &
+\textbf{Banda agregada (Gb/s)} &
+\textbf{Tempo de comunicação (s)} &
+\textbf{Tempo total (s)} &
+\textbf{\% Comunicação} \\
+\midrule
+2  & 32  & 188,90 & $26{,}991 \pm 1{,}176$  & $1{,}112 \pm 0{,}658$ & $9\,227{,}137 \pm 35{,}489$  & $0{,}012\%$ \\
+4  & 64  & 94,45  & $44{,}406 \pm 0{,}977$  & $0{,}528 \pm 0{,}235$ & $4\,815{,}118 \pm 33{,}760$  & $0{,}011\%$ \\
+8  & 128 & 47,22  & $74{,}601 \pm 10{,}046$ & $0{,}335 \pm 0{,}113$ & $2\,681{,}435 \pm 32{,}306$  & $0{,}012\%$ \\
+16 & 256 & 23,61  & $133{,}912 \pm 7{,}813$ & $0{,}140 \pm 0{,}064$ & $1\,709{,}700 \pm 25{,}201$  & $0{,}008\%$ \\
+32 & 512 & 11,81  & $215{,}499 \pm 15{,}408$& $0{,}065 \pm 0{,}030$ & $1\,390{,}972 \pm 16{,}666$  & $0{,}005\%$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+A Figura~\ref{fig:Banda_solucao_A} apresenta a evolução da largura de
+banda agregada média no Experimento AWS utilizando a implementação
+descentralizada baseada em MPI-IO. Observa-se um crescimento consistente
+da banda agregada à medida que o número de nós aumenta, evidenciando que
+a aplicação é capaz de explorar de forma eficiente o paralelismo do
+sistema de arquivos paralelo.
+
+Diferentemente do comportamento observado na Figura~\ref{fig:Banda_A},
+correspondente à implementação centralizada, não há indícios de degradação
+de desempenho com o aumento do paralelismo. Pelo contrário, a banda
+agregada evolui de aproximadamente 27~Gb/s para valores superiores a
+200~Gb/s na configuração com 32~nós, indicando ganho efetivo de
+escalabilidade na camada de E/S.
+
+Essa diferença de comportamento decorre diretamente da eliminação do
+processo escritor único, que, na arquitetura centralizada, atua como ponto
+de contenção e limita o \textit{throughput} global. Na abordagem
+descentralizada, as operações de escrita são distribuídas entre os
+processos MPI, permitindo que múltiplos fluxos de dados sejam enviados
+simultaneamente ao sistema de arquivos Lustre, explorando o paralelismo
+proporcionado pelos múltiplos OSTs.
+
+Adicionalmente, observa-se baixa variabilidade nos resultados, refletida
+pelos desvios padrão relativamente reduzidos, o que indica maior
+estabilidade e previsibilidade do sistema mesmo sob maior grau de
+paralelismo. Dessa forma, a figura evidencia que a adoção de MPI-IO não
+apenas elimina o gargalo da arquitetura anterior, mas também permite um
+uso mais eficiente da largura de banda disponível, tornando a aplicação
+adequada para execuções em larga escala.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Banda_solucao_A.png}
+  \caption{Banda agregada média no Experimento AWS (Implementação
+  descentralizada).}
+  \label{fig:Banda_solucao_A}
+\end{figure}
+
+A Figura~\ref{fig:Tempo_execucao_A_solucao} apresenta a evolução do tempo
+total de execução no Experimento AWS utilizando a abordagem baseada em
+MPI-IO. Observa-se uma redução consistente do tempo de execução à medida
+que o número de nós aumenta, indicando um ganho efetivo de paralelismo e
+melhor aproveitamento dos recursos computacionais. Diferentemente do
+comportamento observado na arquitetura centralizada, não se verifica a
+ocorrência de saturação nas configurações com maior número de nós,
+evidenciando que a distribuição das operações de E/S elimina o gargalo
+associado ao processo escritor único. Como resultado, a aplicação mantém
+um comportamento escalável, no qual o aumento do paralelismo contribui
+diretamente para a redução do tempo total de execução.
+
+Neste experimento, observa-se um aumento no tempo de comunicação,
+associado principalmente às chamadas coletivas de abertura e fechamento de
+arquivos, \texttt{MPI\_File\_open} e \texttt{MPI\_File\_close}. Embora
+essas operações ocorram apenas no início e no término da execução, elas
+impõem sincronização global entre todos os processos participantes,
+introduzindo um custo fixo relevante decorrente da coordenação coletiva.
+
+Como foram simulados apenas três estágios por cenário, esse
+\textit{overhead} de comunicação não é suficientemente amortizado ao longo
+da execução, tornando sua contribuição relativa mais evidente no tempo
+total observado. Em cenários com maior número de estágios, esse mesmo
+custo tende a ser diluído, passando a representar uma fração menor do
+tempo total de execução e, consequentemente, reduzindo seu impacto na
+análise de desempenho.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Tempo_execucao_A_solucao.png}
+  \caption{Tempo de execução no Experimento AWS (MPI-IO).}
+  \label{fig:Tempo_execucao_A_solucao}
+\end{figure}
+
+A Figura~\ref{fig:EnvioPorTamanho_solucao_A} apresenta o tempo médio de
+bloqueio das operações \texttt{MPI\_File\_iwrite\_at}, em segundos, em
+função do tamanho das mensagens no Experimento AWS, utilizando MPI-IO
+sobre o sistema de arquivos Lustre, em escala logarítmica. Observa-se que,
+embora a operação seja não bloqueante, o tempo de bloqueio apresenta
+crescimento com o aumento do volume de dados, refletindo o custo associado
+ao gerenciamento interno das requisições de E/S e à interação com o
+sistema de arquivos paralelo. No entanto, esse crescimento ocorre de forma
+mais controlada quando comparado à abordagem baseada em comunicação ponto
+a ponto, indicando uma redução significativa dos efeitos de contenção. A
+utilização da escala logarítmica permite evidenciar a variação em
+diferentes ordens de magnitude, destacando que, mesmo para mensagens
+maiores, o tempo de bloqueio permanece relativamente limitado. Esses
+resultados indicam que a estratégia baseada em
+\texttt{MPI\_File\_iwrite\_at} permite melhor amortização dos custos de
+E/S, contribuindo para maior eficiência e escalabilidade da aplicação.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{EnvioPorTamanho_solucao_A.png}
+  \caption{Tempo médio de bloqueio do \texttt{MPI\_File\_iwrite\_at}, em
+  segundos, em função do tamanho das mensagens no Experimento AWS com
+  MPI-IO e Lustre (escala logarítmica).}
+  \label{fig:EnvioPorTamanho_solucao_A}
+\end{figure}
+
+% =============================================================
+\section{Experimento SDumont}
+\label{sec:exp_sdumont}
+
+O Experimento SDumont corresponde ao supercomputador Santos Dumont
+(SDumont), adquirido junto à empresa francesa EVIDEN/ATOS/BULL, que está
+localizado na sede do Laboratório Nacional de Computação Científica
+(LNCC), em Petrópolis-RJ, atuando como nó central (Tier-0) do Sistema
+Nacional de Processamento de Alto Desempenho (SINAPAD). Nesse experimento
+foram utilizados até 32~nós de processamento, cada um equipado com dois
+processadores Intel Xeon Cascade Lake Gold 6252, totalizando 24~núcleos
+físicos por nó, com suporte a \textit{hyper-threading}, o que resulta em
+48~processadores lógicos disponíveis. Cada nó conta ainda com 384~GB de
+memória e interconexão de alta velocidade baseada em InfiniBand EDR de
+100~Gb/s, projetada para reduzir a latência e aumentar a eficiência em
+aplicações paralelas de larga escala. Nos experimentos, foi utilizada a
+biblioteca MPICH2 versão~3.2 e um sistema de arquivos paralelo Lustre
+v2.12 implementado através do ClusterStor L300 da Cray/HPE. Essa
+implementação do Lustre é composta por 1~nó MDS (com 1~MDT) e 6~nós OSSs
+(cada um servindo 1~OST) e \textit{stripes} de 1~MB, disponibilizando um
+espaço total de armazenamento de 1,1~PB. Nesse ambiente, foi possível
+executar 48~cenários simultâneos por nó.
+
+\subsection{Avaliação da implementação centralizada de E/S}
+Esta subseção analisa o comportamento de desempenho da arquitetura atual
+de entrada e saída (E/S) da aplicação SDDP, baseada em um modelo
+centralizado de escrita, no Experimento SDumont. A avaliação concentra-se
+na identificação de possíveis limitações de escalabilidade decorrentes
+dessa abordagem, especialmente em cenários com elevado grau de
+paralelismo e grande volume de dados.
+
+A Tabela~\ref{tab:centralB} apresenta o desempenho do Experimento SDumont
+utilizando a implementação centralizada de E/S. Observa-se uma redução
+progressiva da banda agregada à medida que o número de nós aumenta,
+acompanhada por um crescimento significativo do tempo de comunicação e de
+sua participação no tempo total de execução. Enquanto nas configurações
+com menor número de nós a banda ainda se mantém em níveis moderados, a
+partir de 8~nós verifica-se uma degradação mais acentuada, com consequente
+aumento da fração de tempo dedicada à comunicação, que ultrapassa 70\%
+nas maiores configurações.
+
+Esse comportamento evidencia a limitação da abordagem centralizada, na
+qual um único processo é responsável pelas operações de escrita. Com o
+aumento do paralelismo, intensifica-se a contenção nesse processo,
+resultando em saturação dos recursos de comunicação e processamento
+associados, o que compromete a escalabilidade da aplicação. Dessa forma,
+o aumento do número de nós não se traduz em ganho de desempenho, mas sim
+em maior tempo de execução, caracterizando um cenário típico de
+degradação sob \textit{strong scaling}.
+
+\begin{table}[hbt]
+\centering
+\caption{Desempenho do Experimento SDumont com implementação
+centralizada.}
+\label{tab:centralB}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccccc}
+\toprule
+\textbf{Nós} &
+\textbf{Ranks (total)} &
+\textbf{Volume por nó (GiB)} &
+\textbf{Banda agregada (Gb/s)} &
+\textbf{Tempo de comunicação (s)} &
+\textbf{Tempo total (s)} &
+\textbf{\% Comunicação} \\
+\midrule
+2  & 96   & 283,35 & $4{,}568 \pm 0{,}556$ & $894{,}806 \pm 341{,}584$     & $9\,376{,}802 \pm 312{,}773$  & $9{,}54\%$ \\
+4  & 192  & 141,68 & $2{,}036 \pm 0{,}544$ & $2\,116{,}614 \pm 482{,}680$  & $6\,841{,}991 \pm 457{,}647$  & $30{,}94\%$ \\
+8  & 384  & 70,84  & $1{,}519 \pm 1{,}007$ & $4\,013{,}540 \pm 220{,}859$  & $6\,981{,}246 \pm 164{,}970$  & $57{,}49\%$ \\
+16 & 768  & 35,42  & $0{,}839 \pm 0{,}747$ & $6\,602{,}608 \pm 671{,}385$  & $9\,082{,}370 \pm 158{,}868$  & $72{,}70\%$ \\
+32 & 1536 & 17,71  & $1{,}222 \pm 0{,}670$ & $8\,597{,}467 \pm 1\,075{,}476$ & $11\,312{,}492 \pm 342{,}269$ & $76{,}00\%$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+A Figura~\ref{fig:Banda_B} apresenta a evolução da largura de banda
+agregada média no Experimento SDumont utilizando a implementação
+centralizada de E/S. Observa-se uma redução significativa da banda à
+medida que o número de nós aumenta, indicando degradação de desempenho
+sob maior grau de paralelismo.
+
+Nas configurações com menor número de nós, a banda agregada atinge
+valores mais elevados; entretanto, a partir de 4~nós, verifica-se uma
+queda acentuada, evidenciando o aumento da contenção no processo
+responsável pela escrita. Esse comportamento se mantém nas configurações
+subsequentes, com valores reduzidos de banda e maior dispersão dos
+resultados, refletida pelo aumento do desvio padrão.
+
+Embora a configuração com 32~nós apresente uma leve recuperação na banda
+agregada em relação a 16~nós, o desempenho permanece significativamente
+inferior ao observado nas configurações iniciais. Esse comportamento
+sugere efeitos de variabilidade do sistema ou flutuações na utilização dos
+recursos compartilhados, sem, contudo, caracterizar uma tendência de
+escalabilidade.
+
+De forma geral, os resultados evidenciam que a abordagem centralizada não
+consegue sustentar o aumento do paralelismo, sendo limitada pela saturação
+do processo escritor, o que compromete a eficiência no uso da largura de
+banda disponível no sistema de arquivos paralelo.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Banda_B.png}
+  \caption{Banda agregada média no Experimento SDumont (Implementação
+  centralizada).}
+  \label{fig:Banda_B}
+\end{figure}
+
+A Figura~\ref{fig:Tempo_execucao_B} apresenta o tempo total de execução no
+Experimento SDumont para diferentes configurações de nós. Observa-se uma
+tendência geral de redução do tempo de execução com o aumento do
+paralelismo, embora com comportamento distinto em relação ao Experimento
+AWS.
+
+É importante destacar que os Experimentos AWS e SDumont possuem
+configurações distintas, incluindo variáveis de infraestrutura e
+parametrizações experimentais, o que impede a realização de comparações
+diretas entre os resultados obtidos em cada experimento. Dessa forma, a
+análise apresentada concentra-se exclusivamente no perfil de comportamento
+interno do Experimento SDumont, avaliando como o sistema responde ao
+aumento do número de nós.
+
+Nesse contexto, nota-se que o ganho de desempenho não ocorre de forma
+linear, especialmente nas configurações com maior número de nós,
+indicando a presença de fatores limitantes associados à comunicação e à
+E/S. Esse comportamento sugere que, mesmo com o aumento da capacidade
+computacional disponível, há componentes do sistema que passam a exercer
+maior influência no tempo total de execução.
+
+Assim, a análise do Experimento SDumont reforça a importância de
+compreender os diferentes componentes do tempo de execução, evidenciando
+que a escalabilidade da aplicação depende não apenas do aumento de
+recursos computacionais, mas também da eficiência dos mecanismos de
+comunicação e acesso ao sistema de arquivos.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Tempo_execucao_B.png}
+  \caption{Tempo de execução no Experimento SDumont (Implementação
+  centralizada).}
+  \label{fig:Tempo_execucao_B}
+\end{figure}
+
+A Figura~\ref{fig:EnvioPorTamanhoB} apresenta o tempo médio de bloqueio
+da operação \texttt{MPI\_Send} no Experimento SDumont, em função do
+tamanho das mensagens, em escala logarítmica. De forma semelhante ao
+observado no Experimento AWS (Figura~\ref{fig:EnvioPorTamanhoA}),
+mensagens pequenas, de até 128~KB, apresentam tempos de bloqueio
+reduzidos e pouca sensibilidade ao aumento do número de nós, comportamento
+associado ao uso do protocolo \textit{eager}, no qual os dados são
+transferidos para \textit{buffers} internos do MPI sem necessidade de
+sincronização imediata com o receptor.
+
+No entanto, para mensagens maiores, a partir de 1~MB, observa-se um
+crescimento significativamente mais acentuado no tempo de bloqueio em
+comparação ao Experimento AWS. Esse comportamento é ainda mais evidente
+para mensagens de 50~MB, cujo tempo de bloqueio aumenta rapidamente com o
+número de nós, atingindo ordens de grandeza superiores às observadas no
+experimento anterior. Essa diferença está diretamente relacionada ao maior
+nível de concorrência no Experimento SDumont, que utiliza um número mais
+elevado de processos simultâneos, intensificando a contenção nos recursos
+de comunicação.
+
+Assim como no Experimento AWS, esse aumento está associado à utilização do
+protocolo \textit{rendezvous}, no qual a transferência de dados depende de
+uma coordenação explícita entre emissor e receptor. Entretanto, no
+Experimento SDumont, o impacto desse protocolo é amplificado pelo maior
+volume de comunicações concorrentes, resultando em maior latência e maior
+tempo de bloqueio.
+
+Em síntese, a comparação entre os dois experimentos evidencia que, embora
+o comportamento qualitativo seja semelhante --- com uma clara transição
+entre os protocolos \textit{eager} e \textit{rendezvous} ---, o
+Experimento SDumont apresenta degradação mais severa no desempenho para
+mensagens de maior porte, reforçando o impacto negativo da alta
+concorrência sobre as operações de comunicação MPI.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{EnvioPorTamanhoB.png}
+  \caption{Tempo médio de bloqueio do \texttt{MPI\_Send}, em segundos, em
+  função do tamanho das mensagens no Experimento SDumont (escala
+  logarítmica).}
+  \label{fig:EnvioPorTamanhoB}
+\end{figure}
+
+Esses resultados evidenciam que, na arquitetura centralizada de E/S, o
+gargalo não se limita à largura de banda do processo escritor, mas decorre
+também do tempo de bloqueio acumulado em cada operação de envio. Esse
+bloqueio impede a sobreposição entre comunicação e computação, reduzindo
+a eficiência paralela do algoritmo e comprometendo a escalabilidade à
+medida que aumenta o número de nós. Essa constatação motivou a adoção de
+uma estratégia alternativa, explorada na subseção seguinte, que busca
+eliminar essa dependência por meio do uso direto de MPI-IO sobre o sistema
+de arquivos Lustre.
+
+\subsection{Avaliação da implementação descentralizada de E/S}
+\label{sec:avaliacao_descentralizada_sdumont}
+Esta subseção apresenta os experimentos realizados para avaliar a
+eficácia da arquitetura proposta de E/S descentralizada utilizando MPI-IO
+em conjunto com o sistema de arquivos Lustre no Experimento SDumont. O
+objetivo principal é mensurar o impacto dessa abordagem sobre o
+desempenho e a escalabilidade do algoritmo SDDP, em comparação com o
+modelo tradicional baseado em um único processo escritor.
+
+A Tabela~\ref{tab:decentralB} apresenta o desempenho do Experimento
+SDumont com a implementação descentralizada baseada em MPI-IO. Este
+experimento se caracteriza por um número significativamente maior de
+processos simultâneos, o que intensifica a concorrência por recursos de
+E/S e torna a avaliação mais desafiadora do ponto de vista de
+escalabilidade.
+
+Mesmo sob essas condições, observa-se que o aumento do número de nós
+resulta em redução consistente do volume de dados por nó e do tempo de
+comunicação, indicando que a distribuição das operações de escrita
+continua sendo eficaz em mitigar contenções. Embora o tempo total de
+execução apresente variações em algumas configurações, o comportamento
+geral indica que a camada de E/S não se torna um gargalo dominante, mesmo
+em cenários de maior paralelismo.
+
+A análise do percentual de tempo dedicado à E/S reforça esse resultado.
+De forma semelhante ao observado no Experimento AWS, a fração de tempo de
+comunicação permanece muito baixa ao longo das diferentes configurações,
+tipicamente inferior a 0{,}1\%, mesmo com o aumento expressivo do número
+de \textit{ranks}. Esse comportamento contrasta fortemente com o modelo
+centralizado apresentado na Tabela~\ref{tab:centralB}, no qual o
+percentual de comunicação ultrapassa 70\% nas configurações de maior
+escala.
+
+Esse resultado evidencia que a abordagem descentralizada elimina o
+principal ponto de contenção observado anteriormente, permitindo que o
+sistema de arquivos seja explorado de forma mais eficiente, mesmo sob alta
+concorrência. Além disso, a redução da variabilidade nos tempos de
+comunicação indica maior estabilidade e previsibilidade do sistema, o que
+é fundamental para execuções em larga escala.
+
+Por fim, os resultados demonstram que a adoção de MPI-IO com escrita
+independente é capaz de sustentar a escalabilidade da aplicação mesmo em
+ambientes com elevado grau de paralelismo, mitigando de forma efetiva os
+gargalos de E/S característicos da abordagem centralizada.
+
+\begin{table}[hbt]
+\centering
+\caption{Desempenho do Experimento SDumont com implementação
+descentralizada (MPI-IO) incluindo percentual de comunicação.}
+\label{tab:decentralB}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccc}
+\toprule
+\textbf{Nós} &
+\textbf{Ranks (total)} &
+\textbf{Volume por nó (GiB)} &
+\textbf{Tempo de comunicação (s)} &
+\textbf{Tempo total (s)} &
+\textbf{\% Comunicação} \\
+\midrule
+2  & 96  & 283,35 & $0{,}507 \pm 0{,}132$ & $8\,919{,}122 \pm 124{,}441$    & $0{,}006\%$ \\
+4  & 192 & 141,68 & $0{,}252 \pm 0{,}077$ & $6\,042{,}975 \pm 1\,164{,}405$ & $0{,}004\%$ \\
+8  & 384 & 70,84  & $0{,}138 \pm 0{,}029$ & $4\,662{,}856 \pm 387{,}220$    & $0{,}003\%$ \\
+16 & 768 & 35,42  & $0{,}079 \pm 0{,}044$ & $5\,941{,}028 \pm 747{,}496$    & $0{,}001\%$ \\
+%32 & 1536 & --   & --                    & --                              & --         \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+A Figura~\ref{fig:Banda_solucao_B} apresenta a banda agregada média no
+Experimento SDumont utilizando a implementação descentralizada baseada em
+MPI-IO. Observa-se que a banda agregada atinge seu valor máximo na
+configuração com 4~nós, seguida por uma leve redução nas configurações com
+8 e 16~nós.
+
+Esse comportamento indica que, embora a abordagem descentralizada
+elimine o gargalo associado à escrita centralizada, o aumento do número
+de nós não resulta em ganhos contínuos de banda agregada nesse
+experimento. A variabilidade observada, especialmente nas configurações
+com maior número de nós, sugere a influência de fatores como contenção no
+sistema de arquivos paralelo, \textit{overhead} de comunicação e possível
+saturação dos recursos de E/S disponíveis.
+
+Adicionalmente, nota-se que os desvios padrão tornam-se mais expressivos
+à medida que o número de nós aumenta, evidenciando maior instabilidade no
+desempenho. Esse aspecto reforça que, no Experimento SDumont, a
+escalabilidade da banda agregada é limitada não apenas pela implementação
+da aplicação, mas também pelas características da infraestrutura
+subjacente.
+
+Dessa forma, os resultados indicam que a implementação descentralizada
+melhora a distribuição das operações de E/S, porém sua eficiência depende
+diretamente da capacidade do ambiente em sustentar o aumento da
+concorrência sobre o sistema de armazenamento.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Banda_solucao_B.png}
+  \caption{Banda agregada média no Experimento SDumont (Implementação
+  descentralizada).}
+  \label{fig:Banda_solucao_B}
+\end{figure}
+
+A Figura~\ref{fig:Tempo_execucao_B_solucao} apresenta a evolução do tempo
+total de execução no Experimento SDumont utilizando a abordagem baseada
+em MPI-IO. Observa-se uma redução consistente do tempo de execução nas
+configurações iniciais com o aumento do número de nós, indicando ganho
+efetivo de paralelismo. Em cenários com maior número de nós, embora não
+se observe uma redução monotônica, o tempo de execução permanece estável,
+sem a degradação significativa identificada na arquitetura centralizada.
+Esse comportamento indica a ausência de um gargalo dominante nas operações
+de E/S, permitindo que a aplicação mantenha níveis elevados de eficiência
+mesmo sob maior carga de trabalho.
+
+Esse resultado é particularmente relevante no Experimento SDumont, que
+apresenta maior volume de dados e maior grau de concorrência entre
+processos. A utilização de escrita independente assíncrona por meio de
+\texttt{MPI\_File\_iwrite\_at} permite a sobreposição entre computação e
+E/S, reduzindo o tempo ocioso dos processos e contribuindo para uma
+execução mais equilibrada. Dessa forma, a figura demonstra que a
+abordagem proposta é capaz de sustentar o desempenho da aplicação em
+cenários de maior escala, evidenciando sua robustez e eficiência em
+ambientes de HPC.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Tempo_execucao_B_solucao.png}
+  \caption{Tempo de execução no Experimento SDumont (MPI-IO).}
+  \label{fig:Tempo_execucao_B_solucao}
+\end{figure}
+
+A Figura~\ref{fig:EnvioPorTamanho_solucao_B} apresenta o tempo médio de
+bloqueio das operações \texttt{MPI\_File\_iwrite\_at}, em segundos, em
+função do tamanho das mensagens no Experimento SDumont, utilizando MPI-IO
+sobre o sistema de arquivos Lustre, em escala logarítmica. Observa-se
+que, mesmo em um cenário com maior volume de dados e maior grau de
+concorrência entre processos, o tempo de bloqueio permanece relativamente
+controlado, apresentando crescimento moderado à medida que o tamanho das
+mensagens aumenta. Esse comportamento indica que a abordagem baseada em
+escrita independente assíncrona consegue mitigar os efeitos de contenção
+observados na arquitetura centralizada.
+
+A utilização da escala logarítmica permite evidenciar a variação do tempo
+de bloqueio em diferentes ordens de magnitude, destacando que, mesmo para
+mensagens maiores, o impacto no tempo de espera é limitado. Além disso,
+a consistência do comportamento em relação ao Experimento AWS reforça que
+a solução proposta é robusta e capaz de sustentar desempenho estável
+mesmo em cenários mais exigentes. Dessa forma, a figura evidencia que o
+uso de \texttt{MPI\_File\_iwrite\_at} contribui significativamente para a
+redução do impacto do bloqueio nas operações de E/S, favorecendo a
+escalabilidade da aplicação.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{EnvioPorTamanho_solucao_B.png}
+  \caption{Tempo médio de bloqueio do \texttt{MPI\_File\_iwrite\_at}, em
+  segundos, em função do tamanho das mensagens no Experimento SDumont com
+  MPI-IO e Lustre (escala logarítmica).}
+  \label{fig:EnvioPorTamanho_solucao_B}
+\end{figure}
+
+Os resultados apresentados nesta seção demonstram que a adoção da
+abordagem descentralizada com escrita independente assíncrona, baseada
+em \texttt{MPI\_File\_iwrite\_at}, elimina de forma efetiva o principal
+gargalo da arquitetura original, associado à centralização das operações
+de E/S. Observa-se uma redução consistente nos tempos de comunicação por
+processo, bem como um comportamento mais estável do tempo total de
+execução à medida que o número de nós é aumentado, sem a ocorrência de
+degradações significativas em cenários de maior escala. Adicionalmente,
+a redução do tempo de bloqueio e a possibilidade de sobreposição entre
+computação e comunicação contribuem para uma melhor utilização dos
+recursos computacionais. Esses resultados, verificados de forma
+consistente nos Experimentos AWS e SDumont, evidenciam que a estratégia
+proposta melhora significativamente a escalabilidade da aplicação,
+tornando-a mais adequada para execuções em ambientes de computação de
+alto desempenho com elevado grau de paralelismo e volume de dados.
+
+% =============================================================
+\section{Avaliação do impacto do número de OSTs}
+\label{sec:exp_osts}
+
+Esta seção tem como objetivo avaliar o impacto do número de
+\textit{Object Storage Targets} (OSTs) no desempenho das operações de E/S
+no sistema de arquivos Lustre. Em ambientes HPC, a quantidade de OSTs
+está diretamente relacionada ao grau de paralelismo de E/S disponível,
+uma vez que os dados podem ser distribuídos entre múltiplos dispositivos
+de armazenamento, permitindo acessos concorrentes por diferentes
+processos.
+
+Para esta avaliação, foram realizados experimentos variando-se a
+quantidade de OSTs disponíveis, mantendo-se constantes as demais
+configurações do ambiente, como número de nós de cálculo, volume de
+dados e padrão de acesso. O objetivo foi isolar o efeito da
+infraestrutura de armazenamento sobre o desempenho global da aplicação.
+
+Os resultados obtidos indicam que a redução no número de OSTs impacta
+negativamente o desempenho das operações de E/S, uma vez que diminui o
+paralelismo efetivo no acesso aos dados. Com menos OSTs disponíveis,
+ocorre maior contenção de acesso, levando a um aumento no tempo de
+execução das operações de escrita e leitura. Por outro lado, um maior
+número de OSTs possibilita melhor distribuição dos dados e maior
+aproveitamento da largura de banda agregada do sistema de arquivos.
+
+Esses resultados reforçam a importância do correto dimensionamento da
+infraestrutura de armazenamento em ambientes baseados em Lustre,
+especialmente para aplicações intensivas em E/S. A escolha inadequada do
+número de OSTs pode introduzir gargalos significativos, limitando a
+escalabilidade da aplicação mesmo na presença de recursos computacionais
+suficientes.
+
+A Figura~\ref{fig:Experimento_OSTs} apresenta os resultados do
+experimento conduzido com diferentes quantidades de nós OST, com o
+objetivo de avaliar o impacto direto da infraestrutura de armazenamento
+no desempenho da aplicação. Diferentemente da avaliação apresentada nas
+seções anteriores, nesta etapa foi utilizada a abordagem de E/S baseada
+em operações síncronas do MPI-IO, permitindo isolar de forma mais clara
+o efeito do paralelismo do sistema de arquivos Lustre sobre o tempo de
+execução.
+
+Os resultados evidenciam que a variação no número de OSTs impacta
+diretamente o desempenho observado, uma vez que altera o grau de
+paralelismo disponível para as operações de E/S. Com um maior número de
+OSTs, observa-se melhor distribuição dos dados e redução da contenção de
+acesso, enquanto configurações com menor quantidade de OSTs tendem a
+concentrar as operações, resultando em aumento do tempo total de
+execução. Dessa forma, a figura reforça a relevância do dimensionamento
+adequado dos recursos de armazenamento para garantir a escalabilidade da
+solução proposta.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Experimento_OSTs.png}
+  \caption{Experimento com diferentes nós OSTs.}
+  \label{fig:Experimento_OSTs}
+\end{figure}
+
+A Figura~\ref{fig:Experimento_OSTs_banda} apresenta a largura de banda
+agregada média para diferentes configurações de número de nós e
+quantidade de OSTs no sistema de arquivos Lustre. Observa-se que, para
+ambas as configurações de 16 e 32~nós, a variação no número de OSTs (10
+e 4) não provoca uma degradação significativa na banda agregada média.
+
+Para 16~nós, os valores de banda permanecem praticamente constantes
+entre as configurações com 10 e 4~OSTs, indicando que, nesse nível de
+paralelismo, o sistema de armazenamento ainda não se encontra saturado.
+Já para 32~nós, embora a configuração com 10~OSTs apresente banda
+ligeiramente superior, a diferença observada é moderada, sugerindo que
+o sistema continua operando de forma eficiente mesmo com menor número de
+dispositivos de armazenamento.
+
+Esses resultados indicam que, do ponto de vista da banda agregada, a
+aplicação consegue explorar adequadamente o paralelismo disponível no
+sistema de arquivos, mesmo com uma redução no número de OSTs. No
+entanto, essa análise deve ser complementada com métricas de tempo de
+execução, uma vez que a banda média isoladamente pode não capturar
+possíveis impactos relacionados à contenção, latência ou sobrecarga de
+metadados.
+
+Dessa forma, embora a redução do número de OSTs não comprometa
+significativamente a banda agregada neste experimento, sua influência
+sobre o tempo total de execução e a eficiência global do sistema deve
+ser analisada de forma conjunta.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Experimento_OSTs_banda.png}
+  \caption{Banda agregada média no experimento de OSTs.}
+  \label{fig:Experimento_OSTs_banda}
+\end{figure}
+
+%===============================================================================
+\chapter{Conclusões}
+\label{cap:conclusao}
+
+Os resultados apresentados nesta dissertação evidenciam que o desempenho
+da aplicação SDDP é fortemente influenciado pela estratégia adotada para
+as operações de entrada e saída (E/S). A análise detalhada do
+comportamento do \texttt{MPI\_Send} revelou que o tempo de bloqueio
+associado ao envio de mensagens representa um dos principais fatores
+limitantes da escalabilidade do modelo, sobretudo quando há um único
+processo responsável pela escrita em disco. Esse gargalo torna-se mais
+pronunciado à medida que cresce o número de nós computacionais,
+restringindo a sobreposição entre comunicação e computação e,
+consequentemente, a eficiência paralela da aplicação.
+
+A adoção de uma arquitetura de E/S descentralizada, baseada em MPI-IO e
+no sistema de arquivos Lustre, mostrou-se uma alternativa promissora
+para mitigar esses efeitos. Essa abordagem permite que múltiplos
+processos MPI realizem operações de escrita de forma paralela e
+coordenada, eliminando a dependência de um processo escritor central e
+aproveitando o paralelismo nativo do sistema de arquivos. Além de
+reduzir o tempo de bloqueio dos processos, essa solução potencializa o
+uso da largura de banda agregada e melhora a escalabilidade em
+aplicações com alto volume de dados.
+
+Como trabalhos futuros, propõe-se investigar o impacto de diferentes
+estratégias de agregação de escrita coletiva (\textit{two-phase I/O}) e
+o uso de \textit{hints} do ROMIO para otimizar o alinhamento das
+operações de escrita com a configuração de \textit{striping} do Lustre.
+Tais aprimoramentos poderão contribuir para a consolidação de um modelo
+de E/S escalável e portátil, aplicável a uma ampla gama de aplicações
+científicas paralelas em ambientes de HPC e nuvem.
+
+  \backmatter
+
+  \bibliographystyle{coppe-unsrt}
+  \bibliography{bibliografy}
+
+\end{document}
