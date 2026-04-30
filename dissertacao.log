@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  30 APR 2026 17:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  30 APR 2026 20:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1142,89 +1142,88 @@ Cap\'{\i }tulo 2.
 [3
 
 ] [4] [5]
-<SDDP_architecture.png, id=381, 2007.5pt x 1380.15625pt>
+<SDDP_architecture.png, id=379, 2007.5pt x 1380.15625pt>
 File: SDDP_architecture.png Graphic file (type png)
 <use SDDP_architecture.png>
-Package pdftex.def Info: SDDP_architecture.png  used on input line 303.
+Package pdftex.def Info: SDDP_architecture.png  used on input line 290.
 (pdftex.def)             Requested size: 298.75264pt x 205.39293pt.
- [6 <./SDDP_architecture.png>] [7]
+ [6 <./SDDP_architecture.png>]
 Cap\'{\i }tulo 3.
-[8
+[7
 
 ]
-<SDDP_architecture2.png, id=405, 2007.5pt x 1355.0625pt>
+<SDDP_architecture2.png, id=398, 2007.5pt x 1355.0625pt>
 File: SDDP_architecture2.png Graphic file (type png)
 <use SDDP_architecture2.png>
-Package pdftex.def Info: SDDP_architecture2.png  used on input line 410.
+Package pdftex.def Info: SDDP_architecture2.png  used on input line 397.
 (pdftex.def)             Requested size: 298.75264pt x 201.65851pt.
- [9] [10 <./SDDP_architecture2.png>]
+ [8] [9 <./SDDP_architecture2.png>]
 Cap\'{\i }tulo 4.
-[11
+[10
 
 ]
-<histograma_mensagens.png, id=435, 596.2275pt x 367.3725pt>
+<histograma_mensagens.png, id=428, 570.933pt x 354.123pt>
 File: histograma_mensagens.png Graphic file (type png)
 <use histograma_mensagens.png>
-Package pdftex.def Info: histograma_mensagens.png  used on input line 476.
-(pdftex.def)             Requested size: 426.79135pt x 262.97203pt.
- [12 <./histograma_mensagens.png>] [13] [14]
-<Banda_SDumont.png, id=462, 686.565pt x 354.123pt>
+Package pdftex.def Info: histograma_mensagens.png  used on input line 463.
+(pdftex.def)             Requested size: 426.79135pt x 264.72702pt.
+ [11 <./histograma_mensagens.png>] [12] [13]
+<Banda_SDumont.png, id=455, 679.338pt x 339.669pt>
 File: Banda_SDumont.png Graphic file (type png)
 <use Banda_SDumont.png>
-Package pdftex.def Info: Banda_SDumont.png  used on input line 637.
-(pdftex.def)             Requested size: 426.79135pt x 220.13214pt.
- [15 <./Banda_SDumont.png>]
-<Tempo_execucao_SDumont.png, id=470, 755.9442pt x 678.6153pt>
+Package pdftex.def Info: Banda_SDumont.png  used on input line 624.
+(pdftex.def)             Requested size: 426.79135pt x 213.40175pt.
+ [14 <./Banda_SDumont.png>]
+<Tempo_execucao_SDumont.png, id=463, 751.608pt x 440.847pt>
 File: Tempo_execucao_SDumont.png Graphic file (type png)
 <use Tempo_execucao_SDumont.png>
-Package pdftex.def Info: Tempo_execucao_SDumont.png  used on input line 664.
-(pdftex.def)             Requested size: 426.79135pt x 383.12842pt.
-
-[16 <./Tempo_execucao_SDumont.png>]
-<EnvioPorTamanho_SDumont.png, id=477, 1264.725pt x 426.393pt>
+Package pdftex.def Info: Tempo_execucao_SDumont.png  used on input line 651.
+(pdftex.def)             Requested size: 426.79135pt x 250.33018pt.
+<EnvioPorTamanho_SDumont.png, id=465, 728.9634pt x 339.669pt>
 File: EnvioPorTamanho_SDumont.png Graphic file (type png)
 <use EnvioPorTamanho_SDumont.png>
-Package pdftex.def Info: EnvioPorTamanho_SDumont.png  used on input line 689.
-(pdftex.def)             Requested size: 426.79135pt x 143.88516pt.
- [17 <./EnvioPorTamanho_SDumont.png>]
-[18] [19]
-<Banda_AWS.png, id=502, 859.2903pt x 354.123pt>
+Package pdftex.def Info: EnvioPorTamanho_SDumont.png  used on input line 676.
+(pdftex.def)             Requested size: 426.79135pt x 198.87401pt.
+
+[15 <./Tempo_execucao_SDumont.png>] [16 <./EnvioPorTamanho_SDumont.png>]
+[17] [18]
+<Banda_AWS.png, id=494, 679.0971pt x 339.669pt>
 File: Banda_AWS.png Graphic file (type png)
 <use Banda_AWS.png>
-Package pdftex.def Info: Banda_AWS.png  used on input line 876.
-(pdftex.def)             Requested size: 426.79135pt x 175.88309pt.
- [20 <./Banda_AWS.png>]
-<Tempo_execucao_AWS.png, id=509, 946.737pt x 678.6153pt>
+Package pdftex.def Info: Banda_AWS.png  used on input line 863.
+(pdftex.def)             Requested size: 426.79135pt x 213.46912pt.
+ [19 <./Banda_AWS.png>]
+<Tempo_execucao_AWS.png, id=502, 751.608pt x 440.847pt>
 File: Tempo_execucao_AWS.png Graphic file (type png)
 <use Tempo_execucao_AWS.png>
-Package pdftex.def Info: Tempo_execucao_AWS.png  used on input line 931.
-(pdftex.def)             Requested size: 426.79135pt x 305.92287pt.
- [21]
-<EnvioPorTamanho_AWS.png, id=515, 1581.9903pt x 426.393pt>
+Package pdftex.def Info: Tempo_execucao_AWS.png  used on input line 918.
+(pdftex.def)             Requested size: 426.79135pt x 250.33018pt.
+ [20]
+<EnvioPorTamanho_AWS.png, id=508, 728.9634pt x 339.669pt>
 File: EnvioPorTamanho_AWS.png Graphic file (type png)
 <use EnvioPorTamanho_AWS.png>
-Package pdftex.def Info: EnvioPorTamanho_AWS.png  used on input line 953.
-(pdftex.def)             Requested size: 426.79135pt x 115.03004pt.
- [22 <./Tempo_execucao_AWS.png> <./EnvioPorTamanho_AWS.png>]
-<Experimento_OSTs.png, id=523, 570.933pt x 353.4003pt>
+Package pdftex.def Info: EnvioPorTamanho_AWS.png  used on input line 940.
+(pdftex.def)             Requested size: 426.79135pt x 198.87401pt.
+ [21 <./Tempo_execucao_AWS.png>] [22 <./EnvioPorTamanho_AWS.png>]
+<Experimento_OSTs.png, id=520, 570.933pt x 353.4003pt>
 File: Experimento_OSTs.png Graphic file (type png)
 <use Experimento_OSTs.png>
-Package pdftex.def Info: Experimento_OSTs.png  used on input line 1013.
+Package pdftex.def Info: Experimento_OSTs.png  used on input line 1000.
 (pdftex.def)             Requested size: 426.79135pt x 264.18677pt.
- [23]
-<Experimento_OSTs_banda.png, id=529, 570.933pt x 354.123pt>
+ [23 <./Experimento_OSTs.png>]
+<Experimento_OSTs_banda.png, id=527, 570.933pt x 354.123pt>
 File: Experimento_OSTs_banda.png Graphic file (type png)
 <use Experimento_OSTs_banda.png>
-Package pdftex.def Info: Experimento_OSTs_banda.png  used on input line 1047.
+Package pdftex.def Info: Experimento_OSTs_banda.png  used on input line 1034.
 (pdftex.def)             Requested size: 426.79135pt x 264.72702pt.
- [24 <./Experimento_OSTs.png>] [25 <./Experimento_OSTs_banda.png>]
+ [24 <./Experimento_OSTs_banda.png>]
 Cap\'{\i }tulo 5.
-[26
+[25
 
-] (dissertacao.bbl [27
+] (dissertacao.bbl [26
 
 
-]) [28]
+]) [27]
 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
 (dissertacao.aux)
@@ -1236,9 +1235,9 @@ Package rerunfilecheck Info: File `dissertacao.out' has not changed.
 (rerunfilecheck)             Checksum: 5789E5EF4796BEF37C34A5C267A5AD7A;5644.
  ) 
 Here is how much of TeX's memory you used:
- 29945 strings out of 467871
- 599706 string characters out of 5418376
- 1045984 words of memory out of 5000000
+ 29944 strings out of 467871
+ 599699 string characters out of 5418376
+ 1045983 words of memory out of 5000000
  58196 multiletter control sequences out of 15000+600000
  643336 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1261,9 +1260,9 @@ mr10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmr12.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/publ
 ic/amsfonts/cm/cmr8.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmsy10.pfb>
-Output written on dissertacao.pdf (40 pages, 1137070 bytes).
+Output written on dissertacao.pdf (39 pages, 1311450 bytes).
 PDF statistics:
- 1074 PDF objects out of 1200 (max. 8388607)
- 108 named destinations out of 1000 (max. 500000)
+ 1068 PDF objects out of 1200 (max. 8388607)
+ 107 named destinations out of 1000 (max. 500000)
  433 words of extra memory for PDF output out of 10000 (max. 10000000)
 

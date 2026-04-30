@@ -200,9 +200,6 @@ alinhar requisições, sendo mais eficiente em ambientes com sistemas de
 arquivos distribuídos como o Lustre.
 
 \section{Sistema de arquivos paralelo Lustre}
-%https://sc25.supercomputing.org/proceedings/bof/bof_pages/bof197.html
-\textcolor{red}{O sistema de arquivos paralelo Lustre é utilizado na maioria
-dos supercomputadores da última lista do Top500~\cite{SC25LustreBoF}.}
 Projetado especificamente para cargas massivas de HPC, ele distribui os
 dados em \textit{Object Storage Targets} (OSTs) e os metadados em
 \textit{Metadata Servers} (MDS), permitindo acesso paralelo e balanceado a
@@ -275,16 +272,6 @@ SIN~\cite{ons:23}.
 \textcolor{red}{\textbf{ToDO: SDDP deve ser detalhado aqui, bem como sua
 E/S atual.}}
 \textcolor{red}{\textbf{ToDp: colocar figura cenários $\times$ estágios.}}
-
-\textcolor{red}{A aplicação SDDP é um modelo matemático baseado em MPI
-(\textit{Message Passing Interface}), projetado para resolver diversos
-problemas de forma paralela. Cada \textit{rank} de computação é responsável
-pela execução de uma instância do problema, enquanto um único processo
-concentra todas as atividades de entrada/saída (E/S). Historicamente, essa
-abordagem não apresentava limitações de escalabilidade. No entanto, com o
-aumento da complexidade dos algoritmos e do detalhamento dos dados --- o
-que resultou em um volume significativamente maior de informações ---
-começaram a surgir gargalos relacionados à escalabilidade do sistema.}
 
 \subsection{Arquitetura atual de E/S do SDDP com um único processo escritor}
 \label{sec:arq_atual}
