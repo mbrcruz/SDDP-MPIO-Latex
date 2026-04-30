@@ -1,0 +1,68 @@
+Lattex
+https://github.com/mbrcruz/PlotMPI.git
+
+Tipos da graficos ( Python )
+	Boxplot
+	Grafico dispersão	
+
+leonardo.bergonci - 618047
+transpower        - 183602
+REP Maynara       - 619603
+Lukas             - 644965
+
+
+psrcloud-deploy
+B6823AB77A78D2E64A7DBD0C847A1736
+scp sddp nfs05.psr-inc.com:$PWD ; scp sddp nfs01.psr-inc.com:$PWD
+
+
+
+-- seguir criteriosamente
+git config --global credential.helper store
+git pull ; git submodule update --init --recursive --force
+
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/oneapi/compiler/2023.2.0/linux/compiler/lib/intel64
+alias sclean='make clean ;  find -name \*.so -or -name \*.obj -or -name \*.o -or -name \*.dso | xargs -i rm -fv {}'
+sh make_all.sh false
+alias smake='cd ncplitesrc/ ; make ; cd - ; make HARDLOCK_PROTECTED=false ; export VERSION=$(grep -A1 "Type version name"  psrcloud.cfg  | grep -v "Type version name")  ; \cp -v ./build/lin64/release/bin/* /home/sddp/$VERSION/bin '
+smake
+
+
+
+cd /home/sddp/$VERSION/bin/
+source sddpconf.fmt
+./sddpar --path  /home/mcruz/dat/Hourly_representation/Case27 --habilitarhidra=1 --mpipath=/opt/mpich2/mpich2-3.2-intel16-x64/bin --mpiargs=--sddpargs=cloud --sddparrestart=0
+
+
+
+
+
+
+
+
+---vtune---
+
+export PATH=$PATH:/home/opt/intel/oneapi/vtune/2023.2.0/bin64/:/home/bin
+
+source sddpconf.fmt
+
+/opt/mpich2/mpich2-3.2-intel16-x64/bin/mpiexec -f mpd_sddp.hosts -n 1 ./sddptask : -bind-to core -n 127 vtune -collect hotspots -data-limit=0 -r results ./sddp  sddpar  cloud -path /home/admin/198007/ 2>&1 | tee sddp.log
+
+
+find -maxdepth 1 -type d -and -name \*results\* | grep $(hostname ) | xargs -i -P 64  vtune -C resume -r {}
+
+
+
+find -mindepth 1 -maxdepth 1 -type d  | xargs -i du -sm {}  | tee  rep_size.log
+
+
+
+Coleta 
+aws s3 ls s3://psrcloud-repository-download-dev-ohio | grep -i pre | awk '{print $2}' | xargs -i bash -c ' aws s3 ls  --human-readable  --summarize s3://psrcloud-repository-download-dev-ohio/{} && echo PRE {}'
+
+
+Sorteio
+grep 'Total Size' rep_s3_size.log | grep GiB | sort -k 3  -n
+
+export SCRATCH=/scratch/80061a/mbrcruz23

@@ -1,0 +1,56 @@
+#!/bin/bash
+#SBATCH --nodes=32                      #Numero de Nós
+#SBATCH --ntasks-per-node=24           #Numero de tarefas por Nó
+#SBATCH --exclusive  
+#SBATCH --ntasks=768                   #Numero total de tarefas MPI
+#SBATCH -p sequana_cpu                 #Fila (partition) a ser utilizada
+#SBATCH -J SDDPL-32-node       	       #Nome job
+#SBATCH --time=96:00:00		       #Altera o tempo limite para 1 hora
+
+export MODELDIR=/scratch/wnnpario/marcelo.cruz2/sddp/18.1MPILOG/
+export JOB=$SLURM_JOB_NAME
+export SDDPAR_LOGS=$SCRATCH_HOME/$JOB
+export SCRATCH_HOME=/scratch/wnnpario/marcelo.cruz2/
+export DATABASE_DIR=/scratch/wnnpario/marcelo.cruz2/$JOB
+export EXECUTIONS=5
+
+cat /proc/cpuinfo 
+free -m
+echo $JOB
+
+rm -Rfv $DATABASE_DIR
+mkdir -p $DATABASE_DIR
+cd $DATABASE_DIR
+cp -var $SCRATCH_HOME/base2/* . 
+rm -fv $DATABASE_DIR/*.log
+
+echo $SLURM_JOB_NODELIST
+#Exibe os nós alocados para o Job
+rm -fv mpd.hosts
+for node in $(nodeset -e $SLURM_JOB_NODELIST)
+do
+	echo $node:24 >> mpd.hosts
+done
+
+#Configura os compiladores
+#module load openmpi/gnu/4.1.4_sequana
+
+cd $MODELDIR/models/sddp
+#exibe informações sobre o executável
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD
+source sddpconf.fmt
+for execution in $(seq 1 $EXECUTIONS)
+do
+  echo "execution $execution"
+  #./sddpar --habilitarhidra=$HABILITAR_HIDRA --mpipath=$MPI_PATH --mpiargs=$MPI_ARGS --path $SCRATCH_HOME/$JOB/
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD
+  #./sddp inflow -path $DATABASE_DIR
+  #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD
+  #cd ../tsl
+  #./tslite $DATABASE_DIR
+  #cd - 
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD
+  $SCRATCH_HOME/mpich2/mpich2-3.2-intel16-x64/bin/mpiexec -f $DATABASE_DIR/mpd.hosts -n 1 ./sddptask : -n 1 ./sddp sddpar -path $DATABASE_DIR : -bind-to core -n  $SLURM_NTASKS ./sddp sddpar -path $DATABASE_DIR 
+  mkdir -vp $DATABASE_DIR/$execution
+  mv -v $DATABASE_DIR/*.log $DATABASE_DIR/$execution/
+done
