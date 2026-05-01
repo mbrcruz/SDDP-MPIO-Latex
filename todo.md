@@ -1,19 +1,21 @@
 ## Correções pequenas
 
 
-
+- Figura de blocos de menagens dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado.
+- Rodar 4 OSts com 1536 ( falta 32 nodes ) - regenerar figuras
 - ~~Tirar label figura histrograma - faltou descrição dos eixos~~
-
 - ~~corrigir labels figura blocos~~
 
--- Figura de blocos de menagens dificil de ler ( tirar espaço interno - aumentar espaço em cima)
 
-- Rodar 4 OSts com 1536 - regenerar figuras
+##  Melhorias menores
+
+- Figura sobre impacto E/S sobre o grupo de mensagem por tamanho
+- Explicar formato resultados ( bloco e horarios)
+- Impacto sobre 12 estagios ( AWS e SDumont )
 
 
-##  Melhorias 
 
--- impacto E/S sobre o grupo de mensagem por tamanho
+
 
 
 ## Plano de Melhorias gerais
