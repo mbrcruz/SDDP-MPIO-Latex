@@ -27,6 +27,10 @@ COLORS = {
     "comm": "#E45756",
     "collective": "#72B7B2",
     "sim": "#9D755D",
+    "size_1": "#4C78A8",
+    "size_2": "#72B7B2",
+    "size_3": "#F58518",
+    "size_4": "#E45756",
 }
 
 
@@ -136,6 +140,68 @@ def message_size_plot(current: pd.DataFrame, mpiio: pd.DataFrame, output: str) -
     finish(fig, output)
 
 
+def message_count_by_size_plot(output: str) -> None:
+    log_dir = (
+        ROOT
+        / "Pesquisas"
+        / "Results"
+        / "AWS"
+        / "Lustre - 1536 Series - Sem rede"
+        / "2-nodes"
+        / "1"
+    )
+    sizes = []
+    for path in sorted(log_dir.glob("mpiio-*.log")):
+        with path.open(errors="ignore") as log_file:
+            for line in log_file:
+                fields = line.strip().split(",")
+                if len(fields) < 8:
+                    continue
+                try:
+                    sizes.append(int(float(fields[-1])))
+                except ValueError:
+                    continue
+
+    bins = [
+        ("Ate 1 KB", 0, 1024),
+        ("1 KB a 64 KB", 1024, 64 * 1024),
+        ("64 KB a 1 MB", 64 * 1024, 1024 * 1024),
+        ("Acima de 1 MB", 1024 * 1024, float("inf")),
+    ]
+    counts = []
+    for _, lower, upper in bins:
+        counts.append(sum(1 for size in sizes if lower <= size < upper))
+
+    total = sum(counts)
+    percentages = [count / total * 100 if total else 0 for count in counts]
+    labels = [label for label, _, _ in bins]
+    colors = [COLORS[f"size_{i}"] for i in range(1, 5)]
+    y = np.arange(len(labels))
+
+    fig, ax = plt.subplots(figsize=(10.5, 4.9))
+    bars = ax.barh(y, counts, color=colors, height=0.62)
+    ax.set_xscale("log")
+    ax.set_xlabel("Quantidade de mensagens (escala logaritmica)")
+    ax.set_yticks(y)
+    ax.set_yticklabels(labels)
+    ax.invert_yaxis()
+    ax.grid(True, axis="x", which="both", alpha=0.25)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    for bar, count, percentage in zip(bars, counts, percentages):
+        ax.text(
+            count * 1.08,
+            bar.get_y() + bar.get_height() / 2,
+            f"{count:,} ({percentage:.1f}%)".replace(",", "."),
+            va="center",
+            fontsize=10,
+        )
+
+    ax.set_xlim(1, max(counts) * 2.2)
+    finish(fig, output)
+
+
 def main() -> None:
     sd_current = read_csv(PATHS["sd_current"], max_nodes=16)
     sd_mpiio = read_csv(PATHS["sd_mpiio"], max_nodes=16)
@@ -149,6 +215,7 @@ def main() -> None:
     bandwidth_plot(aws_current, aws_mpiio, "Banda_AWS.png")
     time_plot(aws_current, aws_mpiio, "Tempo_execucao_AWS.png")
     message_size_plot(aws_current, aws_mpiio, "EnvioPorTamanho_AWS.png")
+    message_count_by_size_plot("histograma_mensagens.png")
 
 
 if __name__ == "__main__":

@@ -2,16 +2,19 @@
 
 
 
-- Tirar label figura histrograma
+- ~~Tirar label figura histrograma - faltou descrição dos eixos~~
 
-- corrigir labels figura blocos
+- ~~corrigir labels figura blocos~~
 
--  Rodar 4 OSts com 1536 - regenerar figuras
-
-## Melhorias
+- Rodar 4 OSts com 1536 - regenerar figuras
 
 
-# Plano de Melhoria
+##  Melhorias 
+
+-- impacto E/S sobre o grupo de mensagem por tamanho
+
+
+## Plano de Melhorias gerais
 
 ## 1. Corrigir coerência numérica
 
