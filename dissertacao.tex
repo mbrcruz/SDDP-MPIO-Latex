@@ -824,19 +824,16 @@ implementação MPI-IO parte de 26,99~Gb/s em 2~nós e cresce
 monotonicamente, alcançando 44,41~Gb/s em 4~nós, 74,60~Gb/s em 8~nós,
 133,91~Gb/s em 16~nós e 215,50~Gb/s em 32~nós.
 
-É interessante notar que, em 2~nós, a banda agregada da implementação atual é cerca de 70\% maior do que a da implementação MPI-IO. Esse
-comportamento é coerente com o fato de que, em pequena escala, o gargalo
-do processo escritor único ainda não se manifesta, e o caminho de
-escrita atual --- que utiliza o adaptador de rede do nó mestre de
-forma exclusiva --- aproveita melhor a infraestrutura disponível do que
-operações independentes coordenadas pela camada MPI-IO, que ainda têm
-custo fixo elevado quando há poucos processos. A partir de 4~nós, no
-entanto, a curva da implementação MPI-IO já alcança a atual, e em 8~nós
-passa a ser aproximadamente $4{,}5\times$ superior. Em 32~nós, a
-implementação MPI-IO apresenta banda agregada cerca de
-$118\times$ maior que a atual, indicando que a arquitetura
-proposta é capaz de explorar a infraestrutura de armazenamento em uma
-escala completamente diferente da arquitetura atual.
+Em 2~nós, a banda agregada da implementação atual é cerca de 70\% maior
+que a da implementação MPI-IO. Esse comportamento é coerente com o fato
+de que, em pequena escala, o gargalo do processo escritor único ainda não
+se manifesta, e o custo fixo da coordenação da E/S paralela tem maior
+peso relativo. A partir de 4~nós, entretanto, a implementação MPI-IO já
+supera a atual. Em 8~nós, a banda agregada é aproximadamente
+$4{,}5\times$ maior; em 16~nós, cerca de $54\times$ maior; e, em
+32~nós, aproximadamente $118\times$ maior. Esse resultado indica que a
+arquitetura proposta explora a infraestrutura de armazenamento em uma
+escala completamente diferente da arquitetura baseada em escritor único.
 
 Essa diferença de comportamento decorre diretamente da eliminação do
 processo escritor único. Na arquitetura atual, todas as escritas
@@ -846,17 +843,12 @@ explicando a queda contínua da banda observada. Na abordagem MPI-IO, as operaç
 processos MPI, permitindo que múltiplos fluxos de dados sejam enviados
 simultaneamente ao sistema de arquivos Lustre, explorando o paralelismo
 proporcionado pelos múltiplos OSTs. Como consequência, a banda agregada
-escala aproximadamente de forma proporcional ao número de nós,
-demonstrando que o sistema de armazenamento ainda não atingiu seu limite
-nominal mesmo na maior configuração avaliada.
-
-Adicionalmente, observa-se que os desvios padrão da implementação MPI-IO permanecem relativamente reduzidos em todas as escalas,
-indicando alta previsibilidade do sistema. Já a implementação atual apresenta desvios padrão da mesma ordem de grandeza da
-própria banda média a partir de 16~nós, evidenciando comportamento
-errático típico de regime saturado. Dessa forma, a figura evidencia que
-a adoção de MPI-IO não apenas elimina o gargalo da arquitetura atual, mas também permite um uso significativamente mais
-eficiente e estável da largura de banda disponível, tornando a aplicação
-adequada para execuções em larga escala.
+cresce de forma consistente com o número de nós, demonstrando que o
+sistema de armazenamento ainda não atingiu seu limite nominal na maior
+configuração avaliada. Dessa forma, a figura evidencia que a adoção de
+MPI-IO não apenas elimina o gargalo da arquitetura atual, mas também
+permite um uso significativamente mais eficiente da largura de banda
+disponível, tornando a aplicação adequada para execuções em larga escala.
 
 \begin{figure}[hbt]
   \centering
@@ -869,26 +861,23 @@ A Figura~\ref{fig:Tempo_execucao_AWS} apresenta a evolução do tempo total
 de execução no Experimento AWS, contrastando a implementação atual e a implementação MPI-IO sobre o Lustre.
 Nas configurações de menor escala, em que a E/S não é o componente
 dominante, as duas curvas evoluem de forma muito próxima: em 2~nós,
-$9{,}55 \times 10^{3}$~s no modelo atual contra $9{,}23 \times
-10^{3}$~s no modelo MPI-IO (ganho de aproximadamente 3\%); em 4~nós,
-$4{,}87 \times 10^{3}$~s contra $4{,}82 \times 10^{3}$~s (ganho de cerca
-de 1\%). Esse comportamento é coerente, uma vez que, em pequena escala, o
-tempo de execução é dominado pela computação e a contenção sobre o
-processo escritor ainda não se manifesta.
+$8{,}97 \times 10^{3}$~s no modelo atual contra $8{,}85 \times
+10^{3}$~s no modelo MPI-IO; em 4~nós, $4{,}82 \times 10^{3}$~s contra
+$4{,}80 \times 10^{3}$~s. Esse comportamento é coerente, uma vez que,
+em pequena escala, o tempo de execução é dominado pela computação e a
+contenção sobre o processo escritor ainda não se manifesta.
 
 A divergência entre as duas curvas torna-se evidente a partir de 8~nós e
 se acentua de forma marcante nas configurações de maior porte. Enquanto a
 implementação atual apresenta um regime de saturação --- com o
-tempo de execução estabilizando em torno de $2{,}6 \times 10^{3}$~s em
-16~nós e voltando a crescer para aproximadamente $2{,}97 \times 10^{3}$~s
-em 32~nós ---, a implementação MPI-IO mantém uma redução
-consistente do tempo total, atingindo $1{,}71 \times 10^{3}$~s em 16~nós
-e $1{,}39 \times 10^{3}$~s em 32~nós. Em termos relativos, isso
-corresponde a uma redução do tempo total de cerca de 35\% em 16~nós e de
-53\% em 32~nós em relação ao modelo atual, evidenciando que a
-distribuição das operações de E/S elimina o gargalo associado ao processo
-escritor único e permite que a aplicação continue se beneficiando do
-aumento do paralelismo.
+tempo de execução passando de $2{,}64 \times 10^{3}$~s em 8~nós para
+$1{,}87 \times 10^{3}$~s em 16~nós e voltando a crescer para
+$2{,}01 \times 10^{3}$~s em 32~nós ---, a implementação MPI-IO mantém
+uma redução consistente do tempo total, atingindo $2{,}57 \times
+10^{3}$~s em 8~nós, $1{,}61 \times 10^{3}$~s em 16~nós e $1{,}37
+\times 10^{3}$~s em 32~nós. Em termos relativos, isso corresponde a uma
+redução do tempo total de aproximadamente 2\% em 8~nós, 14\% em 16~nós
+e 32\% em 32~nós em relação ao modelo atual.
 
 A figura também evidencia que, na implementação atual, o
 crescimento do número de nós deixa de produzir ganho de desempenho a
@@ -900,18 +889,17 @@ MPI-IO permanece monotonicamente decrescente em todo o intervalo
 avaliado, indicando que a infraestrutura de armazenamento ainda não
 atingiu sua capacidade limite mesmo na maior configuração testada.
 
-Cabe observar que, na implementação MPI-IO, parte do tempo total
-passa a ser ocupada pelas operações coletivas de abertura e fechamento de
-arquivos. Embora essas operações ocorram apenas no início e no término da execução, elas
-impõem sincronização global entre todos os processos participantes,
-introduzindo um custo fixo decorrente da coordenação coletiva. Como foram
-simulados apenas três estágios por cenário, esse \textit{overhead} não é
-suficientemente amortizado ao longo da execução, tornando sua
-contribuição relativa mais evidente no tempo total observado. Em cenários
-com maior número de estágios, esse mesmo custo tende a ser diluído,
-passando a representar uma fração menor do tempo total de execução. Ainda
-assim, mesmo com esse \textit{overhead} presente, a implementação MPI-IO apresenta tempo total inferior ao da implementação atual em todas as escalas avaliadas, e a vantagem cresce com o
-número de nós.
+Cabe observar que, na implementação MPI-IO, o tempo de E/S torna-se uma
+fração pequena do tempo total em todas as escalas, permanecendo próximo
+de 1\% a partir de 8~nós. Na implementação atual, por outro lado, a
+fração de E/S cresce de 7,6\% em 8~nós para 28,2\% em 16~nós e 49,5\%
+em 32~nós. Parte do tempo total da implementação MPI-IO passa a ser
+ocupada pelas operações coletivas de abertura e fechamento de arquivos,
+que chegam a 12,1\% em 16~nós e 24,2\% em 32~nós. Embora essas
+operações introduzam sincronização global, seu custo é menor que a
+contenção imposta pelo escritor único, e a implementação MPI-IO apresenta
+tempo total inferior ao da implementação atual em todas as escalas
+avaliadas.
 
 \begin{figure}[hbt]
   \centering
@@ -922,18 +910,23 @@ número de nós.
 
 A Figura~\ref{fig:EnvioPorTamanho_AWS} apresenta o tempo médio de
 bloqueio das operações de E/S, em segundos, em função do tamanho das
-mensagens no Experimento AWS, utilizando MPI-IO sobre o sistema de
-arquivos Lustre, em escala logarítmica. Observa-se que o tempo de bloqueio
-apresenta crescimento com o aumento do volume de dados, refletindo o custo
-associado à interação com o sistema de arquivos paralelo. No entanto, esse
-crescimento ocorre de forma mais controlada quando comparado à abordagem
-baseada em comunicação ponto a ponto, indicando uma redução significativa
-dos efeitos de contenção. A utilização da escala logarítmica permite
-evidenciar a variação em diferentes ordens de magnitude, destacando que,
-mesmo para mensagens maiores, o tempo de bloqueio permanece relativamente
-limitado. Esses resultados indicam que a estratégia baseada em escritas
-independentes com MPI-IO permite melhor amortização dos custos de E/S,
-contribuindo para maior eficiência e escalabilidade da aplicação.
+mensagens no Experimento AWS, em escala logarítmica. A comparação mostra
+que, para mensagens muito pequenas, a implementação atual apresenta
+tempos menores, pois o custo fixo da chamada MPI-IO se torna dominante.
+Esse efeito, contudo, ocorre em uma faixa de tempo muito baixa, da ordem
+de microssegundos a poucos milissegundos, e não determina o tempo total
+da aplicação.
+
+Para mensagens médias e grandes, que concentram o impacto de E/S nas
+maiores escalas, o comportamento se inverte. Em 16 e 32~nós, a
+implementação atual passa a apresentar tempos de bloqueio elevados nas
+classes de maior tamanho, chegando à ordem de segundos nas maiores
+mensagens, enquanto a implementação MPI-IO permanece na ordem de
+centésimos ou décimos de segundo. Assim, a figura reforça o diagnóstico
+das Figuras~\ref{fig:Banda_AWS} e~\ref{fig:Tempo_execucao_AWS}: a
+abordagem com escritor único é competitiva apenas em pequena escala ou
+para mensagens muito pequenas, mas perde escalabilidade quando o volume
+de dados e a concorrência entre processos aumentam.
 
 \begin{figure}[hbt]
   \centering
@@ -955,84 +948,58 @@ uma vez que os dados podem ser distribuídos entre múltiplos dispositivos
 de armazenamento, permitindo acessos concorrentes por diferentes
 processos.
 
-Para esta avaliação, foram realizados experimentos variando-se a
-quantidade de OSTs disponíveis, mantendo-se constantes as demais
-configurações do ambiente, como número de nós de cálculo, volume de
-dados e padrão de acesso. O objetivo foi isolar o efeito da
-infraestrutura de armazenamento sobre o desempenho global da aplicação.
+Para esta avaliação, foram realizados experimentos com a abordagem
+MPI-IO variando-se a quantidade de OSTs disponíveis no FSx for Lustre,
+comparando configurações com 4~OSTs e 10~OSTs para execuções com 16 e
+32~nós de cálculo. As demais características do experimento foram
+mantidas constantes, incluindo o volume de dados e o padrão de acesso,
+de modo a isolar o efeito da infraestrutura de armazenamento.
 
-Os resultados obtidos indicam que a redução no número de OSTs impacta
-negativamente o desempenho das operações de E/S, uma vez que diminui o
-paralelismo efetivo no acesso aos dados. Com menos OSTs disponíveis,
-ocorre maior contenção de acesso, levando a um aumento no tempo de
-execução das operações de escrita e leitura. Por outro lado, um maior
-número de OSTs possibilita melhor distribuição dos dados e maior
-aproveitamento da largura de banda agregada do sistema de arquivos.
+A Figura~\ref{fig:Experimento_OSTs} apresenta o tempo médio de envio
+por classe de tamanho das mensagens. Em 16~nós, a configuração com
+10~OSTs reduz o tempo médio de envio em todas as classes analisadas:
+aproximadamente 0,0021~s, 0,0047~s, 0,0071~s e 0,0485~s, contra
+0,0026~s, 0,0177~s, 0,0200~s e 0,0871~s com 4~OSTs. O efeito torna-se
+mais evidente em 32~nós, cenário no qual os tempos com 10~OSTs ficam em
+aproximadamente 0,0032~s, 0,0101~s, 0,0137~s e 0,1051~s, enquanto a
+configuração com 4~OSTs apresenta 0,0101~s, 0,1110~s, 0,0899~s e
+0,3040~s.
 
-Esses resultados reforçam a importância do correto dimensionamento da
-infraestrutura de armazenamento em ambientes baseados em Lustre,
-especialmente para aplicações intensivas em E/S. A escolha inadequada do
-número de OSTs pode introduzir gargalos significativos, limitando a
-escalabilidade da aplicação mesmo na presença de recursos computacionais
-suficientes.
-
-A Figura~\ref{fig:Experimento_OSTs} apresenta os resultados do
-experimento conduzido com diferentes quantidades de nós OST, com o
-objetivo de avaliar o impacto direto da infraestrutura de armazenamento
-no desempenho da aplicação. Diferentemente da avaliação apresentada nas
-seções anteriores, nesta etapa foi utilizada a abordagem de E/S baseada
-em escritas independentes com MPI-IO, permitindo isolar de forma mais clara
-o efeito do paralelismo do sistema de arquivos Lustre sobre o tempo de
-execução.
-
-Os resultados evidenciam que a variação no número de OSTs impacta
-diretamente o desempenho observado, uma vez que altera o grau de
-paralelismo disponível para as operações de E/S. Com um maior número de
-OSTs, observa-se melhor distribuição dos dados e redução da contenção de
-acesso, enquanto configurações com menor quantidade de OSTs tendem a
-concentrar as operações, resultando em aumento do tempo total de
-execução. Dessa forma, a figura reforça a relevância do dimensionamento
-adequado dos recursos de armazenamento para garantir a escalabilidade da
-solução proposta.
+Esses resultados mostram que a redução do número de OSTs aumenta a
+contenção no acesso aos dados, sobretudo quando o número de nós de
+cálculo cresce. Embora a escrita seja realizada em paralelo por meio de
+MPI-IO, a disponibilidade de menos alvos de armazenamento limita o
+paralelismo efetivo do Lustre e aumenta o tempo observado nas operações
+de envio associadas às diferentes classes de tamanho.
 
 \begin{figure}[hbt]
   \centering
   \includegraphics[width=\textwidth]{Experimento_OSTs.png}
-  \caption{Experimento com diferentes nós OSTs.}
+  \caption{Tempo médio de envio por classe de tamanho para configurações
+  MPI-IO com 4 e 10~OSTs.}
   \label{fig:Experimento_OSTs}
 \end{figure}
 
 A Figura~\ref{fig:Experimento_OSTs_banda} apresenta a largura de banda
 agregada média para diferentes configurações de número de nós e
-quantidade de OSTs no sistema de arquivos Lustre. Observa-se que, para
-ambas as configurações de 16 e 32~nós, a variação no número de OSTs (10
-e 4) não provoca uma degradação significativa na banda agregada média.
+quantidade de OSTs no sistema de arquivos Lustre. A configuração com
+10~OSTs apresenta maior banda agregada nos dois tamanhos avaliados:
+96,2~Gb/s contra 78,1~Gb/s em 16~nós, e 143,0~Gb/s contra 36,7~Gb/s em
+32~nós. A diferença em 32~nós é particularmente expressiva, indicando
+que a configuração com 4~OSTs passa a limitar a escalabilidade da E/S
+quando há maior concorrência entre processos.
 
-Para 16~nós, os valores de banda permanecem praticamente constantes
-entre as configurações com 10 e 4~OSTs, indicando que, nesse nível de
-paralelismo, o sistema de armazenamento ainda não se encontra saturado.
-Já para 32~nós, embora a configuração com 10~OSTs apresente banda
-ligeiramente superior, a diferença observada é moderada, sugerindo que
-o sistema continua operando de forma eficiente mesmo com menor número de
-dispositivos de armazenamento.
-
-Esses resultados indicam que, do ponto de vista da banda agregada, a
-aplicação consegue explorar adequadamente o paralelismo disponível no
-sistema de arquivos, mesmo com uma redução no número de OSTs. No
-entanto, essa análise deve ser complementada com métricas de tempo de
-execução, uma vez que a banda média isoladamente pode não capturar
-possíveis impactos relacionados à contenção, latência ou sobrecarga de
-metadados.
-
-Dessa forma, embora a redução do número de OSTs não comprometa
-significativamente a banda agregada neste experimento, sua influência
-sobre o tempo total de execução e a eficiência global do sistema deve
-ser analisada de forma conjunta.
+Assim, a análise conjunta das duas figuras indica que o aumento no
+número de OSTs melhora tanto a largura de banda agregada quanto o tempo
+médio das operações de envio. A configuração com 10~OSTs permite melhor
+distribuição das requisições entre os alvos de armazenamento, enquanto a
+configuração com 4~OSTs concentra o tráfego em menos dispositivos e
+introduz gargalos mais visíveis no cenário com 32~nós.
 
 \begin{figure}[hbt]
   \centering
   \includegraphics[width=\textwidth]{Experimento_OSTs_banda.png}
-  \caption{Banda agregada média no experimento de OSTs.}
+  \caption{Banda agregada média para configurações MPI-IO com 4 e 10~OSTs.}
   \label{fig:Experimento_OSTs_banda}
 \end{figure}
 
