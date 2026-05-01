@@ -1,10 +1,9 @@
 ## Correções pequenas
 
 
-
-- melhorar figura histograma e texto
-- cuidado com texo "mensagens"
 - Figura de blocos de menagens dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado.
+- ~~cuidado com texo "mensagens"~~
+- ~~melhorar figura histograma e texto~~ 
 - ~~regenerar figuras e atualizar texto~~
 - ~~Gerar novamente figura de quantidade de blocos de dados~~
 - ~~Tirar label figura histrograma - faltou descrição dos eixos~~

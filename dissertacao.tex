@@ -166,18 +166,18 @@ da introdução (capítulos 2--5).}}
 
 \section{MPI e protocolos de comunicação}
 O \textit{Message Passing Interface} (MPI) é o padrão para programação
-paralela baseada em troca de mensagens, sendo amplamente utilizado em
+paralela baseada em troca de dados entre processos, sendo amplamente utilizado em
 \textit{clusters} e supercomputadores. Um aspecto essencial da sua
 implementação são os protocolos de comunicação: o \textit{eager}, que envia
-mensagens pequenas de forma imediata, sem necessidade de confirmação do
+pequenos blocos de dados de forma imediata, sem necessidade de confirmação do
 receptor, favorecendo baixa latência; e o \textit{rendezvous}, que aguarda o
-\textit{handshake} do receptor antes de transmitir mensagens maiores,
+\textit{handshake} do receptor antes de transmitir blocos de dados maiores,
 reduzindo \textit{overhead} de memória e aumentando a previsibilidade do
 desempenho em cargas intensivas~\cite{mpiCite}. A escolha entre os
-protocolos depende fortemente do tamanho da mensagem e da disponibilidade de
+protocolos depende fortemente do tamanho do bloco de dados e da disponibilidade de
 \textit{buffers}: enquanto o \textit{eager} utiliza \textit{buffers}
 internos para armazenar temporariamente dados até que o receptor os
-processe, o \textit{rendezvous} elimina essa necessidade para mensagens
+processe, o \textit{rendezvous} elimina essa necessidade para blocos de dados
 grandes, evitando consumo excessivo de memória e garantindo maior
 estabilidade em aplicações de larga escala~\cite{Wea:99,Rrw:05}.
 
@@ -230,7 +230,7 @@ modernas --- com latências extremamente baixas, tipicamente abaixo de
 2~$\mu$s, graças a recursos como comunicação RDMA (\textit{Remote Direct
 Memory Access}). Essa diferença torna o InfiniBand preferido em
 supercomputadores e \textit{clusters} científicos, onde a baixa latência na
-troca de mensagens é tão relevante quanto a banda disponível, enquanto a
+troca de dados entre processos é tão relevante quanto a banda disponível, enquanto a
 Ethernet, pelo menor custo e ampla compatibilidade, mantém espaço em
 sistemas híbridos e \textit{datacenters}~\cite{Fds:03,RlGmmts:05}.
 
@@ -443,25 +443,25 @@ recursos compartilhados --- como o sistema de arquivos e a rede --- pode
 introduzir sobrecargas adicionais, limitando a eficiência do escalonamento
 e reduzindo os ganhos esperados de desempenho.
 
-O tamanho das mensagens foi considerado um fator determinante para a
+O tamanho dos blocos de dados foi considerado um fator determinante para a
 análise de desempenho de E/S paralela. Em cada resolução de um problema, o
-padrão de mensagens permanece consistente, uma vez que a carga de saída é
+padrão de blocos de dados permanece consistente, uma vez que a carga de saída é
 fixa por cenário. A Figura~\ref{fig:histograma_mensagens} apresenta a
-distribuição do tamanho das mensagens para um único cenário representativo;
+distribuição do tamanho dos blocos de dados para um único cenário representativo;
 entretanto, esse comportamento se repete de forma consistente nos demais
-cenários avaliados. Observa-se que uma parcela significativa das mensagens
+cenários avaliados. Observa-se que uma parcela significativa dos blocos de dados
 concentra-se em tamanhos reduzidos, em torno de 1~kB, o que pode
 comprometer a escalabilidade, já que operações com granularidade fina
 tendem a aumentar a sobrecarga de metadados e a subutilizar a largura de
 banda disponível~\cite{Rwe:99,Phrrbrw:09}. Adicionalmente, será avaliado o
-tempo de envio das mensagens agrupadas por faixas de tamanho, de forma a
+tempo de envio dos blocos de dados agrupados por faixas de tamanho, de forma a
 analisar o impacto da granularidade das operações no desempenho da
 comunicação e da E/S.
 
 \begin{figure}[hbt]
   \centering
   \includegraphics[width=\textwidth]{histograma_mensagens.png}
-  \caption{Distribuição da quantidade de mensagens por faixa de tamanho.}
+  \caption{Distribuição da quantidade de blocos de dados por faixa de tamanho.}
   \label{fig:histograma_mensagens}
 \end{figure}
 
@@ -655,27 +655,27 @@ coordenação associados ao uso de MPI-IO no SDumont.
 \end{figure}
 
 A Figura~\ref{fig:EnvioPorTamanho_SDumont} apresenta o tempo médio de
-bloqueio das operações de envio em função do tamanho das mensagens no
+bloqueio das operações de envio em função do tamanho dos blocos de dados no
 Experimento SDumont, em escala logarítmica. A comparação mostra
-comportamentos distintos conforme o tamanho da mensagem. Para mensagens
-muito pequenas, a implementação atual apresenta tempos de envio menores,
-pois evita o custo fixo das chamadas MPI-IO. Para mensagens maiores,
+comportamentos distintos conforme o tamanho do bloco de dados. Para blocos de dados
+muito pequenos, a implementação atual apresenta tempos de envio menores,
+pois evita o custo fixo das chamadas MPI-IO. Para blocos de dados maiores,
 especialmente nas classes de 100~MB e 50~MB, a implementação MPI-IO reduz
 substancialmente o tempo de bloqueio em relação ao modelo centralizado.
 
 Esse resultado mostra que o benefício da escrita paralela torna-se mais
 relevante quando o volume transferido por operação é maior. Na
-implementação atual, mensagens grandes pressionam o processo escritor e
+implementação atual, blocos de dados grandes pressionam o processo escritor e
 elevam o tempo de bloqueio à medida que o número de nós cresce. Na
 implementação MPI-IO, a distribuição das escritas pelo sistema de
-arquivos Lustre reduz essa contenção, ainda que mensagens pequenas e
+arquivos Lustre reduz essa contenção, ainda que blocos de dados pequenos e
 intermediárias possam sofrer impacto do custo fixo de coordenação.
 
 \begin{figure}[hbt]
   \centering
   \includegraphics[width=\textwidth]{EnvioPorTamanho_SDumont.png}
   \caption{Tempo médio de bloqueio das operações de envio por tamanho de
-  mensagem nas implementações atual e MPI-IO no Experimento SDumont
+  bloco de dados nas implementações atual e MPI-IO no Experimento SDumont
   (escala logarítmica).}
   \label{fig:EnvioPorTamanho_SDumont}
 \end{figure}
@@ -919,29 +919,29 @@ escalas avaliadas.
 
 A Figura~\ref{fig:EnvioPorTamanho_AWS} apresenta o tempo médio de
 bloqueio das operações de E/S, em segundos, em função do tamanho das
-mensagens no Experimento AWS, em escala logarítmica. A comparação mostra
-que, para mensagens muito pequenas, a implementação atual apresenta
+blocos de dados no Experimento AWS, em escala logarítmica. A comparação mostra
+que, para blocos de dados muito pequenos, a implementação atual apresenta
 tempos menores, pois o custo fixo da chamada MPI-IO se torna dominante.
 Esse efeito, contudo, ocorre em uma faixa de tempo muito baixa, da ordem
 de microssegundos a poucos milissegundos, e não determina o tempo total
 da aplicação.
 
-Para mensagens médias e grandes, que concentram o impacto de E/S nas
+Para blocos de dados médios e grandes, que concentram o impacto de E/S nas
 maiores escalas, o comportamento se inverte. Em 16 e 32~nós, a
 implementação atual passa a apresentar tempos de bloqueio elevados nas
 classes de maior tamanho, chegando à ordem de segundos nas maiores
-mensagens, enquanto a implementação MPI-IO permanece na ordem de
+classes de blocos de dados, enquanto a implementação MPI-IO permanece na ordem de
 centésimos ou décimos de segundo. Assim, a figura reforça o diagnóstico
 das Figuras~\ref{fig:Banda_AWS} e~\ref{fig:Tempo_execucao_AWS}: a
 abordagem com escritor único é competitiva apenas em pequena escala ou
-para mensagens muito pequenas, mas perde escalabilidade quando o volume
+para blocos de dados muito pequenos, mas perde escalabilidade quando o volume
 de dados e a concorrência entre processos aumentam.
 
 \begin{figure}[hbt]
   \centering
   \includegraphics[width=\textwidth]{EnvioPorTamanho_AWS.png}
   \caption{Tempo médio de bloqueio das operações de envio em função do
-  tamanho das mensagens no Experimento AWS (escala logarítmica).}
+  tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}
   \label{fig:EnvioPorTamanho_AWS}
 \end{figure}
 
@@ -965,7 +965,7 @@ mantidas constantes, incluindo o volume de dados e o padrão de acesso,
 de modo a isolar o efeito da infraestrutura de armazenamento.
 
 A Figura~\ref{fig:Experimento_OSTs} apresenta o tempo médio de envio
-por classe de tamanho das mensagens. Em 16~nós, a configuração com
+por classe de tamanho dos blocos de dados. Em 16~nós, a configuração com
 10~OSTs reduz o tempo médio de envio em todas as classes analisadas:
 aproximadamente 0,0021~s, 0,0047~s, 0,0071~s e 0,0485~s, contra
 0,0026~s, 0,0177~s, 0,0200~s e 0,0871~s com 4~OSTs. O efeito torna-se
@@ -1020,7 +1020,7 @@ Os resultados apresentados nesta dissertação evidenciam que o desempenho
 da aplicação SDDP é fortemente influenciado pela estratégia adotada para
 as operações de entrada e saída (E/S). A análise detalhada do
 comportamento do \texttt{MPI\_Send} revelou que o tempo de bloqueio
-associado ao envio de mensagens representa um dos principais fatores
+associado ao envio de blocos de dados representa um dos principais fatores
 limitantes da escalabilidade do modelo, sobretudo quando há um único
 processo responsável pela escrita em disco. Esse gargalo torna-se mais
 pronunciado à medida que cresce o número de nós computacionais,
