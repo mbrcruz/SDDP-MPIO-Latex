@@ -943,98 +943,98 @@ contribuindo para maior eficiência e escalabilidade da aplicação.
   \label{fig:EnvioPorTamanho_AWS}
 \end{figure}
 
-% % =============================================================
-% \subsection{Avaliação do impacto do número de OSTs}
-% \label{sec:exp_osts}
+% =============================================================
+\subsection{Avaliação do impacto do número de OSTs}
+\label{sec:exp_osts}
 
-% Esta subseção tem como objetivo avaliar, no Experimento AWS, o impacto do número de
-% \textit{Object Storage Targets} (OSTs) no desempenho das operações de E/S
-% no sistema de arquivos Lustre. Em ambientes HPC, a quantidade de OSTs
-% está diretamente relacionada ao grau de paralelismo de E/S disponível,
-% uma vez que os dados podem ser distribuídos entre múltiplos dispositivos
-% de armazenamento, permitindo acessos concorrentes por diferentes
-% processos.
+Esta subseção tem como objetivo avaliar, no Experimento AWS, o impacto do número de
+\textit{Object Storage Targets} (OSTs) no desempenho das operações de E/S
+no sistema de arquivos Lustre. Em ambientes HPC, a quantidade de OSTs
+está diretamente relacionada ao grau de paralelismo de E/S disponível,
+uma vez que os dados podem ser distribuídos entre múltiplos dispositivos
+de armazenamento, permitindo acessos concorrentes por diferentes
+processos.
 
-% Para esta avaliação, foram realizados experimentos variando-se a
-% quantidade de OSTs disponíveis, mantendo-se constantes as demais
-% configurações do ambiente, como número de nós de cálculo, volume de
-% dados e padrão de acesso. O objetivo foi isolar o efeito da
-% infraestrutura de armazenamento sobre o desempenho global da aplicação.
+Para esta avaliação, foram realizados experimentos variando-se a
+quantidade de OSTs disponíveis, mantendo-se constantes as demais
+configurações do ambiente, como número de nós de cálculo, volume de
+dados e padrão de acesso. O objetivo foi isolar o efeito da
+infraestrutura de armazenamento sobre o desempenho global da aplicação.
 
-% Os resultados obtidos indicam que a redução no número de OSTs impacta
-% negativamente o desempenho das operações de E/S, uma vez que diminui o
-% paralelismo efetivo no acesso aos dados. Com menos OSTs disponíveis,
-% ocorre maior contenção de acesso, levando a um aumento no tempo de
-% execução das operações de escrita e leitura. Por outro lado, um maior
-% número de OSTs possibilita melhor distribuição dos dados e maior
-% aproveitamento da largura de banda agregada do sistema de arquivos.
+Os resultados obtidos indicam que a redução no número de OSTs impacta
+negativamente o desempenho das operações de E/S, uma vez que diminui o
+paralelismo efetivo no acesso aos dados. Com menos OSTs disponíveis,
+ocorre maior contenção de acesso, levando a um aumento no tempo de
+execução das operações de escrita e leitura. Por outro lado, um maior
+número de OSTs possibilita melhor distribuição dos dados e maior
+aproveitamento da largura de banda agregada do sistema de arquivos.
 
-% Esses resultados reforçam a importância do correto dimensionamento da
-% infraestrutura de armazenamento em ambientes baseados em Lustre,
-% especialmente para aplicações intensivas em E/S. A escolha inadequada do
-% número de OSTs pode introduzir gargalos significativos, limitando a
-% escalabilidade da aplicação mesmo na presença de recursos computacionais
-% suficientes.
+Esses resultados reforçam a importância do correto dimensionamento da
+infraestrutura de armazenamento em ambientes baseados em Lustre,
+especialmente para aplicações intensivas em E/S. A escolha inadequada do
+número de OSTs pode introduzir gargalos significativos, limitando a
+escalabilidade da aplicação mesmo na presença de recursos computacionais
+suficientes.
 
-% A Figura~\ref{fig:Experimento_OSTs} apresenta os resultados do
-% experimento conduzido com diferentes quantidades de nós OST, com o
-% objetivo de avaliar o impacto direto da infraestrutura de armazenamento
-% no desempenho da aplicação. Diferentemente da avaliação apresentada nas
-% seções anteriores, nesta etapa foi utilizada a abordagem de E/S baseada
-% em escritas independentes com MPI-IO, permitindo isolar de forma mais clara
-% o efeito do paralelismo do sistema de arquivos Lustre sobre o tempo de
-% execução.
+A Figura~\ref{fig:Experimento_OSTs} apresenta os resultados do
+experimento conduzido com diferentes quantidades de nós OST, com o
+objetivo de avaliar o impacto direto da infraestrutura de armazenamento
+no desempenho da aplicação. Diferentemente da avaliação apresentada nas
+seções anteriores, nesta etapa foi utilizada a abordagem de E/S baseada
+em escritas independentes com MPI-IO, permitindo isolar de forma mais clara
+o efeito do paralelismo do sistema de arquivos Lustre sobre o tempo de
+execução.
 
-% Os resultados evidenciam que a variação no número de OSTs impacta
-% diretamente o desempenho observado, uma vez que altera o grau de
-% paralelismo disponível para as operações de E/S. Com um maior número de
-% OSTs, observa-se melhor distribuição dos dados e redução da contenção de
-% acesso, enquanto configurações com menor quantidade de OSTs tendem a
-% concentrar as operações, resultando em aumento do tempo total de
-% execução. Dessa forma, a figura reforça a relevância do dimensionamento
-% adequado dos recursos de armazenamento para garantir a escalabilidade da
-% solução proposta.
+Os resultados evidenciam que a variação no número de OSTs impacta
+diretamente o desempenho observado, uma vez que altera o grau de
+paralelismo disponível para as operações de E/S. Com um maior número de
+OSTs, observa-se melhor distribuição dos dados e redução da contenção de
+acesso, enquanto configurações com menor quantidade de OSTs tendem a
+concentrar as operações, resultando em aumento do tempo total de
+execução. Dessa forma, a figura reforça a relevância do dimensionamento
+adequado dos recursos de armazenamento para garantir a escalabilidade da
+solução proposta.
 
-% \begin{figure}[hbt]
-%   \centering
-%   \includegraphics[width=\textwidth]{Experimento_OSTs.png}
-%   \caption{Experimento com diferentes nós OSTs.}
-%   \label{fig:Experimento_OSTs}
-% \end{figure}
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=\textwidth]{Experimento_OSTs.png}
+  \caption{Experimento com diferentes nós OSTs.}
+  \label{fig:Experimento_OSTs}
+\end{figure}
 
-% A Figura~\ref{fig:Experimento_OSTs_banda} apresenta a largura de banda
-% agregada média para diferentes configurações de número de nós e
-% quantidade de OSTs no sistema de arquivos Lustre. Observa-se que, para
-% ambas as configurações de 16 e 32~nós, a variação no número de OSTs (10
-% e 4) não provoca uma degradação significativa na banda agregada média.
+A Figura~\ref{fig:Experimento_OSTs_banda} apresenta a largura de banda
+agregada média para diferentes configurações de número de nós e
+quantidade de OSTs no sistema de arquivos Lustre. Observa-se que, para
+ambas as configurações de 16 e 32~nós, a variação no número de OSTs (10
+e 4) não provoca uma degradação significativa na banda agregada média.
 
-% Para 16~nós, os valores de banda permanecem praticamente constantes
-% entre as configurações com 10 e 4~OSTs, indicando que, nesse nível de
-% paralelismo, o sistema de armazenamento ainda não se encontra saturado.
-% Já para 32~nós, embora a configuração com 10~OSTs apresente banda
-% ligeiramente superior, a diferença observada é moderada, sugerindo que
-% o sistema continua operando de forma eficiente mesmo com menor número de
-% dispositivos de armazenamento.
+Para 16~nós, os valores de banda permanecem praticamente constantes
+entre as configurações com 10 e 4~OSTs, indicando que, nesse nível de
+paralelismo, o sistema de armazenamento ainda não se encontra saturado.
+Já para 32~nós, embora a configuração com 10~OSTs apresente banda
+ligeiramente superior, a diferença observada é moderada, sugerindo que
+o sistema continua operando de forma eficiente mesmo com menor número de
+dispositivos de armazenamento.
 
-% Esses resultados indicam que, do ponto de vista da banda agregada, a
-% aplicação consegue explorar adequadamente o paralelismo disponível no
-% sistema de arquivos, mesmo com uma redução no número de OSTs. No
-% entanto, essa análise deve ser complementada com métricas de tempo de
-% execução, uma vez que a banda média isoladamente pode não capturar
-% possíveis impactos relacionados à contenção, latência ou sobrecarga de
-% metadados.
+Esses resultados indicam que, do ponto de vista da banda agregada, a
+aplicação consegue explorar adequadamente o paralelismo disponível no
+sistema de arquivos, mesmo com uma redução no número de OSTs. No
+entanto, essa análise deve ser complementada com métricas de tempo de
+execução, uma vez que a banda média isoladamente pode não capturar
+possíveis impactos relacionados à contenção, latência ou sobrecarga de
+metadados.
 
-% Dessa forma, embora a redução do número de OSTs não comprometa
-% significativamente a banda agregada neste experimento, sua influência
-% sobre o tempo total de execução e a eficiência global do sistema deve
-% ser analisada de forma conjunta.
+Dessa forma, embora a redução do número de OSTs não comprometa
+significativamente a banda agregada neste experimento, sua influência
+sobre o tempo total de execução e a eficiência global do sistema deve
+ser analisada de forma conjunta.
 
-% \begin{figure}[hbt]
-%   \centering
-%   \includegraphics[width=\textwidth]{Experimento_OSTs_banda.png}
-%   \caption{Banda agregada média no experimento de OSTs.}
-%   \label{fig:Experimento_OSTs_banda}
-% \end{figure}
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=\textwidth]{Experimento_OSTs_banda.png}
+  \caption{Banda agregada média no experimento de OSTs.}
+  \label{fig:Experimento_OSTs_banda}
+\end{figure}
 
 %===============================================================================
 \chapter{Conclusões}
