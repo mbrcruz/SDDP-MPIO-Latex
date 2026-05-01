@@ -1,4 +1,4 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{22}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -70,13 +70,6 @@
   1997.
 \newblock Specification.
 
-\bibitem[\MakeUppercase{{TODO}}(2025){TODO}]{SC25LustreBoF}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{Birds-of-a-Feather: {Lustre} in the Top500}. SC'25,
-  2025.
-\newblock
-  \url{https://sc25.supercomputing.org/proceedings/bof/bof_pages/bof197.html}.
-
 \bibitem[\MakeUppercase{{TODO}}(2003){TODO}]{Fds:03}
 \MakeUppercase{{TODO}}.
 \newblock \coppeenquote{{TODO: comparação Ethernet x InfiniBand}}, 2003.
@@ -121,6 +114,12 @@
   483--485, New York, NY, USA, 1967. Association for Computing Machinery.
 \newblock \doi{10.1145/1465482.1465560}.
 
+\bibitem[\MakeUppercase{{OpenSFS and EOFS}}(2025){OpenSFS and
+  EOFS}]{LustreManual}
+\MakeUppercase{{OpenSFS and EOFS}}.
+\newblock \emph{{Lustre} Software Release 2.x: Operations Manual}, 2025.
+\newblock \url{https://doc.lustre.org/lustre_manual.pdf}.
+
 \bibitem[\MakeUppercase{{Intel Corporation}}(2023){Intel
   Corporation}]{intel:23}
 \MakeUppercase{{Intel Corporation}}.
@@ -134,11 +133,5 @@
 \MakeUppercase{{Amazon Web Services}}.
 \newblock \coppeenquote{Amazon {EC2} {C}7i Instances --- {C}ompute
   {O}ptimized}. \url{https://aws.amazon.com/ec2/instance-types/c7i/}, 2024.
-
-\bibitem[\MakeUppercase{{OpenSFS and EOFS}}(2025){OpenSFS and
-  EOFS}]{LustreManual}
-\MakeUppercase{{OpenSFS and EOFS}}.
-\newblock \emph{{Lustre} Software Release 2.x: Operations Manual}, 2025.
-\newblock \url{https://doc.lustre.org/lustre_manual.pdf}.
 
 \end{thebibliography}
