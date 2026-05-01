@@ -729,21 +729,26 @@ obtidos com a base de dados PMO/PAR de outubro de 2023, considerando
 \textit{ranks} por nó.
 
 Observa-se que o tempo total de execução cai com o aumento do número de
-nós até 16~nós, mas estabiliza-se em torno de $1{,}71\times10^{3}$~s a
-partir desse ponto, sem ganho adicional ao se passar para 32~nós ---
+nós até 16~nós, passando de aproximadamente 8\,971~s em 2~nós para
+1\,874~s em 16~nós, mas volta a crescer para 2\,013~s em 32~nós ---
 caracterizando o regime saturado típico de um cenário de \textit{strong
 scaling} limitado pela E/S. A banda agregada degrada-se de 60{,}5~Gb/s
 em 2~nós para 3{,}4~Gb/s em 32~nós (mais de uma ordem de grandeza), e o
 percentual do tempo dedicado à comunicação cresce de cerca de 2\% em
-2~nós para 17{,}9\% em 32~nós. Esses números são coerentes com o
+2~nós para 15{,}1\% em 32~nós. Esses números são coerentes com o
 diagnóstico de que o adaptador de rede do nó mestre se torna ponto de
 contenção à medida que aumenta o número de processos emissores
 concorrentes.
 
+Na Tabela~\ref{tab:central_aws}, o tempo total corresponde à soma entre
+o tempo médio de simulação e o tempo médio de comunicação. O tempo de
+I/O é apresentado como uma parcela interna do tempo de simulação e, por
+isso, não é somado novamente ao total.
+
 \begin{table}[hbt]
 \centering
 \caption{Desempenho do Experimento AWS com a implementação atual,
-incluindo tempos de I/O, comunicação, tempo total, \textit{speedup} e percentual de I/O.}
+incluindo tempos de I/O, comunicação, tempo total, \textit{speedup} e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação.}
 \label{tab:central_aws}
 \small
 \setlength{\tabcolsep}{1pt}
@@ -777,12 +782,15 @@ contenção associado a um único \textit{rank} escritor e explorando o
 paralelismo dos múltiplos OSTs.
 
 A Tabela~\ref{tab:mpiio_aws} consolida os resultados obtidos com a
-implementação MPI-IO no Experimento AWS.
+implementação MPI-IO no Experimento AWS. Assim como na tabela anterior,
+o tempo total corresponde à soma entre simulação e comunicação. O tempo
+de I/O e o tempo de operações coletivas MPI são parcelas internas do
+tempo de simulação e não são somados novamente ao total.
 
 \begin{table}[hbt]
 \centering
 \caption{Desempenho do Experimento AWS com a implementação MPI-IO,
-incluindo tempos de I/O, comunicação, tempo total, \textit{speedup} e percentual de I/O.}
+incluindo tempos de I/O, comunicação, tempo total, \textit{speedup} e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação.}
 \label{tab:mpiio_aws}
 \small
 \setlength{\tabcolsep}{1pt}
@@ -816,22 +824,22 @@ número de nós para as duas implementações.
 A Figura~\ref{fig:Banda_AWS} apresenta a evolução da largura de banda
 agregada média no Experimento AWS. As duas curvas exibem comportamentos
 qualitativamente opostos: a
-implementação atual parte de aproximadamente 45,82~Gb/s em 2~nós
+implementação atual parte de aproximadamente 60{,}5~Gb/s em 2~nós
 e degrada-se de forma acentuada com o aumento do paralelismo, atingindo
-apenas 16,62~Gb/s em 8~nós, 2,49~Gb/s em 16~nós e 1,83~Gb/s em 32~nós ---
+18{,}9~Gb/s em 8~nós, 4{,}5~Gb/s em 16~nós e 3{,}4~Gb/s em 32~nós ---
 uma redução de mais de uma ordem de grandeza. Em contraste, a
-implementação MPI-IO parte de 26,99~Gb/s em 2~nós e cresce
-monotonicamente, alcançando 44,41~Gb/s em 4~nós, 74,60~Gb/s em 8~nós,
-133,91~Gb/s em 16~nós e 215,50~Gb/s em 32~nós.
+implementação MPI-IO parte de 33{,}8~Gb/s em 2~nós e cresce
+monotonicamente, alcançando 52{,}2~Gb/s em 4~nós, 83{,}5~Gb/s em 8~nós,
+96{,}2~Gb/s em 16~nós e 143{,}0~Gb/s em 32~nós.
 
-Em 2~nós, a banda agregada da implementação atual é cerca de 70\% maior
+Em 2~nós, a banda agregada da implementação atual é cerca de 79\% maior
 que a da implementação MPI-IO. Esse comportamento é coerente com o fato
 de que, em pequena escala, o gargalo do processo escritor único ainda não
 se manifesta, e o custo fixo da coordenação da E/S paralela tem maior
 peso relativo. A partir de 4~nós, entretanto, a implementação MPI-IO já
 supera a atual. Em 8~nós, a banda agregada é aproximadamente
-$4{,}5\times$ maior; em 16~nós, cerca de $54\times$ maior; e, em
-32~nós, aproximadamente $118\times$ maior. Esse resultado indica que a
+$4{,}4\times$ maior; em 16~nós, cerca de $21{,}3\times$ maior; e, em
+32~nós, aproximadamente $42{,}5\times$ maior. Esse resultado indica que a
 arquitetura proposta explora a infraestrutura de armazenamento em uma
 escala completamente diferente da arquitetura baseada em escritor único.
 
@@ -893,13 +901,14 @@ Cabe observar que, na implementação MPI-IO, o tempo de E/S torna-se uma
 fração pequena do tempo total em todas as escalas, permanecendo próximo
 de 1\% a partir de 8~nós. Na implementação atual, por outro lado, a
 fração de E/S cresce de 7,6\% em 8~nós para 28,2\% em 16~nós e 49,5\%
-em 32~nós. Parte do tempo total da implementação MPI-IO passa a ser
-ocupada pelas operações coletivas de abertura e fechamento de arquivos,
-que chegam a 12,1\% em 16~nós e 24,2\% em 32~nós. Embora essas
-operações introduzam sincronização global, seu custo é menor que a
-contenção imposta pelo escritor único, e a implementação MPI-IO apresenta
-tempo total inferior ao da implementação atual em todas as escalas
-avaliadas.
+em 32~nós. Na implementação MPI-IO, parte do tempo de simulação passa a
+ser ocupada pelas operações coletivas de abertura e fechamento de
+arquivos: essa parcela cresce de 0,5\% em 2~nós para 1,0\% em 4~nós,
+2,8\% em 8~nós, 6,0\% em 16~nós e 12,1\% em 32~nós. Embora essas
+operações introduzam sincronização global, seu custo permanece menor que
+a contenção imposta pelo escritor único, e a implementação MPI-IO
+apresenta tempo total inferior ao da implementação atual em todas as
+escalas avaliadas.
 
 \begin{figure}[hbt]
   \centering
