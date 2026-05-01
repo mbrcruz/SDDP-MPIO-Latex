@@ -1,8 +1,11 @@
 ## Correções pequenas
 
-- cuidado com mensagens
+
+
+- Rodar 4 OSts com 1536 ( falta 32 nodes ) - regenerar figuras e atualizar texto.
+- Gerar novamente figura de quantidade de blocos de dados. 
+- cuidado com texo "mensagens"
 - Figura de blocos de menagens dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado.
-- Rodar 4 OSts com 1536 ( falta 32 nodes ) - regenerar figuras
 - ~~Tirar label figura histrograma - faltou descrição dos eixos~~
 - ~~corrigir labels figura blocos~~
 
