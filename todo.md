@@ -1,6 +1,6 @@
 ## Correções pequenas
 
-
+- Coletivas = MPI_File_Open/MPI_File_Close
 - Figura de blocos de dados -  dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado.
 - ~~cuidado com texo "mensagens"~~
 - ~~melhorar figura histograma e texto~~ 
