@@ -24,7 +24,7 @@
 \contentsline {section}{\numberline {4.2}Experimento AWS}{17}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{17}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO}{18}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{18}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Avaliação do impacto do número de OSTs}{21}{subsection.4.2.4}%
-\contentsline {chapter}{\numberline {5}Conclusões}{25}{chapter.5}%
-\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{26}{chapter*.6}%
+\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{19}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Avaliação do impacto do número de OSTs}{22}{subsection.4.2.4}%
+\contentsline {chapter}{\numberline {5}Conclusões}{26}{chapter.5}%
+\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{27}{chapter*.6}%
