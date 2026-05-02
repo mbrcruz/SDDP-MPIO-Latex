@@ -514,27 +514,31 @@ paralelismo computacional.
 \centering
 \caption{Desempenho do Experimento SDumont com a implementação atual. O
 tempo total corresponde à soma do tempo médio de simulação e comunicação;
-o tempo de I/O é uma parcela interna da simulação e não é somado novamente.}
+o tempo de I/O é uma parcela interna da simulação e não é somado novamente.
+A eficiência é calculada em relação à base de 2~nós.}
 \label{tab:central_sdumont}
 \small
-\setlength{\tabcolsep}{1pt}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{@{}ccccccc@{}}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccc}
 \toprule
 \textbf{Nós} &
 \textbf{\shortstack{Banda\\(Gb/s)}} &
 \textbf{\shortstack{I/O\\(s)}} &
+\textbf{\% I/O} &
 \textbf{\shortstack{Comunicação\\(s)}} &
 \textbf{\shortstack{Total\\(s)}} &
 \textbf{Speedup} &
-\textbf{\% I/O} \\
+\textbf{\shortstack{Eficiência\\(\%)}} \\
 \midrule
-2  & $4{,}57 \pm 0{,}56$ & $894{,}81 \pm 341{,}58$     & $932{,}59 \pm 48{,}27$    & $9\,376{,}80 \pm 349{,}11$ & $1{,}00\times$ & $9{,}54\%$  \\
-4  & $2{,}04 \pm 0{,}54$ & $2\,116{,}61 \pm 482{,}68$ & $921{,}08 \pm 55{,}50$    & $6\,841{,}99 \pm 479{,}20$ & $1{,}37\times$ & $30{,}94\%$ \\
-8  & $1{,}52 \pm 1{,}01$ & $4\,013{,}54 \pm 220{,}86$ & $1\,014{,}67 \pm 36{,}82$ & $6\,981{,}25 \pm 163{,}40$ & $1{,}34\times$ & $57{,}49\%$ \\
-16 & $0{,}84 \pm 0{,}75$ & $6\,602{,}61 \pm 671{,}38$ & $1\,277{,}79 \pm 30{,}77$ & $9\,082{,}37 \pm 174{,}91$ & $1{,}03\times$ & $72{,}70\%$ \\
+2  & $4{,}57 \pm 0{,}56$ & $894{,}81 \pm 341{,}58$     & $9{,}54\%$  & $932{,}59 \pm 48{,}27$    & $9\,376{,}80 \pm 349{,}11$ & $1{,}00\times$ & $100{,}0\%$ \\
+4  & $2{,}04 \pm 0{,}54$ & $2\,116{,}61 \pm 482{,}68$ & $30{,}94\%$ & $921{,}08 \pm 55{,}50$    & $6\,841{,}99 \pm 479{,}20$ & $1{,}37\times$ & $68{,}5\%$ \\
+8  & $1{,}52 \pm 1{,}01$ & $4\,013{,}54 \pm 220{,}86$ & $57{,}49\%$ & $1\,014{,}67 \pm 36{,}82$ & $6\,981{,}25 \pm 163{,}40$ & $1{,}34\times$ & $33{,}5\%$ \\
+16 & $0{,}84 \pm 0{,}75$ & $6\,602{,}61 \pm 671{,}38$ & $72{,}70\%$ & $1\,277{,}79 \pm 30{,}77$ & $9\,082{,}37 \pm 174{,}91$ & $1{,}03\times$ & $12{,}9\%$ \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 \subsection{Avaliação da implementação MPI-IO}
@@ -560,27 +564,31 @@ metadados, coordenação e concorrência no Lustre.
 \centering
 \caption{Desempenho do Experimento SDumont com a implementação MPI-IO. O
 tempo total corresponde à soma do tempo médio de simulação e comunicação;
-o tempo de I/O é uma parcela interna da simulação e não é somado novamente.}
+o tempo de I/O é uma parcela interna da simulação e não é somado novamente.
+A eficiência é calculada em relação à base de 2~nós.}
 \label{tab:mpiio_sdumont}
 \small
-\setlength{\tabcolsep}{1pt}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{@{}ccccccc@{}}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccc}
 \toprule
 \textbf{Nós} &
 \textbf{\shortstack{Banda\\(Gb/s)}} &
 \textbf{\shortstack{I/O\\(s)}} &
+\textbf{\% I/O} &
 \textbf{\shortstack{Comunicação\\(s)}} &
 \textbf{\shortstack{Total\\(s)}} &
 \textbf{Speedup} &
-\textbf{\% I/O} \\
+\textbf{\shortstack{Eficiência\\(\%)}} \\
 \midrule
-2  & $1{,}92 \pm 0{,}22$ & $1\,505{,}19 \pm 338{,}26$ & $968{,}96 \pm 134{,}71$    & $10\,343{,}93 \pm 511{,}69$ & $1{,}00\times$ & $14{,}55\%$ \\
-4  & $2{,}76 \pm 0{,}53$ & $1\,186{,}44 \pm 414{,}20$ & $850{,}55 \pm 177{,}58$    & $6\,430{,}57 \pm 489{,}98$  & $1{,}61\times$ & $18{,}45\%$ \\
-8  & $2{,}08 \pm 0{,}63$ & $1\,884{,}36 \pm 2\,092{,}62$ & $976{,}98 \pm 213{,}86$ & $6\,342{,}98 \pm 2\,424{,}11$ & $1{,}63\times$ & $29{,}71\%$ \\
-16 & $1{,}63 \pm 0{,}56$ & $1\,958{,}12 \pm 2\,025{,}19$ & $1\,185{,}57 \pm 487{,}98$ & $7\,592{,}64 \pm 2\,840{,}08$ & $1{,}36\times$ & $25{,}79\%$ \\
+2  & $1{,}92 \pm 0{,}22$ & $1\,505{,}19 \pm 338{,}26$ & $14{,}55\%$ & $968{,}96 \pm 134{,}71$    & $10\,343{,}93 \pm 511{,}69$ & $1{,}00\times$ & $100{,}0\%$ \\
+4  & $2{,}76 \pm 0{,}53$ & $1\,186{,}44 \pm 414{,}20$ & $18{,}45\%$ & $850{,}55 \pm 177{,}58$    & $6\,430{,}57 \pm 489{,}98$  & $1{,}61\times$ & $80{,}5\%$ \\
+8  & $2{,}08 \pm 0{,}63$ & $1\,884{,}36 \pm 2\,092{,}62$ & $29{,}71\%$ & $976{,}98 \pm 213{,}86$ & $6\,342{,}98 \pm 2\,424{,}11$ & $1{,}63\times$ & $40{,}8\%$ \\
+16 & $1{,}63 \pm 0{,}56$ & $1\,958{,}12 \pm 2\,025{,}19$ & $25{,}79\%$ & $1\,185{,}57 \pm 487{,}98$ & $7\,592{,}64 \pm 2\,840{,}08$ & $1{,}36\times$ & $17{,}0\%$ \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 \subsection{Análise comparativa}
@@ -754,28 +762,33 @@ isso, não é somado novamente ao total.
 \begin{table}[hbt]
 \centering
 \caption{Desempenho do Experimento AWS com a implementação atual,
-incluindo tempos de I/O, comunicação, tempo total, \textit{speedup} e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação.}
+incluindo tempos de I/O, comunicação, tempo total, \textit{speedup},
+eficiência e percentual de I/O. O total corresponde ao tempo de simulação
+mais comunicação, e a eficiência é calculada em relação à base de 2~nós.}
 \label{tab:central_aws}
 \small
-\setlength{\tabcolsep}{1pt}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{@{}ccccccc@{}}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccc}
 \toprule
 \textbf{Nós} &
 \textbf{\shortstack{Banda\\(Gb/s)}} &
 \textbf{\shortstack{I/O\\(s)}} &
+\textbf{\% I/O} &
 \textbf{\shortstack{Comunicação\\(s)}} &
 \textbf{\shortstack{Total\\(s)}} &
 \textbf{Speedup} &
-\textbf{\% I/O} \\
+\textbf{\shortstack{Eficiência\\(\%)}} \\
 \midrule
-2  & $60{,}51 \pm 5{,}20$ & $30{,}85 \pm 13{,}23$   & $177{,}51 \pm 29{,}73$    & $8\,971{,}23 \pm 323{,}48$ & $1{,}00\times$ & $0{,}34\%$  \\
-4  & $51{,}28 \pm 2{,}82$ & $78{,}23 \pm 27{,}79$   & $212{,}76 \pm 19{,}33$    & $4\,823{,}20 \pm 40{,}39$  & $1{,}86\times$ & $1{,}62\%$  \\
-8  & $18{,}94 \pm 3{,}76$ & $201{,}67 \pm 53{,}32$  & $174{,}04 \pm 12{,}90$    & $2\,639{,}18 \pm 32{,}59$  & $3{,}40\times$ & $7{,}64\%$  \\
-16 & $4{,}52  \pm 0{,}33$ & $527{,}94 \pm 53{,}07$  & $167{,}77 \pm 7{,}07$     & $1\,873{,}56 \pm 52{,}28$  & $4{,}79\times$ & $28{,}18\%$ \\
-32 & $3{,}37  \pm 0{,}10$ & $996{,}57 \pm 166{,}98$ & $304{,}96 \pm 3{,}83$     & $2\,013{,}06 \pm 25{,}99$  & $4{,}46\times$ & $49{,}51\%$ \\
+2  & $60{,}51 \pm 5{,}20$ & $30{,}85 \pm 13{,}23$   & $0{,}34\%$  & $177{,}51 \pm 29{,}73$    & $8\,971{,}23 \pm 323{,}48$ & $1{,}00\times$ & $100{,}0\%$ \\
+4  & $51{,}28 \pm 2{,}82$ & $78{,}23 \pm 27{,}79$   & $1{,}62\%$  & $212{,}76 \pm 19{,}33$    & $4\,823{,}20 \pm 40{,}39$  & $1{,}86\times$ & $93{,}0\%$ \\
+8  & $18{,}94 \pm 3{,}76$ & $201{,}67 \pm 53{,}32$  & $7{,}64\%$  & $174{,}04 \pm 12{,}90$    & $2\,639{,}18 \pm 32{,}59$  & $3{,}40\times$ & $85{,}0\%$ \\
+16 & $4{,}52  \pm 0{,}33$ & $527{,}94 \pm 53{,}07$  & $28{,}18\%$ & $167{,}77 \pm 7{,}07$     & $1\,873{,}56 \pm 52{,}28$  & $4{,}79\times$ & $59{,}9\%$ \\
+32 & $3{,}37  \pm 0{,}10$ & $996{,}57 \pm 166{,}98$ & $49{,}51\%$ & $304{,}96 \pm 3{,}83$     & $2\,013{,}06 \pm 25{,}99$  & $4{,}46\times$ & $27{,}9\%$ \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 \subsection{Avaliação da implementação MPI-IO}
@@ -796,28 +809,33 @@ tempo de simulação e não são somados novamente ao total.
 \begin{table}[hbt]
 \centering
 \caption{Desempenho do Experimento AWS com a implementação MPI-IO,
-incluindo tempos de I/O, comunicação, tempo total, \textit{speedup} e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação.}
+incluindo tempos de I/O, comunicação, tempo total, \textit{speedup},
+eficiência e percentual de I/O. O total corresponde ao tempo de simulação
+mais comunicação, e a eficiência é calculada em relação à base de 2~nós.}
 \label{tab:mpiio_aws}
 \small
-\setlength{\tabcolsep}{1pt}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{@{}ccccccc@{}}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccc}
 \toprule
 \textbf{Nós} &
 \textbf{\shortstack{Banda\\(Gb/s)}} &
 \textbf{\shortstack{I/O\\(s)}} &
+\textbf{\% I/O} &
 \textbf{\shortstack{Comunicação\\(s)}} &
 \textbf{\shortstack{Total\\(s)}} &
 \textbf{Speedup} &
-\textbf{\% I/O} \\
+\textbf{\shortstack{Eficiência\\(\%)}} \\
 \midrule
-2  & $33{,}80 \pm 3{,}21$   & $71{,}89 \pm 68{,}92$ & $170{,}21 \pm 17{,}52$ & $8\,847{,}89 \pm 127{,}16$ & $1{,}00\times$ & $0{,}81\%$ \\
-4  & $52{,}22 \pm 9{,}25$   & $31{,}30 \pm 6{,}94$  & $188{,}12 \pm 14{,}94$ & $4\,795{,}86 \pm 18{,}74$  & $1{,}84\times$ & $0{,}65\%$ \\
-8  & $83{,}49 \pm 12{,}71$  & $26{,}33 \pm 5{,}28$  & $206{,}21 \pm 18{,}68$ & $2\,574{,}70 \pm 31{,}83$  & $3{,}44\times$ & $1{,}02\%$ \\
-16 & $96{,}17 \pm 8{,}31$   & $20{,}37 \pm 3{,}98$  & $215{,}97 \pm 33{,}65$ & $1\,613{,}30 \pm 45{,}80$  & $5{,}48\times$ & $1{,}26\%$ \\
-32 & $142{,}98 \pm 21{,}95$ & $18{,}18 \pm 3{,}54$  & $269{,}76 \pm 18{,}83$ & $1\,374{,}10 \pm 61{,}95$  & $6{,}44\times$ & $1{,}32\%$ \\
+2  & $33{,}80 \pm 3{,}21$   & $71{,}89 \pm 68{,}92$ & $0{,}81\%$ & $170{,}21 \pm 17{,}52$ & $8\,847{,}89 \pm 127{,}16$ & $1{,}00\times$ & $100{,}0\%$ \\
+4  & $52{,}22 \pm 9{,}25$   & $31{,}30 \pm 6{,}94$  & $0{,}65\%$ & $188{,}12 \pm 14{,}94$ & $4\,795{,}86 \pm 18{,}74$  & $1{,}84\times$ & $92{,}0\%$ \\
+8  & $83{,}49 \pm 12{,}71$  & $26{,}33 \pm 5{,}28$  & $1{,}02\%$ & $206{,}21 \pm 18{,}68$ & $2\,574{,}70 \pm 31{,}83$  & $3{,}44\times$ & $86{,}0\%$ \\
+16 & $96{,}17 \pm 8{,}31$   & $20{,}37 \pm 3{,}98$  & $1{,}26\%$ & $215{,}97 \pm 33{,}65$ & $1\,613{,}30 \pm 45{,}80$  & $5{,}48\times$ & $68{,}5\%$ \\
+32 & $142{,}98 \pm 21{,}95$ & $18{,}18 \pm 3{,}54$  & $1{,}32\%$ & $269{,}76 \pm 18{,}83$ & $1\,374{,}10 \pm 61{,}95$  & $6{,}44\times$ & $40{,}3\%$ \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 \subsection{Análise comparativa}

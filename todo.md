@@ -1,7 +1,7 @@
 ## Correções pequenas
 
 
-- Figura de blocos de menagens dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado.
+- Figura de blocos de dados -  dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado.
 - ~~cuidado com texo "mensagens"~~
 - ~~melhorar figura histograma e texto~~ 
 - ~~regenerar figuras e atualizar texto~~
