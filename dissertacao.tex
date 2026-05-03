@@ -444,15 +444,13 @@ introduzir sobrecargas adicionais, limitando a eficiência do escalonamento
 e reduzindo os ganhos esperados de desempenho.
 
 O tamanho dos blocos de dados foi considerado um fator determinante para a
-análise de desempenho de E/S paralela. Em cada resolução de um problema, o
-padrão de blocos de dados permanece consistente, uma vez que a carga de saída é
-fixa por cenário. A Figura~\ref{fig:histograma_mensagens} apresenta a
-distribuição do tamanho dos blocos de dados para um único cenário representativo;
-entretanto, esse comportamento se repete de forma consistente nos demais
-cenários avaliados. Observa-se que a distribuição é dominada por blocos de
-dados pequenos: 1.173 blocos, correspondentes a 80,1\% do total, possuem
-tamanho de até 1~KB. As demais faixas concentram 99 blocos até 128~KB
-(6,8\%), 174 blocos até 1~MB (11,9\%) e 18 blocos até 50~MB (1,2\%).
+análise de desempenho de E/S paralela. A
+Figura~\ref{fig:histograma_mensagens} apresenta a distribuição agregada
+do tamanho dos blocos de dados observados ao longo do experimento.
+Observa-se que a distribuição é dominada por blocos de dados pequenos:
+1.801.728 blocos, correspondentes a 80,1\% do total, possuem tamanho de
+até 1~KB. As demais faixas concentram 152.082 blocos até 128~KB (6,8\%),
+267.264 blocos até 1~MB (11,9\%) e 27.648 blocos até 50~MB (1,2\%).
 Esse perfil pode comprometer a escalabilidade, já que operações com
 granularidade fina tendem a aumentar a sobrecarga de metadados e a
 subutilizar a largura de banda disponível~\cite{Rwe:99,Phrrbrw:09}.
@@ -463,8 +461,8 @@ granularidade das operações no desempenho da comunicação e da E/S.
 \begin{figure}[hbt]
   \centering
   \includegraphics[width=\textwidth]{histograma_mensagens.png}
-  \caption{Distribuição da quantidade de blocos de dados por faixa de
-  tamanho, em escala logarítmica.}
+  \caption{Distribuição agregada da quantidade de blocos de dados por
+  faixa de tamanho no experimento, em escala logarítmica.}
   \label{fig:histograma_mensagens}
 \end{figure}
 
