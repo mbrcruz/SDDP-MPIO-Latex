@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  3 MAY 2026 20:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  3 MAY 2026 20:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1192,13 +1192,13 @@ File: Banda_AWS.png Graphic file (type png)
 <use Banda_AWS.png>
 Package pdftex.def Info: Banda_AWS.png  used on input line 981.
 (pdftex.def)             Requested size: 426.79135pt x 175.88309pt.
- [20 <./Banda_AWS.png>]
+ [20]
 <Tempo_execucao_AWS.png, id=527, 946.737pt x 678.6153pt>
 File: Tempo_execucao_AWS.png Graphic file (type png)
 <use Tempo_execucao_AWS.png>
 Package pdftex.def Info: Tempo_execucao_AWS.png  used on input line 1033.
 (pdftex.def)             Requested size: 426.79135pt x 305.92287pt.
- [21]
+ [21 <./Banda_AWS.png>]
 <EnvioPorTamanho_AWS.png, id=536, 2016.333pt x 606.3453pt>
 File: EnvioPorTamanho_AWS.png Graphic file (type png)
 <use EnvioPorTamanho_AWS.png>
@@ -1232,12 +1232,12 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `dissertacao.out' has not changed.
-(rerunfilecheck)             Checksum: 5789E5EF4796BEF37C34A5C267A5AD7A;5644.
+(rerunfilecheck)             Checksum: C47191805DBC5007B26EE76DEA812482;5932.
  ) 
 Here is how much of TeX's memory you used:
  29945 strings out of 467871
  599689 string characters out of 5418376
- 1058256 words of memory out of 5000000
+ 1056310 words of memory out of 5000000
  58195 multiletter control sequences out of 15000+600000
  643336 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1261,7 +1261,7 @@ nts/cm/cmr10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/publ
 ic/amsfonts/cm/cmr12.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/amsfonts/cm/cmr8.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/f
 onts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on dissertacao.pdf (40 pages, 1241020 bytes).
+Output written on dissertacao.pdf (40 pages, 1241765 bytes).
 PDF statistics:
  1107 PDF objects out of 1200 (max. 8388607)
  109 named destinations out of 1000 (max. 500000)
