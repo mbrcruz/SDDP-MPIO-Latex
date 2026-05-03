@@ -688,12 +688,14 @@ processo escritor centralizado.
 
 A Figura~\ref{fig:Tempo_execucao_SDumont} detalha o tempo médio por
 processo no Experimento SDumont, separando as parcelas de computação,
-comunicação, E/S e operações coletivas MPI. As parcelas de E/S e de
-coletivas MPI estão embutidas no tempo de simulação e não devem ser
-somadas novamente ao total. Em 2~nós, a implementação MPI-IO apresenta
-tempo total superior ao da implementação atual, pois o custo das
-operações coletivas e da própria camada MPI-IO ainda pesa de forma
-significativa. Nas configurações com 4, 8 e 16~nós, a versão MPI-IO
+comunicação, E/S e Coordenação MPI-IO. A parcela Coordenação MPI-IO
+corresponde às chamadas
+\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}. As parcelas de E/S e
+de Coordenação MPI-IO estão embutidas no tempo de simulação e não devem
+ser somadas novamente ao total. Em 2~nós, a implementação MPI-IO
+apresenta tempo total superior ao da implementação atual, pois o custo
+dessas operações de coordenação e da própria camada MPI-IO ainda pesa de
+forma significativa. Nas configurações com 4, 8 e 16~nós, a versão MPI-IO
 reduz o tempo total em relação à implementação atual, com ganhos mais
 evidentes nas maiores escalas.
 
@@ -702,7 +704,7 @@ do número de nós, chegando a representar a maior parte do tempo total em
 16~nós. Esse comportamento é compatível com a saturação do processo
 escritor centralizado. Na implementação MPI-IO, o tempo de E/S é
 redistribuído entre os processos e permanece mais controlado, embora o
-custo das operações coletivas passe a compor uma fração visível do tempo
+custo da Coordenação MPI-IO passe a compor uma fração visível do tempo
 total. Assim, a figura evidencia que a abordagem proposta reduz o
 gargalo centralizado de escrita, mas não elimina todos os custos de
 coordenação associados ao uso de MPI-IO no SDumont.
@@ -711,7 +713,8 @@ coordenação associados ao uso de MPI-IO no SDumont.
   \centering
   \includegraphics[width=\textwidth]{Tempo_execucao_SDumont.png}
   \caption{Decomposição do tempo médio por processo das implementações
-  atual e MPI-IO no Experimento SDumont.}
+  atual e MPI-IO no Experimento SDumont; Coordenação MPI-IO =
+  \texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}.}
   \label{fig:Tempo_execucao_SDumont}
 \end{figure}
 
@@ -848,8 +851,9 @@ paralelismo dos múltiplos OSTs.
 A Tabela~\ref{tab:mpiio_aws} consolida os resultados obtidos com a
 implementação MPI-IO no Experimento AWS. Assim como na tabela anterior,
 o tempo total corresponde à soma entre simulação e comunicação. O tempo
-de I/O e o tempo de operações coletivas MPI são parcelas internas do
-tempo de simulação e não são somados novamente ao total.
+de I/O e o tempo de Coordenação MPI-IO, correspondente às chamadas
+\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}, são parcelas internas
+do tempo de simulação e não são somados novamente ao total.
 
 \begin{table}[hbt]
 \centering
@@ -1015,18 +1019,19 @@ fração pequena do tempo total em todas as escalas, permanecendo próximo
 de 1\% a partir de 8~nós. Na implementação atual, por outro lado, a
 fração de E/S cresce de 7,6\% em 8~nós para 28,2\% em 16~nós e 49,5\%
 em 32~nós. Na implementação MPI-IO, parte do tempo de simulação passa a
-ser ocupada pelas operações coletivas de abertura e fechamento de
-arquivos: essa parcela cresce de 0,5\% em 2~nós para 1,0\% em 4~nós,
-2,8\% em 8~nós, 6,0\% em 16~nós e 12,1\% em 32~nós. Embora essas
-operações introduzam sincronização global, seu custo permanece menor que
-a contenção imposta pelo escritor único, e a implementação MPI-IO
-apresenta tempo total inferior ao da implementação atual em todas as
-escalas avaliadas.
+ser ocupada pela Coordenação MPI-IO, medida pelas chamadas
+\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}: essa parcela cresce
+de 0,5\% em 2~nós para 1,0\% em 4~nós, 2,8\% em 8~nós, 6,0\% em 16~nós
+e 12,1\% em 32~nós. Embora essas operações introduzam sincronização
+global, seu custo permanece menor que a contenção imposta pelo escritor
+único, e a implementação MPI-IO apresenta tempo total inferior ao da
+implementação atual em todas as escalas avaliadas.
 
 \begin{figure}[hbt]
   \centering
   \includegraphics[width=\textwidth]{Tempo_execucao_AWS.png}
-  \caption{Tempo de execução no Experimento AWS.}
+  \caption{Tempo de execução no Experimento AWS; Coordenação MPI-IO =
+  \texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}.}
   \label{fig:Tempo_execucao_AWS}
 \end{figure}
 

@@ -4,6 +4,11 @@
 - Desvio padrão computação está errado no SDumont
 - Desvio padrão de blocos pequenos com muito outlier 
 - Figura de blocos de dados -  dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado.
+
+- Com Trabalhos Relacionados + Conclusão + Cap. 3 expandido (espaço de design, hints MPI-IO, pseudocódigo). Defensável como mestrado adequado. Contribuição clara, metodologia razoável, posicionamento na literatura.
+- Acima disso, com investigação dirigida da contenção de metadados no SDumont + variação sistemática de stripe + IOR como baseline + modelo analítico simples para o crossover. Dissertação forte com material para um artigo de conferência.
+
+
 - ~~cuidado com texo "mensagens"~~
 - ~~melhorar figura histograma e texto~~ 
 - ~~regenerar figuras e atualizar texto~~
