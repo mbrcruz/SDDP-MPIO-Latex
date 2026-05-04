@@ -153,14 +153,28 @@ medida que o número de cenários cresce.
 Após a resolução, os resultados de cada subproblema --- variáveis
 primais, multiplicadores duais e custos --- precisam ser persistidos em
 disco, pois alimentam etapas subsequentes do próprio algoritmo e
-análises estatísticas posteriores. É precisamente nesse ponto de
-persistência massiva que se manifesta o gargalo de E/S investigado
-neste trabalho: o volume agregado escrito por iteração cresce com o
-número de cenários e com a granularidade dos dados produzidos, e a
-estratégia de implementação dessas escritas determina diretamente a
-escalabilidade da aplicação em ambientes HPC.
+análises estatísticas posteriores.
 
-\begin{figure}[hbt]
+A granularidade temporal adotada para os resultados de cada estágio tem
+impacto direto sobre o volume de dados produzido por iteração. A
+abordagem tradicional do SDDP agrega a operação dentro de cada estágio
+em poucos blocos representativos de carga (\textit{patamares}: pesado,
+médio e leve), reduzindo cada estágio a um pequeno número de pontos
+operativos por cenário. A operação programada moderna, entretanto,
+especialmente com a crescente penetração de fontes intermitentes como
+solar e eólica, requer resolução horária para capturar adequadamente
+horários de ponta, vales e rampas associadas à variabilidade dessas
+fontes. Esta dissertação foca exatamente no regime de resultados
+horários, em que cada estágio de um cenário gera dados proporcionais ao
+número de horas simuladas --- ordem de magnitude maior que o caso
+tradicional por blocos. É nesse regime que o gargalo de E/S se torna
+efetivamente dominante: o volume agregado escrito por iteração cresce
+linearmente com o número de cenários, com o número de estágios e com a
+granularidade temporal interna de cada estágio, e a estratégia de
+implementação dessas escritas determina diretamente a escalabilidade da
+aplicação em ambientes HPC.
+
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{SDDP_cenarios_estagios.png}
   \caption{Estrutura de cenários e estágios do SDDP nos experimentos
@@ -183,7 +197,7 @@ dados são gravados em um sistema de arquivos distribuído. A
 Figura~\ref{fig:SDDP_architecture} ilustra o funcionamento dessa
 arquitetura.
 
-\begin{figure}[hbt]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{SDDP_architecture.png}
   \caption{Algoritmo SDDP com processo escritor.}

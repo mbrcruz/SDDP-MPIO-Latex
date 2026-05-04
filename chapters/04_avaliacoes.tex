@@ -56,7 +56,7 @@ Adicionalmente, será avaliado o tempo de envio dos blocos de dados
 agrupados por faixas de tamanho, de forma a analisar o impacto da
 granularidade das operações no desempenho da comunicação e da E/S.
 
-\begin{figure}[hbt]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{histograma_mensagens.png}
   \caption{Distribuição agregada da quantidade de blocos de dados por
@@ -109,7 +109,7 @@ caracteriza um regime degradado sob \textit{strong scaling}, no qual a
 contenção do processo escritor mais do que compensa os ganhos de
 paralelismo computacional.
 
-\begin{table}[hbt]
+\begin{table}[H]
 \centering
 \caption{Desempenho do Experimento SDumont com a implementação atual. O
 tempo total corresponde à soma do tempo médio de simulação e comunicação;
@@ -159,7 +159,7 @@ expressivos a partir de 8~nós, da ordem do próprio valor médio para o
 tempo de E/S, indicam alta variabilidade e sugerem limitação por
 metadados, coordenação e concorrência no Lustre.
 
-\begin{table}[hbt]
+\begin{table}[H]
 \centering
 \caption{Desempenho do Experimento SDumont com a implementação MPI-IO. O
 tempo total corresponde à soma do tempo médio de simulação e comunicação;
@@ -209,7 +209,7 @@ tempo total a partir de 4~nós, chegando a 16{,}4\% de melhoria em
 1{,}94$\times$ em 16~nós, enquanto a redução do tempo de E/S chega a
 70{,}3\% nessa configuração.
 
-\begin{table}[hbt]
+\begin{table}[H]
 \centering
 \caption{Resumo comparativo entre a implementação atual e MPI-IO no
 Experimento SDumont. A melhoria no total e a melhoria de I/O são
@@ -264,7 +264,7 @@ fatores adicionais da infraestrutura de armazenamento --- detalhados a
 seguir na decomposição por categoria de bloco
 (Figura~\ref{fig:EnvioPorTamanho_SDumont}).
 
-\begin{figure}[hbt]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Banda_SDumont.png}
   \caption{Banda agregada média das implementações atual e MPI-IO no
@@ -276,25 +276,45 @@ A Figura~\ref{fig:Tempo_execucao_SDumont} detalha o tempo médio por
 processo no Experimento SDumont, separando as parcelas de computação,
 comunicação, E/S e Coordenação MPI-IO. A parcela Coordenação MPI-IO
 corresponde às chamadas
-\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}. As barras de erro indicam somente o
-desvio padrão do tempo de execução total. Em 2~nós, a implementação MPI-IO
-apresenta tempo total superior ao da implementação atual, pois o custo
-dessas operações de coordenação e da própria camada MPI-IO ainda pesa de
-forma significativa. Nas configurações com 4, 8 e 16~nós, a versão MPI-IO
-reduz o tempo total em relação à implementação atual, com ganhos mais
-evidentes nas maiores escalas.
+\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}, que ocorrem
+\emph{uma única vez} por execução --- na abertura e no fechamento do
+arquivo de saída --- e são, portanto, custos de natureza
+$O(1)$ em relação ao número de cenários processados. As barras de erro
+indicam somente o desvio padrão do tempo de execução total. Em 2~nós,
+a implementação MPI-IO apresenta tempo total superior ao da
+implementação atual, pois o custo dessas operações de coordenação e
+da própria camada MPI-IO ainda pesa de forma significativa. Nas
+configurações com 4, 8 e 16~nós, a versão MPI-IO reduz o tempo total
+em relação à implementação atual, com ganhos mais evidentes nas
+maiores escalas.
 
-Na implementação atual, a parcela de E/S cresce fortemente com o aumento
-do número de nós, chegando a representar a maior parte do tempo total em
-16~nós. Esse comportamento é compatível com a saturação do processo
-escritor centralizado. Na implementação MPI-IO, o tempo de E/S é
-redistribuído entre os processos e permanece mais controlado, embora o
-custo da Coordenação MPI-IO passe a compor uma fração visível do tempo
-total. Assim, a figura evidencia que a abordagem proposta reduz o
-gargalo centralizado de escrita, mas não elimina todos os custos de
-coordenação associados ao uso de MPI-IO no SDumont.
+Na implementação atual, a parcela de E/S cresce fortemente com o
+aumento do número de nós, chegando a representar a maior parte do
+tempo total em 16~nós. Esse comportamento é compatível com a saturação
+do processo escritor centralizado. Na implementação MPI-IO, o tempo
+de E/S é redistribuído entre os processos e permanece mais controlado,
+embora o custo da Coordenação MPI-IO passe a compor uma fração visível
+do tempo total.
 
-\begin{figure}[hbt]
+É importante destacar que a fração relativa da Coordenação MPI-IO
+observada nestes experimentos é maior do que se espera em execuções
+reais do SDDP. Como o custo de
+\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close} é fixo por execução,
+sua participação no tempo total decresce à medida que a carga
+computacional cresce: nas execuções aqui realizadas, com apenas três
+estágios mensais e $1\,536$ cenários, o tempo total de simulação é
+relativamente baixo, o que infla o peso percentual dessa parcela. Em
+execuções de operação programada típicas do SIN, com horizonte de
+vários anos em resolução mensal e número de cenários muito maior, o
+custo absoluto de coordenação permanece o mesmo enquanto o tempo
+total de computação cresce em ordem de magnitude --- diluindo a fração
+relativa da Coordenação MPI-IO para níveis desprezíveis. Assim, a
+figura evidencia que a abordagem proposta reduz o gargalo centralizado
+de escrita; o custo residual de coordenação, embora visível na escala
+dos experimentos, não é uma limitação intrínseca da arquitetura
+proposta.
+
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Tempo_execucao_SDumont.png}
   \caption{Decomposição do tempo médio por processo das implementações
@@ -356,7 +376,7 @@ Figura~\ref{fig:Banda_SDumont} nas maiores escalas, em que a fração de
 chamadas pequenas concorrentes sobre o sistema de arquivos cresce com o
 número de \textit{ranks}.
 
-\begin{figure}[hbt]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{EnvioPorTamanho_SDumont.png}
   \caption{Tempo médio de bloqueio das operações de envio por tamanho de
@@ -428,7 +448,7 @@ o tempo médio de simulação e o tempo médio de comunicação. O tempo de
 I/O é apresentado como uma parcela interna do tempo de simulação e, por
 isso, não é somado novamente ao total.
 
-\begin{table}[hbt]
+\begin{table}[H]
 \centering
 \caption{Desempenho do Experimento AWS com a implementação atual,
 incluindo tempos de I/O, comunicação, tempo total, \textit{speedup},
@@ -476,7 +496,7 @@ de I/O e o tempo de Coordenação MPI-IO, correspondente às chamadas
 \texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}, são parcelas internas
 do tempo de simulação e não são somados novamente ao total.
 
-\begin{table}[hbt]
+\begin{table}[H]
 \centering
 \caption{Desempenho do Experimento AWS com a implementação MPI-IO,
 incluindo tempos de I/O, comunicação, tempo total, \textit{speedup},
@@ -526,7 +546,7 @@ arquitetura proposta: a MPI-IO passa de desempenho similar em 4~nós para
 21{,}27$\times$ em 16~nós e 42{,}49$\times$ em 32~nós. A redução do
 tempo de E/S também cresce com a escala, chegando a 98{,}2\% em 32~nós.
 
-\begin{table}[hbt]
+\begin{table}[H]
 \centering
 \caption{Resumo comparativo entre a implementação atual e MPI-IO no
 Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas
@@ -596,7 +616,7 @@ MPI-IO não apenas elimina o gargalo da arquitetura atual, mas também
 permite um uso significativamente mais eficiente da largura de banda
 disponível, tornando a aplicação adequada para execuções em larga escala.
 
-\begin{figure}[hbt]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Banda_AWS.png}
   \caption{Banda agregada média no Experimento AWS.}
@@ -645,12 +665,25 @@ em 32~nós. Na implementação MPI-IO, parte do tempo de simulação passa a
 ser ocupada pela Coordenação MPI-IO, medida pelas chamadas
 \texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}: essa parcela cresce
 de 0,5\% em 2~nós para 1,0\% em 4~nós, 2,8\% em 8~nós, 6,0\% em 16~nós
-e 12,1\% em 32~nós. Embora essas operações introduzam sincronização
-global, seu custo permanece menor que a contenção imposta pelo escritor
-único, e a implementação MPI-IO apresenta tempo total inferior ao da
-implementação atual em todas as escalas avaliadas.
+e 12,1\% em 32~nós. Esse crescimento percentual, contudo, reflete
+sobretudo a redução do tempo de simulação com o aumento do paralelismo
+e não um aumento do custo absoluto de coordenação: como
+\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close} são executadas uma
+única vez por execução --- no início e no final ---, seu custo é fixo
+em relação ao número de cenários processados, e sua fração relativa
+diminui em execuções com maior carga computacional. Os experimentos
+aqui apresentados consideram apenas três estágios mensais, o que
+mantém o tempo total de simulação relativamente curto e infla a fração
+percentual da Coordenação MPI-IO; em execuções de operação programada
+típicas do SIN, com horizonte de vários anos e número de cenários
+muito maior, o custo absoluto dessas chamadas permanece o mesmo
+enquanto o tempo total cresce em ordem de magnitude, diluindo a
+parcela de coordenação para níveis desprezíveis. Em todas as escalas
+avaliadas, e mesmo sob essa inflação relativa do custo de coordenação,
+a implementação MPI-IO já apresenta tempo total inferior ao da
+implementação atual.
 
-\begin{figure}[hbt]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Tempo_execucao_AWS.png}
   \caption{Tempo de execução no Experimento AWS.}
@@ -677,7 +710,7 @@ apenas em pequena escala ou para blocos de dados muito pequenos, mas perde
 escalabilidade quando o volume de dados e a concorrência entre processos
 aumentam.
 
-\begin{figure}[hbt]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{EnvioPorTamanho_AWS.png}
   \caption{Tempo médio de bloqueio das operações de envio em função do
@@ -721,7 +754,7 @@ MPI-IO, a disponibilidade de menos alvos de armazenamento limita o
 paralelismo efetivo do Lustre e aumenta o tempo observado nas operações
 de envio associadas às diferentes classes de tamanho.
 
-\begin{figure}[hbt]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Experimento_OSTs.png}
   \caption{Tempo médio de envio por classe de tamanho para configurações
@@ -745,7 +778,7 @@ distribuição das requisições entre os alvos de armazenamento, enquanto a
 configuração com 4~OSTs concentra o tráfego em menos dispositivos e
 introduz gargalos mais visíveis no cenário com 32~nós.
 
-\begin{figure}[hbt]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Experimento_OSTs_banda.png}
   \caption{Banda agregada média para configurações MPI-IO com 4 e 10~OSTs.}

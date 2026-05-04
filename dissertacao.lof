@@ -3,18 +3,18 @@
 \babel@toc {brazilian}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Estrutura de cenários e estágios do SDDP nos experimentos desta dissertação. Cada célula corresponde a um subproblema $(\text {estágio}, \text {cenário})$. Os cenários são mutuamente independentes e podem ser distribuídos entre \textit {ranks} MPI, caracterizando uma aplicação \textit {bag-of-tasks}.}}{6}{figure.2.1}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Estrutura de cenários e estágios do SDDP nos experimentos desta dissertação. Cada célula corresponde a um subproblema $(\text {estágio}, \text {cenário})$. Os cenários são mutuamente independentes e podem ser distribuídos entre \textit {ranks} MPI, caracterizando uma aplicação \textit {bag-of-tasks}.}}{7}{figure.2.1}%
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Algoritmo SDDP com processo escritor.}}{7}{figure.2.2}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Proposta com MPI-IO e Lustre.}}{10}{figure.3.1}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Proposta com MPI-IO e Lustre.}}{11}{figure.3.1}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{12}{figure.4.1}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média das implementações atual e MPI-IO no Experimento SDumont.}}{16}{figure.4.2}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{17}{figure.4.3}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{18}{figure.4.4}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Banda agregada média no Experimento AWS.}}{22}{figure.4.5}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Tempo de execução no Experimento AWS.}}{24}{figure.4.6}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}}{25}{figure.4.7}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Tempo médio de envio por classe de tamanho para configurações MPI-IO com 4 e 10~OSTs.}}{26}{figure.4.8}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Banda agregada média para configurações MPI-IO com 4 e 10~OSTs.}}{27}{figure.4.9}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{13}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média das implementações atual e MPI-IO no Experimento SDumont.}}{17}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{18}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{20}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Banda agregada média no Experimento AWS.}}{24}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Tempo de execução no Experimento AWS.}}{26}{figure.4.6}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}}{27}{figure.4.7}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Tempo médio de envio por classe de tamanho para configurações MPI-IO com 4 e 10~OSTs.}}{28}{figure.4.8}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Banda agregada média para configurações MPI-IO com 4 e 10~OSTs.}}{29}{figure.4.9}%
 \addvspace {10\p@ }
