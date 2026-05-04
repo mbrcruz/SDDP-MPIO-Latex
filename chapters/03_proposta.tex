@@ -1,0 +1,86 @@
+\chapter{Paralelização dos Mecanismos de E/S do SDDP}
+\label{cap:proposta}
+
+Este capítulo apresenta a proposta de paralelização dos mecanismos de
+entrada e saída (E/S) do SDDP. A solução substitui o modelo centralizado,
+no qual um único \textit{rank} recebe os \textit{buffers} de todos os
+processos e realiza a escrita, por uma organização baseada em MPI-IO sobre
+o sistema de arquivos Lustre. Nessa abordagem, cada \textit{rank} grava
+diretamente seus próprios resultados em regiões independentes do espaço de
+saída, evitando a concentração das operações de E/S em um único processo.
+
+O ponto central da proposta é explorar, simultaneamente, o paralelismo da
+aplicação MPI e o paralelismo do sistema de arquivos. Como os resultados
+produzidos por diferentes \textit{ranks} são independentes, suas escritas
+podem ser posicionadas previamente e executadas em paralelo. No Lustre, os
+arquivos são distribuídos em \textit{stripes} entre diferentes
+\textit{Object Storage Targets} (OSTs); assim, múltiplas escritas
+independentes podem ser atendidas por OSTs distintos, aumentando a largura
+de banda agregada e reduzindo a contenção observada no modelo com escritor
+centralizado.
+
+Dessa forma, a proposta reduz dois gargalos da arquitetura original. O
+primeiro é o gargalo de comunicação, pois os dados deixam de ser enviados
+ao processo escritor antes de serem persistidos. O segundo é o gargalo de
+armazenamento, pois a escrita passa a ser distribuída entre os recursos do
+sistema de arquivos paralelo, em vez de ser serializada por um único
+\textit{rank}. A Figura~\ref{fig:SDDP_architecture2} sintetiza essa nova
+organização.
+
+\section{Uso de MPI-IO com Lustre para escalabilidade de E/S}
+A atual arquitetura da aplicação SDDP, baseada na biblioteca MPI, utiliza
+apenas um processo --- tipicamente o \textit{rank}~1 --- para executar
+todas as operações de entrada/saída (E/S). Embora esse modelo tenha sido
+suficiente em versões anteriores da aplicação, o aumento no volume de
+dados, decorrente de maior detalhamento e da complexidade algorítmica,
+passou a gerar gargalos severos de desempenho e escalabilidade. Como
+hipótese para mitigar essas limitações, propõe-se a substituição do modelo atual de E/S por uma abordagem MPI-IO, baseada na interface
+MPI-IO em conjunto com o sistema de arquivos distribuído Lustre.
+
+A interface MPI-IO, parte do padrão MPI-2, fornece mecanismos para a
+realização de operações de E/S por múltiplos processos MPI sobre arquivos
+compartilhados. Diferentemente do modelo tradicional de comunicação ponto a
+ponto (\texttt{MPI\_Send}/\texttt{MPI\_Recv}), o MPI-IO permite que cada
+processo realize operações diretas de escrita em arquivos, sem a
+necessidade de coordenação com um processo único de escrita~\cite{Rwe:99}. Essa flexibilidade
+possibilita que os próprios processos responsáveis pela computação escrevam
+seus resultados diretamente em disco, utilizando \textit{offsets} distintos
+e evitando conflitos de acesso. Isso é particularmente relevante em
+aplicações como o SDDP, em que os dados produzidos por cada \textit{rank}
+são independentes e podem ser gravados em posições previamente determinadas
+de um arquivo compartilhado, ou mesmo em arquivos separados.
+
+Aliado ao MPI-IO, propõe-se o uso do sistema de arquivos Lustre, amplamente
+adotado em ambientes de computação de alto desempenho (HPC). O Lustre foi
+projetado para oferecer alto rendimento e paralelismo no acesso a arquivos,
+distribuindo os dados entre múltiplos servidores de armazenamento (OSTs ---
+\textit{Object Storage Targets})~\cite{Pjb:02}. Essa característica torna o
+Lustre particularmente eficiente em cenários onde múltiplos nós executam
+operações simultâneas de escrita, como se espera com a integração do
+MPI-IO. A combinação das duas tecnologias permite que os \textit{ranks}
+MPI realizem operações de E/S em paralelo, aproveitando ao máximo a largura
+de banda disponível no sistema e reduzindo significativamente os gargalos
+causados pela concentração da escrita.
+
+Espera-se que essa nova arquitetura traga ganhos substanciais de
+desempenho. Primeiramente, ao eliminar o processo escritor único, a
+aplicação poderá distribuir dinamicamente a carga de E/S entre os próprios
+processos computacionais, reduzindo a sobrecarga sobre o adaptador de rede
+do nó mestre. Em segundo lugar, a redução da dependência de
+\textit{buffers} intermediários e de sincronizações entre \textit{ranks}
+minimiza a latência entre o término da computação e a persistência dos
+resultados. Além disso, a utilização do paralelismo nativo do Lustre deverá
+resultar em um melhor aproveitamento dos recursos de armazenamento,
+tornando o sistema mais escalável à medida que aumenta o número de nós.
+Por fim, essa abordagem alinha-se às boas práticas adotadas em aplicações
+científicas de larga escala, promovendo maior portabilidade, eficiência e
+adaptabilidade a infraestruturas HPC modernas. A
+Figura~\ref{fig:SDDP_architecture2} descreve o funcionamento da proposta.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=0.7\textwidth]{SDDP_architecture2.png}
+  \caption{Proposta com MPI-IO e Lustre.}
+  \label{fig:SDDP_architecture2}
+\end{figure}
+
