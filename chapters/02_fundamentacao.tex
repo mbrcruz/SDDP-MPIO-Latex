@@ -129,29 +129,32 @@ $(\text{estágio}, \text{cenário})$, em que os estágios representam
 períodos discretos da operação --- meses, no caso da operação
 programada do SIN --- e os cenários representam realizações
 estocásticas das variáveis relevantes, principalmente afluências aos
-reservatórios. O algoritmo opera em duas fases iterativas: na passada
-\textit{forward}, percorre os estágios do primeiro ao último,
-resolvendo cada subproblema sob a política corrente para gerar
-trajetórias de operação; na passada \textit{backward}, percorre os
-estágios em sentido inverso, agregando os multiplicadores duais para
-construir cortes de Benders que aproximam a função de custo futuro.
-Cada iteração refina a política, e o procedimento é repetido até a
-convergência.
+reservatórios. A solução do problema é construída de forma iterativa,
+combinando simulações ao longo dos cenários e refinamentos da política
+de operação até a convergência.
 
 A Figura~\ref{fig:SDDP_cenarios_estagios} esquematiza a estrutura de
-subproblemas resolvida a cada passada do SDDP nas configurações
-adotadas nos experimentos desta dissertação: três estágios mensais e
-$1\,536$ cenários, totalizando $4\,608$ subproblemas independentes por
-iteração. A independência entre os cenários de um mesmo estágio é a
-propriedade que viabiliza a paralelização da passada \textit{forward}:
-os cenários são distribuídos entre os \textit{ranks} MPI e resolvidos
-simultaneamente, de modo que o tempo total da passada fica limitado
-pelo cenário mais lento de cada estágio e não pela soma sequencial.
+subproblemas resolvida pelo SDDP nas configurações adotadas nos
+experimentos desta dissertação: três estágios mensais e $1\,536$
+cenários, totalizando $4\,608$ subproblemas. Os cenários são, por
+construção, independentes entre si --- cada cenário corresponde a uma
+realização estocástica distinta, sem compartilhamento de estado com os
+demais. Essa propriedade caracteriza o SDDP como uma aplicação do tipo
+\textit{bag-of-tasks}~\cite{Cirne:2003}: um conjunto de tarefas
+mutuamente independentes que podem ser distribuídas entre processadores
+sem coordenação durante a execução. Os cenários são particionados entre
+os \textit{ranks} MPI e resolvidos em paralelo, de modo que o tempo
+total da fase de simulação fica limitado pelo cenário mais lento e não
+pela soma sequencial de todos. A natureza \textit{bag-of-tasks} do SDDP
+é o que torna o algoritmo escalável em sistemas HPC; é também o que
+desloca o gargalo da computação para a persistência dos resultados, à
+medida que o número de cenários cresce.
+
 Após a resolução, os resultados de cada subproblema --- variáveis
-primais, multiplicadores duais e custos --- precisam ser persistidos
-em disco, pois alimentam tanto a passada \textit{backward} subsequente
-quanto análises estatísticas posteriores. É precisamente nesse ponto
-de persistência massiva que se manifesta o gargalo de E/S investigado
+primais, multiplicadores duais e custos --- precisam ser persistidos em
+disco, pois alimentam etapas subsequentes do próprio algoritmo e
+análises estatísticas posteriores. É precisamente nesse ponto de
+persistência massiva que se manifesta o gargalo de E/S investigado
 neste trabalho: o volume agregado escrito por iteração cresce com o
 número de cenários e com a granularidade dos dados produzidos, e a
 estratégia de implementação dessas escritas determina diretamente a
@@ -162,9 +165,9 @@ escalabilidade da aplicação em ambientes HPC.
   \includegraphics[width=\textwidth]{SDDP_cenarios_estagios.png}
   \caption{Estrutura de cenários e estágios do SDDP nos experimentos
   desta dissertação. Cada célula corresponde a um subproblema
-  $(\text{estágio}, \text{cenário})$ resolvido por um \textit{rank}
-  MPI; os subproblemas de um mesmo estágio são independentes entre si
-  e podem ser executados em paralelo na passada \textit{forward}.}
+  $(\text{estágio}, \text{cenário})$. Os cenários são mutuamente
+  independentes e podem ser distribuídos entre \textit{ranks} MPI,
+  caracterizando uma aplicação \textit{bag-of-tasks}.}
   \label{fig:SDDP_cenarios_estagios}
 \end{figure}
 

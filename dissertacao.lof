@@ -3,7 +3,7 @@
 \babel@toc {brazilian}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Estrutura de cenários e estágios do SDDP nos experimentos desta dissertação. Cada célula corresponde a um subproblema $(\text {estágio}, \text {cenário})$ resolvido por um \textit {rank} MPI; os subproblemas de um mesmo estágio são independentes entre si e podem ser executados em paralelo na passada \textit {forward}.}}{6}{figure.2.1}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Estrutura de cenários e estágios do SDDP nos experimentos desta dissertação. Cada célula corresponde a um subproblema $(\text {estágio}, \text {cenário})$. Os cenários são mutuamente independentes e podem ser distribuídos entre \textit {ranks} MPI, caracterizando uma aplicação \textit {bag-of-tasks}.}}{6}{figure.2.1}%
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Algoritmo SDDP com processo escritor.}}{7}{figure.2.2}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Proposta com MPI-IO e Lustre.}}{10}{figure.3.1}%
