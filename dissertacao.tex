@@ -691,9 +691,8 @@ A Figura~\ref{fig:Tempo_execucao_SDumont} detalha o tempo médio por
 processo no Experimento SDumont, separando as parcelas de computação,
 comunicação, E/S e Coordenação MPI-IO. A parcela Coordenação MPI-IO
 corresponde às chamadas
-\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}. As parcelas de E/S e
-de Coordenação MPI-IO estão embutidas no tempo de simulação e não devem
-ser somadas novamente ao total. Em 2~nós, a implementação MPI-IO
+\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}. As barras de erro indicam somente o
+desvio padrão do tempo de execução total. Em 2~nós, a implementação MPI-IO
 apresenta tempo total superior ao da implementação atual, pois o custo
 dessas operações de coordenação e da própria camada MPI-IO ainda pesa de
 forma significativa. Nas configurações com 4, 8 e 16~nós, a versão MPI-IO
@@ -714,8 +713,7 @@ coordenação associados ao uso de MPI-IO no SDumont.
   \centering
   \includegraphics[width=\textwidth]{Tempo_execucao_SDumont.png}
   \caption{Decomposição do tempo médio por processo das implementações
-  atual e MPI-IO no Experimento SDumont; Coordenação MPI-IO =
-  \texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}.}
+  atual e MPI-IO no Experimento SDumont.}
   \label{fig:Tempo_execucao_SDumont}
 \end{figure}
 
@@ -987,6 +985,8 @@ disponível, tornando a aplicação adequada para execuções em larga escala.
 
 A Figura~\ref{fig:Tempo_execucao_AWS} apresenta a evolução do tempo total
 de execução no Experimento AWS, contrastando a implementação atual e a implementação MPI-IO sobre o Lustre.
+As barras de erro representam apenas o desvio padrão do tempo de execução
+total, e não desvios individuais das parcelas internas.
 Nas configurações de menor escala, em que a E/S não é o componente
 dominante, as duas curvas evoluem de forma muito próxima: em 2~nós,
 $8{,}97 \times 10^{3}$~s no modelo atual contra $8{,}85 \times
@@ -1033,8 +1033,7 @@ implementação atual em todas as escalas avaliadas.
 \begin{figure}[hbt]
   \centering
   \includegraphics[width=\textwidth]{Tempo_execucao_AWS.png}
-  \caption{Tempo de execução no Experimento AWS; Coordenação MPI-IO =
-  \texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}.}
+  \caption{Tempo de execução no Experimento AWS.}
   \label{fig:Tempo_execucao_AWS}
 \end{figure}
 
