@@ -721,20 +721,22 @@ coordenação associados ao uso de MPI-IO no SDumont.
 
 A Figura~\ref{fig:EnvioPorTamanho_SDumont} apresenta o tempo médio de
 bloqueio das operações de envio em função do tamanho dos blocos de dados no
-Experimento SDumont, em escala logarítmica. A comparação mostra
-comportamentos distintos conforme o tamanho do bloco de dados. Para blocos de dados
-muito pequenos, a implementação atual apresenta tempos de envio menores,
-pois evita o custo fixo das chamadas MPI-IO. Para blocos de dados maiores,
-especialmente nas classes de 100~MB e 50~MB, a implementação MPI-IO reduz
-substancialmente o tempo de bloqueio em relação ao modelo centralizado.
+Experimento SDumont, em escala logarítmica. Para blocos de dados pequenos,
+até 1~KB, a implementação atual permanece na ordem de microssegundos,
+enquanto a implementação MPI-IO passa para a ordem de décimos de segundo.
+Essa diferença indica que, nessa classe, o custo fixo de abertura,
+coordenação e atualização de metadados não é amortizado pelo volume de
+dados transferido. Como o SDumont utiliza um MDS/MDT único, o efeito torna
+mais perceptível a pressão exercida pelo caminho de metadados do Lustre.
 
-Esse resultado mostra que o benefício da escrita paralela torna-se mais
-relevante quando o volume transferido por operação é maior. Na
-implementação atual, blocos de dados grandes pressionam o processo escritor e
-elevam o tempo de bloqueio à medida que o número de nós cresce. Na
-implementação MPI-IO, a distribuição das escritas pelo sistema de
-arquivos Lustre reduz essa contenção, ainda que blocos de dados pequenos
-e intermediários possam sofrer impacto do custo fixo de coordenação.
+Nas classes médias e grandes, o comportamento se inverte. A implementação
+atual passa a acumular tempos de bloqueio elevados porque os blocos de dados
+pressionam o processo escritor centralizado. A implementação MPI-IO, por sua
+vez, distribui as escritas pelo sistema de arquivos Lustre e reduz
+substancialmente o tempo de bloqueio, sobretudo nas classes de maior volume.
+Assim, a figura evidencia um ponto de troca: para blocos pequenos, o custo de
+coordenação e metadados domina; para blocos maiores, a escrita paralela reduz
+a contenção do escritor único.
 
 \begin{figure}[hbt]
   \centering
@@ -1037,24 +1039,24 @@ implementação atual em todas as escalas avaliadas.
 \end{figure}
 
 A Figura~\ref{fig:EnvioPorTamanho_AWS} apresenta o tempo médio de
-bloqueio das operações de E/S, em segundos, em função do tamanho das
+bloqueio das operações de E/S, em segundos, em função do tamanho dos
 blocos de dados no Experimento AWS, em escala logarítmica. A comparação mostra
 que, para blocos de dados muito pequenos, a implementação atual apresenta
-tempos menores, pois o custo fixo da chamada MPI-IO se torna dominante.
-Esse efeito, contudo, ocorre em uma faixa de tempo muito baixa, da ordem
-de microssegundos a poucos milissegundos, e não determina o tempo total
-da aplicação.
+tempos menores, pois o custo fixo das chamadas MPI-IO se torna dominante em
+relação ao volume transferido. Esse efeito, contudo, ocorre em uma faixa de
+tempo baixa, da ordem de microssegundos a poucos milissegundos, e não
+determina o tempo total da aplicação.
 
 Para blocos de dados médios e grandes, que concentram o impacto de E/S nas
 maiores escalas, o comportamento se inverte. Em 16 e 32~nós, a
 implementação atual passa a apresentar tempos de bloqueio elevados nas
-classes de maior tamanho, chegando à ordem de segundos nas maiores
-classes de blocos de dados, enquanto a implementação MPI-IO permanece na ordem de
-centésimos ou décimos de segundo. Assim, a figura reforça o diagnóstico
-das Figuras~\ref{fig:Banda_AWS} e~\ref{fig:Tempo_execucao_AWS}: a
-abordagem com escritor único é competitiva apenas em pequena escala ou
-para blocos de dados muito pequenos, mas perde escalabilidade quando o volume
-de dados e a concorrência entre processos aumentam.
+classes de maior tamanho, chegando à ordem de segundos, enquanto a
+implementação MPI-IO permanece na ordem de centésimos ou décimos de segundo.
+Assim, a figura reforça o diagnóstico das Figuras~\ref{fig:Banda_AWS}
+e~\ref{fig:Tempo_execucao_AWS}: a abordagem com escritor único é competitiva
+apenas em pequena escala ou para blocos de dados muito pequenos, mas perde
+escalabilidade quando o volume de dados e a concorrência entre processos
+aumentam.
 
 \begin{figure}[hbt]
   \centering

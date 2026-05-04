@@ -1,7 +1,9 @@
 ## Correções pequenas
 
-- Padronizacao das cores das figuras 
 
+- Coordenação MPI-IO = MPI_File_Open/MPI_-
+File_Close.
+- Padronizacao das cores das figuras 
 - Desvio padrão computação está errado no SDumont
 - Desvio padrão de blocos pequenos com muito outlier 
 - Figura de blocos de dados -  dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado.
