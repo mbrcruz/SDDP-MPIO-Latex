@@ -1,4 +1,4 @@
-This is makeindex, version 2.16 [MiKTeX 25.12].
+This is makeindex, version 2.15 [TeX Live 2022/dev] (kpathsea + Thai support).
 Scanning style file ./coppe.ist....
 ** Input style error (file = ./coppe.ist, line = 55):
    -- Unknown specifier lethead_flag.

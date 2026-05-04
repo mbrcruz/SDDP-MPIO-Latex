@@ -269,9 +269,52 @@ um instrumento fundamental para a gestão integrada e eficiente do
 SIN~\cite{ons:23}.
 
 \section{Algoritmo SDDP}
-\textcolor{red}{\textbf{ToDO: SDDP deve ser detalhado aqui, bem como sua
-E/S atual.}}
-\textcolor{red}{\textbf{ToDp: colocar figura cenários $\times$ estágios.}}
+O algoritmo SDDP (\textit{Stochastic Dual Dynamic Programming}),
+proposto por~\cite{MvLm:91}, decompõe o problema de planejamento
+hidrotérmico em uma malha bidimensional de subproblemas
+determinísticos: cada subproblema é indexado por um par
+$(\text{estágio}, \text{cenário})$, em que os estágios representam
+períodos discretos da operação --- meses, no caso da operação
+programada do SIN --- e os cenários representam realizações
+estocásticas das variáveis relevantes, principalmente afluências aos
+reservatórios. O algoritmo opera em duas fases iterativas: na passada
+\textit{forward}, percorre os estágios do primeiro ao último,
+resolvendo cada subproblema sob a política corrente para gerar
+trajetórias de operação; na passada \textit{backward}, percorre os
+estágios em sentido inverso, agregando os multiplicadores duais para
+construir cortes de Benders que aproximam a função de custo futuro.
+Cada iteração refina a política, e o procedimento é repetido até a
+convergência.
+
+A Figura~\ref{fig:SDDP_cenarios_estagios} esquematiza a estrutura de
+subproblemas resolvida a cada passada do SDDP nas configurações
+adotadas nos experimentos desta dissertação: três estágios mensais e
+$1\,536$ cenários, totalizando $4\,608$ subproblemas independentes por
+iteração. A independência entre os cenários de um mesmo estágio é a
+propriedade que viabiliza a paralelização da passada \textit{forward}:
+os cenários são distribuídos entre os \textit{ranks} MPI e resolvidos
+simultaneamente, de modo que o tempo total da passada fica limitado
+pelo cenário mais lento de cada estágio e não pela soma sequencial.
+Após a resolução, os resultados de cada subproblema --- variáveis
+primais, multiplicadores duais e custos --- precisam ser persistidos
+em disco, pois alimentam tanto a passada \textit{backward} subsequente
+quanto análises estatísticas posteriores. É precisamente nesse ponto
+de persistência massiva que se manifesta o gargalo de E/S investigado
+neste trabalho: o volume agregado escrito por iteração cresce com o
+número de cenários e com a granularidade dos dados produzidos, e a
+estratégia de implementação dessas escritas determina diretamente a
+escalabilidade da aplicação em ambientes HPC.
+
+\begin{figure}[hbt]
+  \centering
+  \includegraphics[width=\textwidth]{SDDP_cenarios_estagios.png}
+  \caption{Estrutura de cenários e estágios do SDDP nos experimentos
+  desta dissertação. Cada célula corresponde a um subproblema
+  $(\text{estágio}, \text{cenário})$ resolvido por um \textit{rank}
+  MPI; os subproblemas de um mesmo estágio são independentes entre si
+  e podem ser executados em paralelo na passada \textit{forward}.}
+  \label{fig:SDDP_cenarios_estagios}
+\end{figure}
 
 \subsection{Arquitetura atual de E/S do SDDP com um único processo escritor}
 \label{sec:arq_atual}
@@ -662,22 +705,9 @@ implementação atual torna-se dominante, levando à queda progressiva da
 banda agregada. A implementação MPI-IO reduz esse gargalo ao distribuir
 as operações de E/S, mas também apresenta queda de desempenho nas maiores
 configurações, indicando que a escalabilidade no SDumont é limitada por
-fatores adicionais da infraestrutura de armazenamento e pela concorrência
-entre os processos.
-
-Um possível gargalo adicional no Experimento SDumont está associado ao
-subsistema de metadados do Lustre. A configuração utilizada possui um
-único MDS/MDT, responsável por manter o espaço de nomes, atributos,
-permissões, layouts e alocação inicial dos objetos de arquivos; embora o
-fluxo de dados seja transferido diretamente entre clientes e OSTs após a
-abertura dos arquivos, operações como criação, abertura, fechamento e
-atualização de metadados continuam passando pelo MDT e pelo gerenciador
-distribuído de locks do Lustre~\cite{Pjb:02,LustreManual}. Assim, quando
-diversos \textit{ranks} executam operações de E/S concorrentes, a
-contenção por \textit{metadata locks} e a serialização parcial de
-operações no MDT podem limitar a escalabilidade, explicando a
-variabilidade e a queda de banda observadas mesmo após a remoção do
-processo escritor centralizado.
+fatores adicionais da infraestrutura de armazenamento --- detalhados a
+seguir na decomposição por categoria de bloco
+(Figura~\ref{fig:EnvioPorTamanho_SDumont}).
 
 \begin{figure}[hbt]
   \centering
@@ -718,23 +748,58 @@ coordenação associados ao uso de MPI-IO no SDumont.
 \end{figure}
 
 A Figura~\ref{fig:EnvioPorTamanho_SDumont} apresenta o tempo médio de
-bloqueio das operações de envio em função do tamanho dos blocos de dados no
-Experimento SDumont, em escala logarítmica. Para blocos de dados pequenos,
-até 1~KB, a implementação atual permanece na ordem de microssegundos,
-enquanto a implementação MPI-IO passa para a ordem de décimos de segundo.
-Essa diferença indica que, nessa classe, o custo fixo de abertura,
-coordenação e atualização de metadados não é amortizado pelo volume de
-dados transferido. Como o SDumont utiliza um MDS/MDT único, o efeito torna
-mais perceptível a pressão exercida pelo caminho de metadados do Lustre.
+bloqueio das operações de envio em função do tamanho dos blocos de dados
+no Experimento SDumont, em escala logarítmica, organizada em quatro
+painéis --- um por categoria de tamanho.
 
-Nas classes médias e grandes, o comportamento se inverte. A implementação
-atual passa a acumular tempos de bloqueio elevados porque os blocos de dados
-pressionam o processo escritor centralizado. A implementação MPI-IO, por sua
-vez, distribui as escritas pelo sistema de arquivos Lustre e reduz
-substancialmente o tempo de bloqueio, sobretudo nas classes de maior volume.
-Assim, a figura evidencia um ponto de troca: para blocos pequenos, o custo de
-coordenação e metadados domina; para blocos maiores, a escrita paralela reduz
-a contenção do escritor único.
+O painel (a), correspondente a blocos de até 1~KB, evidencia o principal
+gargalo adicional do Experimento SDumont. Enquanto a implementação atual
+mantém o tempo de envio na ordem de microssegundos --- pois a operação
+reduz-se a um \texttt{MPI\_Send} para o \textit{rank} escritor ---, a
+implementação MPI-IO passa para a ordem de centenas de milissegundos a
+alguns segundos por chamada, com o tempo crescendo monotonicamente com o
+número de nós.
+
+Esse padrão é compatível com o regime de saturação do caminho de dados
+do Lustre quando muitos clientes emitem escritas pequenas concorrentes
+sobre um mesmo arquivo já aberto. O efeito não pode ser atribuído a
+operações de criação, abertura ou fechamento, pois essas ocorrem uma
+única vez por arquivo, fora do laço de escritas. Cada
+\texttt{MPI\_File\_write\_at} independente paga, no cliente, um custo
+fixo de \textit{setup} da chamada e, no servidor, ao menos uma RPC ao
+OSS que hospeda o OST do \textit{offset} de destino; em RPCs pequenas,
+o tempo de ida-e-volta domina sobre o tempo de transferência da carga
+útil. Adicionalmente, escritas concorrentes a regiões distintas do
+mesmo arquivo demandam aquisição e liberação de \textit{extent locks}
+pelo \textit{Lustre Distributed Lock Manager} (LDLM), gerenciados pelos
+OSS, cujo custo é independente do tamanho do bloco
+escrito~\cite{Pjb:02,LustreManual}. Com 384 \textit{ranks} em 16~nós
+emitindo RPCs simultâneas e disputando \textit{extent locks}, esses dois
+fatores combinados explicam o crescimento do tempo médio por chamada com
+o número de nós. Uma confirmação experimental dirigida dessa hipótese
+--- por meio de \textit{benchmark} sintético (IOR) e contadores
+\texttt{lctl} do Lustre durante a execução --- é deixada como trabalho
+futuro.
+
+Nos painéis (b)--(d), referentes a blocos médios e grandes, o
+comportamento se inverte: o custo fixo da camada MPI-IO é amortizado
+pelo volume transferido, e a implementação MPI-IO apresenta tempos de
+bloqueio significativamente menores que a implementação atual, que
+sofre com a saturação do processo escritor único. Em 16~nós, por
+exemplo, a categoria ``até 1~MB'' reduz o tempo médio de envio de
+aproximadamente 16~s na implementação atual para cerca de 0,2~s na
+MPI-IO --- redução de aproximadamente duas ordens de grandeza.
+
+Em conjunto, os painéis evidenciam um ponto de troca: para blocos
+pequenos, o custo fixo por chamada e a contenção no caminho de dados do
+Lustre dominam e penalizam a abordagem MPI-IO; para blocos médios e
+grandes, a escrita paralela reduz substancialmente a contenção do
+escritor único. Esse comportamento --- penalidade severa apenas em
+blocos pequenos, ganho preservado em blocos maiores --- também contribui
+para explicar a queda de banda agregada da
+Figura~\ref{fig:Banda_SDumont} nas maiores escalas, em que a fração de
+chamadas pequenas concorrentes sobre o sistema de arquivos cresce com o
+número de \textit{ranks}.
 
 \begin{figure}[hbt]
   \centering
