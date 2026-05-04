@@ -339,22 +339,7 @@ Esse padrão é compatível com o regime de saturação do caminho de dados
 do Lustre quando muitos clientes emitem escritas pequenas concorrentes
 sobre um mesmo arquivo já aberto. O efeito não pode ser atribuído a
 operações de criação, abertura ou fechamento, pois essas ocorrem uma
-única vez por arquivo, fora do laço de escritas. Cada
-\texttt{MPI\_File\_write\_at} independente paga, no cliente, um custo
-fixo de \textit{setup} da chamada e, no servidor, ao menos uma RPC ao
-OSS que hospeda o OST do \textit{offset} de destino; em RPCs pequenas,
-o tempo de ida-e-volta domina sobre o tempo de transferência da carga
-útil. Adicionalmente, escritas concorrentes a regiões distintas do
-mesmo arquivo demandam aquisição e liberação de \textit{extent locks}
-pelo \textit{Lustre Distributed Lock Manager} (LDLM), gerenciados pelos
-OSS, cujo custo é independente do tamanho do bloco
-escrito~\cite{Pjb:02,LustreManual}. Com 384 \textit{ranks} em 16~nós
-emitindo RPCs simultâneas e disputando \textit{extent locks}, esses dois
-fatores combinados explicam o crescimento do tempo médio por chamada com
-o número de nós. Uma confirmação experimental dirigida dessa hipótese
---- por meio de \textit{benchmark} sintético (IOR) e contadores
-\texttt{lctl} do Lustre durante a execução --- é deixada como trabalho
-futuro.
+única vez por arquivo, fora do laço de escritas.
 
 Nos painéis (b)--(d), referentes a blocos médios e grandes, o
 comportamento se inverte: o custo fixo da camada MPI-IO é amortizado
