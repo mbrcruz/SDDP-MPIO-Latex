@@ -8,45 +8,45 @@ Warning--empty journal in Ajc:10
 Warning--empty journal in Ssr:19
 Warning--empty journal in Fds:03
 Warning--empty journal in Hmns:20
-You've used 22 entries,
+You've used 21 entries,
             2630 wiz_defined-function locations,
-            657 strings with 6699 characters,
-and the built_in function-call counts, 7295 in all, are:
-= -- 595
-> -- 197
-< -- 24
-+ -- 106
-- -- 59
-* -- 523
-:= -- 1034
-add.period$ -- 72
-call.type$ -- 22
-change.case$ -- 22
-chr.to.int$ -- 19
-cite$ -- 27
-duplicate$ -- 512
-empty$ -- 862
-format.name$ -- 83
-if$ -- 1609
+            649 strings with 6464 characters,
+and the built_in function-call counts, 6912 in all, are:
+= -- 559
+> -- 190
+< -- 22
++ -- 102
+- -- 57
+* -- 487
+:= -- 980
+add.period$ -- 68
+call.type$ -- 21
+change.case$ -- 21
+chr.to.int$ -- 18
+cite$ -- 26
+duplicate$ -- 488
+empty$ -- 820
+format.name$ -- 80
+if$ -- 1527
 int.to.chr$ -- 4
-int.to.str$ -- 23
-missing$ -- 16
-newline$ -- 102
-num.names$ -- 66
-pop$ -- 249
+int.to.str$ -- 22
+missing$ -- 15
+newline$ -- 97
+num.names$ -- 63
+pop$ -- 243
 preamble$ -- 1
-purify$ -- 22
+purify$ -- 21
 quote$ -- 0
-skip$ -- 265
+skip$ -- 254
 stack$ -- 0
-substring$ -- 166
-swap$ -- 139
-text.length$ -- 4
+substring$ -- 144
+swap$ -- 132
+text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 154
+type$ -- 147
 warning$ -- 5
-while$ -- 54
+while$ -- 50
 width$ -- 0
-write$ -- 259
+write$ -- 245
 (There were 5 warnings)

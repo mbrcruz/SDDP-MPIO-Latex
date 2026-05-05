@@ -1,4 +1,4 @@
-\begin{thebibliography}{22}
+\begin{thebibliography}{21}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -105,13 +105,6 @@
 \MakeUppercase{{TODO}}.
 \newblock \coppeenquote{{TODO: granularidade de operações de E/S e
   desempenho}}. In: \emph{{TODO}}, 2009.
-
-\bibitem[\MakeUppercase{Nikolopoulos}(2004)Nikolopoulos]{Nikolopoulos:04}
-\MakeUppercase{Nikolopoulos, D.~S.}
-\newblock \coppeenquote{Dynamic Tiling for Effective Use of Shared Caches on
-  Multithreaded Processors}, \emph{International Journal of High Performance
-  Computing and Networking}, v.~2, n.~1, \penalty0 pp.~22--35, 2004.
-\newblock \doi{10.1504/IJHPCN.2004.009265}.
 
 \bibitem[\MakeUppercase{Amdahl}(1967)Amdahl]{Amdahl:67}
 \MakeUppercase{Amdahl, G.~M.}

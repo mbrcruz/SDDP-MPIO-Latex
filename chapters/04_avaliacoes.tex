@@ -18,12 +18,11 @@ experimentos (AWS e SDumont), com três estágios mensais.
 Como cada \textit{rank} MPI apresentou consumo de memória residente
 superior a 8~GB, optou-se, em ambos os experimentos, por mapear apenas
 um \textit{rank} por núcleo físico --- isto é, sem o uso do
-\textit{hyper-threading}. Essa decisão evita que dois \textit{ranks}
-compartilhando o mesmo núcleo físico disputem a mesma hierarquia de
-memória, situação em que o tempo de simulação tende a ser dominado por
-\textit{cache thrashing} e por pressão sobre o subsistema de
-memória~\cite{Nikolopoulos:04}.
-O número de \textit{ranks} por nó foi, portanto, fixado no número de
+\textit{hyper-threading}. Essa decisão é imposta pela memória total
+disponível por nó: com 384~GB por nó nos dois ambientes, ativar
+\textit{hyper-threading} e dobrar o número de \textit{ranks}
+ultrapassaria a memória física agregada, inviabilizando a execução. O
+número de \textit{ranks} por nó foi, portanto, fixado no número de
 núcleos físicos da instância correspondente.
 
 Os experimentos conduzidos neste trabalho caracterizam um cenário de
