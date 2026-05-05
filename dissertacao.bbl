@@ -6,38 +6,48 @@
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 \newcommand{\coppeenquote}[1]{``#1''}
 
-\bibitem[\MakeUppercase{{TODO: autor}}(2024){TODO: autor}]{refNeeed}
-\MakeUppercase{{TODO: autor}}.
-\newblock \coppeenquote{{TODO: título da referência sobre paralelismo em
-  ciência e engenharia}}. 2024.
-\newblock Placeholder --- substituir pela referência correta.
+\bibitem[\MakeUppercase{Grama}\emph{ et~al.}(2003)Grama, Gupta, Karypis, e
+  Kumar]{refNeeed}
+\MakeUppercase{Grama, A., Gupta, A., Karypis, G., \MakeLowercase{et~al.}}
+\newblock \emph{Introduction to Parallel Computing}.
+\newblock 2 ed. Boston, MA, Addison-Wesley, 2003.
+\newblock ISBN: 9780201648652.
 
 \bibitem[\MakeUppercase{Thakur}\emph{ et~al.}(1999)Thakur, Gropp, e
   Lusk]{Rwe:99}
 \MakeUppercase{Thakur, R., Gropp, W., Lusk, E.}
 \newblock \coppeenquote{On Implementing {MPI-IO} Portably and with High
-  Performance}, \emph{Proc.\ of the 6th Workshop on I/O in Parallel and
+  Performance}, \emph{Proceedings of the 6th Workshop on I/O in Parallel and
   Distributed Systems}, pp. 23--32, 1999.
 
-\bibitem[\MakeUppercase{{TODO}}(2010{\natexlab{a}}){TODO}]{Rr:10}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{{TODO: trabalho sobre MPI-IO / Lustre /
-  escalabilidade}}, 2010{\natexlab{a}}.
+\bibitem[\MakeUppercase{Ross}\emph{ et~al.}(2010)Ross, Thakur, e Gropp]{Rr:10}
+\MakeUppercase{Ross, R., Thakur, R., Gropp, W.}
+\newblock \emph{Parallel {I/O} for High Performance Computing}.
+\newblock  Burlington, MA, Morgan Kaufmann, 2010.
 
 \bibitem[\MakeUppercase{Braam}(2002)Braam]{Pjb:02}
 \MakeUppercase{Braam, P.~J.}
 \newblock \coppeenquote{The {Lustre} Storage Architecture}, \emph{Cluster File
   Systems Inc.}, 2002.
 
-\bibitem[\MakeUppercase{{TODO}}(2010{\natexlab{b}}){TODO}]{Ajc:10}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{{TODO: integração de fontes renováveis em sistemas
-  elétricos}}, 2010{\natexlab{b}}.
+\bibitem[\MakeUppercase{Conejo}\emph{ et~al.}(2010)Conejo, Carri\'on, e
+  Morales]{Ajc:10}
+\MakeUppercase{Conejo, A.~J., Carri\'on, M., Morales, J.~M.}
+\newblock \emph{Decision Making Under Uncertainty in Electricity Markets}, v.
+  153, \emph{International Series in Operations Research \& Management
+  Science}.
+\newblock  New York, NY, Springer, 2010.
+\newblock ISBN: 9781441974211.
+\newblock \doi{10.1007/978-1-4419-7421-1}.
 
-\bibitem[\MakeUppercase{{TODO}}(2019){TODO}]{Ssr:19}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{{TODO: variabilidade/incerteza de fontes renováveis}},
-  2019.
+\bibitem[\MakeUppercase{Zakaria}\emph{ et~al.}(2020)Zakaria, Ismail, Lipu, e
+  Hannan]{Ssr:19}
+\MakeUppercase{Zakaria, A., Ismail, F.~B., Lipu, M. S.~H.,
+  \MakeLowercase{et~al.}}
+\newblock \coppeenquote{Uncertainty Models for Stochastic Optimization in
+  Renewable Energy Applications}, \emph{Renewable Energy}, v.~145, \penalty0
+  pp.~1543--1571, 2020.
+\newblock \doi{10.1016/j.renene.2019.07.081}.
 
 \bibitem[\MakeUppercase{Pereira} e \MakeUppercase{Pinto}(1991)Pereira e
   Pinto]{MvLm:91}
@@ -53,15 +63,21 @@
   4.1}. 2023.
 \newblock \url{https://www.mpi-forum.org/}.
 
-\bibitem[\MakeUppercase{{TODO}}(1999){TODO}]{Wea:99}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{{TODO: protocolos eager/rendezvous em MPI}}. In:
-  \emph{{TODO}}, 1999.
+\bibitem[\MakeUppercase{Gropp}\emph{ et~al.}(1999)Gropp, Lusk, e
+  Skjellum]{Wea:99}
+\MakeUppercase{Gropp, W., Lusk, E., Skjellum, A.}
+\newblock \emph{Using {MPI}: Portable Parallel Programming with the
+  Message-Passing Interface}.
+\newblock 2 ed. Cambridge, MA, MIT Press, 1999.
+\newblock ISBN: 9780262571326.
 
-\bibitem[\MakeUppercase{{TODO}}(2005{\natexlab{a}}){TODO}]{Rrw:05}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{{TODO: análise de custo de comunicação MPI}}. In:
-  \emph{{TODO}}, 2005{\natexlab{a}}.
+\bibitem[\MakeUppercase{Thakur}\emph{ et~al.}(2005)Thakur, Rabenseifner, e
+  Gropp]{Rrw:05}
+\MakeUppercase{Thakur, R., Rabenseifner, R., Gropp, W.}
+\newblock \coppeenquote{Optimization of Collective Communication Operations in
+  {MPICH}}, \emph{The International Journal of High Performance Computing
+  Applications}, v.~19, n.~1, \penalty0 pp.~49--66, 2005.
+\newblock \doi{10.1177/1094342005051521}.
 
 \bibitem[\MakeUppercase{{Message Passing Interface Forum}}(1997){Message
   Passing Interface Forum}]{mpiioCite}
@@ -70,23 +86,42 @@
   1997.
 \newblock Specification.
 
-\bibitem[\MakeUppercase{{TODO}}(2003){TODO}]{Fds:03}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{{TODO: comparação Ethernet x InfiniBand}}, 2003.
+\bibitem[\MakeUppercase{Petrini}\emph{ et~al.}(2003)Petrini, Kerbyson, e
+  Pakin]{Fds:03}
+\MakeUppercase{Petrini, F., Kerbyson, D.~J., Pakin, S.}
+\newblock \coppeenquote{The Case of the Missing Supercomputer Performance:
+  Achieving Optimal Performance on the 8,192 Processors of {ASCI Q}}. In:
+  \emph{Proceedings of the 2003 ACM/IEEE Conference on Supercomputing}, p.~55.
+  ACM, 2003.
+\newblock \doi{10.1145/1048935.1050204}.
 
-\bibitem[\MakeUppercase{{TODO}}(2005{\natexlab{b}}){TODO}]{RlGmmts:05}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{{TODO: RDMA / InfiniBand em HPC}}. In: \emph{{TODO}},
-  2005{\natexlab{b}}.
+\bibitem[\MakeUppercase{Graham}\emph{ et~al.}(2005)Graham, Shipman, Barrett,
+  Castain, Bosilca, e Lumsdaine]{RlGmmts:05}
+\MakeUppercase{Graham, R.~L., Shipman, G.~M., Barrett, B.~W.,
+  \MakeLowercase{et~al.}}
+\newblock \coppeenquote{Open {MPI}: A High-Performance, Heterogeneous {MPI}}.
+  In: \emph{Proceedings of the 5th International Workshop on Algorithms, Models
+  and Tools for Parallel Computing on Heterogeneous Networks}, 2005.
 
-\bibitem[\MakeUppercase{{TODO}}(2010{\natexlab{c}}){TODO}]{Krlkssj:10}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{{TODO: HPC em nuvem}}. In: \emph{{TODO}},
-  2010{\natexlab{c}}.
+\bibitem[\MakeUppercase{Jackson}\emph{ et~al.}(2010)Jackson, Ramakrishnan,
+  Muriki, Canon, Cholia, Shalf, Wasserman, e Wright]{Krlkssj:10}
+\MakeUppercase{Jackson, K.~R., Ramakrishnan, L., Muriki, K.,
+  \MakeLowercase{et~al.}}
+\newblock \coppeenquote{Performance Analysis of High Performance Computing
+  Applications on the {Amazon Web Services} Cloud}. In: \emph{Proceedings of
+  the 2010 IEEE Second International Conference on Cloud Computing Technology
+  and Science}, pp. 159--168. IEEE, 2010.
+\newblock \doi{10.1109/CloudCom.2010.69}.
 
-\bibitem[\MakeUppercase{{TODO}}(2020){TODO}]{Hmns:20}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{{TODO: AWS / FSx for Lustre / EFA para HPC}}, 2020.
+\bibitem[\MakeUppercase{Tran} e \MakeUppercase{Thekkedath}(2020)Tran e
+  Thekkedath]{Hmns:20}
+\MakeUppercase{Tran, A., Thekkedath, B.}
+\newblock \coppeenquote{Running {Simcenter STAR-CCM+} on {AWS} with {AWS
+  ParallelCluster}, {Elastic Fabric Adapter} and {Amazon FSx for Lustre}}.
+  {AWS} Compute Blog, 2020.
+\newblock Dispon{\' i}vel em:
+  \textless\url{https://aws.amazon.com/blogs/compute/running-simcenter-star-ccm-on-aws/}\textgreater
+  .
 
 \bibitem[\MakeUppercase{{Operador Nacional do Sistema
   El\'etrico}}(2023){Operador Nacional do Sistema El\'etrico}]{ons:23}
@@ -101,10 +136,13 @@
   \emph{Proceedings of the 3rd IFIP Conference on E-Commerce, E-Business and
   E-Government (I3E)}, 2003.
 
-\bibitem[\MakeUppercase{{TODO}}(2009){TODO}]{Phrrbrw:09}
-\MakeUppercase{{TODO}}.
-\newblock \coppeenquote{{TODO: granularidade de operações de E/S e
-  desempenho}}. In: \emph{{TODO}}, 2009.
+\bibitem[\MakeUppercase{Carns}\emph{ et~al.}(2009)Carns, Latham, Ross, Iskra,
+  Lang, e Riley]{Phrrbrw:09}
+\MakeUppercase{Carns, P., Latham, R., Ross, R., \MakeLowercase{et~al.}}
+\newblock \coppeenquote{24/7 Characterization of Petascale {I/O} Workloads}.
+  In: \emph{Proceedings of the 2009 IEEE International Conference on Cluster
+  Computing and Workshops}, pp. 1--10. IEEE, 2009.
+\newblock \doi{10.1109/CLUSTR.2009.5289150}.
 
 \bibitem[\MakeUppercase{Amdahl}(1967)Amdahl]{Amdahl:67}
 \MakeUppercase{Amdahl, G.~M.}

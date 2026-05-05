@@ -12,7 +12,7 @@
 \contentsline {section}{\numberline {2.4}Adaptadores de rede em HPC: Ethernet e InfiniBand}{4}{section.2.4}%
 \contentsline {section}{\numberline {2.5}Computação em nuvem para HPC: AWS}{5}{section.2.5}%
 \contentsline {section}{\numberline {2.6}O Programa Mensal da Operação (PMO)}{5}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Algoritmo SDDP}{5}{section.2.7}%
+\contentsline {section}{\numberline {2.7}Algoritmo SDDP}{6}{section.2.7}%
 \contentsline {subsection}{\numberline {2.7.1}Arquitetura atual de E/S do SDDP com um único processo escritor}{7}{subsection.2.7.1}%
 \contentsline {chapter}{\numberline {3}Paralelização dos Mecanismos de E/S do SDDP}{9}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Uso de MPI-IO com Lustre para escalabilidade de E/S}{9}{section.3.1}%

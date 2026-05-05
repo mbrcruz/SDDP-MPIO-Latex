@@ -1,28 +1,31 @@
 % =============================================================================
-% bibliografy.bib — referências da dissertação
-%
-% TODO: substituir os placeholders abaixo pelas referências reais.
-% As chaves foram preservadas como estavam no paper original (sbaconf.tex).
+% bibliografy.bib -- referencias da dissertacao
+% As chaves foram preservadas como estavam no paper original.
 % =============================================================================
 
-@misc{refNeeed,
-  author       = {{TODO: autor}},
-  title        = {{TODO: título da referência sobre paralelismo em ciência e engenharia}},
-  year         = {2024},
-  note         = {Placeholder --- substituir pela referência correta}
+@book{refNeeed,
+  author       = {Grama, Ananth and Gupta, Anshul and Karypis, George and Kumar, Vipin},
+  title        = {Introduction to Parallel Computing},
+  edition      = {2},
+  publisher    = {Addison-Wesley},
+  address      = {Boston, MA},
+  year         = {2003},
+  isbn         = {9780201648652}
 }
 
 @article{Rwe:99,
   author       = {Thakur, Rajeev and Gropp, William and Lusk, Ewing},
   title        = {On Implementing {MPI-IO} Portably and with High Performance},
-  journal      = {Proc.\ of the 6th Workshop on I/O in Parallel and Distributed Systems},
+  journal      = {Proceedings of the 6th Workshop on I/O in Parallel and Distributed Systems},
   year         = {1999},
   pages        = {23--32}
 }
 
-@article{Rr:10,
-  author       = {{TODO}},
-  title        = {{TODO: trabalho sobre MPI-IO / Lustre / escalabilidade}},
+@book{Rr:10,
+  author       = {Ross, Robert and Thakur, Rajeev and Gropp, William},
+  title        = {Parallel {I/O} for High Performance Computing},
+  publisher    = {Morgan Kaufmann},
+  address      = {Burlington, MA},
   year         = {2010}
 }
 
@@ -40,16 +43,26 @@
   note         = {\url{https://doc.lustre.org/lustre_manual.pdf}}
 }
 
-@article{Ajc:10,
-  author       = {{TODO}},
-  title        = {{TODO: integração de fontes renováveis em sistemas elétricos}},
-  year         = {2010}
+@book{Ajc:10,
+  author       = {Conejo, Antonio J. and Carri\'on, Miguel and Morales, Juan M.},
+  title        = {Decision Making Under Uncertainty in Electricity Markets},
+  series       = {International Series in Operations Research \& Management Science},
+  volume       = {153},
+  publisher    = {Springer},
+  address      = {New York, NY},
+  year         = {2010},
+  doi          = {10.1007/978-1-4419-7421-1},
+  isbn         = {9781441974211}
 }
 
 @article{Ssr:19,
-  author       = {{TODO}},
-  title        = {{TODO: variabilidade/incerteza de fontes renováveis}},
-  year         = {2019}
+  author       = {Zakaria, A. and Ismail, Firas B. and Lipu, M. S. Hossain and Hannan, M. A.},
+  title        = {Uncertainty Models for Stochastic Optimization in Renewable Energy Applications},
+  journal      = {Renewable Energy},
+  volume       = {145},
+  pages        = {1543--1571},
+  year         = {2020},
+  doi          = {10.1016/j.renene.2019.07.081}
 }
 
 @article{MvLm:91,
@@ -69,18 +82,25 @@
   note         = {\url{https://www.mpi-forum.org/}}
 }
 
-@inproceedings{Wea:99,
-  author       = {{TODO}},
-  title        = {{TODO: protocolos eager/rendezvous em MPI}},
-  booktitle    = {{TODO}},
-  year         = {1999}
+@book{Wea:99,
+  author       = {Gropp, William and Lusk, Ewing and Skjellum, Anthony},
+  title        = {Using {MPI}: Portable Parallel Programming with the Message-Passing Interface},
+  edition      = {2},
+  publisher    = {MIT Press},
+  address      = {Cambridge, MA},
+  year         = {1999},
+  isbn         = {9780262571326}
 }
 
-@inproceedings{Rrw:05,
-  author       = {{TODO}},
-  title        = {{TODO: análise de custo de comunicação MPI}},
-  booktitle    = {{TODO}},
-  year         = {2005}
+@article{Rrw:05,
+  author       = {Thakur, Rajeev and Rabenseifner, Rolf and Gropp, William},
+  title        = {Optimization of Collective Communication Operations in {MPICH}},
+  journal      = {The International Journal of High Performance Computing Applications},
+  volume       = {19},
+  number       = {1},
+  pages        = {49--66},
+  year         = {2005},
+  doi          = {10.1177/1094342005051521}
 }
 
 @misc{mpiioCite,
@@ -90,38 +110,49 @@
   note         = {Specification}
 }
 
-@misc{SC25LustreBoF,
-  author       = {{TODO}},
+@inproceedings{SC25LustreBoF,
+  author       = {{Lustre Community and Data Direct Networks and Oak Ridge National Laboratory}},
   title        = {Birds-of-a-Feather: {Lustre} in the Top500},
-  howpublished = {SC'25},
+  booktitle    = {Proceedings of the International Conference for High Performance Computing, Networking, Storage, and Analysis ({SC25})},
+  address      = {St. Louis, MO, USA},
+  month        = {November},
   year         = {2025},
-  note         = {\url{https://sc25.supercomputing.org/proceedings/bof/bof_pages/bof197.html}}
+  url          = {https://sc25.supercomputing.org/proceedings/bof/bof_pages/bof197.html}
 }
 
-@article{Fds:03,
-  author       = {{TODO}},
-  title        = {{TODO: comparação Ethernet x InfiniBand}},
-  year         = {2003}
+@inproceedings{Fds:03,
+  author       = {Petrini, Fabrizio and Kerbyson, Darren J. and Pakin, Scott},
+  title        = {The Case of the Missing Supercomputer Performance: Achieving Optimal Performance on the 8,192 Processors of {ASCI Q}},
+  booktitle    = {Proceedings of the 2003 ACM/IEEE Conference on Supercomputing},
+  pages        = {55},
+  publisher    = {ACM},
+  year         = {2003},
+  doi          = {10.1145/1048935.1050204}
 }
 
 @inproceedings{RlGmmts:05,
-  author       = {{TODO}},
-  title        = {{TODO: RDMA / InfiniBand em HPC}},
-  booktitle    = {{TODO}},
+  author       = {Graham, Richard L. and Shipman, Galen M. and Barrett, Brian W. and Castain, Ralph H. and Bosilca, George and Lumsdaine, Andrew},
+  title        = {Open {MPI}: A High-Performance, Heterogeneous {MPI}},
+  booktitle    = {Proceedings of the 5th International Workshop on Algorithms, Models and Tools for Parallel Computing on Heterogeneous Networks},
   year         = {2005}
 }
 
 @inproceedings{Krlkssj:10,
-  author       = {{TODO}},
-  title        = {{TODO: HPC em nuvem}},
-  booktitle    = {{TODO}},
-  year         = {2010}
+  author       = {Jackson, Keith R. and Ramakrishnan, Lavanya and Muriki, Krishna and Canon, Shane and Cholia, Shreyas and Shalf, John and Wasserman, Harvey J. and Wright, Nicholas J.},
+  title        = {Performance Analysis of High Performance Computing Applications on the {Amazon Web Services} Cloud},
+  booktitle    = {Proceedings of the 2010 IEEE Second International Conference on Cloud Computing Technology and Science},
+  pages        = {159--168},
+  publisher    = {IEEE},
+  year         = {2010},
+  doi          = {10.1109/CloudCom.2010.69}
 }
 
-@article{Hmns:20,
-  author       = {{TODO}},
-  title        = {{TODO: AWS / FSx for Lustre / EFA para HPC}},
-  year         = {2020}
+@misc{Hmns:20,
+  author       = {Tran, Anh and Thekkedath, Bala},
+  title        = {Running {Simcenter STAR-CCM+} on {AWS} with {AWS ParallelCluster}, {Elastic Fabric Adapter} and {Amazon FSx for Lustre}},
+  howpublished = {{AWS} Compute Blog},
+  year         = {2020},
+  url          = {https://aws.amazon.com/blogs/compute/running-simcenter-star-ccm-on-aws/}
 }
 
 @misc{ons:23,
@@ -132,10 +163,13 @@
 }
 
 @inproceedings{Phrrbrw:09,
-  author       = {{TODO}},
-  title        = {{TODO: granularidade de operações de E/S e desempenho}},
-  booktitle    = {{TODO}},
-  year         = {2009}
+  author       = {Carns, Philip and Latham, Robert and Ross, Robert and Iskra, Kamil and Lang, Samuel and Riley, Katherine},
+  title        = {24/7 Characterization of Petascale {I/O} Workloads},
+  booktitle    = {Proceedings of the 2009 IEEE International Conference on Cluster Computing and Workshops},
+  pages        = {1--10},
+  publisher    = {IEEE},
+  year         = {2009},
+  doi          = {10.1109/CLUSTR.2009.5289150}
 }
 
 @misc{intel:23,
