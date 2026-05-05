@@ -3,13 +3,18 @@
 
 
 
-
-- Desvio padrão de blocos pequenos com muito outlier, devido a conteção.
-- Figura de blocos de dados -  dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado. É a contenção do IOR.
+- Modelo analitico 
+- Desvio padrão de blocos pequenos com muito outlier, devido a conteção. Explicar ou isolar?
+- Trabalhos relacionados
+- Validação com IOR
 
 - Com Trabalhos Relacionados + Conclusão + Cap. 3 expandido (espaço de design, hints MPI-IO, pseudocódigo). Defensável como mestrado adequado. Contribuição clara, metodologia razoável, posicionamento na literatura.
 - Acima disso, com investigação dirigida da contenção de metadados no SDumont + variação sistemática de stripe + IOR como baseline + modelo analítico simples para o crossover. Dissertação forte com material para um artigo de conferência.
+- 
 
+
+
+- ~~Figura de blocos de dados -  dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado. É a contenção do IOR.~~
 - ~~Desvio padrão computação está errado no SDumont~~
 - ~~Padronizacao das cores das figuras~~ 
 - ~~Coordenação MPI-IO = MPI_File_Open/MPI_-File_Close.~~

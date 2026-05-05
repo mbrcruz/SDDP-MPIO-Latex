@@ -134,9 +134,9 @@ combinando simulações ao longo dos cenários e refinamentos da política
 de operação até a convergência.
 
 A Figura~\ref{fig:SDDP_cenarios_estagios} esquematiza a estrutura de
-subproblemas resolvida pelo SDDP nas configurações adotadas nos
-experimentos desta dissertação: três estágios mensais e $1\,536$
-cenários, totalizando $4\,608$ subproblemas. Os cenários são, por
+subproblemas resolvida pelo SDDP: o problema é organizado em uma
+malha de pares $(\text{estágio}, \text{cenário})$, em que cada célula
+corresponde a um subproblema determinístico. Os cenários são, por
 construção, independentes entre si --- cada cenário corresponde a uma
 realização estocástica distinta, sem compartilhamento de estado com os
 demais. Essa propriedade caracteriza o SDDP como uma aplicação do tipo
@@ -177,11 +177,11 @@ aplicação em ambientes HPC.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{SDDP_cenarios_estagios.png}
-  \caption{Estrutura de cenários e estágios do SDDP nos experimentos
-  desta dissertação. Cada célula corresponde a um subproblema
-  $(\text{estágio}, \text{cenário})$. Os cenários são mutuamente
-  independentes e podem ser distribuídos entre \textit{ranks} MPI,
-  caracterizando uma aplicação \textit{bag-of-tasks}.}
+  \caption{Estrutura de cenários e estágios do SDDP. Cada célula
+  corresponde a um subproblema $(\text{estágio}, \text{cenário})$. Os
+  cenários são mutuamente independentes e podem ser distribuídos entre
+  \textit{ranks} MPI, caracterizando uma aplicação
+  \textit{bag-of-tasks}.}
   \label{fig:SDDP_cenarios_estagios}
 \end{figure}
 
