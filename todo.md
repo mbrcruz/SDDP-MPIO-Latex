@@ -8,12 +8,13 @@
 - reduzir titulos da fundamentação teorica
 - MPI ( E MPI-IO ) sendo uma unica seção
     - falar sobre escrita independete e colletiva , vantagens de ambas
-    - acesso continguo vs strides    
+    - acesso continguo vs strides   
+    - falar sobre bag-of-tasks 
 
 
 - Trabalhar no capitulo III ( Começando amanhã as 21h)
     - Falar sobre as coisas do experimetos na proposta, Lustre , OSTs e MDTs     
-    - falar porque foi escolhido escrita independente e não coletiva, explicar da dificuldades de sincronizacao ( barrier )
+    - Falar porque foi escolhido escrita independente e não coletiva, explicar da dificuldades de sincronizacao ( barrier )
     - explicar da vantagem de não ter strides.
     - falar como a escrita assincrona pode ajudar na contenção
     
