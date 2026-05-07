@@ -1,16 +1,59 @@
 ## Correções pequenas
 
+- Fazer experimentos assincronos independentes ( AWS e SDumont) - substituir figuras no texto.
+
+
+- Introdução e capitulo 2.7 - Mario
+- Capitulo 2
+- reduzir titulos da fundamentação teorica
+- MPI ( E MPI-IO ) sendo uma unica seção
+    - falar sobre escrita independete e colletiva , vantagens de ambas
+    - acesso continguo vs strides    
+
+
+- Trabalhar no capitulo III ( Começando amanhã as 21h)
+    - Falar sobre as coisas do experimetos na proposta, Lustre , OSTs e MDTs     
+    - falar porque foi escolhido escrita independente e não coletiva, explicar da dificuldades de sincronizacao ( barrier )
+    - explicar da vantagem de não ter strides.
+    - falar como a escrita assincrona pode ajudar na contenção
+    
+    - Eplica como cada processo vai acessar o OSTs.
+    - mostrar os arquivos compartilhados
+    - desenhar padrão dos dados
+    - explicar como terá paralelizado a escrita dos resultados.
+    - Trabalhos relacionados
+
+- Conclusões e Trabalhos Futuros ( ROMIO )
+
+- ARTIGO
+    - Modelo analitico
+    - Validação com IOR
 
 
 
-- Modelo analitico 
-- Desvio padrão de blocos pequenos com muito outlier, devido a conteção. Explicar ou isolar?
-- Trabalhos relacionados
-- Validação com IOR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - Com Trabalhos Relacionados + Conclusão + Cap. 3 expandido (espaço de design, hints MPI-IO, pseudocódigo). Defensável como mestrado adequado. Contribuição clara, metodologia razoável, posicionamento na literatura.
 - Acima disso, com investigação dirigida da contenção de metadados no SDumont + variação sistemática de stripe + IOR como baseline + modelo analítico simples para o crossover. Dissertação forte com material para um artigo de conferência.
-- 
 
 
 

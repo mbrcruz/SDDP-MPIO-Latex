@@ -722,38 +722,42 @@ mantidas constantes, incluindo o volume de dados e o padrão de acesso,
 de modo a isolar o efeito da infraestrutura de armazenamento.
 
 A Figura~\ref{fig:Experimento_OSTs} apresenta o tempo médio de envio
-por classe de tamanho dos blocos de dados. Em 16~nós, a configuração com
-10~OSTs reduz o tempo médio de envio em todas as classes analisadas:
-aproximadamente 0,0021~s, 0,0047~s, 0,0071~s e 0,0485~s, contra
-0,0026~s, 0,0177~s, 0,0200~s e 0,0871~s com 4~OSTs. O efeito torna-se
-mais evidente em 32~nós, cenário no qual os tempos com 10~OSTs ficam em
-aproximadamente 0,0032~s, 0,0101~s, 0,0137~s e 0,1051~s, enquanto a
-configuração com 4~OSTs apresenta 0,0101~s, 0,1110~s, 0,0899~s e
-0,3040~s.
+por classe de tamanho das mensagens. Cada subfigura corresponde a uma
+classe de tamanho, enquanto as barras comparam as configurações MPI-IO
+com 4 e 10~OSTs para 16 e 32~nós de cálculo. Em 16~nós, o uso de
+10~OSTs reduz o tempo médio de envio nas quatro classes analisadas:
+de 2,6~ms para 2,1~ms nas mensagens de até 1~KB, de 18~ms para
+4,7~ms nas mensagens de até 128~KB, de 20~ms para 7,1~ms nas mensagens
+de até 1~MB e de 87~ms para 48~ms nas mensagens de até 50~MB.
 
-Esses resultados mostram que a redução do número de OSTs aumenta a
-contenção no acesso aos dados, sobretudo quando o número de nós de
+O efeito é mais pronunciado em 32~nós, quando a maior concorrência entre
+processos amplia a diferença entre as duas configurações. Nesse cenário,
+os tempos caem de 10~ms para 3,2~ms nas mensagens de até 1~KB, de
+111~ms para 10~ms nas mensagens de até 128~KB, de 90~ms para 14~ms nas
+mensagens de até 1~MB e de 304~ms para 105~ms nas mensagens de até
+50~MB. Esses resultados mostram que a redução do número de OSTs aumenta
+a contenção no acesso aos dados, sobretudo quando o número de nós de
 cálculo cresce. Embora a escrita seja realizada em paralelo por meio de
 MPI-IO, a disponibilidade de menos alvos de armazenamento limita o
 paralelismo efetivo do Lustre e aumenta o tempo observado nas operações
-de envio associadas às diferentes classes de tamanho.
+de envio.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Experimento_OSTs.png}
-  \caption{Tempo médio de envio por classe de tamanho para configurações
-  MPI-IO com 4 e 10~OSTs.}
+  \caption{Tempo médio de envio por classe de tamanho das mensagens para
+  configurações MPI-IO com 4 e 10~OSTs.}
   \label{fig:Experimento_OSTs}
 \end{figure}
 
-A Figura~\ref{fig:Experimento_OSTs_banda} apresenta a largura de banda
-agregada média para diferentes configurações de número de nós e
-quantidade de OSTs no sistema de arquivos Lustre. A configuração com
-10~OSTs apresenta maior banda agregada nos dois tamanhos avaliados:
-96,2~Gb/s contra 78,1~Gb/s em 16~nós, e 143,0~Gb/s contra 36,7~Gb/s em
-32~nós. A diferença em 32~nós é particularmente expressiva, indicando
-que a configuração com 4~OSTs passa a limitar a escalabilidade da E/S
-quando há maior concorrência entre processos.
+A Figura~\ref{fig:Experimento_OSTs_banda} complementa essa análise ao
+apresentar a banda agregada média obtida em cada configuração. Com
+16~nós, a configuração com 10~OSTs atinge 96,2~Gb/s, contra 78,1~Gb/s
+com 4~OSTs. Com 32~nós, a diferença aumenta substancialmente: a banda
+agregada chega a 143,0~Gb/s com 10~OSTs, enquanto a configuração com
+4~OSTs fica limitada a 36,7~Gb/s. Esse comportamento indica que, quando
+a concorrência entre processos aumenta, a configuração com menos OSTs
+passa a limitar a escalabilidade da E/S.
 
 Assim, a análise conjunta das duas figuras indica que o aumento no
 número de OSTs melhora tanto a largura de banda agregada quanto o tempo
@@ -765,7 +769,8 @@ introduz gargalos mais visíveis no cenário com 32~nós.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Experimento_OSTs_banda.png}
-  \caption{Banda agregada média para configurações MPI-IO com 4 e 10~OSTs.}
+  \caption{Banda agregada média para configurações MPI-IO com 4 e
+  10~OSTs em 16 e 32~nós.}
   \label{fig:Experimento_OSTs_banda}
 \end{figure}
 
