@@ -1,18 +1,19 @@
 \babel@toc {brazilian}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {brazilian}{}\relax 
-\contentsline {chapter}{Lista de Figuras}{x}{chapter*.3}%
-\contentsline {chapter}{Lista de Tabelas}{xii}{chapter*.4}%
-\contentsline {chapter}{Lista de Abreviaturas}{xiii}{chapter*.5}%
+\contentsline {chapter}{Lista de Figuras}{ix}{chapter*.3}%
+\contentsline {chapter}{Lista de Tabelas}{x}{chapter*.4}%
 \contentsline {chapter}{\numberline {1}Introdução}{1}{chapter.1}%
 \contentsline {chapter}{\numberline {2}Fundamentação Teórica}{3}{chapter.2}%
 \contentsline {section}{\numberline {2.1}MPI, protocolos de comunicação e operações paralelas de arquivos}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Protocolos de comunicação ponto a ponto}{3}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Escritas independentes, coletivas e assíncronas em MPI-IO}{4}{subsection.2.1.2}%
 \contentsline {section}{\numberline {2.2}Sistema de arquivos paralelo Lustre}{7}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Adaptadores de rede em HPC: Ethernet e InfiniBand}{7}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Computação em nuvem para HPC: AWS}{8}{section.2.4}%
+\contentsline {section}{\numberline {2.4}Computação em nuvem para HPC: AWS}{7}{section.2.4}%
 \contentsline {section}{\numberline {2.5}O Programa Mensal da Operação (PMO)}{8}{section.2.5}%
-\contentsline {section}{\numberline {2.6}Algoritmo SDDP}{9}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Arquitetura atual de E/S do SDDP}{10}{section.2.7}%
+\contentsline {section}{\numberline {2.6}Algoritmo SDDP}{8}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Arquitetura atual de E/S do SDDP com um único processo escritor}{10}{subsection.2.6.1}%
 \contentsline {chapter}{\numberline {3}Paralelização dos Mecanismos de E/S do SDDP}{12}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Uso de MPI-IO com Lustre para escalabilidade de E/S}{12}{section.3.1}%
 \contentsline {chapter}{\numberline {4}Avaliações}{15}{chapter.4}%
@@ -26,4 +27,3 @@
 \contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{26}{subsection.4.2.3}%
 \contentsline {subsection}{\numberline {4.2.4}Avaliação do impacto do número de OSTs}{30}{subsection.4.2.4}%
 \contentsline {chapter}{\numberline {5}Conclusões e trabalhos futuros}{33}{chapter.5}%
-\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{34}{chapter*.6}%

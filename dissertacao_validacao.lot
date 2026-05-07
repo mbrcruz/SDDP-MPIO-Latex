@@ -3,7 +3,7 @@
 \babel@toc {brazilian}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Critérios práticos para escolha do modo de escrita em MPI-IO.}}{7}{table.2.1}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Critérios práticos para escolha do modo de escrita em MPI-IO.}}{6}{table.2.1}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {4.1}{\ignorespaces Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde à soma do tempo médio de simulação e comunicação; o tempo de I/O é uma parcela interna da simulação e não é somado novamente. A eficiência é calculada em relação à base de 2~nós.}}{17}{table.4.1}%

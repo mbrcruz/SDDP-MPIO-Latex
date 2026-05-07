@@ -1,4 +1,4 @@
-\begin{thebibliography}{21}
+\begin{thebibliography}{22}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -13,12 +13,12 @@
 \newblock 2 ed. Boston, MA, Addison-Wesley, 2003.
 \newblock ISBN: 9780201648652.
 
-\bibitem[\MakeUppercase{Thakur}\emph{ et~al.}(1999)Thakur, Gropp, e
-  Lusk]{Rwe:99}
+\bibitem[\MakeUppercase{Thakur}\emph{ et~al.}(1999{\natexlab{a}})Thakur, Gropp,
+  e Lusk]{Rwe:99}
 \MakeUppercase{Thakur, R., Gropp, W., Lusk, E.}
 \newblock \coppeenquote{On Implementing {MPI-IO} Portably and with High
   Performance}, \emph{Proceedings of the 6th Workshop on I/O in Parallel and
-  Distributed Systems}, pp. 23--32, 1999.
+  Distributed Systems}, pp. 23--32, 1999{\natexlab{a}}.
 
 \bibitem[\MakeUppercase{Ross}\emph{ et~al.}(2010)Ross, Thakur, e Gropp]{Rr:10}
 \MakeUppercase{Ross, R., Thakur, R., Gropp, W.}
@@ -63,6 +63,13 @@
   4.1}. 2023.
 \newblock \url{https://www.mpi-forum.org/}.
 
+\bibitem[\MakeUppercase{{Message Passing Interface Forum}}(1997){Message
+  Passing Interface Forum}]{mpiioCite}
+\MakeUppercase{{Message Passing Interface Forum}}.
+\newblock \coppeenquote{{MPI-2}: Extensions to the Message-Passing Interface}.
+  1997.
+\newblock Specification.
+
 \bibitem[\MakeUppercase{Gropp}\emph{ et~al.}(1999)Gropp, Lusk, e
   Skjellum]{Wea:99}
 \MakeUppercase{Gropp, W., Lusk, E., Skjellum, A.}
@@ -79,12 +86,19 @@
   Applications}, v.~19, n.~1, \penalty0 pp.~49--66, 2005.
 \newblock \doi{10.1177/1094342005051521}.
 
-\bibitem[\MakeUppercase{{Message Passing Interface Forum}}(1997){Message
-  Passing Interface Forum}]{mpiioCite}
-\MakeUppercase{{Message Passing Interface Forum}}.
-\newblock \coppeenquote{{MPI-2}: Extensions to the Message-Passing Interface}.
-  1997.
-\newblock Specification.
+\bibitem[\MakeUppercase{Thakur}\emph{ et~al.}(1999{\natexlab{b}})Thakur, Gropp,
+  e Lusk]{Wre:99}
+\MakeUppercase{Thakur, R., Gropp, W., Lusk, E.}
+\newblock \coppeenquote{Data Sieving and Collective {I/O} in {ROMIO}}. In:
+  \emph{Proceedings of the 7th Symposium on the Frontiers of Massively Parallel
+  Computation}, pp. 182--189, 1999{\natexlab{b}}.
+
+\bibitem[\MakeUppercase{Cirne}\emph{ et~al.}(2003)Cirne, Brasileiro, Sauv\'e,
+  Andrade, Paranhos, Santos-Neto, e Medeiros]{Cirne:2003}
+\MakeUppercase{Cirne, W., Brasileiro, F., Sauv\'e, J., \MakeLowercase{et~al.}}
+\newblock \coppeenquote{Grid Computing for Bag of Tasks Applications}. In:
+  \emph{Proceedings of the 3rd IFIP Conference on E-Commerce, E-Business and
+  E-Government (I3E)}, 2003.
 
 \bibitem[\MakeUppercase{Petrini}\emph{ et~al.}(2003)Petrini, Kerbyson, e
   Pakin]{Fds:03}
@@ -128,13 +142,6 @@
 \MakeUppercase{{Operador Nacional do Sistema El\'etrico}}.
 \newblock \coppeenquote{Programa Mensal da Opera\c{c}\~ao --- {PMO}}.
   \url{https://www.ons.org.br/}, 2023.
-
-\bibitem[\MakeUppercase{Cirne}\emph{ et~al.}(2003)Cirne, Brasileiro, Sauv\'e,
-  Andrade, Paranhos, Santos-Neto, e Medeiros]{Cirne:2003}
-\MakeUppercase{Cirne, W., Brasileiro, F., Sauv\'e, J., \MakeLowercase{et~al.}}
-\newblock \coppeenquote{Grid Computing for Bag of Tasks Applications}. In:
-  \emph{Proceedings of the 3rd IFIP Conference on E-Commerce, E-Business and
-  E-Government (I3E)}, 2003.
 
 \bibitem[\MakeUppercase{Carns}\emph{ et~al.}(2009)Carns, Latham, Ross, Iskra,
   Lang, e Riley]{Phrrbrw:09}

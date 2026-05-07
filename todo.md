@@ -5,8 +5,8 @@
 
 - Introdução e capitulo 2.7 - Mario
 - Capitulo 2
-- reduzir titulos da fundamentação teorica
-- MPI ( E MPI-IO ) sendo uma unica seção
+    - reduzir titulos da fundamentação teorica
+    - MPI ( E MPI-IO ) sendo uma unica seção
     - falar sobre escrita independete e colletiva , vantagens de ambas
     - acesso continguo vs strides   
     - falar sobre bag-of-tasks 
@@ -25,6 +25,7 @@
     - Trabalhos relacionados
 
 - Conclusões e Trabalhos Futuros ( ROMIO )
+- testes com placa de redes infinity band elastic Fabric
 
 - ARTIGO
     - Modelo analitico

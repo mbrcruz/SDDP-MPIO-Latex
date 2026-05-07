@@ -6,7 +6,7 @@
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Relação entre comunicação ponto a ponto e E/S paralela. No modelo centralizado, os resultados passam por um processo escritor; no modelo MPI-IO, os próprios \textit {ranks} escrevem diretamente no arquivo.}}{4}{figure.2.1}%
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Diferença entre escritas independentes e coletivas em MPI-IO. Escritas independentes preservam autonomia dos \textit {ranks}; escritas coletivas permitem agregação e reordenação das requisições pela biblioteca MPI-IO.}}{6}{figure.2.2}%
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Estrutura de cenários e estágios do SDDP. Cada célula corresponde a um subproblema $(\text {estágio}, \text {cenário})$. Os cenários são mutuamente independentes e podem ser distribuídos entre \textit {ranks} MPI, caracterizando uma aplicação \textit {bag-of-tasks}.}}{10}{figure.2.3}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Algoritmo SDDP com processo escritor.}}{11}{figure.2.4}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Algoritmo SDDP com processo escritor.}}{10}{figure.2.4}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Proposta com MPI-IO e Lustre.}}{14}{figure.3.1}%
 \addvspace {10\p@ }
