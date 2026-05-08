@@ -11,22 +11,26 @@
     - acesso continguo vs strides   
     - arquivo compartilhado    
     - SDDP
-    - desenhar padrão dos dados
+        - Introdução - Explicar o que é um cenario.
+        - desenhar padrão dos dados.
+        - arquitetura atual.
     
 
 
 - Trabalhar no capitulo III ( Começando amanhã as 21h)
-    - introdução MPI-IO , Lustre 
-        - pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.
-       
-    - APresentar as Escrita independente e não coletiva, pois o SDDP funciona resolver problrmas indepentes e sincronizacao de escrita pode ser prejudicial neste casp , e tabmém pode ter repetições de blocos já enviados. ( Desenho pipeline )
+    - Introdução da arquitetura proposta
+    - pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.
 
+    - Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp. 
     - Relacionar com arquivos compartilhados - blocos de dados separados em OSTs
-
-    - falar como que foi implementado com  escrita assincrona para blocos até 128K e sincrona para blocos maiores 
+    - falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( mencionar Eager e Rendevous )
     
-  
-    - Trabalhos relacionados
+- Experimentos
+    - Teste com IOR two phase I/O e banda. 
+
+
+- Trabalhos relacionados
+    - Buscar trabalho para rlacionar o problema
 
 - Conclusões e Trabalhos Futuros ( ROMIO )
 - testes com placa de redes infinity band elastic Fabric
