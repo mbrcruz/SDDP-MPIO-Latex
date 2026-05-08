@@ -17,6 +17,7 @@ git config --global credential.helper store
 
 git submodule foreach --recursive | awk '{print $2}' | xargs -i git submodule update --init --force {}
 
+git clone   --branch feature/MPI-IO-SYNC    --single-branch   --recurse-submodules   --shallow-submodules   --jobs 8   https://github.com/psrenergy/sddp.git sddp-v19-MPIIO
 git pull ; git submodule update --init --recursive --force
 
 
