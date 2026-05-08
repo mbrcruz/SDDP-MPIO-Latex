@@ -5,50 +5,44 @@ Reallocating 'name_of_file' (item size: 1) to 12 items.
 The style file: coppe-unsrt.bst
 Reallocating 'name_of_file' (item size: 1) to 12 items.
 Database file #1: bibliografy.bib
-Warning--empty journal in Rr:10
-Warning--empty journal in Ajc:10
-Warning--empty journal in Ssr:19
-Warning--empty journal in Fds:03
-Warning--empty journal in Hmns:20
-You've used 22 entries,
+You've used 26 entries,
             2630 wiz_defined-function locations,
-            658 strings with 6572 characters,
-and the built_in function-call counts, 7143 in all, are:
-= -- 594
-> -- 171
-< -- 25
-+ -- 97
-- -- 50
-* -- 498
-:= -- 1004
-add.period$ -- 73
-call.type$ -- 22
-change.case$ -- 22
-chr.to.int$ -- 19
-cite$ -- 27
-duplicate$ -- 503
-empty$ -- 853
-format.name$ -- 74
-if$ -- 1583
-int.to.chr$ -- 4
-int.to.str$ -- 23
-missing$ -- 15
-newline$ -- 103
-num.names$ -- 66
-pop$ -- 247
+            726 strings with 9726 characters,
+and the built_in function-call counts, 10934 in all, are:
+= -- 917
+> -- 479
+< -- 23
++ -- 209
+- -- 156
+* -- 947
+:= -- 1618
+add.period$ -- 99
+call.type$ -- 26
+change.case$ -- 27
+chr.to.int$ -- 25
+cite$ -- 26
+duplicate$ -- 649
+empty$ -- 1088
+format.name$ -- 186
+if$ -- 2370
+int.to.chr$ -- 2
+int.to.str$ -- 27
+missing$ -- 21
+newline$ -- 133
+num.names$ -- 78
+pop$ -- 268
 preamble$ -- 1
-purify$ -- 22
+purify$ -- 26
 quote$ -- 0
-skip$ -- 266
+skip$ -- 338
 stack$ -- 0
-substring$ -- 166
-swap$ -- 137
-text.length$ -- 4
+substring$ -- 363
+swap$ -- 214
+text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 154
-warning$ -- 5
-while$ -- 54
+type$ -- 173
+warning$ -- 0
+while$ -- 81
 width$ -- 0
-write$ -- 261
-(There were 5 warnings)
+write$ -- 352

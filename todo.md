@@ -9,23 +9,23 @@
     - MPI ( E MPI-IO ) sendo uma unica seção
     - falar sobre escrita independete e colletiva , vantagens de ambas
     - acesso continguo vs strides   
-    - arquivo compartilhado 
-    - falar sobre bag-of-tasks 
+    - arquivo compartilhado    
     - SDDP
     - desenhar padrão dos dados
-    - pipeline SDDP - execução e escrita resultados e independencia de processos.
+    
 
 
 - Trabalhar no capitulo III ( Começando amanhã as 21h)
+    - introdução MPI-IO , Lustre 
+        - pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.
+       
+    - APresentar as Escrita independente e não coletiva, pois o SDDP funciona resolver problrmas indepentes e sincronizacao de escrita pode ser prejudicial neste casp , e tabmém pode ter repetições de blocos já enviados. ( Desenho pipeline )
 
-    - Falar sobre as coisas do experimetos na proposta, Lustre , OSTs e MDTs     
-    - Falar porque foi escolhido escrita independente e não coletiva, pois o SDDP funciona com problrma indepentes e sincronizacao de escrita pode ser prejudicial neste casp , repetições de blocos já enviados. ( sdesenho pipeline )
-    - explicar da vantagem de não ter strides.
-    - falar como a escrita assincrona pode ajudar na contenção
+    - Relacionar com arquivos compartilhados - blocos de dados separados em OSTs
+
+    - falar como que foi implementado com  escrita assincrona para blocos até 128K e sincrona para blocos maiores 
     
-    - Eplica como cada processo vai acessar o OSTs.
-    - mostrar os arquivos compartilhados    
-    - explicar como terá paralelizado a escrita dos resultados.
+  
     - Trabalhos relacionados
 
 - Conclusões e Trabalhos Futuros ( ROMIO )
