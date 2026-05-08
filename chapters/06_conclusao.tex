@@ -1,0 +1,31 @@
+\chapter{Conclusões e trabalhos futuros}
+\label{cap:conclusao}
+
+Os resultados apresentados nesta dissertação evidenciam que o desempenho
+da aplicação SDDP é fortemente influenciado pela estratégia adotada para
+as operações de entrada e saída (E/S). A análise detalhada do
+comportamento do \texttt{MPI\_Send} revelou que o tempo de bloqueio
+associado ao envio de blocos de dados representa um dos principais fatores
+limitantes da escalabilidade do modelo, sobretudo quando há um único
+processo responsável pela escrita em disco. Esse gargalo torna-se mais
+pronunciado à medida que cresce o número de nós computacionais,
+restringindo a sobreposição entre comunicação e computação e,
+consequentemente, a eficiência paralela da aplicação.
+
+A adoção de uma arquitetura de E/S MPI-IO, baseada em MPI-IO e
+no sistema de arquivos Lustre, mostrou-se uma alternativa promissora
+para mitigar esses efeitos. Essa abordagem permite que múltiplos
+processos MPI realizem operações de escrita de forma paralela e
+coordenada, eliminando a dependência de um processo escritor único e
+aproveitando o paralelismo nativo do sistema de arquivos. Além de
+reduzir o tempo de bloqueio dos processos, essa solução potencializa o
+uso da largura de banda agregada e melhora a escalabilidade em
+aplicações com alto volume de dados.
+
+Como trabalhos futuros, propõe-se investigar o impacto de diferentes
+estratégias de agregação de escrita coletiva (\textit{two-phase I/O}) e
+o uso de \textit{hints} do ROMIO para otimizar o alinhamento das
+operações de escrita com a configuração de \textit{striping} do Lustre.
+Tais aprimoramentos poderão contribuir para a consolidação de um modelo
+de E/S escalável e portátil, aplicável a uma ampla gama de aplicações
+científicas e de engenharia com padrões intensivos de acesso a dados.

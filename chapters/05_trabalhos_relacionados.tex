@@ -1,0 +1,112 @@
+\chapter{Trabalhos relacionados}
+\label{cap:trabalhos_relacionados}
+
+Este capítulo discute trabalhos relacionados à otimização de E/S paralela em
+ambientes HPC, com ênfase em estratégias voltadas à redução de contenção no
+acesso a dados. O foco principal é o trabalho de Kang et al.~\cite{Kang:20},
+que propõe uma otimização para operações coletivas de MPI-IO por meio de
+agregação de requisições entre processos localizados no mesmo nó
+computacional. Essa abordagem é particularmente relevante para esta
+dissertação porque trata de um problema próximo ao investigado aqui: a perda
+de desempenho causada pela fragmentação das requisições de E/S e pela
+contenção no caminho de comunicação e escrita.
+
+\section{Agregação intra-nó em MPI-IO coletivo}
+
+Kang et al.~\cite{Kang:20} partem da observação de que o \textit{two-phase
+I/O} é uma técnica amplamente utilizada para implementar operações coletivas
+em MPI-IO. Nesse modelo, as requisições de E/S dos processos participantes
+são redistribuídas entre agregadores, que reorganizam os acessos de modo a
+reduzir custos no sistema de arquivos. A técnica é eficaz quando o padrão de
+acesso ao arquivo é não contíguo, pois transforma múltiplas requisições
+pequenas e dispersas em operações maiores e mais alinhadas ao acesso
+paralelo ao armazenamento.
+
+Entretanto, em arquiteturas modernas com muitos processos MPI por nó, a fase
+de redistribuição das requisições pode se tornar um gargalo. O custo de
+comunicação entre processos e, em especial, a comunicação entre nós pode
+passar a dominar o tempo total da operação coletiva. Para mitigar esse
+problema, Kang et al.~\cite{Kang:20} introduzem uma camada adicional de
+agregação intra-nó antes da redistribuição global do \textit{two-phase I/O}.
+Com isso, requisições geradas por processos no mesmo nó são combinadas
+localmente, reduzindo o número e o volume de mensagens que precisam cruzar a
+rede entre nós.
+
+Essa estratégia preserva a semântica coletiva do MPI-IO, mas altera a forma
+como as requisições são encaminhadas aos agregadores. Em vez de cada processo
+participar diretamente da redistribuição global, a agregação intra-nó reduz a
+granularidade da comunicação e diminui a pressão sobre a rede. Os autores
+avaliam a proposta em uma máquina Cray XC40 com processadores Intel KNL,
+utilizando padrões de E/S de aplicações de produção e \textit{benchmarks},
+reportando ganhos expressivos em larga escala.
+
+\section{Relação com a contenção de pequenos blocos no SDDP}
+
+O problema investigado nesta dissertação possui uma relação direta com esse
+trabalho, embora a estratégia adotada seja diferente. No SDDP, a execução
+paralela gera blocos de dados associados a tarefas independentes, cenários e
+estágios do modelo. Esses blocos podem ser relativamente pequenos e produzidos
+em momentos distintos pelos processos. Quando todos convergem para um único
+caminho de escrita, como no modelo baseado em um processo escritor central, o
+sistema passa a sofrer contenção tanto na comunicação quanto no encaminhamento
+dos dados para o armazenamento.
+
+Essa contenção se manifesta de forma distinta daquela estudada por Kang et
+al.~\cite{Kang:20}. No artigo, o gargalo surge dentro da implementação de
+operações coletivas de MPI-IO: muitos processos participam de uma operação
+coordenada, e o custo de redistribuir requisições não contíguas entre
+agregadores pode degradar a escalabilidade. Nesta dissertação, por outro
+lado, o gargalo observado está associado ao acúmulo de pequenos blocos em um
+fluxo centralizado de comunicação e escrita. O problema não é apenas o acesso
+não contíguo ao arquivo, mas a formação de um ponto de contenção antes mesmo
+da escrita efetiva ser distribuída no sistema de arquivos.
+
+A abordagem assíncrona proposta nesta dissertação busca atacar esse ponto de
+contenção de outra forma. Em vez de depender de uma fase coletiva global para
+redistribuir requisições entre agregadores, a estratégia assíncrona desacopla
+a produção dos dados da sua persistência. Dessa maneira, os processos
+produtores podem avançar na computação sem permanecer bloqueados aguardando
+que pequenos blocos sejam enviados e escritos imediatamente por um processo
+central. A expectativa é reduzir o tempo de espera associado à contenção no
+caminho de dados, especialmente quando a granularidade das mensagens é
+pequena e o número de processos emissores aumenta.
+
+\section{Diferenças entre as abordagens}
+
+A principal diferença entre as duas abordagens está no nível em que a
+contenção é tratada. Kang et al.~\cite{Kang:20} atuam dentro do mecanismo de
+E/S coletiva, otimizando o \textit{two-phase I/O} por meio de agregadores
+intra-nó. A proposta é adequada para cenários nos quais os processos já estão
+sincronizados em chamadas coletivas de MPI-IO e o objetivo é reduzir o custo
+da redistribuição de requisições não contíguas.
+
+Nesta dissertação, a estratégia assíncrona atua em um nível mais próximo do
+fluxo da aplicação. O objetivo é evitar que a geração irregular de pequenos
+blocos force os processos a disputar continuamente um caminho centralizado de
+envio e escrita. Assim, enquanto o trabalho de Kang et al.~\cite{Kang:20}
+reduz a contenção dentro de uma operação coletiva já formada, a proposta aqui
+busca reduzir a contenção antes da formação do gargalo, reorganizando o modo
+como a aplicação entrega dados ao subsistema de E/S.
+
+As duas ideias são complementares. A agregação intra-nó pode ser vista como
+uma otimização importante para operações coletivas quando há acessos
+não contíguos e muitos processos por nó. A abordagem assíncrona, por sua vez,
+é especialmente interessante quando a aplicação produz dados em tempos
+irregulares e com granularidade pequena, como ocorre no SDDP. Em trabalhos
+futuros, essas estratégias podem ser combinadas: uma camada assíncrona poderia
+acumular blocos produzidos pela aplicação e, em momentos apropriados,
+submetê-los a operações coletivas MPI-IO otimizadas por agregadores intra-nó
+ou por \textit{hints} específicos do ROMIO e do Lustre.
+
+\section{Síntese}
+
+O trabalho de Kang et al.~\cite{Kang:20} reforça a importância de reduzir a
+granularidade e a dispersão das requisições de E/S para melhorar a
+escalabilidade em sistemas paralelos. Sua contribuição está centrada na
+otimização do MPI-IO coletivo, enquanto esta dissertação concentra-se na
+contenção gerada pelo fluxo da aplicação SDDP ao produzir e encaminhar
+pequenos blocos de dados. Essa distinção ajuda a posicionar a contribuição
+deste trabalho: a proposta assíncrona não substitui técnicas como
+\textit{two-phase I/O} com agregação intra-nó, mas oferece uma alternativa no
+nível da aplicação para reduzir bloqueios e contenções antes que as
+requisições cheguem ao sistema de E/S paralelo.
