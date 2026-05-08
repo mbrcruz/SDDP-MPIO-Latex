@@ -335,26 +335,31 @@ $(\text{estágio}, \text{cenário})$, em que os estágios representam
 períodos discretos da operação --- meses, no caso da operação
 programada do SIN --- e os cenários representam realizações
 estocásticas das variáveis relevantes, principalmente afluências aos
-reservatórios. A solução do problema é construída de forma iterativa,
-combinando simulações ao longo dos cenários e refinamentos da política
-de operação até a convergência.
+reservatórios. A solução do problema é construída em duas fases. Na fase de
+\textit{convergência}, iterações \textit{forward}/\textit{backward}
+constroem progressivamente uma política de operação representada por
+um conjunto de cortes de Benders, até atingir um critério de
+convergência. Na fase de \textit{simulação final}, executada após a
+convergência, a política já fixa é avaliada em larga escala sobre um
+conjunto amplo de cenários para produzir os resultados operacionais
+entregues ao planejamento --- variáveis primais, multiplicadores duais,
+custos e despachos. Esta dissertação concentra-se exclusivamente na
+fase de simulação final.
 
-A Figura~\ref{fig:SDDP_cenarios_estagios} esquematiza a estrutura de
-subproblemas resolvida pelo SDDP: o problema é organizado em uma
-malha de pares $(\text{estágio}, \text{cenário})$, em que cada célula
-corresponde a um subproblema determinístico. Os cenários são, por
-construção, independentes entre si --- cada cenário corresponde a uma
-realização estocástica distinta, sem compartilhamento de estado com os
-demais. Essa propriedade caracteriza o SDDP como uma aplicação do tipo
+Nessa fase, os cenários são, por construção, mutuamente independentes:
+cada cenário corresponde a uma realização estocástica distinta,
+avaliada sob a mesma política convergida, sem compartilhamento de
+estado nem coordenação durante a execução. Essa propriedade caracteriza
+a fase de simulação final do SDDP como uma aplicação do tipo
 \textit{bag-of-tasks}~\cite{Cirne:2003}: um conjunto de tarefas
 mutuamente independentes que podem ser distribuídas entre processadores
-sem coordenação durante a execução. Os cenários são particionados entre
-os \textit{ranks} MPI e resolvidos em paralelo, de modo que o tempo
-total da fase de simulação fica limitado pelo cenário mais lento e não
-pela soma sequencial de todos. A natureza \textit{bag-of-tasks} do SDDP
-é o que torna o algoritmo escalável em sistemas HPC; é também o que
-desloca o gargalo da computação para a persistência dos resultados, à
-medida que o número de cenários cresce.
+sem sincronização durante a execução. Os cenários são particionados
+entre os \textit{ranks} MPI e resolvidos em paralelo, de modo que o
+tempo total da fase de simulação fica limitado pelo cenário mais lento
+e não pela soma sequencial de todos. A natureza \textit{bag-of-tasks}
+da fase de simulação é o que torna esta etapa do SDDP escalável em
+sistemas HPC; é também o que desloca o gargalo da computação para a
+persistência dos resultados, à medida que o número de cenários cresce.
 
 Após a resolução, os resultados de cada subproblema --- variáveis
 primais, multiplicadores duais e custos --- precisam ser persistidos em

@@ -5,11 +5,16 @@
 
 - Introdução e capitulo 2.7 - Mario
 - Capitulo 2
-    - reduzir titulos da fundamentação teorica
-    - MPI ( E MPI-IO ) sendo uma unica seção
-    - falar sobre escrita independete e colletiva , vantagens de ambas
-    - acesso continguo vs strides   
-    - arquivo compartilhado    
+    - ~~reduzir titulos da fundamentação teorica~~
+    - Bag-of-tasks
+    - MPI (  MPI-IO ) sendo uma unica seção - Melhorar referencias e texto, colocar figurar sobre Eager vs rendevous 
+
+        - falar sobre escrita independentes e colletiva , vantagens de ambas
+
+        - acesso continguo vs strides  ( favorece o TWO PHASE I/O ) 
+
+        - arquivo compartilhado    
+
     - SDDP
         - Introdução - Explicar o que é um cenario.
         - desenhar padrão dos dados.
@@ -19,6 +24,7 @@
 
 - Trabalhar no capitulo III ( Começando amanhã as 21h)
     - Introdução da arquitetura proposta
+
     - pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.
 
     - Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp. 
@@ -26,16 +32,21 @@
     - falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( mencionar Eager e Rendevous )
     
 - Experimentos
+    - teste ASYNC SDumont 
+    - teste ASYNC AWS ( Necessário para escrever menos no capitulo IV)
     - Teste com IOR two phase I/O e banda. 
 
-
 - Trabalhos relacionados
-    - Buscar trabalho para rlacionar o problema
+    - Buscar trabalhos para relacionados ao problema
 
 - Conclusões e Trabalhos Futuros ( ROMIO )
 - testes com placa de redes infinity band elastic Fabric
 
-- ARTIGO
+
+
+
+
+- JULHO - ARTIGO
     - Modelo analitico
     - Validação com IOR
 
