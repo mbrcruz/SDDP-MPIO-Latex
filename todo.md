@@ -14,7 +14,7 @@
 
 - Trabalhar no capitulo III ( Começando amanhã as 21h)
     - Falar sobre as coisas do experimetos na proposta, Lustre , OSTs e MDTs     
-    - Falar porque foi escolhido escrita independente e não coletiva, explicar da dificuldades de sincronizacao ( barrier )
+    - Falar porque foi escolhido escrita independente e não coletiva, explicar da dificuldades de sincronizacao ( barrier ), repetições de blocos já enviados. ( sdesenho pipeline )
     - explicar da vantagem de não ter strides.
     - falar como a escrita assincrona pode ajudar na contenção
     

@@ -11,22 +11,21 @@ REP Maynara       - 619603
 Lukas             - 644965
 
 
-psrcloud-deploy
-B6823AB77A78D2E64A7DBD0C847A1736
-scp sddp nfs05.psr-inc.com:$PWD ; scp sddp nfs01.psr-inc.com:$PWD
-
-
 
 -- seguir criteriosamente
 git config --global credential.helper store
+
+git submodule foreach --recursive | awk '{print $2}' | xargs -i git submodule update --init --force {}
+
 git pull ; git submodule update --init --recursive --force
 
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/oneapi/compiler/2023.2.0/linux/compiler/lib/intel64
 alias sclean='make clean ;  find -name \*.so -or -name \*.obj -or -name \*.o -or -name \*.dso | xargs -i rm -fv {}'
-sh make_all.sh false
+
 alias smake='cd ncplitesrc/ ; make ; cd - ; make HARDLOCK_PROTECTED=false ; export VERSION=$(grep -A1 "Type version name"  psrcloud.cfg  | grep -v "Type version name")  ; \cp -v ./build/lin64/release/bin/* /home/sddp/$VERSION/bin '
-smake
+
+sclean ; sh make_all.sh false ; smake
 
 
 

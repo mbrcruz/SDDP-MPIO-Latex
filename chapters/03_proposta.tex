@@ -2,9 +2,8 @@
 \label{cap:proposta}
 
 Este capítulo apresenta a proposta de paralelização dos mecanismos de
-entrada e saída (E/S) do SDDP. A solução substitui o modelo centralizado,
-no qual um único \textit{rank} recebe os \textit{buffers} de todos os
-processos e realiza a escrita, por uma organização baseada em MPI-IO sobre
+entrada e saída (E/S) do SDDP. A solução substitui o modelo atual,
+por uma organização baseada em MPI-IO sobre
 o sistema de arquivos Lustre. Nessa abordagem, cada \textit{rank} grava
 diretamente seus próprios resultados em regiões independentes do espaço de
 saída, evitando a concentração das operações de E/S em um único processo.
@@ -19,7 +18,7 @@ independentes podem ser atendidas por OSTs distintos, aumentando a largura
 de banda agregada e reduzindo a contenção observada no modelo com escritor
 centralizado.
 
-Dessa forma, a proposta reduz dois gargalos da arquitetura original. O
+Dessa forma, a proposta visa reduzir dois gargalos da arquitetura original. O
 primeiro é o gargalo de comunicação, pois os dados deixam de ser enviados
 ao processo escritor antes de serem persistidos. O segundo é o gargalo de
 armazenamento, pois a escrita passa a ser distribuída entre os recursos do
@@ -28,13 +27,7 @@ sistema de arquivos paralelo, em vez de ser serializada por um único
 organização.
 
 \section{Uso de MPI-IO com Lustre para escalabilidade de E/S}
-A atual arquitetura da aplicação SDDP, baseada na biblioteca MPI, utiliza
-apenas um processo --- tipicamente o \textit{rank}~1 --- para executar
-todas as operações de entrada/saída (E/S). Embora esse modelo tenha sido
-suficiente em versões anteriores da aplicação, o aumento no volume de
-dados, decorrente de maior detalhamento e da complexidade algorítmica,
-passou a gerar gargalos severos de desempenho e escalabilidade. Como
-hipótese para mitigar essas limitações, propõe-se a substituição do modelo atual de E/S por uma abordagem MPI-IO, baseada na interface
+Como hipótese para mitigar essas limitações, propõe-se a substituição do modelo atual de E/S por uma abordagem MPI-IO, baseada na interface
 MPI-IO em conjunto com o sistema de arquivos distribuído Lustre.
 
 A interface MPI-IO, parte do padrão MPI-2, fornece mecanismos para a

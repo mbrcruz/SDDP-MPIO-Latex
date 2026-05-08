@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  6 MAY 2026 23:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  7 MAY 2026 21:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1057,15 +1057,13 @@ Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@posthook=\toks49
 )
 Package hyperref Info: Link coloring OFF on input line 33.
-
-(dissertacao.out) (dissertacao.out)
 \@outlinefile=\write6
 \openout6 = `dissertacao.out'.
 
 Package hyperref Info: Option `breaklinks' set `true' on input line 54.
 Package hyperref Info: Option `raiselinks' set `true' on input line 54.
 Package hyperref Info: Option `pageanchor' set `true' on input line 54.
-<coppe-logo.pdf, id=146, 177.463pt x 76.285pt>
+<coppe-logo.pdf, id=42, 177.463pt x 76.285pt>
 File: coppe-logo.pdf Graphic file (type pdf)
 <use coppe-logo.pdf>
 Package pdftex.def Info: coppe-logo.pdf  used on input line 54.
@@ -1094,8 +1092,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [1
 
 
-{C:/Users/mcruz/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./coppe-logo
-.pdf>]
+{C:/Users/mcruz/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
 Underfull \hbox (badness 3907) in paragraph at lines 55--55
 \T1/cmr/m/n/12 DISSERTA��O SUB-ME-TIDA []AO CORPO DOCENTE DO INSTITUTO
  []
@@ -1177,12 +1174,12 @@ as been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.294 
       ] [8] [9]
-<SDDP_cenarios_estagios.png, id=453, 968.418pt x 283.5393pt>
+<SDDP_cenarios_estagios.png, id=379, 968.418pt x 283.5393pt>
 File: SDDP_cenarios_estagios.png Graphic file (type png)
 <use SDDP_cenarios_estagios.png>
 Package pdftex.def Info: SDDP_cenarios_estagios.png  used on input line 385.
 (pdftex.def)             Requested size: 426.79135pt x 124.95668pt.
-<SDDP_architecture.png, id=456, 2007.5pt x 1380.15625pt>
+<SDDP_architecture.png, id=382, 2007.5pt x 1380.15625pt>
 File: SDDP_architecture.png Graphic file (type png)
 <use SDDP_architecture.png>
 Package pdftex.def Info: SDDP_architecture.png  used on input line 408.
@@ -1193,22 +1190,21 @@ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.412 
-       <./SDDP_cenarios_estagios.png>]) (chapters/03_proposta.tex [11
+      ]) (chapters/03_proposta.tex [11
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.4}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.1 \chapter
-            {Paralelização dos Mecanismos de E/S do SDDP} <./SDDP_architectur
-e.png>]
+            {Paralelização dos Mecanismos de E/S do SDDP}]
 Cap\'{\i }tulo 3.
 [12
 
 ]
-<SDDP_architecture2.png, id=478, 2007.5pt x 1355.0625pt>
+<SDDP_architecture2.png, id=402, 2007.5pt x 1355.0625pt>
 File: SDDP_architecture2.png Graphic file (type png)
 <use SDDP_architecture2.png>
-Package pdftex.def Info: SDDP_architecture2.png  used on input line 82.
+Package pdftex.def Info: SDDP_architecture2.png  used on input line 75.
 (pdftex.def)             Requested size: 298.75264pt x 201.65851pt.
  [13]) (chapters/04_avaliacoes.tex [14
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1}) 
@@ -1216,12 +1212,12 @@ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.1 \chapter
-            {Avaliações} <./SDDP_architecture2.png>]
+            {Avaliações}]
 Cap\'{\i }tulo 4.
 [15
 
 ]
-<histograma_mensagens.png, id=505, 786.2976pt x 354.123pt>
+<histograma_mensagens.png, id=429, 786.2976pt x 354.123pt>
 File: histograma_mensagens.png Graphic file (type png)
 <use histograma_mensagens.png>
 Package pdftex.def Info: histograma_mensagens.png  used on input line 60.
@@ -1232,7 +1228,7 @@ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.89 
-      <./histograma_mensagens.png>] [17
+     ] [17
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
@@ -1245,7 +1241,7 @@ as been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.210 
       ]
-<Banda_SDumont.png, id=531, 686.565pt x 354.123pt>
+<Banda_SDumont.png, id=454, 686.565pt x 354.123pt>
 File: Banda_SDumont.png Graphic file (type png)
 <use Banda_SDumont.png>
 Package pdftex.def Info: Banda_SDumont.png  used on input line 268.
@@ -1262,8 +1258,8 @@ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.315 
-       <./Banda_SDumont.png>]
-<Tempo_execucao_SDumont.png, id=542, 755.9442pt x 678.6153pt>
+      ]
+<Tempo_execucao_SDumont.png, id=464, 755.9442pt x 678.6153pt>
 File: Tempo_execucao_SDumont.png Graphic file (type png)
 <use Tempo_execucao_SDumont.png>
 Package pdftex.def Info: Tempo_execucao_SDumont.png  used on input line 318.
@@ -1274,8 +1270,8 @@ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.336 
-       <./Tempo_execucao_SDumont.png>]
-<EnvioPorTamanho_SDumont.png, id=550, 787.0203pt x 631.6398pt>
+      ]
+<EnvioPorTamanho_SDumont.png, id=471, 787.0203pt x 631.6398pt>
 File: EnvioPorTamanho_SDumont.png Graphic file (type png)
 <use EnvioPorTamanho_SDumont.png>
 Package pdftex.def Info: EnvioPorTamanho_SDumont.png  used on input line 365.
@@ -1286,7 +1282,7 @@ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.408 
-       <./EnvioPorTamanho_SDumont.png>] [24] [25
+      ] [24] [25
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.4}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
@@ -1305,7 +1301,7 @@ as been already used, duplicate ignored
                                                   \__shipout_drop_firstpage_...
 l.587 
       ]
-<Banda_AWS.png, id=584, 859.2903pt x 354.123pt>
+<Banda_AWS.png, id=504, 859.2903pt x 354.123pt>
 File: Banda_AWS.png Graphic file (type png)
 <use Banda_AWS.png>
 Package pdftex.def Info: Banda_AWS.png  used on input line 605.
@@ -1316,14 +1312,14 @@ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.633 
-       <./Banda_AWS.png>]
-<Tempo_execucao_AWS.png, id=592, 946.737pt x 678.6153pt>
+      ]
+<Tempo_execucao_AWS.png, id=511, 946.737pt x 678.6153pt>
 File: Tempo_execucao_AWS.png Graphic file (type png)
 <use Tempo_execucao_AWS.png>
 Package pdftex.def Info: Tempo_execucao_AWS.png  used on input line 672.
 (pdftex.def)             Requested size: 426.79135pt x 305.92287pt.
  [28]
-<EnvioPorTamanho_AWS.png, id=600, 787.0203pt x 631.6398pt>
+<EnvioPorTamanho_AWS.png, id=519, 787.0203pt x 631.6398pt>
 File: EnvioPorTamanho_AWS.png Graphic file (type png)
 <use EnvioPorTamanho_AWS.png>
 Package pdftex.def Info: EnvioPorTamanho_AWS.png  used on input line 699.
@@ -1334,14 +1330,14 @@ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.704 
-       <./Tempo_execucao_AWS.png>] [30
+      ] [30
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.7}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.732 
-       <./EnvioPorTamanho_AWS.png>]
-<Experimento_OSTs.png, id=613, 787.0203pt x 631.6398pt>
+      ]
+<Experimento_OSTs.png, id=530, 787.0203pt x 631.6398pt>
 File: Experimento_OSTs.png Graphic file (type png)
 <use Experimento_OSTs.png>
 Package pdftex.def Info: Experimento_OSTs.png  used on input line 747.
@@ -1352,8 +1348,8 @@ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.761 
-       <./Experimento_OSTs.png>]
-<Experimento_OSTs_banda.png, id=620, 570.933pt x 354.123pt>
+      ]
+<Experimento_OSTs_banda.png, id=536, 570.933pt x 354.123pt>
 File: Experimento_OSTs_banda.png Graphic file (type png)
 <use Experimento_OSTs_banda.png>
 Package pdftex.def Info: Experimento_OSTs_banda.png  used on input line 771.
@@ -1364,7 +1360,7 @@ has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.1 \chapter
-            {Conclusões e trabalhos futuros} <./Experimento_OSTs_banda.png>]
+            {Conclusões e trabalhos futuros}]
 Cap\'{\i }tulo 5.
 ) [33
 
@@ -1383,38 +1379,18 @@ Package rerunfilecheck Info: File `dissertacao.out' has not changed.
 (rerunfilecheck)             Checksum: 6BA4FDE78DE8DCAFF01264C0DCDACBD4;5768.
  ) 
 Here is how much of TeX's memory you used:
- 30311 strings out of 467871
- 606757 string characters out of 5418376
- 1059089 words of memory out of 5000000
- 58520 multiletter control sequences out of 15000+600000
+ 30293 strings out of 467871
+ 606458 string characters out of 5418376
+ 1060398 words of memory out of 5000000
+ 58502 multiletter control sequences out of 15000+600000
  645865 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 98i,13n,118p,460b,795s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx
-1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
-0\ecbx1440.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
-/dpi600\ecti0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
-pen/ec/dpi600\ecrm0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour
-/jknappen/ec/dpi600\ectt0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/
-ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fon
-ts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\mcruz\AppData\Local\MiKT
-eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\mcruz\AppData\Loca
-l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\mcruz\AppDat
-a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\mcruz\
-AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1200.pk> <C:\Users\
-mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\
-Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk
-><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
-mmi10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
-onts/cm/cmmi12.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmmi8.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/
-type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/mcruz/AppData/Local/Progra
-ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mcruz/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on dissertacao.pdf (49 pages, 1495528 bytes).
+ 98i,13n,118p,456b,795s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning: \pdfdraftmode enabled, not changing output pdf
+
 PDF statistics:
- 1250 PDF objects out of 1440 (max. 8388607)
- 121 named destinations out of 1000 (max. 500000)
- 430 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 564 PDF objects out of 1000 (max. 8388607)
+ 125 named destinations out of 1000 (max. 500000)
+ 222 words of extra memory for PDF output out of 10000 (max. 10000000)
 
