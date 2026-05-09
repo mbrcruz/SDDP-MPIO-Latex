@@ -6,7 +6,7 @@
 - Trabalhar no capitulo III ( Começando amanhã as 21h)
     - Introdução da arquitetura proposta
 
-    - pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.
+    - novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.
     - por que stripe de 1 MB ? 
 
     - Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp. 
@@ -21,15 +21,16 @@
 - Capitulo 2
     - ~~reduzir titulos da fundamentação teorica~~
     - Bag-of-tasks
-    - MPI (  MPI-IO ) sendo uma unica seção - Melhorar referencias e texto, colocar figurar sobre Eager vs rendevous 
-
+    - MPI (  MPI-IO ) sendo uma unica seção - Melhorar referencias e texto, colocar - figura sobre Eager vs rendevous 
         - falar sobre escrita independentes e colletiva , vantagens de ambas
-        - acesso continguo vs strides  ( favorece o TWO PHASE I/O ) 
         - arquivo compartilhado    
+        - acesso continguo vs strides  ( favorece o TWO PHASE I/O )
+
     - SDDP
         - Introdução - Explicar o que é um cenario.
         - desenhar padrão dos dados.
         - arquitetura atual.
+        - pipeline SDDP com algoritmo atual
     
 
 
