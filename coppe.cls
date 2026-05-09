@@ -254,7 +254,7 @@ T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\spacefactor1000}
   \vspace*{1.5mm}
   \setlength\baselineskip{0pt}
   \setlength\parskip{1mm}
-  \makebox[20mm][c]{\hspace{4.8cm}\includegraphics{coppe-logo}}
+  \makebox[20mm][c]{\hspace{4.8cm}\includegraphics{figuras/coppe-logo}}
   \end{flushleft}
   \vspace{1.05cm}
   \begin{center}

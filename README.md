@@ -14,9 +14,9 @@ Projeto migrado do paper IEEEtran (`sbaconf.tex`) para o template
 | `coppe-plain.bst`             | Alternativa: autor-ano, ordem alfabética             |
 | `en-coppe-{unsrt,plain}.bst`  | Versões em inglês (caso troque `[english]`)          |
 | `coppe.ist`                   | Estilo do `makeindex` (lista de símbolos/abrev.)     |
-| `coppe-logo.{pdf,eps}`        | Logos                                                |
+| `figuras/coppe-logo.{pdf,eps}`| Logos                                                |
 | `latexmkrc`                   | Receita do `latexmk` (Overleaf usa automaticamente)  |
-| `*.png`                       | Figuras referenciadas no texto                       |
+| `figuras/*`                   | Figuras referenciadas no texto                       |
 
 ## Compilação
 

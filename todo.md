@@ -26,6 +26,7 @@
     - Introdução da arquitetura proposta
 
     - pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.
+    - por que stripe de 1 MB ? 
 
     - Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp. 
     - Relacionar com arquivos compartilhados - blocos de dados separados em OSTs
