@@ -10,6 +10,7 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parent
+FIGURES_DIR = ROOT / "figuras"
 
 
 PATHS = {
@@ -43,7 +44,8 @@ def read_csv(path: Path, max_nodes: int | None = None) -> pd.DataFrame:
 
 def finish(fig: plt.Figure, output: str) -> None:
     fig.tight_layout()
-    fig.savefig(ROOT / output, dpi=300, bbox_inches="tight")
+    FIGURES_DIR.mkdir(exist_ok=True)
+    fig.savefig(FIGURES_DIR / output, dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
