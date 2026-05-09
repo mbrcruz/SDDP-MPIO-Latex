@@ -1,0 +1,105 @@
+% =============================================================
+% Figura: Proposta — 3 camadas (Ranks MPI / Arquivo compartilhado / Lustre)
+% Bibliotecas TikZ necessárias (já presentes no preâmbulo da dissertação,
+% exceto talvez 'fit' e 'backgrounds' — adicione se faltar):
+%   \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+% =============================================================
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+    rank/.style={draw, rounded corners=2pt, minimum width=1.4cm, minimum height=0.7cm, fill=teal!55!black, text=white, font=\small\bfseries},
+    chunk/.style={draw, minimum width=0.7cm, minimum height=0.55cm, font=\scriptsize, inner sep=1pt},
+    osthead/.style={draw, rounded corners=2pt, minimum width=1.4cm, minimum height=0.55cm, fill=gray!25, font=\small\bfseries},
+    mdt/.style={draw, rounded corners=2pt, minimum width=1.5cm, minimum height=0.75cm, font=\small\bfseries, align=center, fill=purple!18},
+    layerlbl/.style={font=\itshape\small, anchor=west, text=gray!40!black},
+    sublbl/.style={font=\scriptsize\itshape, anchor=west, text=gray!40!black, align=left},
+    arr/.style={-{Latex[length=2mm]}, thick, gray!50!black},
+    arrlight/.style={-{Latex[length=1.5mm]}, thin, dashed, gray!60},
+    bgbox/.style={draw, rounded corners=4pt, dashed, gray!40, fill=#1, fill opacity=0.35, inner sep=8pt}
+  ]
+    \definecolor{c0}{HTML}{F4A582}
+    \definecolor{c1}{HTML}{92C5DE}
+    \definecolor{c2}{HTML}{B8E186}
+    \definecolor{c3}{HTML}{F1B6DA}
+
+    %---- Camada 1: ranks MPI ----
+    \node[rank] (r0) at (0,7.0) {rank 0};
+    \node[rank] (r1) at (2.0,7.0) {rank 1};
+    \node[rank] (r2) at (4.0,7.0) {rank 2};
+    \node[font=\large] at (5.7,7.0) {$\cdots$};
+    \node[rank] (rN) at (7.4,7.0) {rank $N$};
+
+    %---- Camada 2: arquivo compartilhado ----
+    \node[font=\bfseries\small, anchor=south] at (3.7,5.45) {arquivo compartilhado};
+    \foreach \i [count=\j from 0] in {0,1,2,3,0,1,2,3,0,1,2,3} {
+       \pgfmathsetmacro{\xpos}{-0.6 + \j*0.74}
+       \node[chunk, fill=c\i] (k\j) at (\xpos, 4.85) {};
+    }
+    \node[font=\scriptsize, anchor=north] at (k0.south)  {off$_0$};
+    \node[font=\scriptsize, anchor=north] at (k4.south)  {off$_4$};
+    \node[font=\scriptsize, anchor=north] at (k8.south)  {off$_8$};
+    \node[font=\scriptsize, anchor=north] at (k11.south) {off$_{11}$};
+
+    \draw[arr] (r0.south) -- (k0.north);
+    \draw[arr] (r1.south) -- (k3.north);
+    \draw[arr] (r2.south) -- (k6.north);
+    \draw[arr] (rN.south) -- (k11.north);
+    \node[font=\scriptsize, text=gray!40!black, anchor=east, align=right] at (-1.0,6.05)
+        {\texttt{MPI\_File\_write\_at}\\(\textit{offsets} distintos)};
+
+    %---- Camada 3: Lustre ----
+    \foreach \i/\x/\col/\a/\b/\c in {%
+       0/0.0/c0/0/4/8,
+       1/2.0/c1/1/5/9,
+       2/4.0/c2/2/6/10,
+       3/6.0/c3/3/7/11%
+    } {
+       \node[osthead, anchor=south] (osth\i) at (\x,1.6) {OST \i};
+       \node[chunk, fill=\col, anchor=north] (s\i a) at (osth\i.south) {\a};
+       \node[chunk, fill=\col, anchor=north] (s\i b) at (s\i a.south) {\b};
+       \node[chunk, fill=\col, anchor=north] (s\i c) at (s\i b.south) {\c};
+       \node[draw, rounded corners=2pt, fit=(osth\i)(s\i c), inner sep=2pt] {};
+    }
+
+    \draw[arr] (k0.south) .. controls +(0,-0.7) and +(0,1.1) .. (osth0.north);
+    \draw[arr] (k1.south) .. controls +(0,-0.7) and +(0,1.1) .. (osth1.north);
+    \draw[arr] (k2.south) .. controls +(0,-0.7) and +(0,1.1) .. (osth2.north);
+    \draw[arr] (k3.south) .. controls +(0,-0.7) and +(0,1.1) .. (osth3.north);
+
+    \node[font=\scriptsize\itshape, text=gray!40!black, anchor=east, align=right] at (-1.0,3.4)
+        {\textit{striping}\\round-robin\\entre OSTs};
+
+    \node[mdt] (m1) at (8.5,1.4) {MDT 1};
+    \node[mdt] (m2) at (8.5,0.4) {MDT 2};
+    \node[draw, dashed, gray!50, rounded corners=4pt, fit=(m1)(m2), inner sep=4pt,
+          label={[font=\scriptsize\itshape, text=gray!40!black]above:metadados}] (mdtbox) {};
+
+    \draw[arrlight] (k11.east) .. controls +(0.6,0.4) and +(-0.4,0.4) .. (m1.west);
+
+    %---- rótulos das camadas ----
+    \node[layerlbl] at (10.3,7.0) {Camada 1};
+    \node[sublbl]   at (10.3,6.55) {ranks MPI};
+    \node[layerlbl] at (10.3,4.85) {Camada 2};
+    \node[sublbl]   at (10.3,4.30) {arquivos compartilhados\\acessados em\\\textit{offsets} distintos};
+    \node[layerlbl] at (10.3,1.55) {Camada 3};
+    \node[sublbl]   at (10.3,1.0)  {Lustre:\\\textit{stripes} em OSTs,\\metadados em MDTs};
+
+    \begin{scope}[on background layer]
+      \node[bgbox=teal!10,   fit=(r0)(rN),                       inner xsep=10pt, inner ysep=10pt] {};
+      \node[bgbox=blue!8,    fit=(k0)(k11),                      inner xsep=10pt, inner ysep=20pt] {};
+      \node[bgbox=orange!8,  fit=(osth0)(s0c)(s3c)(mdtbox),      inner xsep=10pt, inner ysep=8pt]  {};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Arquitetura proposta para a paralelização da E/S do SDDP, em três
+  camadas. \textbf{Camada 1}: cada \textit{rank} MPI escreve seus próprios
+  resultados de forma independente, sem passar por um processo escritor central.
+  \textbf{Camada 2}: as escritas são posicionadas em \textit{offsets} distintos
+  do(s) arquivo(s) compartilhado(s) por meio de \texttt{MPI\_File\_write\_at},
+  evitando contenção entre os \textit{ranks}. \textbf{Camada 3}: o sistema de
+  arquivos Lustre distribui automaticamente os \textit{stripes} do arquivo de
+  forma \textit{round-robin} entre os OSTs (\textit{Object Storage Targets}); os
+  metadados (entradas de diretório, atributos, mapa de \textit{stripes}) são
+  servidos por MDTs (\textit{Metadata Targets}) dedicados. As cores indicam o
+  OST de destino de cada \textit{stripe}.}
+  \label{fig:proposta_3camadas}
+\end{figure}

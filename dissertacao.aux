@@ -60,86 +60,79 @@
 \newlabel{sec:arq_atual}{{2.6.2}{12}{Arquitetura atual de E/S do SDDP}{subsection.2.6.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Algoritmo SDDP com processo escritor.}}{12}{figure.2.6}\protected@file@percent }
 \newlabel{fig:SDDP_architecture}{{2.6}{12}{Algoritmo SDDP com processo escritor}{figure.2.6}{}}
-\citation{Rwe:99}
 \@writefile{toc}{\contentsline {chapter}{\numberline {3}Paralelização dos Mecanismos de E/S do SDDP}{14}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{cap:proposta}{{3}{14}{Paralelização dos Mecanismos de E/S do SDDP}{chapter.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Uso de MPI-IO com Lustre para escalabilidade de E/S}{14}{section.3.1}\protected@file@percent }
-\citation{Pjb:02}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Organização dos arquivos compartilhados de resultados}{16}{section.3.2}\protected@file@percent }
-\newlabel{sec:arquivos_compartilhados_sddp}{{3.2}{16}{Organização dos arquivos compartilhados de resultados}{section.3.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Escrita independente dos processos SDDP em um arquivo compartilhado e distribuição dos pedaços em OSTs do Lustre.}}{17}{figure.3.1}\protected@file@percent }
-\newlabel{fig:layout_resultados_lustre}{{3.1}{17}{Escrita independente dos processos SDDP em um arquivo compartilhado e distribuição dos pedaços em OSTs do Lustre}{figure.3.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Proposta com MPI-IO e Lustre.}}{17}{figure.3.2}\protected@file@percent }
-\newlabel{fig:SDDP_architecture2}{{3.2}{17}{Proposta com MPI-IO e Lustre}{figure.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Proposta com MPI-IO e Lustre.}}{15}{figure.3.1}\protected@file@percent }
+\newlabel{fig:SDDP_architecture2}{{3.1}{15}{Proposta com MPI-IO e Lustre}{figure.3.1}{}}
 \citation{Rwe:99,Phrrbrw:09}
 \citation{Amdahl:67}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Avaliações}{18}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Avaliações}{16}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cap:avaliacoes}{{4}{18}{Avaliações}{chapter.4}{}}
+\newlabel{cap:avaliacoes}{{4}{16}{Avaliações}{chapter.4}{}}
 \citation{Rwe:99,Phrrbrw:09}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{19}{figure.4.1}\protected@file@percent }
-\newlabel{fig:histograma_mensagens}{{4.1}{19}{Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica}{figure.4.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Experimento SDumont}{19}{section.4.1}\protected@file@percent }
-\newlabel{sec:exp_sdumont}{{4.1}{19}{Experimento SDumont}{section.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{20}{subsection.4.1.1}\protected@file@percent }
-\newlabel{sec:sdumont_atual}{{4.1.1}{20}{Avaliação da implementação atual}{subsection.4.1.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde à soma do tempo médio de simulação e comunicação; o tempo de I/O é uma parcela interna da simulação e não é somado novamente. A eficiência é calculada em relação à base de 2~nós.}}{20}{table.4.1}\protected@file@percent }
-\newlabel{tab:central_sdumont}{{4.1}{20}{Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde à soma do tempo médio de simulação e comunicação; o tempo de I/O é uma parcela interna da simulação e não é somado novamente. A eficiência é calculada em relação à base de 2~nós}{table.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes}{21}{subsection.4.1.2}\protected@file@percent }
-\newlabel{sec:sdumont_mpiio}{{4.1.2}{21}{Avaliação da implementação MPI-IO com escritas independentes}{subsection.4.1.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Desempenho do Experimento SDumont com a implementação MPI-IO. O tempo total corresponde à soma do tempo médio de simulação e comunicação; o tempo de I/O é uma parcela interna da simulação e não é somado novamente. A eficiência é calculada em relação à base de 2~nós.}}{21}{table.4.2}\protected@file@percent }
-\newlabel{tab:mpiio_sdumont}{{4.2}{21}{Desempenho do Experimento SDumont com a implementação MPI-IO. O tempo total corresponde à soma do tempo médio de simulação e comunicação; o tempo de I/O é uma parcela interna da simulação e não é somado novamente. A eficiência é calculada em relação à base de 2~nós}{table.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Análise comparativa}{21}{subsection.4.1.3}\protected@file@percent }
-\newlabel{sec:avaliacao_comparativa_sdumont}{{4.1.3}{21}{Análise comparativa}{subsection.4.1.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Resumo comparativo entre a implementação atual e MPI-IO no Experimento SDumont. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora.}}{22}{table.4.3}\protected@file@percent }
-\newlabel{tab:comparativo_sdumont}{{4.3}{22}{Resumo comparativo entre a implementação atual e MPI-IO no Experimento SDumont. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora}{table.4.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média das implementações atual e MPI-IO no Experimento SDumont.}}{23}{figure.4.2}\protected@file@percent }
-\newlabel{fig:Banda_SDumont}{{4.2}{23}{Banda agregada média das implementações atual e MPI-IO no Experimento SDumont}{figure.4.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{24}{figure.4.3}\protected@file@percent }
-\newlabel{fig:Tempo_execucao_SDumont}{{4.3}{24}{Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont}{figure.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{17}{figure.4.1}\protected@file@percent }
+\newlabel{fig:histograma_mensagens}{{4.1}{17}{Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica}{figure.4.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Experimento SDumont}{17}{section.4.1}\protected@file@percent }
+\newlabel{sec:exp_sdumont}{{4.1}{17}{Experimento SDumont}{section.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{18}{subsection.4.1.1}\protected@file@percent }
+\newlabel{sec:sdumont_atual}{{4.1.1}{18}{Avaliação da implementação atual}{subsection.4.1.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde à soma do tempo médio de simulação e comunicação; o tempo de I/O é uma parcela interna da simulação e não é somado novamente. A eficiência é calculada em relação à base de 2~nós.}}{18}{table.4.1}\protected@file@percent }
+\newlabel{tab:central_sdumont}{{4.1}{18}{Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde à soma do tempo médio de simulação e comunicação; o tempo de I/O é uma parcela interna da simulação e não é somado novamente. A eficiência é calculada em relação à base de 2~nós}{table.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes}{19}{subsection.4.1.2}\protected@file@percent }
+\newlabel{sec:sdumont_mpiio}{{4.1.2}{19}{Avaliação da implementação MPI-IO com escritas independentes}{subsection.4.1.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Desempenho do Experimento SDumont com a implementação MPI-IO. O tempo total corresponde à soma do tempo médio de simulação e comunicação; o tempo de I/O é uma parcela interna da simulação e não é somado novamente. A eficiência é calculada em relação à base de 2~nós.}}{19}{table.4.2}\protected@file@percent }
+\newlabel{tab:mpiio_sdumont}{{4.2}{19}{Desempenho do Experimento SDumont com a implementação MPI-IO. O tempo total corresponde à soma do tempo médio de simulação e comunicação; o tempo de I/O é uma parcela interna da simulação e não é somado novamente. A eficiência é calculada em relação à base de 2~nós}{table.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Análise comparativa}{19}{subsection.4.1.3}\protected@file@percent }
+\newlabel{sec:avaliacao_comparativa_sdumont}{{4.1.3}{19}{Análise comparativa}{subsection.4.1.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Resumo comparativo entre a implementação atual e MPI-IO no Experimento SDumont. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora.}}{20}{table.4.3}\protected@file@percent }
+\newlabel{tab:comparativo_sdumont}{{4.3}{20}{Resumo comparativo entre a implementação atual e MPI-IO no Experimento SDumont. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora}{table.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média das implementações atual e MPI-IO no Experimento SDumont.}}{21}{figure.4.2}\protected@file@percent }
+\newlabel{fig:Banda_SDumont}{{4.2}{21}{Banda agregada média das implementações atual e MPI-IO no Experimento SDumont}{figure.4.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{22}{figure.4.3}\protected@file@percent }
+\newlabel{fig:Tempo_execucao_SDumont}{{4.3}{22}{Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont}{figure.4.3}{}}
 \citation{intel:23,aws:24}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{26}{figure.4.4}\protected@file@percent }
-\newlabel{fig:EnvioPorTamanho_SDumont}{{4.4}{26}{Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica)}{figure.4.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Experimento AWS}{27}{section.4.2}\protected@file@percent }
-\newlabel{sec:exp_aws}{{4.2}{27}{Experimento AWS}{section.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{27}{subsection.4.2.1}\protected@file@percent }
-\newlabel{sec:aws_atual}{{4.2.1}{27}{Avaliação da implementação atual}{subsection.4.2.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit  {speedup}, eficiência e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação, e a eficiência é calculada em relação à base de 2~nós.}}{28}{table.4.4}\protected@file@percent }
-\newlabel{tab:central_aws}{{4.4}{28}{Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup}, eficiência e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação, e a eficiência é calculada em relação à base de 2~nós}{table.4.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO com escritas independentes}{28}{subsection.4.2.2}\protected@file@percent }
-\newlabel{sec:aws_mpiio}{{4.2.2}{28}{Avaliação da implementação MPI-IO com escritas independentes}{subsection.4.2.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, tempo total, \textit  {speedup}, eficiência e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação, e a eficiência é calculada em relação à base de 2~nós.}}{28}{table.4.5}\protected@file@percent }
-\newlabel{tab:mpiio_aws}{{4.5}{28}{Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup}, eficiência e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação, e a eficiência é calculada em relação à base de 2~nós}{table.4.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{29}{subsection.4.2.3}\protected@file@percent }
-\newlabel{sec:avaliacao_comparativa_aws}{{4.2.3}{29}{Análise comparativa}{subsection.4.2.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Resumo comparativo entre a implementação atual e MPI-IO no Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora.}}{29}{table.4.6}\protected@file@percent }
-\newlabel{tab:comparativo_aws}{{4.6}{29}{Resumo comparativo entre a implementação atual e MPI-IO no Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora}{table.4.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Banda agregada média no Experimento AWS.}}{30}{figure.4.5}\protected@file@percent }
-\newlabel{fig:Banda_AWS}{{4.5}{30}{Banda agregada média no Experimento AWS}{figure.4.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Tempo de execução no Experimento AWS.}}{32}{figure.4.6}\protected@file@percent }
-\newlabel{fig:Tempo_execucao_AWS}{{4.6}{32}{Tempo de execução no Experimento AWS}{figure.4.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}}{33}{figure.4.7}\protected@file@percent }
-\newlabel{fig:EnvioPorTamanho_AWS}{{4.7}{33}{Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica)}{figure.4.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}Avaliação do impacto do número de OSTs}{33}{subsection.4.2.4}\protected@file@percent }
-\newlabel{sec:exp_osts}{{4.2.4}{33}{Avaliação do impacto do número de OSTs}{subsection.4.2.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs.}}{34}{figure.4.8}\protected@file@percent }
-\newlabel{fig:Experimento_OSTs}{{4.8}{34}{Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs}{figure.4.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Banda agregada média para configurações MPI-IO com 4 e 10~OSTs em 16 e 32~nós.}}{35}{figure.4.9}\protected@file@percent }
-\newlabel{fig:Experimento_OSTs_banda}{{4.9}{35}{Banda agregada média para configurações MPI-IO com 4 e 10~OSTs em 16 e 32~nós}{figure.4.9}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{36}{chapter.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{24}{figure.4.4}\protected@file@percent }
+\newlabel{fig:EnvioPorTamanho_SDumont}{{4.4}{24}{Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica)}{figure.4.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Experimento AWS}{25}{section.4.2}\protected@file@percent }
+\newlabel{sec:exp_aws}{{4.2}{25}{Experimento AWS}{section.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{25}{subsection.4.2.1}\protected@file@percent }
+\newlabel{sec:aws_atual}{{4.2.1}{25}{Avaliação da implementação atual}{subsection.4.2.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit  {speedup}, eficiência e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação, e a eficiência é calculada em relação à base de 2~nós.}}{26}{table.4.4}\protected@file@percent }
+\newlabel{tab:central_aws}{{4.4}{26}{Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup}, eficiência e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação, e a eficiência é calculada em relação à base de 2~nós}{table.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO com escritas independentes}{26}{subsection.4.2.2}\protected@file@percent }
+\newlabel{sec:aws_mpiio}{{4.2.2}{26}{Avaliação da implementação MPI-IO com escritas independentes}{subsection.4.2.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, tempo total, \textit  {speedup}, eficiência e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação, e a eficiência é calculada em relação à base de 2~nós.}}{26}{table.4.5}\protected@file@percent }
+\newlabel{tab:mpiio_aws}{{4.5}{26}{Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup}, eficiência e percentual de I/O. O total corresponde ao tempo de simulação mais comunicação, e a eficiência é calculada em relação à base de 2~nós}{table.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{27}{subsection.4.2.3}\protected@file@percent }
+\newlabel{sec:avaliacao_comparativa_aws}{{4.2.3}{27}{Análise comparativa}{subsection.4.2.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Resumo comparativo entre a implementação atual e MPI-IO no Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora.}}{27}{table.4.6}\protected@file@percent }
+\newlabel{tab:comparativo_aws}{{4.6}{27}{Resumo comparativo entre a implementação atual e MPI-IO no Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora}{table.4.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Banda agregada média no Experimento AWS.}}{28}{figure.4.5}\protected@file@percent }
+\newlabel{fig:Banda_AWS}{{4.5}{28}{Banda agregada média no Experimento AWS}{figure.4.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Tempo de execução no Experimento AWS.}}{30}{figure.4.6}\protected@file@percent }
+\newlabel{fig:Tempo_execucao_AWS}{{4.6}{30}{Tempo de execução no Experimento AWS}{figure.4.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}}{31}{figure.4.7}\protected@file@percent }
+\newlabel{fig:EnvioPorTamanho_AWS}{{4.7}{31}{Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica)}{figure.4.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}Avaliação do impacto do número de OSTs}{31}{subsection.4.2.4}\protected@file@percent }
+\newlabel{sec:exp_osts}{{4.2.4}{31}{Avaliação do impacto do número de OSTs}{subsection.4.2.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs.}}{32}{figure.4.8}\protected@file@percent }
+\newlabel{fig:Experimento_OSTs}{{4.8}{32}{Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs}{figure.4.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Banda agregada média para configurações MPI-IO com 4 e 10~OSTs em 16 e 32~nós.}}{33}{figure.4.9}\protected@file@percent }
+\newlabel{fig:Experimento_OSTs_banda}{{4.9}{33}{Banda agregada média para configurações MPI-IO com 4 e 10~OSTs em 16 e 32~nós}{figure.4.9}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{34}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cap:trabalhos_relacionados}{{5}{36}{Trabalhos relacionados}{chapter.5}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{37}{chapter.6}\protected@file@percent }
+\newlabel{cap:trabalhos_relacionados}{{5}{34}{Trabalhos relacionados}{chapter.5}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{35}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cap:conclusao}{{6}{37}{Conclusões e trabalhos futuros}{chapter.6}{}}
+\newlabel{cap:conclusao}{{6}{35}{Conclusões e trabalhos futuros}{chapter.6}{}}
 \bibstyle{coppe-unsrt}
 \bibdata{bibliografy}
-\newlabel{bib:begin}{{}{38}{}{page.38}{}}
+\newlabel{bib:begin}{{}{36}{}{page.36}{}}
 \bibcite{Kang:20}{{1}{2020}{{\MakeUppercase    []{Kang}\emph  { et~al.}}}{{Kang, Lee, Hou, Ross, Agrawal, Choudhary, e Liao}}}
 \bibcite{Luu:15}{{2}{2015}{{\MakeUppercase    []{Luu}\emph  { et~al.}}}{{Luu, Winslett, Gropp, Ross, Carns, Harms, Prabhat, Byna, e Yao}}}
 \bibcite{Xie:20}{{3}{2020}{{\MakeUppercase    []{Xie}\emph  { et~al.}}}{{Xie, Oral, Zimmer, Choi, Dillow, Klasky, Lofstead, Podhorszki, e Chase}}}
@@ -149,7 +142,7 @@
 \bibcite{Ssr:19}{{7}{2020}{{\MakeUppercase    []{Zakaria}\emph  { et~al.}}}{{Zakaria, Ismail, Lipu, e Hannan}}}
 \bibcite{MvLm:91}{{8}{1991}{{\MakeUppercase    []{Pereira} e \MakeUppercase    []{Pinto}}}{{Pereira e Pinto}}}
 \bibcite{mpiCite}{{9}{2023}{{\MakeUppercase    []{{Message Passing Interface Forum}}}}{{Message Passing Interface Forum}}}
-\@writefile{toc}{\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{38}{chapter*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{36}{chapter*.6}\protected@file@percent }
 \bibcite{mpiioCite}{{10}{1997}{{\MakeUppercase    []{{Message Passing Interface Forum}}}}{{Message Passing Interface Forum}}}
 \bibcite{Wea:99}{{11}{1999}{{\MakeUppercase    []{Gropp}\emph  { et~al.}}}{{Gropp, Lusk, e Skjellum}}}
 \bibcite{Rrw:05}{{12}{2005}{{\MakeUppercase    []{Thakur}\emph  { et~al.}}}{{Thakur, Rabenseifner, e Gropp}}}
@@ -167,8 +160,8 @@
 \bibcite{Amdahl:67}{{24}{1967}{{\MakeUppercase    []{Amdahl}}}{{Amdahl}}}
 \bibcite{intel:23}{{25}{2023}{{\MakeUppercase    []{{Intel Corporation}}}}{{Intel Corporation}}}
 \bibcite{aws:24}{{26}{2024}{{\MakeUppercase    []{{Amazon Web Services}}}}{{Amazon Web Services}}}
-\newlabel{bib:end}{{}{40}{}{page.40}{}}
-\newlabel{LastPage}{{6}{40}{Conclusões e trabalhos futuros}{page.40}{}}
-\gdef\lastpage@lastpage{40}
-\gdef\lastpage@lastpageHy{40}
-\gdef \@abspage@last{53}
+\newlabel{bib:end}{{}{38}{}{page.38}{}}
+\newlabel{LastPage}{{6}{38}{Conclusões e trabalhos futuros}{page.38}{}}
+\gdef\lastpage@lastpage{38}
+\gdef\lastpage@lastpageHy{38}
+\gdef \@abspage@last{51}

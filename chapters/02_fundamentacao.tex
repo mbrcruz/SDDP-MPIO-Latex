@@ -69,33 +69,30 @@ regiões distintas do arquivo.
   \centering
   \begin{tikzpicture}[
     proc/.style={draw, rounded corners, minimum width=1.7cm, minimum height=0.65cm, fill=gray!12},
-    writer/.style={draw, rounded corners, minimum width=1.9cm, minimum height=0.75cm, fill=orange!20},
+    writer/.style={draw, rounded corners, minimum width=2.1cm, minimum height=0.95cm, fill=orange!20, align=center, font=\small},
     file/.style={draw, minimum width=2.4cm, minimum height=0.75cm, fill=blue!10},
     note/.style={align=center, font=\small},
     arr/.style={->, thick}
   ]
     \node[note] at (0,3.2) {(a) Escritor centralizado};
-    \node[proc] (p0) at (-3,2.1) {rank 0};
-    \node[proc] (p1) at (-3,1.2) {rank 1};
-    \node[proc] (p2) at (-3,0.3) {rank 2};
-    \node[writer] (w) at (0,1.2) {rank escritor};
+    \node[proc] (p0) at (-3,2.1) {rank 2};
+    \node[proc] (p1) at (-3,1.2) {rank 3};
+    \node[proc] (p2) at (-3,0.3) {rank N};
+    \node[writer] (w) at (0,1.2) {rank 1\\(escritor)};
     \node[file] (f) at (3,1.2) {arquivo};
     \draw[arr] (p0) -- node[above, font=\scriptsize] {\texttt{Send}} (w);
     \draw[arr] (p1) -- (w);
     \draw[arr] (p2) -- node[below, font=\scriptsize] {\texttt{Recv}} (w);
-    \draw[arr] (w) -- node[above, font=\scriptsize] {escrita serial} (f);
+    \draw[arr] (w) -- (f);
 
     \node[note] at (0,-1.0) {(b) Escrita paralela com MPI-IO};
     \node[proc] (q0) at (-3,-2.1) {rank 0};
     \node[proc] (q1) at (-3,-3.0) {rank 1};
-    \node[proc] (q2) at (-3,-3.9) {rank 2};
+    \node[proc] (q2) at (-3,-3.9) {rank N};
     \node[file] (g) at (3,-3.0) {arquivo compartilhado};
     \draw[arr] (q0) -- node[above, font=\scriptsize] {\texttt{write\_at}} (g);
     \draw[arr] (q1) -- (g);
     \draw[arr] (q2) -- node[below, font=\scriptsize] {\textit{offsets} distintos} (g);
-    \draw[dashed] (1.95,-2.65) -- (4.05,-2.65);
-    \draw[dashed] (1.95,-3.00) -- (4.05,-3.00);
-    \draw[dashed] (1.95,-3.35) -- (4.05,-3.35);
   \end{tikzpicture}
   \caption{Relação entre comunicação ponto a ponto e E/S paralela. No
   modelo centralizado, os resultados passam por um processo escritor; no
@@ -190,37 +187,48 @@ operações agregadas.
   \begin{tikzpicture}[
     proc/.style={draw, rounded corners, minimum width=1.45cm, minimum height=0.6cm, fill=gray!12},
     agg/.style={draw, rounded corners, minimum width=1.7cm, minimum height=0.65cm, fill=green!18},
-    file/.style={draw, minimum width=4.7cm, minimum height=0.65cm, fill=blue!10},
+    filebox/.style={draw, minimum width=1.4cm, minimum height=2.4cm, fill=blue!10},
     note/.style={align=center, font=\small},
     arr/.style={->, thick}
   ]
-    \node[note] at (-3.3,2.7) {Escrita independente};
-    \node[proc] (p0) at (-5.4,1.7) {rank 0};
-    \node[proc] (p1) at (-5.4,0.9) {rank 1};
-    \node[proc] (p2) at (-5.4,0.1) {rank 2};
-    \node[file] (f1) at (-1.9,0.9) {arquivo};
-    \draw[arr] (p0) -- (-4.0,1.7) -- (-4.0,1.18) -- (f1.west);
-    \draw[arr] (p1) -- (f1.west);
-    \draw[arr] (p2) -- (-4.0,0.1) -- (-4.0,0.62) -- (f1.west);
-    \draw[dashed] (-3.4,0.7) -- (-0.4,0.7);
-    \draw[dashed] (-3.4,0.9) -- (-0.4,0.9);
-    \draw[dashed] (-3.4,1.1) -- (-0.4,1.1);
+    %---- Escrita independente ----
+    \node[note] at (-3.5,3.0) {Escrita independente};
+    \node[proc] (p0) at (-6.2,2.0) {rank 0};
+    \node[proc] (p1) at (-6.2,1.0) {rank 1};
+    \node[proc] (p2) at (-6.2,0.0) {rank 2};
+    \node[filebox] (f1) at (-3.0,1.0) {};
+    \node[font=\scriptsize, anchor=south] at (-3.0,2.25) {arquivo};
+    \draw[dashed, gray!70] (-3.7,1.4) -- (-2.3,1.4);
+    \draw[dashed, gray!70] (-3.7,0.6) -- (-2.3,0.6);
+    \node[font=\scriptsize] at (-3.0,1.8) {região 0};
+    \node[font=\scriptsize] at (-3.0,1.0) {região 1};
+    \node[font=\scriptsize] at (-3.0,0.2) {região 2};
+    \draw[arr] (p0.east) -- node[above, font=\scriptsize, pos=0.65] {\texttt{write\_at}} (-3.7,1.8);
+    \draw[arr] (p1.east) -- (-3.7,1.0);
+    \draw[arr] (p2.east) -- (-3.7,0.2);
 
-    \node[note] at (3.3,2.7) {Escrita coletiva};
-    \node[proc] (q0) at (0.8,1.7) {rank 0};
-    \node[proc] (q1) at (0.8,0.9) {rank 1};
-    \node[proc] (q2) at (0.8,0.1) {rank 2};
-    \node[agg] (a0) at (3.0,1.3) {agregador};
-    \node[agg] (a1) at (3.0,0.4) {agregador};
-    \node[file] (f2) at (5.8,0.9) {arquivo};
-    \draw[arr] (q0) -- (a0);
-    \draw[arr] (q1) -- (a0);
-    \draw[arr] (q1) -- (a1);
-    \draw[arr] (q2) -- (a1);
-    \draw[arr] (a0) -- node[above, font=\scriptsize] {requisição maior} (f2.west);
-    \draw[arr] (a1) -- (f2.west);
-    \draw[dashed] (4.35,0.75) -- (7.25,0.75);
-    \draw[dashed] (4.35,1.05) -- (7.25,1.05);
+    %---- separador ----
+    \draw[gray!50, dashed] (-1.0,3.3) -- (-1.0,-0.6);
+
+    %---- Escrita coletiva ----
+    \node[note] at (3.2,3.0) {Escrita coletiva};
+    \node[proc] (q0) at (0.5,2.0) {rank 0};
+    \node[proc] (q1) at (0.5,1.0) {rank 1};
+    \node[proc] (q2) at (0.5,0.0) {rank 2};
+    \node[agg] (a0) at (3.2,1.5) {agregador};
+    \node[agg] (a1) at (3.2,0.5) {agregador};
+    \node[filebox] (f2) at (5.7,1.0) {};
+    \node[font=\scriptsize, anchor=south] at (5.7,2.25) {arquivo};
+    \draw[dashed, gray!70] (5.0,1.0) -- (6.4,1.0);
+    \node[font=\scriptsize] at (5.7,1.5) {região A};
+    \node[font=\scriptsize] at (5.7,0.5) {região B};
+    \draw[arr] (q0.east) -- (a0.west);
+    \draw[arr] (q1.east) -- (a0.west);
+    \draw[arr] (q1.east) -- (a1.west);
+    \draw[arr] (q2.east) -- (a1.west);
+    \draw[arr] (a0.east) -- (5.0,1.5);
+    \draw[arr] (a1.east) -- (5.0,0.5);
+    \node[font=\scriptsize, anchor=south east] at (5.0,1.55) {requisição agregada};
   \end{tikzpicture}
   \caption{Diferença entre escritas independentes e coletivas em MPI-IO.
   Escritas independentes preservam autonomia dos \textit{ranks}; escritas

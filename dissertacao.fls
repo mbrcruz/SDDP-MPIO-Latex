@@ -421,8 +421,6 @@ INPUT .\chapters\03_proposta.tex
 INPUT .\chapters\03_proposta.tex
 INPUT .\chapters\03_proposta.tex
 INPUT chapters\03_proposta.tex
-INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecti0600.tfm
-INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx1095.tfm
 INPUT .\figuras\SDDP_architecture2.png
 INPUT .\figuras\SDDP_architecture2.png
 INPUT .\figuras\SDDP_architecture2.png
@@ -448,6 +446,7 @@ INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy10.tf
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmex10.tfm
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
+INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx1095.tfm
 INPUT .\figuras\Banda_SDumont.png
 INPUT .\figuras\Banda_SDumont.png
 INPUT .\figuras\Banda_SDumont.png
@@ -526,10 +525,10 @@ INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecb
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx0800.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk
-INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti0800.pk
-INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti0800.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm0800.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm0800.pk
+INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti0800.pk
+INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti0800.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ectt0800.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ectt0800.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk
