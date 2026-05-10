@@ -64,324 +64,6 @@ granularidade das operações no desempenho da comunicação e da E/S.
 \end{figure}
 
 % =============================================================
-\section{Experimento SDumont}
-\label{sec:exp_sdumont}
-
-O Experimento SDumont corresponde ao supercomputador Santos Dumont
-(SDumont), adquirido junto à empresa francesa EVIDEN/ATOS/BULL, que está
-localizado na sede do Laboratório Nacional de Computação Científica
-(LNCC), em Petrópolis-RJ, atuando como nó central (Tier-0) do Sistema
-Nacional de Processamento de Alto Desempenho (SINAPAD). Nesse experimento
-foram utilizados até 32~nós de processamento, cada um equipado com dois
-processadores Intel Xeon Cascade Lake Gold 6252, totalizando 24~núcleos
-físicos por nó, com suporte a \textit{hyper-threading}, o que resulta em
-48~processadores lógicos disponíveis. Cada nó conta ainda com 384~GB de
-memória e interconexão de alta velocidade baseada em InfiniBand EDR de
-100~Gb/s, projetada para reduzir a latência e aumentar a eficiência em
-aplicações paralelas de larga escala. Nos experimentos, foi utilizada a
-biblioteca MPICH2 versão~3.2 e um sistema de arquivos paralelo Lustre
-v2.12 implementado através do ClusterStor L300 da Cray/HPE. Essa
-implementação do Lustre é composta por 1~nó MDS (com 1~MDT) e 6~nós OSSs
-(cada um servindo 1~OST) e \textit{stripes} de 1~MB, disponibilizando um
-espaço total de armazenamento de 1,1~PB. Pelos motivos discutidos na
-introdução do capítulo, também aqui se configurou um \textit{rank} por
-núcleo físico, totalizando 24~cenários simultâneos por nó.
-
-
-\subsection{Avaliação da implementação atual}
-\label{sec:sdumont_atual}
-Esta subseção analisa o desempenho da arquitetura atual de E/S do SDDP
-no Experimento SDumont. A Tabela~\ref{tab:central_sdumont} sumariza os
-resultados, considerando 1.536 cenários, três estágios mensais e 24
-\textit{ranks} por nó.
-
-O tempo total de execução, calculado como a soma do tempo médio de
-simulação e do tempo médio de comunicação por processo, não apresenta
-tendência monotônica de redução com o aumento do número de nós: cai de
-9.377~s em 2~nós para 6.842~s em 4~nós, permanece próximo desse patamar
-em 8~nós, com 6.981~s, e volta a crescer em 16~nós, atingindo
-9.082~s. A banda agregada cai consistentemente, de 4{,}57~Gb/s em 2~nós
-para 0{,}84~Gb/s em 16~nós. O tempo de comunicação representa cerca de
-10--15\% do total, enquanto a parcela de E/S, já embutida no tempo de
-simulação, cresce de 9{,}54\% para 72{,}70\%. Esse comportamento
-caracteriza um regime degradado sob \textit{strong scaling}, no qual a
-contenção do processo escritor mais do que compensa os ganhos de
-paralelismo computacional.
-
-\begin{table}[H]
-\centering
-\caption{Desempenho do Experimento SDumont com a implementação atual. O
-tempo total corresponde à soma do tempo médio de simulação e comunicação;
-o tempo de I/O é uma parcela interna da simulação e não é somado novamente.
-A eficiência é calculada em relação à base de 2~nós.}
-\label{tab:central_sdumont}
-\small
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.25}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{cccccccc}
-\toprule
-\textbf{Nós} &
-\textbf{\shortstack{Banda\\(Gb/s)}} &
-\textbf{\shortstack{I/O\\(s)}} &
-\textbf{\% I/O} &
-\textbf{\shortstack{Comunicação\\(s)}} &
-\textbf{\shortstack{Total\\(s)}} &
-\textbf{Speedup} &
-\textbf{\shortstack{Eficiência\\(\%)}} \\
-\midrule
-2  & $4{,}57 \pm 0{,}56$ & $894{,}81 \pm 341{,}58$     & $9{,}54\%$  & $932{,}59 \pm 48{,}27$    & $9\,376{,}80 \pm 349{,}11$ & $1{,}00\times$ & $100{,}0\%$ \\
-4  & $2{,}04 \pm 0{,}54$ & $2\,116{,}61 \pm 482{,}68$ & $30{,}94\%$ & $921{,}08 \pm 55{,}50$    & $6\,841{,}99 \pm 479{,}20$ & $1{,}37\times$ & $68{,}5\%$ \\
-8  & $1{,}52 \pm 1{,}01$ & $4\,013{,}54 \pm 220{,}86$ & $57{,}49\%$ & $1\,014{,}67 \pm 36{,}82$ & $6\,981{,}25 \pm 163{,}40$ & $1{,}34\times$ & $33{,}5\%$ \\
-16 & $0{,}84 \pm 0{,}75$ & $6\,602{,}61 \pm 671{,}38$ & $72{,}70\%$ & $1\,277{,}79 \pm 30{,}77$ & $9\,082{,}37 \pm 174{,}91$ & $1{,}03\times$ & $12{,}9\%$ \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-\subsection{Avaliação da implementação MPI-IO com escritas independentes}
-\label{sec:sdumont_mpiio}
-Esta subseção analisa o desempenho da arquitetura proposta no
-Experimento SDumont, baseada em escritas independentes com MPI-IO sobre o
-sistema de arquivos Lustre operado pelo ClusterStor L300. A
-Tabela~\ref{tab:mpiio_sdumont} consolida os resultados.
-
-Na implementação MPI-IO, o tempo total de execução passa de 10.344~s em
-2~nós para 6.431~s em 4~nós e 6.343~s em 8~nós, voltando a crescer para
-7.593~s em 16~nós. Em comparação com a implementação atual, a versão
-MPI-IO apresenta sobrecusto em 2~nós, com aumento de aproximadamente
-10{,}3\% no tempo total, mas reduz o tempo em 4, 8 e 16~nós, com ganhos
-aproximados de 6{,}0\%, 9{,}1\% e 16{,}4\%, respectivamente. A banda
-agregada do \textit{layer} de escrita permanece modesta, oscilando entre
-1{,}6 e 2{,}8~Gb/s ao longo das escalas avaliadas. Os desvios padrão
-expressivos a partir de 8~nós, da ordem do próprio valor médio para o
-tempo de E/S, indicam alta variabilidade e sugerem limitação por
-metadados, coordenação e concorrência no Lustre.
-
-\begin{table}[H]
-\centering
-\caption{Desempenho do Experimento SDumont com a implementação MPI-IO. O
-tempo total corresponde à soma do tempo médio de simulação e comunicação;
-o tempo de I/O é uma parcela interna da simulação e não é somado novamente.
-A eficiência é calculada em relação à base de 2~nós.}
-\label{tab:mpiio_sdumont}
-\small
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.25}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{cccccccc}
-\toprule
-\textbf{Nós} &
-\textbf{\shortstack{Banda\\(Gb/s)}} &
-\textbf{\shortstack{I/O\\(s)}} &
-\textbf{\% I/O} &
-\textbf{\shortstack{Comunicação\\(s)}} &
-\textbf{\shortstack{Total\\(s)}} &
-\textbf{Speedup} &
-\textbf{\shortstack{Eficiência\\(\%)}} \\
-\midrule
-2  & $1{,}92 \pm 0{,}22$ & $1\,505{,}19 \pm 338{,}26$ & $14{,}55\%$ & $968{,}96 \pm 134{,}71$    & $10\,343{,}93 \pm 511{,}69$ & $1{,}00\times$ & $100{,}0\%$ \\
-4  & $2{,}76 \pm 0{,}53$ & $1\,186{,}44 \pm 414{,}20$ & $18{,}45\%$ & $850{,}55 \pm 177{,}58$    & $6\,430{,}57 \pm 489{,}98$  & $1{,}61\times$ & $80{,}5\%$ \\
-8  & $2{,}08 \pm 0{,}63$ & $1\,884{,}36 \pm 2\,092{,}62$ & $29{,}71\%$ & $976{,}98 \pm 213{,}86$ & $6\,342{,}98 \pm 2\,424{,}11$ & $1{,}63\times$ & $40{,}8\%$ \\
-16 & $1{,}63 \pm 0{,}56$ & $1\,958{,}12 \pm 2\,025{,}19$ & $25{,}79\%$ & $1\,185{,}57 \pm 487{,}98$ & $7\,592{,}64 \pm 2\,840{,}08$ & $1{,}36\times$ & $17{,}0\%$ \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-\subsection{Análise comparativa}
-\label{sec:avaliacao_comparativa_sdumont}
-Os resultados das duas subseções anteriores são consolidados visualmente
-nas figuras a seguir, que apresentam, lado a lado, os perfis de banda
-agregada, tempo de execução e tempo de bloqueio de envio em função do
-número de nós para as duas implementações no Experimento SDumont.
-
-A Tabela~\ref{tab:comparativo_sdumont} resume os principais indicadores
-comparativos do Experimento SDumont. A coluna de melhoria no tempo total
-compara diretamente a implementação MPI-IO com a implementação atual para
-o mesmo número de nós, calculada como
-$(Total_{atual} - Total_{MPIIO})/Total_{atual}$. Valores positivos
-indicam redução do tempo total, enquanto valores negativos indicam piora.
-Embora a MPI-IO apresente sobrecusto em 2~nós, ela passa a reduzir o
-tempo total a partir de 4~nós, chegando a 16{,}4\% de melhoria em
-16~nós. O ganho de banda também cresce com a escala, alcançando
-1{,}94$\times$ em 16~nós, enquanto a redução do tempo de E/S chega a
-70{,}3\% nessa configuração.
-
-\begin{table}[H]
-\centering
-\caption{Resumo comparativo entre a implementação atual e MPI-IO no
-Experimento SDumont. A melhoria no total e a melhoria de I/O são
-calculadas em relação à implementação atual; valores negativos indicam
-piora.}
-\label{tab:comparativo_sdumont}
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.25}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{cccccccccc}
-\toprule
-\textbf{Nós} &
-\textbf{\shortstack{Total\\atual (s)}} &
-\textbf{\shortstack{Total\\MPI-IO (s)}} &
-\textbf{\shortstack{Melhoria\\no total (\%)}} &
-\textbf{\shortstack{Banda\\atual (Gb/s)}} &
-\textbf{\shortstack{Banda\\MPI-IO (Gb/s)}} &
-\textbf{\shortstack{Ganho\\de banda}} &
-\textbf{\shortstack{I/O\\atual (s)}} &
-\textbf{\shortstack{I/O\\MPI-IO (s)}} &
-\textbf{\shortstack{Melhoria\\I/O (\%)}} \\
-\midrule
-2  & $9\,376{,}80$ & $10\,343{,}93$ & $-10{,}3\%$ & $4{,}57$ & $1{,}92$ & $0{,}42\times$ & $894{,}81$    & $1\,505{,}19$ & $-68{,}2\%$ \\
-4  & $6\,841{,}99$ & $6\,430{,}57$  & $6{,}0\%$   & $2{,}04$ & $2{,}76$ & $1{,}36\times$ & $2\,116{,}61$ & $1\,186{,}44$ & $43{,}9\%$ \\
-8  & $6\,981{,}25$ & $6\,342{,}98$  & $9{,}1\%$   & $1{,}52$ & $2{,}08$ & $1{,}37\times$ & $4\,013{,}54$ & $1\,884{,}36$ & $53{,}1\%$ \\
-16 & $9\,082{,}37$ & $7\,592{,}64$  & $16{,}4\%$  & $0{,}84$ & $1{,}63$ & $1{,}94\times$ & $6\,602{,}61$ & $1\,958{,}12$ & $70{,}3\%$ \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-A Figura~\ref{fig:Banda_SDumont} compara a banda agregada média obtida
-pela implementação atual e pela implementação MPI-IO. Em 2~nós, a
-implementação atual apresenta a maior banda observada, com cerca de
-4{,}6~Gb/s, enquanto a versão MPI-IO atinge aproximadamente 1{,}9~Gb/s.
-A partir de 4~nós, entretanto, a implementação MPI-IO passa a apresentar
-maior banda agregada que a implementação atual, alcançando cerca de
-2{,}8~Gb/s em 4~nós, 2{,}1~Gb/s em 8~nós e 1{,}6~Gb/s em 16~nós. Esses
-valores correspondem a ganhos aproximados de 1{,}36$\times$,
-1{,}37$\times$ e 1{,}94$\times$ em relação à implementação atual,
-respectivamente.
-
-Esse comportamento indica que, em pequena escala, o custo adicional da
-abordagem MPI-IO ainda não é compensado pelo paralelismo de escrita. Com
-o aumento do número de nós, a contenção sobre o processo escritor da
-implementação atual torna-se dominante, levando à queda progressiva da
-banda agregada. A implementação MPI-IO reduz esse gargalo ao distribuir
-as operações de E/S, mas também apresenta queda de desempenho nas maiores
-configurações, indicando que a escalabilidade no SDumont é limitada por
-fatores adicionais da infraestrutura de armazenamento --- detalhados a
-seguir na decomposição por categoria de bloco
-(Figura~\ref{fig:EnvioPorTamanho_SDumont}).
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figuras/Banda_SDumont.png}
-  \caption{Banda agregada média das implementações atual e MPI-IO no
-  Experimento SDumont.}
-  \label{fig:Banda_SDumont}
-\end{figure}
-
-A Figura~\ref{fig:Tempo_execucao_SDumont} detalha o tempo médio por
-processo no Experimento SDumont, separando as parcelas de computação,
-comunicação, E/S e Coordenação MPI-IO. A parcela Coordenação MPI-IO
-corresponde às chamadas
-\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}, que ocorrem
-\emph{uma única vez} por execução --- na abertura e no fechamento do
-arquivo de saída --- e são, portanto, custos de natureza
-$O(1)$ em relação ao número de cenários processados. As barras de erro
-indicam somente o desvio padrão do tempo de execução total. Em 2~nós,
-a implementação MPI-IO apresenta tempo total superior ao da
-implementação atual, pois o custo dessas operações de coordenação e
-da própria camada MPI-IO ainda pesa de forma significativa. Nas
-configurações com 4, 8 e 16~nós, a versão MPI-IO reduz o tempo total
-em relação à implementação atual, com ganhos mais evidentes nas
-maiores escalas.
-
-Na implementação atual, a parcela de E/S cresce fortemente com o
-aumento do número de nós, chegando a representar a maior parte do
-tempo total em 16~nós. Esse comportamento é compatível com a saturação
-do processo escritor centralizado. Na implementação MPI-IO, o tempo
-de E/S é redistribuído entre os processos e permanece mais controlado,
-embora o custo da Coordenação MPI-IO passe a compor uma fração visível
-do tempo total.
-
-É importante destacar que a fração relativa da Coordenação MPI-IO
-observada nestes experimentos é maior do que se espera em execuções
-reais do SDDP. Como o custo de
-\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close} é fixo por execução,
-sua participação no tempo total decresce à medida que a carga
-computacional cresce: nas execuções aqui realizadas, com apenas três
-estágios mensais e $1\,536$ cenários, o tempo total de simulação é
-relativamente baixo, o que infla o peso percentual dessa parcela. Em
-execuções de operação programada típicas do SIN, com horizonte de
-vários anos em resolução mensal e número de cenários muito maior, o
-custo absoluto de coordenação permanece o mesmo enquanto o tempo
-total de computação cresce em ordem de magnitude --- diluindo a fração
-relativa da Coordenação MPI-IO para níveis desprezíveis. Assim, a
-figura evidencia que a abordagem proposta reduz o gargalo centralizado
-de escrita; o custo residual de coordenação, embora visível na escala
-dos experimentos, não é uma limitação intrínseca da arquitetura
-proposta.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figuras/Tempo_execucao_SDumont.png}
-  \caption{Decomposição do tempo médio por processo das implementações
-  atual e MPI-IO no Experimento SDumont.}
-  \label{fig:Tempo_execucao_SDumont}
-\end{figure}
-
-A Figura~\ref{fig:EnvioPorTamanho_SDumont} apresenta o tempo médio de
-bloqueio das operações de envio em função do tamanho dos blocos de dados
-no Experimento SDumont, em escala logarítmica, organizada em quatro
-painéis --- um por categoria de tamanho.
-
-O painel (a), correspondente a blocos de até 1~KB, evidencia o principal
-gargalo adicional do Experimento SDumont. Enquanto a implementação atual
-mantém o tempo de envio na ordem de microssegundos --- pois a operação
-reduz-se a um \texttt{MPI\_Send} para o \textit{rank} escritor ---, a
-implementação MPI-IO passa para a ordem de centenas de milissegundos a
-alguns segundos por chamada, com o tempo crescendo monotonicamente com o
-número de nós.
-
-Esse padrão é compatível com o regime de saturação do caminho de dados
-do Lustre quando muitos clientes emitem escritas pequenas concorrentes
-sobre um mesmo arquivo já aberto. O efeito não pode ser atribuído a
-operações de criação, abertura ou fechamento, pois essas ocorrem uma
-única vez por arquivo, fora do laço de escritas.
-
-Nos painéis (b)--(d), referentes a blocos médios e grandes, o
-comportamento se inverte: o custo fixo da camada MPI-IO é amortizado
-pelo volume transferido, e a implementação MPI-IO apresenta tempos de
-bloqueio significativamente menores que a implementação atual, que
-sofre com a saturação do processo escritor único. Em 16~nós, por
-exemplo, a categoria ``até 1~MB'' reduz o tempo médio de envio de
-aproximadamente 16~s na implementação atual para cerca de 0,2~s na
-MPI-IO --- redução de aproximadamente duas ordens de grandeza.
-
-Em conjunto, os painéis evidenciam um ponto de troca: para blocos
-pequenos, o custo fixo por chamada e a contenção no caminho de dados do
-Lustre dominam e penalizam a abordagem MPI-IO; para blocos médios e
-grandes, a escrita paralela reduz substancialmente a contenção do
-escritor único. Esse comportamento --- penalidade severa apenas em
-blocos pequenos, ganho preservado em blocos maiores --- também contribui
-para explicar a queda de banda agregada da
-Figura~\ref{fig:Banda_SDumont} nas maiores escalas, em que a fração de
-chamadas pequenas concorrentes sobre o sistema de arquivos cresce com o
-número de \textit{ranks}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figuras/EnvioPorTamanho_SDumont.png}
-  \caption{Tempo médio de bloqueio das operações de envio por tamanho de
-  bloco de dados nas implementações atual e MPI-IO no Experimento SDumont
-  (escala logarítmica).}
-  \label{fig:EnvioPorTamanho_SDumont}
-\end{figure}
-
-Os resultados apresentados nesta seção demonstram que a adoção da
-abordagem MPI-IO com escritas independentes reduz o gargalo da
-arquitetura original associado à concentração das operações de E/S no
-processo escritor. No SDumont, essa redução se reflete em maior banda
-agregada a partir de 4~nós e em menor tempo total nas configurações de 4,
-8 e 16~nós. Entretanto, os desvios observados e a queda de desempenho nas
-maiores escalas indicam que a infraestrutura de armazenamento ainda impõe
-limitações por metadados, coordenação e concorrência entre processos.
-Assim, a estratégia proposta melhora a escalabilidade em relação ao
-modelo centralizado, mas seu benefício depende das características do
-sistema de arquivos e da escala de execução.
-
-% =============================================================
 \section{Experimento AWS}
 \label{sec:exp_aws}
 
@@ -774,3 +456,362 @@ introduz gargalos mais visíveis no cenário com 32~nós.
   \label{fig:Experimento_OSTs_banda}
 \end{figure}
 
+% =============================================================
+\section{Experimento SDumont}
+\label{sec:exp_sdumont}
+
+O Experimento SDumont corresponde ao supercomputador Santos Dumont
+(SDumont), adquirido junto à empresa francesa EVIDEN/ATOS/BULL, que está
+localizado na sede do Laboratório Nacional de Computação Científica
+(LNCC), em Petrópolis-RJ, atuando como nó central (Tier-0) do Sistema
+Nacional de Processamento de Alto Desempenho (SINAPAD). Nesse experimento
+foram utilizados até 32~nós de processamento, cada um equipado com dois
+processadores Intel Xeon Cascade Lake Gold 6252, totalizando 24~núcleos
+físicos por nó, com suporte a \textit{hyper-threading}, o que resulta em
+48~processadores lógicos disponíveis. Cada nó conta ainda com 384~GB de
+memória e interconexão de alta velocidade baseada em InfiniBand EDR de
+100~Gb/s, projetada para reduzir a latência e aumentar a eficiência em
+aplicações paralelas de larga escala. Nos experimentos, foi utilizada a
+biblioteca MPICH2 versão~3.2 e um sistema de arquivos paralelo Lustre
+v2.12 implementado através do ClusterStor L300 da Cray/HPE. Essa
+implementação do Lustre é composta por 1~nó MDS (com 1~MDT) e 6~nós OSSs
+(cada um servindo 1~OST) e \textit{stripes} de 1~MB, disponibilizando um
+espaço total de armazenamento de 1,1~PB. Pelos motivos discutidos na
+introdução do capítulo, também aqui se configurou um \textit{rank} por
+núcleo físico, totalizando 24~cenários simultâneos por nó.
+
+Diferentemente do FSx for Lustre dedicado utilizado no Experimento AWS, o
+sistema de arquivos do SDumont é compartilhado com outras cargas de
+trabalho de HPC executando concorrentemente, o que introduz variabilidade
+adicional nas medições e amplifica o efeito da contenção sobre os
+recursos do sistema de arquivos nas maiores escalas. Esse compartilhamento
+faz do SDumont um cenário mais desafiador para a avaliação da
+escalabilidade de E/S do que o ambiente isolado da AWS.
+
+
+\subsection{Avaliação da implementação atual}
+\label{sec:sdumont_atual}
+Esta subseção analisa o desempenho da arquitetura atual de E/S do SDDP
+no Experimento SDumont. A Tabela~\ref{tab:central_sdumont} sumariza os
+resultados, considerando 1.536 cenários, três estágios mensais e 24
+\textit{ranks} por nó.
+
+O tempo total de execução, calculado como a soma do tempo médio de
+simulação e do tempo médio de comunicação por processo, decresce
+monotonicamente com o aumento do número de nós: 14.703~s em 2~nós,
+7.572~s em 4~nós, 4.987~s em 8~nós e 3.248~s em 16~nós. Essa redução,
+contudo, perde eficiência rapidamente: o speedup passa de
+1{,}94$\times$ em 4~nós para 2{,}95$\times$ em 8~nós e
+4{,}53$\times$ em 16~nós, o que corresponde a queda de eficiência de
+97{,}1\% para 56{,}6\%. A banda agregada confirma o diagnóstico:
+parte de 62{,}8~Gb/s em 2~nós, recua moderadamente para 46{,}2~Gb/s
+em 4~nós e despenca para 4{,}3~Gb/s em 8~nós, recuperando-se
+parcialmente para 8{,}0~Gb/s em 16~nós --- comportamento errático
+típico de saturação intermitente do processo escritor sob
+concorrência. A parcela de E/S, embutida no tempo de simulação,
+salta de 0{,}24\% em 2~nós para 21{,}06\% em 8~nós e mantém-se em
+20{,}51\% em 16~nós, evidência direta de que o gargalo da
+arquitetura centralizada se manifesta a partir das escalas
+intermediárias.
+
+\begin{table}[H]
+\centering
+\caption{Desempenho do Experimento SDumont com a implementação atual. O
+tempo total corresponde à soma do tempo médio de simulação e comunicação;
+o tempo de I/O é uma parcela interna da simulação e não é somado novamente.
+A eficiência é calculada em relação à base de 2~nós.}
+\label{tab:central_sdumont}
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccc}
+\toprule
+\textbf{Nós} &
+\textbf{\shortstack{Banda\\(Gb/s)}} &
+\textbf{\shortstack{I/O\\(s)}} &
+\textbf{\% I/O} &
+\textbf{\shortstack{Comunicação\\(s)}} &
+\textbf{\shortstack{Total\\(s)}} &
+\textbf{Speedup} &
+\textbf{\shortstack{Eficiência\\(\%)}} \\
+\midrule
+2  & $62{,}78 \pm 2{,}08$  & $34{,}73 \pm 8{,}01$       & $0{,}24\%$  & $374{,}04 \pm 14{,}95$ & $14\,702{,}88 \pm 23{,}0$ & $1{,}00\times$ & $100{,}0\%$ \\
+4  & $46{,}19 \pm 3{,}59$  & $75{,}76 \pm 28{,}90$      & $1{,}05\%$  & $332{,}55 \pm 14{,}81$ & $7\,571{,}66 \pm 15{,}8$  & $1{,}94\times$ & $97{,}1\%$ \\
+8  & $4{,}26 \pm 0{,}33$   & $968{,}97 \pm 109{,}68$    & $21{,}06\%$ & $385{,}68 \pm 22{,}53$ & $4\,987{,}34 \pm 93{,}4$  & $2{,}95\times$ & $73{,}7\%$ \\
+16 & $7{,}96 \pm 1{,}66$   & $521{,}77 \pm 135{,}30$    & $20{,}51\%$ & $704{,}29 \pm 76{,}97$ & $3\,247{,}85 \pm 88{,}3$  & $4{,}53\times$ & $56{,}6\%$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection{Avaliação da implementação MPI-IO com escritas independentes}
+\label{sec:sdumont_mpiio}
+Esta subseção analisa o desempenho da arquitetura proposta no
+Experimento SDumont, baseada em escritas independentes com MPI-IO sobre o
+sistema de arquivos Lustre operado pelo ClusterStor L300. A
+Tabela~\ref{tab:mpiio_sdumont} consolida os resultados.
+
+Na implementação MPI-IO, o tempo total decresce monotonicamente:
+15.096~s em 2~nós, 7.912~s em 4~nós, 4.651~s em 8~nós e 3.219~s em
+16~nós. Em comparação com a implementação atual, a versão MPI-IO
+apresenta sobrecusto em pequena escala (aumento de 2{,}7\% em 2~nós
+e 4{,}5\% em 4~nós), mas passa a reduzir o tempo total a partir de
+8~nós, com ganhos de 6{,}7\% em 8~nós e 0{,}9\% em 16~nós. A banda
+agregada do \textit{layer} de escrita, ao contrário do que ocorre na
+implementação atual, cresce de forma consistente com o paralelismo:
+de 5{,}5~Gb/s em 2~nós para 8{,}9~Gb/s em 4~nós, 12{,}1~Gb/s em
+8~nós e 18{,}9~Gb/s em 16~nós, mais que triplicando ao longo da
+faixa avaliada. O tempo médio de E/S por processo, por outro lado,
+cai de 320~s em 2~nós para 99~s em 16~nós, e a parcela percentual
+de E/S no tempo de simulação permanece abaixo de 5\% em todas as
+configurações --- indicando que o gargalo se deslocou da E/S para
+outros componentes, em particular custos fixos da camada MPI-IO,
+medidos pela parcela de Coordenação MPI-IO.
+
+\begin{table}[H]
+\centering
+\caption{Desempenho do Experimento SDumont com a implementação MPI-IO. O
+tempo total corresponde à soma do tempo médio de simulação e comunicação;
+o tempo de I/O e o de Coordenação MPI-IO são parcelas internas da simulação e
+não são somados novamente. A eficiência é calculada em relação à base de
+2~nós.}
+\label{tab:mpiio_sdumont}
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccc}
+\toprule
+\textbf{Nós} &
+\textbf{\shortstack{Banda\\(Gb/s)}} &
+\textbf{\shortstack{I/O\\(s)}} &
+\textbf{\% I/O} &
+\textbf{\shortstack{Comunicação\\(s)}} &
+\textbf{\shortstack{Total\\(s)}} &
+\textbf{Speedup} &
+\textbf{\shortstack{Eficiência\\(\%)}} \\
+\midrule
+2  & $5{,}55 \pm 0{,}37$  & $320{,}27 \pm 85{,}23$ & $2{,}17\%$ & $352{,}81 \pm 8{,}60$  & $15\,096{,}47 \pm 54{,}0$  & $1{,}00\times$ & $100{,}0\%$ \\
+4  & $8{,}89 \pm 0{,}97$  & $270{,}52 \pm 49{,}78$ & $3{,}52\%$ & $230{,}99 \pm 12{,}85$ & $7\,912{,}23 \pm 91{,}5$   & $1{,}91\times$ & $95{,}4\%$ \\
+8  & $12{,}09 \pm 1{,}51$ & $193{,}57 \pm 35{,}28$ & $4{,}37\%$ & $222{,}57 \pm 7{,}89$  & $4\,651{,}01 \pm 141{,}0$  & $3{,}25\times$ & $81{,}1\%$ \\
+16 & $18{,}85 \pm 1{,}19$ & $99{,}41 \pm 21{,}32$  & $3{,}38\%$ & $281{,}28 \pm 18{,}34$ & $3\,219{,}43 \pm 86{,}1$   & $4{,}69\times$ & $58{,}6\%$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection{Análise comparativa}
+\label{sec:avaliacao_comparativa_sdumont}
+Os resultados das duas subseções anteriores são consolidados visualmente
+nas figuras a seguir, que apresentam, lado a lado, os perfis de banda
+agregada, tempo de execução e tempo de bloqueio de envio em função do
+número de nós para as duas implementações no Experimento SDumont.
+
+A Tabela~\ref{tab:comparativo_sdumont} resume os principais indicadores
+comparativos do Experimento SDumont. A coluna de melhoria no tempo total
+compara diretamente a implementação MPI-IO com a implementação atual para
+o mesmo número de nós, calculada como
+$(Total_{atual} - Total_{MPIIO})/Total_{atual}$. Valores positivos
+indicam redução do tempo total, enquanto valores negativos indicam piora.
+A MPI-IO apresenta sobrecusto em pequena escala (--2{,}7\% em 2~nós e
+--4{,}5\% em 4~nós), mas passa a reduzir o tempo total a partir de
+8~nós, com ganhos de 6{,}7\% em 8~nós e 0{,}9\% em 16~nós. O ganho de
+banda é o resultado mais robusto: alcança 2{,}84$\times$ em 8~nós e
+2{,}37$\times$ em 16~nós. A redução do tempo médio de E/S chega a
+80{,}0\% em 8~nós e 80{,}9\% em 16~nós, atestando que a contenção do
+escritor único é o fator dominante de degradação na implementação atual
+nessas escalas.
+
+\begin{table}[H]
+\centering
+\caption{Resumo comparativo entre a implementação atual e MPI-IO no
+Experimento SDumont. A melhoria no total e a melhoria de I/O são
+calculadas em relação à implementação atual; valores negativos indicam
+piora.}
+\label{tab:comparativo_sdumont}
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.25}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccccc}
+\toprule
+\textbf{Nós} &
+\textbf{\shortstack{Total\\atual (s)}} &
+\textbf{\shortstack{Total\\MPI-IO (s)}} &
+\textbf{\shortstack{Melhoria\\no total (\%)}} &
+\textbf{\shortstack{Banda\\atual (Gb/s)}} &
+\textbf{\shortstack{Banda\\MPI-IO (Gb/s)}} &
+\textbf{\shortstack{Ganho\\de banda}} &
+\textbf{\shortstack{I/O\\atual (s)}} &
+\textbf{\shortstack{I/O\\MPI-IO (s)}} &
+\textbf{\shortstack{Melhoria\\I/O (\%)}} \\
+\midrule
+2  & $14\,702{,}88$ & $15\,096{,}47$ & $-2{,}7\%$  & $62{,}78$ & $5{,}55$  & $0{,}09\times$ & $34{,}73$  & $320{,}27$ & $-822{,}5\%$ \\
+4  & $7\,571{,}66$  & $7\,912{,}23$  & $-4{,}5\%$  & $46{,}19$ & $8{,}89$  & $0{,}19\times$ & $75{,}76$  & $270{,}52$ & $-257{,}1\%$ \\
+8  & $4\,987{,}34$  & $4\,651{,}01$  & $6{,}7\%$   & $4{,}26$  & $12{,}09$ & $2{,}84\times$ & $968{,}97$ & $193{,}57$ & $80{,}0\%$ \\
+16 & $3\,247{,}85$  & $3\,219{,}43$  & $0{,}9\%$   & $7{,}96$  & $18{,}85$ & $2{,}37\times$ & $521{,}77$ & $99{,}41$  & $80{,}9\%$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+A Figura~\ref{fig:Banda_SDumont} compara a banda agregada média
+obtida pela implementação atual e pela implementação MPI-IO. Em 2 e
+4~nós, a implementação atual apresenta a maior banda observada, com
+62{,}8~Gb/s e 46{,}2~Gb/s respectivamente, enquanto a MPI-IO atinge
+5{,}5~Gb/s e 8{,}9~Gb/s --- comportamento esperado em pequena
+escala, em que o custo fixo da camada MPI-IO ainda não é amortizado
+pelo paralelismo de escrita. A partir de 8~nós, o quadro se inverte:
+a banda da implementação atual despenca para 4{,}3~Gb/s e a MPI-IO
+sobe para 12{,}1~Gb/s --- ganho de 2{,}84$\times$. Em 16~nós, a
+banda da implementação atual recupera-se parcialmente para
+8{,}0~Gb/s, mas a MPI-IO continua crescendo, alcançando
+18{,}9~Gb/s --- ganho de 2{,}37$\times$.
+
+Mais relevante que o valor absoluto é o contraste de
+\emph{comportamento}: a implementação atual exibe um perfil errático
+ao longo da escala, com queda abrupta entre 4 e 8~nós e recuperação
+parcial em 16~nós, sintoma de saturação intermitente do adaptador de
+rede do nó escritor sob a concorrência com outras cargas de HPC no
+Lustre compartilhado do SDumont. A implementação MPI-IO, em
+contrapartida, apresenta perfil monotonicamente crescente e estável,
+indicando que a infraestrutura de armazenamento ainda é capaz de
+absorver maior paralelismo de escrita.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/Banda_SDumont.png}
+  \caption{Banda agregada média das implementações atual e MPI-IO no
+  Experimento SDumont.}
+  \label{fig:Banda_SDumont}
+\end{figure}
+
+A Figura~\ref{fig:Tempo_execucao_SDumont} detalha o tempo médio por
+processo no Experimento SDumont, separando as parcelas de computação,
+comunicação, E/S e Coordenação MPI-IO. A parcela Coordenação MPI-IO corresponde
+às chamadas \texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}, que
+ocorrem \emph{uma única vez} por execução --- na abertura e no
+fechamento do arquivo de saída --- e são, portanto, custos de
+natureza $O(1)$ em relação ao número de cenários processados. As
+barras de erro indicam somente o desvio padrão do tempo de execução
+total. Em 2 e 4~nós, a implementação MPI-IO apresenta tempo total
+levemente superior ao da implementação atual: o custo das operações
+de coordenação e da própria camada MPI-IO ainda pesa nessas escalas,
+em que a contenção do escritor único da implementação atual ainda
+não saturou. A partir de 8~nós, a versão MPI-IO reduz o tempo total
+em relação à implementação atual.
+
+Na implementação atual, a parcela de E/S cresce de forma marcante a
+partir de 8~nós, chegando a representar uma fatia significativa do
+tempo de simulação. Esse comportamento é compatível com a saturação
+do processo escritor centralizado no Lustre compartilhado do
+SDumont. Na implementação MPI-IO, o tempo de E/S é redistribuído
+entre os processos e permanece reduzido em todas as escalas
+(abaixo de 5\% do tempo de simulação), enquanto o custo da
+Coordenação MPI-IO passa a compor uma fração visível do tempo total
+nas maiores configurações --- em particular, cresce de cerca de
+23~s em 2~nós para 126~s em 16~nós.
+
+É importante destacar que a fração relativa da Coordenação MPI-IO
+observada nestes experimentos é maior do que se espera em execuções
+reais do SDDP. Como o custo de
+\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close} é fixo por
+execução, sua participação no tempo total decresce à medida que a
+carga computacional cresce: nas execuções aqui realizadas, com
+apenas três estágios mensais e $1\,536$ cenários, o tempo total de
+simulação é relativamente baixo, o que infla o peso percentual dessa
+parcela. Em execuções de operação programada típicas do SIN, com
+horizonte de vários anos em resolução mensal e número de cenários
+muito maior, o custo absoluto de coordenação permanece o mesmo
+enquanto o tempo total de computação cresce em ordem de magnitude
+--- diluindo a fração relativa da Coordenação MPI-IO para níveis
+desprezíveis. Assim, a figura evidencia que a abordagem proposta
+reduz o gargalo centralizado de escrita; o custo residual de
+coordenação, embora visível na escala dos experimentos, não é uma
+limitação intrínseca da arquitetura proposta.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/Tempo_execucao_SDumont.png}
+  \caption{Decomposição do tempo médio por processo das implementações
+  atual e MPI-IO no Experimento SDumont.}
+  \label{fig:Tempo_execucao_SDumont}
+\end{figure}
+
+A Figura~\ref{fig:EnvioPorTamanho_SDumont} apresenta o tempo médio
+de bloqueio das operações de envio em função do tamanho dos blocos
+de dados no Experimento SDumont, em escala logarítmica, organizada
+em quatro painéis --- um por categoria de tamanho.
+
+O painel (a), correspondente a blocos de até 1~KB, mostra tempos de
+envio na ordem de poucas dezenas de microssegundos para ambas as
+implementações em todas as escalas, com diferenças marginais. Para
+essa granularidade, dominada por chamadas de controle e protocolo,
+nem o gargalo do escritor único nem o custo fixo da camada MPI-IO
+se manifestam de forma significativa.
+
+O painel (b), referente a blocos de até 128~KB, evidencia o
+contraste mais dramático da figura. A implementação atual cresce de
+$5{,}7\!\times\!10^{-5}$~s em 2~nós para $2{,}7\!\times\!10^{-3}$~s
+em 8~nós --- aumento de aproximadamente duas ordens de grandeza com
+a escala ---, enquanto a implementação MPI-IO permanece estável em
+torno de $1{,}3\!\times\!10^{-5}$~s em todas as configurações. Nessa
+faixa, a contenção do processo escritor da arquitetura atual
+amplifica-se rapidamente com a concorrência, e a escrita paralela
+da MPI-IO chega a apresentar duas ordens de grandeza de vantagem em
+8 e 16~nós.
+
+Os painéis (c) e (d), referentes a blocos de até 1~MB e até 50~MB,
+mostram um comportamento misto. Em 2 e 4~nós, a implementação atual
+ainda apresenta tempos menores --- 4{,}6~ms e 21~ms na classe de
+até 1~MB; 14~ms e 55~ms na classe de até 50~MB ---, enquanto a
+MPI-IO paga seu custo fixo (45~ms, 71~ms, 123~ms e 250~ms,
+respectivamente). Essa vantagem inicial se inverte a partir de
+8~nós: a saturação do escritor único na implementação atual eleva o
+tempo médio para 0{,}593~s na classe de até 1~MB e 0{,}982~s na
+classe de até 50~MB, contra 0{,}094~s e 0{,}433~s da MPI-IO. Em
+16~nós, a vantagem da MPI-IO consolida-se: 0{,}082~s vs.\
+0{,}638~s na classe de até 1~MB (redução de quase uma ordem de
+grandeza) e 0{,}586~s vs.\ 1{,}07~s na classe de até 50~MB.
+
+Em conjunto, os painéis evidenciam um ponto de troca em função da
+escala: em 2 e 4~nós, a implementação atual é competitiva ou
+superior em blocos médios e grandes; a partir de 8~nós, a
+arquitetura MPI-IO se torna sistematicamente vantajosa em todas as
+classes não triviais, com ganhos de até duas ordens de grandeza nos
+blocos de até 128~KB. Esse padrão também explica diretamente o
+comportamento errático da banda agregada da implementação atual
+mostrado na Figura~\ref{fig:Banda_SDumont}: a partir de 8~nós, a
+maior parte do volume escrito sofre saturação no escritor único.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/EnvioPorTamanho_SDumont.png}
+  \caption{Tempo médio de bloqueio das operações de envio por tamanho de
+  bloco de dados nas implementações atual e MPI-IO no Experimento SDumont
+  (escala logarítmica).}
+  \label{fig:EnvioPorTamanho_SDumont}
+\end{figure}
+
+Os resultados apresentados nesta seção demonstram que a adoção da
+abordagem MPI-IO com escritas independentes endereça o gargalo da
+arquitetura original associado à concentração das operações de E/S
+no processo escritor. No SDumont, esse benefício se manifesta a
+partir de 8~nós: a banda agregada cresce monotonicamente até
+18{,}9~Gb/s em 16~nós, contra um perfil errático na implementação
+atual; o tempo de E/S é reduzido em cerca de 80\% nas duas maiores
+escalas; e o tempo total da MPI-IO passa a ser inferior ao da
+implementação atual. Em 2 e 4~nós, o custo fixo da camada MPI-IO
+ainda sobrepõe-se ao ganho de paralelismo de escrita, e a
+implementação atual é ligeiramente mais rápida.
+
+A queda de eficiência paralela observada em ambas as implementações
+em 16~nós --- abaixo de 60\% --- e a alta variabilidade dos desvios
+padrão refletem, em boa medida, o caráter compartilhado do Lustre
+do SDumont, em que diferentes cargas de HPC concorrem
+simultaneamente pelo mesmo sistema de arquivos. Mesmo nesse cenário
+hostil, o contraste qualitativo entre o perfil monotônico da MPI-IO
+e o perfil errático da implementação atual persiste em toda a faixa
+avaliada, indicando que a vantagem estrutural da escrita paralela
+se mantém quando a infraestrutura impõe limites significativos.
