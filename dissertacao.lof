@@ -11,6 +11,7 @@
 \contentsline {figure}{\numberline {2.6}{\ignorespaces Algoritmo SDDP com processo escritor.}}{12}{figure.2.6}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Proposta com MPI-IO e Lustre.}}{15}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Timeline da simulação final do SDDP com MPI-IO.}}{15}{figure.3.2}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{17}{figure.4.1}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média no Experimento AWS.}}{21}{figure.4.2}%
