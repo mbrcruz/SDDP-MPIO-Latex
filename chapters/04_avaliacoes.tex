@@ -771,7 +771,64 @@ $5{,}7\!\times\!10^{-5}$~s em 2~nós para $2{,}7\!\times\!10^{-3}$~s
 em 8~nós --- aumento de aproximadamente duas ordens de grandeza com
 a escala ---, enquanto a implementação MPI-IO permanece estável em
 torno de $1{,}3\!\times\!10^{-5}$~s em todas as configurações. Nessa
-faixa, a contenção do processo escritor da arquitetura atual amplifica-se rapidamente com a concorrência, e a escrita paralela
+faixa, a contenção do processo escritor da arquitetura atual
+amplifica-se rapidamente com a concorrência, e a escrita paralela
+da MPI-IO chega a apresentar duas ordens de grandeza de vantagem em
+8 e 16~nós.
+
+Os painéis (c) e (d), referentes a blocos de até 1~MB e até 50~MB,
+mostram um comportamento misto. Em 2 e 4~nós, a implementação atual
+ainda apresenta tempos menores --- 4{,}6~ms e 21~ms na classe de
+até 1~MB; 14~ms e 55~ms na classe de até 50~MB ---, enquanto a
+MPI-IO paga seu custo fixo (45~ms, 71~ms, 123~ms e 250~ms,
+respectivamente). Essa vantagem inicial se inverte a partir de
+8~nós: a saturação do escritor único na implementação atual eleva o
+tempo médio para 0{,}593~s na classe de até 1~MB e 0{,}982~s na
+classe de até 50~MB, contra 0{,}094~s e 0{,}433~s da MPI-IO. Em
+16~nós, a vantagem da MPI-IO consolida-se: 0{,}082~s vs.\
+0{,}638~s na classe de até 1~MB (redução de quase uma ordem de
+grandeza) e 0{,}586~s vs.\ 1{,}07~s na classe de até 50~MB.
+
+Em conjunto, os painéis evidenciam um ponto de troca em função da
+escala: em 2 e 4~nós, a implementação atual é competitiva ou
+superior em blocos médios e grandes; a partir de 8~nós, a
+arquitetura MPI-IO se torna sistematicamente vantajosa em todas as
+classes não triviais, com ganhos de até duas ordens de grandeza nos
+blocos de até 128~KB. Esse padrão também explica diretamente o
+comportamento errático da banda agregada da implementação atual
+mostrado na Figura~\ref{fig:Banda_SDumont}: a partir de 8~nós, a
+maior parte do volume escrito sofre saturação no escritor único.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/EnvioPorTamanho_SDumont.png}
+  \caption{Tempo médio de bloqueio das operações de envio por tamanho de
+  bloco de dados nas implementações atual e MPI-IO no Experimento SDumont
+  (escala logarítmica).}
+  \label{fig:EnvioPorTamanho_SDumont}
+\end{figure}
+
+Os resultados apresentados nesta seção demonstram que a adoção da
+abordagem MPI-IO com escritas independentes endereça o gargalo da
+arquitetura original associado à concentração das operações de E/S
+no processo escritor. No SDumont, esse benefício se manifesta a
+partir de 8~nós: a banda agregada cresce monotonicamente até
+18{,}9~Gb/s em 16~nós, contra um perfil errático na implementação
+atual; o tempo de E/S é reduzido em cerca de 80\% nas duas maiores
+escalas; e o tempo total da MPI-IO passa a ser inferior ao da
+implementação atual. Em 2 e 4~nós, o custo fixo da camada MPI-IO
+ainda sobrepõe-se ao ganho de paralelismo de escrita, e a
+implementação atual é ligeiramente mais rápida.
+
+A queda de eficiência paralela observada em ambas as implementações
+em 16~nós --- abaixo de 60\% --- e a alta variabilidade dos desvios
+padrão refletem, em boa medida, o caráter compartilhado do Lustre
+do SDumont, em que diferentes cargas de HPC concorrem
+simultaneamente pelo mesmo sistema de arquivos. Mesmo nesse cenário
+hostil, o contraste qualitativo entre o perfil monotônico da MPI-IO
+e o perfil errático da implementação atual persiste em toda a faixa
+avaliada, indicando que a vantagem estrutural da escrita paralela
+se mantém quando a infraestrutura impõe limites significativos.ual amplifica-se rapidamente com a concorrência, e a escrita paralela
 da MPI-IO chega a apresentar duas ordens de grandeza de vantagem em
 8 e 16~nós.
 
