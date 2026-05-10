@@ -23,24 +23,8 @@ primeiro é o gargalo de comunicação, pois os dados deixam de ser enviados
 ao processo escritor antes de serem persistidos. O segundo é o gargalo de
 armazenamento, pois a escrita passa a ser distribuída entre os recursos do
 sistema de arquivos paralelo, em vez de ser serializada por um único
-\textit{rank}. A Figura~\ref{fig:SDDP_architecture2} sintetiza essa nova
-organização.
+\textit{rank}.
 
-
-Espera-se que essa nova arquitetura traga ganhos substanciais de
-desempenho. Primeiramente, ao eliminar o processo escritor único, a
-aplicação poderá distribuir dinamicamente a carga de E/S entre os próprios
-processos computacionais, reduzindo a sobrecarga sobre o adaptador de rede
-do nó mestre. Em segundo lugar, a redução da dependência de
-\textit{buffers} intermediários e de sincronizações entre \textit{ranks}
-minimiza a latência entre o término da computação e a persistência dos
-resultados. Além disso, a utilização do paralelismo nativo do Lustre deverá
-resultar em um melhor aproveitamento dos recursos de armazenamento,
-tornando o sistema mais escalável à medida que aumenta o número de nós.
-Por fim, essa abordagem alinha-se às boas práticas adotadas em aplicações
-científicas de larga escala, promovendo maior portabilidade, eficiência e
-adaptabilidade a infraestruturas HPC modernas. A
-Figura~\ref{fig:SDDP_architecture2} descreve o funcionamento da proposta.
 
 \begin{figure}[H]
   \centering

@@ -1,0 +1,86 @@
+% =============================================================
+% Timeline do SDDP — cada rank resolve um subconjunto distinto
+% de cenários, alternando computação e E/S independente.
+% Bibliotecas necessárias: arrows.meta, positioning
+% =============================================================
+\begin{figure}[H]
+  \centering
+  \definecolor{compcolor}{HTML}{66BB6A}
+  \definecolor{iocolor}{HTML}{E57373}
+  \begin{tikzpicture}[
+    rankbg/.style={align=right, font=\small, anchor=east},
+    compute/.style={draw, fill=compcolor, text=white, minimum height=0.6cm, anchor=west, font=\scriptsize\bfseries, inner sep=2pt},
+    io/.style={draw, fill=iocolor, text=white, minimum height=0.6cm, anchor=west, font=\scriptsize\bfseries, inner sep=2pt},
+    timeaxis/.style={-{Latex[length=2mm]}, thick}
+  ]
+    %---- rótulos de rank (à esquerda) ----
+    \node[rankbg] at (-0.2, 0)    {rank 0};
+    \node[rankbg] at (-0.2, -0.8) {rank 1};
+    \node[rankbg] at (-0.2, -1.6) {rank 2};
+    \node[rankbg] at (-0.2, -2.4) {rank 3};
+    \node[font=\large, anchor=east] at (-0.2, -3.0) {$\vdots$};
+    \node[rankbg] at (-0.2, -3.6) {rank $N$};
+
+    %---- timelines: cada rank resolve um subconjunto distinto de cenários ----
+    % rank 0: 1, 2, 3
+    \node[compute, minimum width=3.5cm] at (0,    0) {Resolvendo cenário 1};
+    \node[io,      minimum width=0.75cm] at (3.5,  0) {E/S};
+    \node[compute, minimum width=3.5cm] at (4.25, 0) {Resolvendo cenário 2};
+    \node[io,      minimum width=0.75cm] at (7.75, 0) {E/S};
+    \node[compute, minimum width=3.5cm] at (8.5,  0) {Resolvendo cenário 3};
+    \node[io,      minimum width=0.75cm] at (12.0, 0) {E/S};
+
+    % rank 1: 4, 5, 6
+    \node[compute, minimum width=3.8cm] at (0,    -0.8) {Resolvendo cenário 4};
+    \node[io,      minimum width=0.75cm] at (3.8,  -0.8) {E/S};
+    \node[compute, minimum width=3.4cm] at (4.55, -0.8) {Resolvendo cenário 5};
+    \node[io,      minimum width=0.75cm] at (7.95, -0.8) {E/S};
+    \node[compute, minimum width=3.5cm] at (8.7,  -0.8) {Resolvendo cenário 6};
+    \node[io,      minimum width=0.75cm] at (12.2, -0.8) {E/S};
+
+    % rank 2: 7, 8, 9
+    \node[compute, minimum width=3.2cm] at (0,    -1.6) {Resolvendo cenário 7};
+    \node[io,      minimum width=0.75cm] at (3.2,  -1.6) {E/S};
+    \node[compute, minimum width=3.9cm] at (3.95, -1.6) {Resolvendo cenário 8};
+    \node[io,      minimum width=0.75cm] at (7.85, -1.6) {E/S};
+    \node[compute, minimum width=3.4cm] at (8.6,  -1.6) {Resolvendo cenário 9};
+    \node[io,      minimum width=0.75cm] at (12.0, -1.6) {E/S};
+
+    % rank 3: 10, 11, 12
+    \node[compute, minimum width=3.6cm] at (0,    -2.4) {Resolvendo cenário 10};
+    \node[io,      minimum width=0.75cm] at (3.6,  -2.4) {E/S};
+    \node[compute, minimum width=3.6cm] at (4.35, -2.4) {Resolvendo cenário 11};
+    \node[io,      minimum width=0.75cm] at (7.95, -2.4) {E/S};
+    \node[compute, minimum width=3.7cm] at (8.7,  -2.4) {Resolvendo cenário 12};
+    \node[io,      minimum width=0.75cm] at (12.4, -2.4) {E/S};
+
+    % rank N: k, k+1, k+2
+    \node[compute, minimum width=3.6cm] at (0,    -3.6) {Resolvendo cenário $k$};
+    \node[io,      minimum width=0.75cm] at (3.6,  -3.6) {E/S};
+    \node[compute, minimum width=3.5cm] at (4.35, -3.6) {Resolvendo cenário $k{+}1$};
+    \node[io,      minimum width=0.75cm] at (7.85, -3.6) {E/S};
+    \node[compute, minimum width=3.7cm] at (8.6,  -3.6) {Resolvendo cenário $k{+}2$};
+    \node[io,      minimum width=0.75cm] at (12.3, -3.6) {E/S};
+
+    %---- eixo do tempo ----
+    \draw[timeaxis] (-0.1, -4.3) -- (13.2, -4.3);
+    \node[font=\small, anchor=west] at (13.25, -4.3) {Tempo};
+
+    %---- legenda ----
+    \node[draw, rounded corners=2pt, fill=compcolor, minimum width=0.9cm, minimum height=0.45cm] at (1.0, -5.0) {};
+    \node[font=\scriptsize, anchor=west] at (1.55, -5.0) {Computação --- resolução do cenário};
+    \node[draw, rounded corners=2pt, fill=iocolor, minimum width=0.9cm, minimum height=0.45cm] at (7.5, -5.0) {};
+    \node[font=\scriptsize, anchor=west] at (8.05, -5.0) {Escrita independente em \textit{offset} distinto};
+  \end{tikzpicture}
+  \caption{Linha do tempo da fase de simulação final do SDDP na arquitetura
+  proposta. Os cenários $\{1, 2, \ldots\}$ são particionados entre os
+  $N$ \textit{ranks} MPI: cada \textit{rank} resolve um subconjunto disjunto
+  e, ao final da resolução de cada cenário, persiste seus resultados por meio
+  de uma operação de E/S em um \textit{offset} distinto do(s) arquivo(s)
+  compartilhado(s) via \texttt{MPI\_File\_write\_at}. Como a fase de simulação
+  final é \textit{bag-of-tasks} (cenários mutuamente independentes) e as
+  escritas não exigem coordenação coletiva, os \textit{ranks} executam suas
+  operações de E/S de forma totalmente independente, sem sincronização entre
+  processos.}
+  \label{fig:timeline_sddp}
+\end{figure}
