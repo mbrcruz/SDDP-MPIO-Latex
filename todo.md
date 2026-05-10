@@ -37,6 +37,7 @@
 
     
 - Experimentos
+    - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node. 
     - teste ASYNC SDumont 
     - teste ASYNC AWS ( Necessário para escrever menos no capitulo IV)
     - Teste com IOR two phase I/O e banda. 

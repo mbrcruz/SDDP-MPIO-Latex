@@ -25,6 +25,7 @@
 \contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{27}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO com escritas independentes}{28}{subsection.4.2.2}%
 \contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{29}{subsection.4.2.3}%
-\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{36}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{37}{chapter.6}%
-\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{38}{chapter*.6}%
+\contentsline {section}{\numberline {4.3}Síntese das avaliações}{35}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{37}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{38}{chapter.6}%
+\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{39}{chapter*.6}%

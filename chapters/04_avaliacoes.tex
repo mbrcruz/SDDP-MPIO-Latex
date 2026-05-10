@@ -771,8 +771,7 @@ $5{,}7\!\times\!10^{-5}$~s em 2~nós para $2{,}7\!\times\!10^{-3}$~s
 em 8~nós --- aumento de aproximadamente duas ordens de grandeza com
 a escala ---, enquanto a implementação MPI-IO permanece estável em
 torno de $1{,}3\!\times\!10^{-5}$~s em todas as configurações. Nessa
-faixa, a contenção do processo escritor da arquitetura atual
-amplifica-se rapidamente com a concorrência, e a escrita paralela
+faixa, a contenção do processo escritor da arquitetura atual amplifica-se rapidamente com a concorrência, e a escrita paralela
 da MPI-IO chega a apresentar duas ordens de grandeza de vantagem em
 8 e 16~nós.
 
@@ -829,3 +828,60 @@ hostil, o contraste qualitativo entre o perfil monotônico da MPI-IO
 e o perfil errático da implementação atual persiste em toda a faixa
 avaliada, indicando que a vantagem estrutural da escrita paralela
 se mantém quando a infraestrutura impõe limites significativos.
+
+% =============================================================
+\section{Síntese das avaliações}
+\label{sec:sintese_avaliacoes}
+
+Os dois experimentos --- AWS, em ambiente de nuvem com FSx for Lustre
+dedicado, e SDumont, em supercomputador com Lustre compartilhado
+entre múltiplas cargas de HPC --- convergem para um diagnóstico
+comum, ainda que com magnitudes diferentes. Em pequena escala (2 e
+4~nós), a implementação atual é competitiva ou ligeiramente
+superior, pois o gargalo do escritor único ainda não saturou e o
+custo fixo da camada MPI-IO pesa em relação ao tempo total. A partir
+de 8~nós, o quadro se inverte de forma sistemática: a banda agregada
+da implementação atual passa a degradar ou oscilar, refletindo a
+saturação do adaptador de rede do nó escritor, enquanto a MPI-IO
+exibe perfil monotonicamente crescente. Esse contraste qualitativo
+de comportamento --- e não apenas o ganho pontual em uma ou outra
+escala --- é o resultado mais robusto deste capítulo.
+
+A magnitude do benefício, no entanto, depende fortemente da
+infraestrutura de armazenamento subjacente. No FSx for Lustre
+dedicado da AWS, a abordagem proposta atinge 143~Gb/s em 32~nós
+(ganho de 42$\times$ sobre a implementação atual) e reduz o tempo
+total em até 32\%, com curva de banda ainda em crescimento. No
+Lustre compartilhado do SDumont, a banda da MPI-IO chega a
+18{,}9~Gb/s em 16~nós (ganho de 2{,}4$\times$) e a redução do tempo
+total fica em torno de 7\%; embora menor, esse ganho ocorre em
+condições adversas de concorrência por metadados e por banda do
+sistema de arquivos com outras aplicações em execução. A
+preservação da vantagem estrutural mesmo nesse regime sugere que a
+arquitetura proposta é portátil entre ambientes heterogêneos, e
+não dependente das condições idealizadas de uma plataforma
+dedicada.
+
+A análise do impacto do número de OSTs na AWS reforça que o
+paralelismo de armazenamento subjacente é parte essencial do ganho:
+dobrar o número de OSTs de 4 para 10 quase quadruplica a banda
+agregada em 32~nós e reduz o tempo médio das escritas em quase uma
+ordem de magnitude nas classes de bloco maiores. Essa observação
+sugere que, em deployments futuros, o dimensionamento da camada de
+armazenamento --- número de OSTs e largura de \textit{stripe} ---
+deve ser tratado como parâmetro de projeto, e não como detalhe
+operacional.
+
+Esses resultados não esgotam, porém, o estudo da escalabilidade da
+fase de simulação final do SDDP. A faixa avaliada estendeu-se até
+32~nós na AWS e 16~nós no SDumont; configurações maiores podem
+revelar comportamentos adicionais, em particular saturação de
+metadados ou efeitos de coordenação coletiva. O custo da
+Coordenação MPI-IO, que aqui se mostrou desprezível em valor
+absoluto mas inflado em participação percentual pelo tamanho
+reduzido das execuções de teste, merece reavaliação em cargas reais
+de operação programada do SIN, com horizontes plurianuais. Por fim,
+o trabalho restringiu-se à fase de simulação final, em que cenários
+são mutuamente independentes; a aplicabilidade da estratégia à fase
+de convergência, com seu padrão diferente de comunicação e
+sincronização, fica como tema natural de continuidade.
