@@ -25,6 +25,33 @@ armazenamento, pois a escrita passa a ser distribuída entre os recursos do
 sistema de arquivos paralelo, em vez de ser serializada por um único
 \textit{rank}.
 
+A~Figura~\ref{fig:SDDP_architecture2} apresenta uma visão geral da
+arquitetura proposta. Cada processo grava seus resultados de forma
+independente sobre arquivos compartilhados, abstração na qual
+múltiplos processos operam concorrentemente sobre o mesmo arquivo
+lógico em \textit{offsets} distintos por meio das primitivas do
+MPI-IO~\cite{mpiioCite}. % verificar chave
+
+No regime de execução adotado, cada processo resolve a simulação de
+um cenário sorteado e, ao término dessa etapa, persiste os blocos de
+dados resultantes em dezenas de arquivos binários no formato
+proprietário do modelo SDDP. Concluída a escrita, o processo recebe
+uma nova tarefa, correspondente a um novo cenário a ser resolvido,
+caracterizando um padrão de execução do tipo
+\textit{bag-of-tasks}~\cite{Cirne:2003}.
+
+Como a simulação de cada cenário transcorre de forma independente,
+a abordagem baseada em MPI-IO permite que cada operação de escrita
+também seja independente: cada processo grava em um \textit{offset}
+específico, determinado pelo cenário resolvido, sem necessidade de
+sincronização explícita entre escritas concorrentes.
+
+Como cada cenário ocupa um \textit{offset} próprio em cada arquivo
+de resultado, elimina-se o risco de escritas concorrentes incidirem
+sobre uma mesma região. Essa propriedade constitui um benefício
+relevante da implementação proposta, pois dispensa o emprego de
+mecanismos de bloqueio (\textit{locks}) para assegurar a corretude
+das operações concorrentes.
 
 \begin{figure}[H]
   \centering

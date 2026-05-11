@@ -29,7 +29,7 @@
 
     - SDDP
         - Introdução - Explicar o que é um cenario.
-        - desenhar padrão dos dados.
+        - desenhar formato dos dados.
         - arquitetura atual.
         - pipeline SDDP com algoritmo atual
     

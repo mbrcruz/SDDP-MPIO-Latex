@@ -799,15 +799,6 @@ comportamento errático da banda agregada da implementação atual
 mostrado na Figura~\ref{fig:Banda_SDumont}: a partir de 8~nós, a
 maior parte do volume escrito sofre saturação no escritor único.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figuras/EnvioPorTamanho_SDumont.png}
-  \caption{Tempo médio de bloqueio das operações de envio por tamanho de
-  bloco de dados nas implementações atual e MPI-IO no Experimento SDumont
-  (escala logarítmica).}
-  \label{fig:EnvioPorTamanho_SDumont}
-\end{figure}
-
 Os resultados apresentados nesta seção demonstram que a adoção da
 abordagem MPI-IO com escritas independentes endereça o gargalo da
 arquitetura original associado à concentração das operações de E/S
