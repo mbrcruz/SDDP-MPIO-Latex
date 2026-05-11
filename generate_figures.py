@@ -206,7 +206,7 @@ def message_count_by_size_plot(output: str) -> None:
 
 def sddp_timeline_plot(output: str) -> None:
     fig, ax = plt.subplots(figsize=(12.4, 5.6))
-    ax.set_xlim(-0.25, 11.1)
+    ax.set_xlim(-0.25, 10.8)
     ax.set_ylim(-0.2, 4.65)
     ax.axis("off")
 
@@ -221,15 +221,22 @@ def sddp_timeline_plot(output: str) -> None:
     }
 
     processes = [
-        ("Processo 0", 3.3, 0.18, 0.72, [(1, 1.05), (5, 3.15), (9, 0.9)]),
-        ("Processo 1", 2.35, 0.46, 0.28, [(2, 2.85), (6, 0.95), (10, 3.05)]),
-        ("Processo 2", 1.4, 0.68, 0.44, [(3, 3.2), (7, 1.1), (11, 2.55)]),
-        ("Processo N", 0.45, 0.24, 0.84, [(4, 0.9), (8, 3.35), ("X", 1.25)]),
+        ("Processo 0", 3.3, 0.18, 0.72, [(1, 0.75), (5, 2.25), (9, 0.65)]),
+        ("Processo 1", 2.35, 0.46, 0.28, [(2, 2.05), (6, 0.7), (10, 2.2)]),
+        ("Processo 2", 1.4, 0.68, 0.44, [(3, 2.3), (7, 0.8), (11, 1.85)]),
+        ("Processo N", 0.45, 0.24, 0.84, [(4, 0.65), (8, 2.4), ("X", 0.9)]),
     ]
     coord_start_x = 0.15
     coord_width = 0.66
-    final_coord_end_x = 10.55
+    initial_coord_end_x = 1.35
+    final_coord_end_x = 8.85
     io_widths = [0.34, 0.38, 0.36]
+    post_io_comm_widths = [
+        [0.16, 0.54, 0.22],
+        [0.34, 0.14, 0.42],
+        [0.50, 0.20, 0.34],
+        [0.18, 0.60, 0.16],
+    ]
 
     def block(x, y, w, h, color, label, edge="white", hatch=None, size=10):
         rect = plt.Rectangle(
@@ -255,51 +262,32 @@ def sddp_timeline_plot(output: str) -> None:
             zorder=4,
         )
 
-    rect = plt.Rectangle(
-        (coord_start_x, 0.0),
-        coord_width,
-        3.75,
-        facecolor=colors["coord"],
-        edgecolor="white",
-        linewidth=1.4,
-        zorder=2,
-    )
-    ax.add_patch(rect)
-    ax.text(
-        coord_start_x + coord_width / 2,
-        1.88,
-        "Coordenação MPI-IO",
-        ha="center",
-        va="center",
-        fontsize=9.5,
-        color=colors["text"],
-        weight="bold",
-        rotation=90,
-        zorder=4,
-    )
-
-    for process, y, initial_comm_width, final_comm_width, tasks in processes:
+    for process_index, (process, y, initial_comm_width, final_comm_width, tasks) in enumerate(processes):
         ax.hlines(y, 0.0, 9.75, color=colors["line"], linewidth=2.0, zorder=1)
         ax.text(-0.08, y, process, ha="right", va="center", fontsize=10.5, color=colors["text"], weight="bold")
-        x = coord_start_x + coord_width
+        x = coord_start_x
         block(x, y, initial_comm_width, 0.3, colors["comm"], "", size=8.5)
         x += initial_comm_width
+        block(x, y, initial_coord_end_x - x, 0.5, colors["coord"], "", size=8.5)
+        x = initial_coord_end_x
         for idx, (scenario, compute_width) in enumerate(tasks):
-            label = f"Cenário {scenario}" if compute_width < 1.2 else f"Resolvendo cenário {scenario}"
-            label_size = 6.2 if compute_width < 1.2 else 7.4 if compute_width < 1.6 else 8.8
-            block(x, y, compute_width, 0.5, colors["resolve"], label, size=label_size)
+            label_size = 6.0 if compute_width < 0.8 else 7.2 if compute_width < 1.1 else 8.8
+            block(x, y, compute_width, 0.5, colors["resolve"], f"Cenário {scenario}", size=label_size)
             x += compute_width
-            block(x, y, io_widths[idx], 0.34, colors["io"], "E/S", size=8.5)
+            block(x, y, io_widths[idx], 0.34, colors["io"], "", size=8.5)
             x += io_widths[idx]
-        block(x, y, final_comm_width, 0.3, colors["comm"], "", size=8.5)
-        x += final_comm_width
+            block(x, y, post_io_comm_widths[process_index][idx], 0.3, colors["comm"], "", size=8.5)
+            x += post_io_comm_widths[process_index][idx]
         block(x, y, final_coord_end_x - x, 0.5, colors["coord"], "", size=8.5)
+        x = final_coord_end_x
+        block(x, y, final_comm_width, 0.3, colors["comm"], "", size=8.5)
 
     legend_y = 4.28
     legend_items = [
-        (0.95, colors["resolve"], "Resolvendo cenário X"),
-        (3.35, colors["io"], "E/S"),
-        (4.55, colors["coord"], "Coordenação MPI-IO"),
+        (0.95, colors["resolve"], "Computação resolvendo cenário X"),
+        (4.55, colors["io"], "E/S"),
+        (5.65, colors["comm"], "Comunicação"),
+        (7.25, colors["coord"], "Coordenação MPI-IO"),
     ]
     for x, color, label in legend_items:
         ax.add_patch(plt.Rectangle((x, legend_y - 0.13), 0.28, 0.26, facecolor=color, edgecolor="none"))
@@ -319,6 +307,164 @@ def sddp_timeline_plot(output: str) -> None:
     finish(fig, output)
 
 
+def sddp_architecture2_plot(output: str) -> None:
+    fig, ax = plt.subplots(figsize=(12.8, 7.4))
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 8)
+    ax.axis("off")
+    fig.patch.set_facecolor("white")
+
+    colors = {
+        "process": "#EAF2FB",
+        "process_border": "#2B6CB0",
+        "compute": "#54A24B",
+        "io": "#e57373",
+        "shared": "#F7FBFF",
+        "shared_border": "#2B6CB0",
+        "lustre": "#E9F7EF",
+        "lustre_border": "#2E7D32",
+        "stripe_a": "#BFE6C5",
+        "stripe_b": "#7BC67E",
+        "text": "#263238",
+        "muted": "#607D8B",
+        "arrow": "#2E7D32",
+        "note": "#FFF7E6",
+        "note_border": "#B7791F",
+        "dash": "#B0B0B0",
+    }
+    process_colors = {
+        "P1": "#2B6CB0",
+        "P2": "#D97706",
+        "PN-1": "#7C3AED",
+        "PN": "#C53030",
+    }
+
+    def box(x, y, w, h, face, edge, lw=1.6, radius=0.06):
+        patch = plt.Rectangle((x, y), w, h, facecolor=face, edgecolor=edge, linewidth=lw)
+        ax.add_patch(patch)
+        return patch
+
+    def text(x, y, s, size=10, weight="normal", color=None, ha="center", va="center", style="normal"):
+        ax.text(x, y, s, fontsize=size, fontweight=weight, color=color or colors["text"], ha=ha, va=va, style=style)
+
+    def arrow(x1, y1, x2, y2, color=None, lw=1.5, alpha=1.0):
+        ax.annotate(
+            "",
+            xy=(x2, y2),
+            xytext=(x1, y1),
+            arrowprops=dict(arrowstyle="-|>", color=color or colors["arrow"], linewidth=lw, alpha=alpha, shrinkA=0, shrinkB=0),
+        )
+
+    text(6, 7.65, "Proposta: E/S distribuída com MPI-IO sobre Lustre", 17, "bold")
+    text(6, 7.35, "Cada processo grava diretamente em arquivos compartilhados usando offsets explícitos", 10, color=colors["muted"])
+
+    process_specs = [
+        (0.55, 5.85, "P1", "Processo 1", "cenários 1, 5, 9"),
+        (3.1, 5.85, "P2", "Processo 2", "cenários 2, 6, 10"),
+        (5.55, 5.85, None, "...", ""),
+        (7.3, 5.85, "PN-1", "Processo N-1", "cenários 3, 7, 11"),
+        (9.85, 5.85, "PN", "Processo N", "cenários 4, 8, X"),
+    ]
+    process_centers = {}
+    for x, y, key, title, subtitle in process_specs:
+        if title == "...":
+            box(x, y, 1.15, 0.95, "#F7F7F7", colors["dash"], lw=1.2)
+            text(x + 0.58, y + 0.47, "...", 20, "bold", colors["muted"])
+            continue
+        process_color = process_colors[key]
+        box(x, y, 1.75, 1.05, colors["process"], process_color, lw=2.0)
+        box(x, y + 0.94, 1.75, 0.11, process_color, process_color, lw=0.0)
+        text(x + 0.88, y + 0.75, title, 11, "bold", process_color)
+        text(x + 0.88, y + 0.38, subtitle, 8.8, color=colors["muted"])
+        process_centers[key] = (x + 0.88, y)
+
+    shared_x, shared_y, shared_w, shared_h = 0.6, 3.55, 10.8, 1.75
+    box(shared_x, shared_y, shared_w, shared_h, colors["shared"], colors["shared_border"])
+    text(shared_x + shared_w / 2, shared_y + shared_h - 0.25, "Arquivos Compartilhados", 14, "bold", colors["process_border"])
+
+    file_y = 3.70
+    file_count = 8
+    file_gap = 0.18
+    file_w = 0.96
+    file_h = 0.86
+    file_x0 = shared_x + (shared_w - file_count * file_w - (file_count - 1) * file_gap) / 2
+    file_specs = [
+        ("Arquivo1", [("P1", 0.34)]),
+        ("Arquivo2", [("P2", 0.56), ("PN-1", 0.76)]),
+        ("Arquivo3", [("P1", 0.72)]),
+        ("Arquivo4", [("PN-1", 0.42), ("PN", 0.64)]),
+        ("Arquivo5", [("P2", 0.66)]),
+        ("Arquivo6", [("P1", 0.24), ("P2", 0.52), ("PN", 0.78)]),
+        ("Arquivo7", [("PN-1", 0.75)]),
+        ("ArquivoN", [("P1", 0.26), ("PN-1", 0.5), ("PN", 0.74)]),
+    ]
+    text(file_x0 - 0.22, file_y + file_h / 2 - 0.02, "offset", 7.0, "bold", colors["muted"], ha="right")
+    for i, (file_name, writes) in enumerate(file_specs):
+        fx = file_x0 + i * (file_w + file_gap)
+        ax.add_patch(
+            plt.Rectangle(
+                (fx, file_y - 0.02),
+                file_w,
+                file_h,
+                facecolor=colors["stripe_a"] if i % 2 == 0 else colors["stripe_b"],
+                edgecolor="#B8C2CC",
+                linewidth=1.0,
+                alpha=0.86,
+            )
+        )
+        for j, (key, offset_ratio) in enumerate(writes):
+            offset_y = file_y + 0.14 + j * 0.18
+            ax.plot(
+                [fx + 0.10 * file_w, fx + 0.90 * file_w],
+                [offset_y, offset_y],
+                color=process_colors[key],
+                linewidth=3.4,
+                solid_capstyle="round",
+            )
+        text(fx + file_w / 2, file_y + file_h + 0.22, file_name, 8.8, "bold", colors["text"])
+
+    for key, (x1, y1), x2 in [
+        ("P1", process_centers["P1"], 2.35),
+        ("P2", process_centers["P2"], 4.35),
+        ("PN-1", process_centers["PN-1"], 7.65),
+        ("PN", process_centers["PN"], 9.65),
+    ]:
+        arrow(x1, y1, x2, shared_y + shared_h, color=process_colors[key], lw=1.15, alpha=0.65)
+    ax.text(
+        shared_x + shared_w / 2,
+        shared_y + shared_h - 0.25,
+        "Arquivos Compartilhados",
+        fontsize=14,
+        fontweight="bold",
+        color=colors["process_border"],
+        ha="center",
+        va="center",
+        bbox=dict(facecolor=colors["shared"], edgecolor="none", pad=2.0),
+    )
+
+    lustre_x, lustre_y, lustre_w, lustre_h = 0.6, 1.15, 10.8, 1.7
+    box(lustre_x, lustre_y, lustre_w, lustre_h, colors["lustre"], colors["lustre_border"])
+    text(lustre_x + lustre_w / 2, lustre_y + lustre_h - 0.25, "Sistema de arquivos Lustre", 14, "bold", colors["lustre_border"])
+    text(lustre_x + lustre_w / 2, lustre_y + lustre_h - 0.55, "striping distribui blocos dos arquivos entre OSTs", 9.3, color=colors["muted"], style="italic")
+
+    storage_specs = [
+        ("MDS", "metadados", 1.0),
+        ("OST 1", "dados", 3.15),
+        ("OST 2", "dados", 5.25),
+        ("OST 3", "dados", 7.35),
+        ("OST 4", "dados", 9.45),
+    ]
+    for title, subtitle, x in storage_specs:
+        box(x, lustre_y + 0.25, 1.45, 0.75, "white", colors["lustre_border"], lw=1.2)
+        text(x + 0.72, lustre_y + 0.72, title, 10.5, "bold", colors["lustre_border"])
+        text(x + 0.72, lustre_y + 0.42, subtitle, 8.0, color=colors["muted"])
+
+    for target_x in [3.87, 5.97, 8.07, 10.17]:
+        arrow(shared_x + shared_w / 2, shared_y, target_x, lustre_y + lustre_h, color=colors["dash"], lw=1.0, alpha=0.7)
+
+    finish(fig, output)
+
+
 def main() -> None:
     sd_current = read_csv(PATHS["sd_current"], max_nodes=16)
     sd_mpiio = read_csv(PATHS["sd_mpiio"], max_nodes=16)
@@ -334,6 +480,7 @@ def main() -> None:
     message_size_plot(aws_current, aws_mpiio, "EnvioPorTamanho_AWS.png")
     message_count_by_size_plot("histograma_mensagens.png")
     sddp_timeline_plot("SDDP_timeline_MPIIO.png")
+    sddp_architecture2_plot("SDDP_architecture2.png")
 
 
 if __name__ == "__main__":

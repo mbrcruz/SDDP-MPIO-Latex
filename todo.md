@@ -5,13 +5,14 @@
 
 - Trabalhar no capitulo III ( Começando amanhã as 21h)
     - Introdução da arquitetura proposta
-
-    - novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.
-    - por que stripe de 1 MB ? 
-
-    - Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp. 
+    - Visão geral e explicação da arquitetura proposta.
+    - novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.    
     - Relacionar com arquivos compartilhados - blocos de dados separados em OSTs
+    - Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp. 
+    
     - falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( mencionar Eager e Rendevous )
+    - Mostrar como os arquivos são distribuidos em stripes. 
+
 
 
 
@@ -39,6 +40,7 @@
 - Experimentos
 
     - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node. 
+    - por que stripe de 1 MB ? 
     - Banda agregada percebida pela aplicação.
     - teste ASYNC SDumont ( Falta 32 nós)
     - teste ASYNC AWS ( Necessário para escrever menos no capitulo IV)
