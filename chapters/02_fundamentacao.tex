@@ -203,7 +203,7 @@ operações agregadas.
     \node[font=\scriptsize] at (-3.0,1.8) {região 0};
     \node[font=\scriptsize] at (-3.0,1.0) {região 1};
     \node[font=\scriptsize] at (-3.0,0.2) {região 2};
-    \draw[arr] (p0.east) -- node[above, font=\scriptsize, pos=0.65] {\texttt{write\_at}} (-3.7,1.8);
+    \draw[arr] (p0.east) -- (-3.7,1.8);
     \draw[arr] (p1.east) -- (-3.7,1.0);
     \draw[arr] (p2.east) -- (-3.7,0.2);
 
@@ -228,7 +228,6 @@ operações agregadas.
     \draw[arr] (q2.east) -- (a1.west);
     \draw[arr] (a0.east) -- (5.0,1.5);
     \draw[arr] (a1.east) -- (5.0,0.5);
-    \node[font=\scriptsize, anchor=south east] at (5.0,1.55) {requisição agregada};
   \end{tikzpicture}
   \caption{Diferença entre escritas independentes e coletivas em MPI-IO.
   Escritas independentes preservam autonomia dos \textit{ranks}; escritas

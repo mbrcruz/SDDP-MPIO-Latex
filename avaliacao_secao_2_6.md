@@ -200,7 +200,7 @@ Inspecionei a imagem.
    ela é detalhada — mostra rank 0 e rank 1 no nó mestre, ranks 2..N nos nós
    de computação, fluxo `MPI_Send(buffer)` e o sistema de arquivos. Um caption
    à altura seria: *"Arquitetura atual de E/S do SDDP: ranks 2..N enviam
-   blocos via `MPI_Send` ao rank escritor (rank 1), que compartilha o
+   blocos via `MPI_Send` ao processo escritor (rank 1), que compartilha o
    adaptador de rede do nó mestre com o rank 0 (controle) e serializa as
    gravações no sistema de arquivos."*
 
