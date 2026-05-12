@@ -4,14 +4,14 @@
 
 
 - Trabalhar no capitulo III ( Começando amanhã as 21h)
-    - Introdução da arquitetura proposta
-    - Visão geral e explicação da arquitetura proposta.
-    - novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.    
-    - Relacionar com arquivos compartilhados - blocos de dados separados em OSTs
-    - Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp. 
+    - ~~Introdução da arquitetura proposta~~
+    - ~~Visão geral e explicação da arquitetura proposta.~~
+    - ~~novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos. ~~  
+    - ~~Relacionar com arquivos compartilhados - blocos de dados separados em OSTs~~
+    - ~~Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp.~~
+    - ~~Mostrar como os arquivos são distribuidos em stripes.~~      
+    - Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous )
     
-    - falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( mencionar Eager e Rendevous )
-    - Mostrar como os arquivos são distribuidos em stripes. 
 
 
 
