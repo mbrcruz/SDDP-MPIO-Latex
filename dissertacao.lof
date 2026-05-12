@@ -3,8 +3,8 @@
 \babel@toc {brazilian}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Relação entre comunicação ponto a ponto e E/S paralela. No modelo centralizado, os resultados passam por um processo escritor; no modelo MPI-IO, os próprios \textit {ranks} escrevem diretamente no arquivo.}}{4}{figure.2.1}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Diferença entre escritas independentes e coletivas em MPI-IO. Escritas independentes preservam autonomia dos \textit {ranks}; escritas coletivas permitem agregação e reordenação das requisições pela biblioteca MPI-IO.}}{6}{figure.2.2}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Relação entre comunicação ponto a ponto e E/S paralela. No modelo centralizado, os resultados passam por um processo escritor; no modelo MPI-IO, os próprios processos escrevem diretamente no arquivo.}}{4}{figure.2.1}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Diferença entre escritas independentes e coletivas em MPI-IO. Escritas independentes preservam autonomia dos processos; escritas coletivas permitem agregação e reordenação das requisições pela biblioteca MPI-IO.}}{6}{figure.2.2}%
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Estrutura de cenários e estágios do SDDP. Cada célula corresponde a um subproblema $(\text {estágio}, \text {cenário})$. Os cenários são mutuamente independentes e podem ser distribuídos entre \textit {ranks} MPI, caracterizando uma aplicação \textit {bag-of-tasks}.}}{10}{figure.2.3}%
 \contentsline {figure}{\numberline {2.4}{\ignorespaces Exemplo de arquivo de saída por patamar de carga do SDDP com cinco patamares por estágio e cenário.}}{11}{figure.2.4}%
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Exemplo de arquivo de saída horário do SDDP com 720 horas por estágio e colunas de valores para agentes $A_1,\ldots ,A_N$.}}{12}{figure.2.5}%
