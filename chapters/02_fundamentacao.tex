@@ -96,7 +96,7 @@ regiões distintas do arquivo.
   \end{tikzpicture}
   \caption{Relação entre comunicação ponto a ponto e E/S paralela. No
   modelo centralizado, os resultados passam por um processo escritor; no
-  modelo MPI-IO, os próprios \textit{ranks} escrevem diretamente no arquivo.}
+  modelo MPI-IO, os próprios processos escrevem diretamente no arquivo.}
   \label{fig:mpi_protocolos_e_io}
 \end{figure}
 
@@ -127,7 +127,7 @@ Nas escritas independentes, cada processo executa sua própria chamada de
 E/S sem exigir que os demais processos participem da mesma operação. Um
 exemplo típico é \texttt{MPI\_File\_write\_at}, no qual o processo informa o
 \textit{offset} do arquivo em que seus dados devem ser gravados. Esse padrão
-é adequado quando cada \textit{rank} produz blocos naturalmente
+é adequado quando cada processo produz blocos naturalmente
 independentes, quando os tamanhos variam entre processos ou quando a
 aplicação não possui pontos convenientes de sincronização global. Também é
 uma escolha simples e robusta para aplicações do tipo \textit{bag-of-tasks}~\cite{Cirne:2003},
@@ -148,7 +148,7 @@ biblioteca MPI-IO tem uma visão global dos acessos e pode reorganizar a E/S
 por meio de técnicas como \textit{two-phase I/O}, agregação de requisições e
 \textit{data sieving}. Em vez de cada processo enviar pequenas escritas
 diretamente ao sistema de arquivos, alguns processos agregadores podem
-reunir dados de vários \textit{ranks} e emitir operações maiores, mais
+reunir dados de vários processos e emitir operações maiores, mais
 contíguas e melhor alinhadas ao particionamento do arquivo.
 
 Esse padrão é recomendado quando a aplicação possui fases bem definidas de
@@ -157,7 +157,7 @@ mesma etapa e quando os acessos formam uma estrutura regular no arquivo,
 como matrizes distribuídas, campos de simulação em grades, \textit{checkpoints}
 globais e saídas por passo de tempo. A escrita coletiva tende a reduzir o
 número de chamadas ao sistema de arquivos e pode aumentar a banda efetiva,
-mas introduz sincronização entre processos. Se alguns \textit{ranks}
+mas introduz sincronização entre processos. Se alguns deles
 produzem pouco dado, atrasam a chegada à chamada coletiva ou têm padrões de
 acesso muito irregulares, a operação coletiva pode aumentar o tempo de
 espera e prejudicar a sobreposição com a computação.
@@ -177,7 +177,7 @@ de escritas pendentes para evitar pressão excessiva de memória ou filas de
 E/S.
 
 A Figura~\ref{fig:mpiio_ind_coletiva} contrasta os dois padrões principais
-de escrita. Na escrita independente, cada \textit{rank} emite sua própria
+de escrita. Na escrita independente, cada processo emite sua própria
 operação diretamente para o arquivo. Na escrita coletiva, a biblioteca MPI-IO
 coordena os processos e pode transformar várias requisições pequenas em
 operações agregadas.
@@ -230,7 +230,7 @@ operações agregadas.
     \draw[arr] (a1.east) -- (5.0,0.5);
   \end{tikzpicture}
   \caption{Diferença entre escritas independentes e coletivas em MPI-IO.
-  Escritas independentes preservam autonomia dos \textit{ranks}; escritas
+  Escritas independentes preservam autonomia dos processos; escritas
   coletivas permitem agregação e reordenação das requisições pela biblioteca
   MPI-IO.}
   \label{fig:mpiio_ind_coletiva}
@@ -254,7 +254,7 @@ pequenos ou com \textit{strides} que podem ser agregados,
 \textit{checkpoints} e matrizes ou campos distribuídos. \\
 Assíncrona independente &
 Aplicações com trabalho local após a geração dos dados e escritas por
-\textit{rank} que podem progredir em segundo plano sem exigir participação
+processo que podem progredir em segundo plano sem exigir participação
 imediata dos demais processos. \\
 Assíncrona coletiva &
 Aplicações com fases coletivas bem definidas e computação útil após o início
@@ -560,7 +560,7 @@ processo é responsável pelas operações de E/S. Cada nó utiliza sua banda
 efetiva para enviar os \textit{buffers} de dados, enquanto o processo
 escritor utiliza sua banda para recebê-los. A primeira hipótese para as
 limitações de escalabilidade nessa arquitetura está relacionada ao
-adaptador de rede do servidor que executa o processo mestre.
+adaptador de rede do servidor que executa o processo escritor.
 
 Adicionalmente, o \textit{rank}~0 é responsável pelo gerenciamento e
 controle da aplicação, como a distribuição de tarefas para os demais
@@ -570,7 +570,12 @@ recepção dos \textit{buffers} de dados. Outra hipótese é que o processo
 escritor opera continuamente em um fluxo sequencial de recepção e escrita
 dos dados, o que pode representar um gargalo adicional, sobretudo em
 sistemas com alto volume de dados. Por fim, se houver atrasos na recepção
-ou na gravação dos \textit{buffers} de dados por parte do processo mestre,
+ou na gravação dos \textit{buffers} de dados por parte do processo escritor,
 os nós computacionais podem ser obrigados a aguardar, gerando sobrecarga
 no envio dos \textit{buffers} e aumentando o custo computacional da
 execução paralela.
+
+Para efeitos desta dissertação, o \textit{rank}~0 será referido como
+processo coordenador, o \textit{rank}~1 como processo escritor, e os
+demais \textit{ranks}, responsáveis pela resolução dos cenários, como
+processos trabalhadores.

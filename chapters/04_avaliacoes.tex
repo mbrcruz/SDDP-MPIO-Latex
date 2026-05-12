@@ -152,7 +152,7 @@ Esta subseção analisa o desempenho da arquitetura proposta, baseada em
 escritas independentes com MPI-IO sobre o sistema de arquivos Lustre, no
 Experimento AWS. Nesta abordagem cada processo MPI escreve seus
 próprios dados diretamente no FSx for Lustre, eliminando o ponto de
-contenção associado a um único \textit{rank} escritor e explorando o
+contenção associado a um único processo escritor e explorando o
 paralelismo dos múltiplos OSTs.
 
 A Tabela~\ref{tab:mpiio_aws} consolida os resultados obtidos com a

@@ -4,13 +4,13 @@
 Este capítulo apresenta a proposta de paralelização dos mecanismos de
 entrada e saída (E/S) do SDDP. A solução substitui o modelo atual,
 por uma organização baseada em MPI-IO sobre
-o sistema de arquivos Lustre. Nessa abordagem, cada \textit{rank} grava
+o sistema de arquivos Lustre. Nessa abordagem, cada processo grava
 diretamente seus próprios resultados em regiões independentes do espaço de
 saída, evitando a concentração das operações de E/S em um único processo.
 
 O ponto central da proposta é explorar, simultaneamente, o paralelismo da
 aplicação MPI e o paralelismo do sistema de arquivos. Como os resultados
-produzidos por diferentes \textit{ranks} são independentes, suas escritas
+produzidos por diferentes processos são independentes, suas escritas
 podem ser posicionadas previamente e executadas em paralelo. No Lustre, os
 arquivos são distribuídos em \textit{stripes} entre diferentes
 \textit{Object Storage Targets} (OSTs); assim, múltiplas escritas
@@ -23,7 +23,7 @@ primeiro é o gargalo de comunicação, pois os dados deixam de ser enviados
 ao processo escritor antes de serem persistidos. O segundo é o gargalo de
 armazenamento, pois a escrita passa a ser distribuída entre os recursos do
 sistema de arquivos paralelo, em vez de ser serializada por um único
-\textit{rank}.
+processo.
 
 A~Figura~\ref{fig:SDDP_architecture2} apresenta uma visão geral da
 arquitetura proposta. Cada processo grava seus resultados de forma
