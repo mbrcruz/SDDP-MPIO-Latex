@@ -23,9 +23,10 @@
     - ~~reduzir titulos da fundamentação teorica~~
     - Bag-of-tasks
     - MPI (  MPI-IO ) sendo uma unica seção - Melhorar referencias e texto, colocar - figura sobre Eager vs rendevous 
-        - falar sobre escrita independentes e colletiva , vantagens de ambas
-        - arquivo compartilhado    
-        - acesso continguo vs strides  ( favorece o TWO PHASE I/O )
+    - falar sobre escrita independentes e colletiva , vantagens de ambas
+    - arquivo compartilhado    
+    - acesso continguo vs strides  ( favorece o TWO PHASE I/O )
+    - Stripe e OSTs
 
     - SDDP
         - Introdução - Explicar o que é um cenario.

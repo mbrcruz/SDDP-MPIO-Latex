@@ -53,6 +53,18 @@ relevante da implementação proposta, pois dispensa o emprego de
 mecanismos de bloqueio (\textit{locks}) para assegurar a corretude
 das operações concorrentes.
 
+Cada bloco gravado nos arquivos de resultado é alocado em um
+\textit{stripe} específico de um OST do Lustre. Quando o volume
+acumulado ultrapassa o tamanho configurado para o \textit{stripe},
+um novo \textit{stripe} é alocado em outro OST. A atribuição dos
+\textit{stripes} aos OSTs ocorre de forma circular
+(\textit{round-robin}), de modo que cada arquivo de resultado é
+fisicamente distribuído entre os múltiplos \textit{stripes}
+alocados em OSTs distintos. Esse padrão permite paralelizar as
+operações de escrita sobre um mesmo arquivo, com grau de
+paralelismo limitado pelo número de OSTs definido na configuração
+de \textit{striping} associada ao arquivo~\cite{LustreManual}.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figuras/SDDP_architecture2.png}
@@ -63,6 +75,6 @@ das operações concorrentes.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figuras/SDDP_timeline_MPIIO.png}
-  \caption{Timeline da simulação final do SDDP com MPI-IO.}
+  \caption{Linha de tempo da simulação final do SDDP com MPI-IO.}
   \label{fig:SDDP_timeline_MPIIO}
 \end{figure}

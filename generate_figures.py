@@ -293,24 +293,13 @@ def sddp_timeline_plot(output: str) -> None:
         ax.add_patch(plt.Rectangle((x, legend_y - 0.13), 0.28, 0.26, facecolor=color, edgecolor="none"))
         ax.text(x + 0.38, legend_y, label, ha="left", va="center", fontsize=10.4, color=colors["text"])
 
-    ax.text(
-        4.9,
-        4.58,
-        "Linha do tempo da simulação final do SDDP com MPI-IO",
-        ha="center",
-        va="center",
-        fontsize=14,
-        weight="bold",
-        color=colors["text"],
-    )
-
     finish(fig, output)
 
 
 def sddp_architecture2_plot(output: str) -> None:
     fig, ax = plt.subplots(figsize=(12.8, 7.4))
     ax.set_xlim(0, 12)
-    ax.set_ylim(0, 8)
+    ax.set_ylim(0, 7.15)
     ax.axis("off")
     fig.patch.set_facecolor("white")
 
@@ -354,9 +343,6 @@ def sddp_architecture2_plot(output: str) -> None:
             xytext=(x1, y1),
             arrowprops=dict(arrowstyle="-|>", color=color or colors["arrow"], linewidth=lw, alpha=alpha, shrinkA=0, shrinkB=0),
         )
-
-    text(6, 7.65, "Proposta: E/S distribuída com MPI-IO sobre Lustre", 17, "bold")
-    text(6, 7.35, "Cada processo grava diretamente em arquivos compartilhados usando offsets explícitos", 10, color=colors["muted"])
 
     process_specs = [
         (0.55, 5.85, "P1", "Processo 1", "cenários 1, 5, 9"),
@@ -442,22 +428,39 @@ def sddp_architecture2_plot(output: str) -> None:
         bbox=dict(facecolor=colors["shared"], edgecolor="none", pad=2.0),
     )
 
-    lustre_x, lustre_y, lustre_w, lustre_h = 0.6, 1.15, 10.8, 1.7
+    lustre_x, lustre_y, lustre_w, lustre_h = 0.6, 0.65, 10.8, 2.2
     box(lustre_x, lustre_y, lustre_w, lustre_h, colors["lustre"], colors["lustre_border"])
     text(lustre_x + lustre_w / 2, lustre_y + lustre_h - 0.25, "Sistema de arquivos Lustre", 14, "bold", colors["lustre_border"])
     text(lustre_x + lustre_w / 2, lustre_y + lustre_h - 0.55, "striping distribui blocos dos arquivos entre OSTs", 9.3, color=colors["muted"], style="italic")
 
     storage_specs = [
-        ("MDS", "metadados", 1.0),
-        ("OST 1", "dados", 3.15),
-        ("OST 2", "dados", 5.25),
-        ("OST 3", "dados", 7.35),
-        ("OST 4", "dados", 9.45),
+        ("MDS", 1.0),
+        ("OST 1", 3.15),
+        ("OST 2", 5.25),
+        ("OST 3", 7.35),
+        ("OST 4", 9.45),
     ]
-    for title, subtitle, x in storage_specs:
-        box(x, lustre_y + 0.25, 1.45, 0.75, "white", colors["lustre_border"], lw=1.2)
-        text(x + 0.72, lustre_y + 0.72, title, 10.5, "bold", colors["lustre_border"])
-        text(x + 0.72, lustre_y + 0.42, subtitle, 8.0, color=colors["muted"])
+    stripe_labels = {
+        "OST 1": ("stripe 1", "stripe 5"),
+        "OST 2": ("stripe 2", "stripe 6"),
+        "OST 3": ("stripe 3", "stripe N-1"),
+        "OST 4": ("stripe 4", "stripe N"),
+    }
+
+    for title, x in storage_specs:
+        box(x, lustre_y + 0.25, 1.45, 1.15, "white", colors["lustre_border"], lw=1.2)
+        text(x + 0.72, lustre_y + 1.15, title, 10.5, "bold", colors["lustre_border"])
+        if title == "MDS":
+            text(x + 0.72, lustre_y + 0.72, "metadados", 8.0, color=colors["muted"])
+            continue
+
+        stripe_specs = [
+            (lustre_y + 0.70, colors["stripe_a"], stripe_labels[title][0]),
+            (lustre_y + 0.38, colors["stripe_b"], stripe_labels[title][1]),
+        ]
+        for stripe_y, stripe_color, stripe_label in stripe_specs:
+            box(x + 0.16, stripe_y, 1.13, 0.23, stripe_color, "#B8C2CC", lw=0.8)
+            text(x + 0.72, stripe_y + 0.115, stripe_label, 6.8, "bold", colors["text"])
 
     for target_x in [3.87, 5.97, 8.07, 10.17]:
         arrow(shared_x + shared_w / 2, shared_y, target_x, lustre_y + lustre_h, color=colors["dash"], lw=1.0, alpha=0.7)
