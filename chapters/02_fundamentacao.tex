@@ -30,8 +30,8 @@ arquivos~\cite{mpiCite,mpiioCite}.
 Essa integração é importante porque comunicação e E/S não são problemas
 independentes em aplicações HPC. Uma arquitetura que concentra resultados em
 um único processo escritor transforma a E/S em comunicação ponto a ponto:
-os processos produtores enviam seus dados para um \textit{rank} central, e
-esse \textit{rank} serializa a escrita no sistema de arquivos. Por outro
+os processos produtores enviam seus dados para um processo central, e
+esse processo serializa a escrita no sistema de arquivos. Por outro
 lado, uma arquitetura baseada em MPI-IO permite que os próprios processos
 produtores escrevam seus resultados, deslocando o gargalo do processo
 escritor para o sistema de arquivos paralelo. A escolha entre essas
