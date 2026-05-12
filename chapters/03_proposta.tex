@@ -35,7 +35,8 @@ MPI-IO~\cite{mpiioCite}. % verificar chave
 No regime de execução adotado, cada processo resolve a simulação de
 um cenário sorteado e, ao término dessa etapa, persiste os blocos de
 dados resultantes em dezenas de arquivos binários no formato
-proprietário do modelo SDDP. Concluída a escrita, o processo recebe
+proprietário do modelo SDDP. O tamanho de cada bloco de dados varia
+conforme o arquivo de resultado produzido. Em seguida, o processo recebe
 uma nova tarefa, correspondente a um novo cenário a ser resolvido,
 caracterizando um padrão de execução do tipo
 \textit{bag-of-tasks}~\cite{Cirne:2003}.
@@ -72,20 +73,45 @@ de \textit{striping} associada ao arquivo~\cite{LustreManual}.
   \label{fig:SDDP_architecture2}
 \end{figure}
 
-\subsection{Linha do Tempo do SDDP}
+\section{Linha do Tempo do SDDP}
 
 A~Figura~\ref{fig:SDDP_timeline_MPIIO} ilustra a linha do tempo da
-execução do SDDP segundo a arquitetura proposta. A execução de cada
-processo inicia com o recebimento de uma tarefa, correspondente a um
-cenário a ser resolvido. Em seguida, os processos participam de uma
-operação coletiva de abertura dos arquivos de resultado, caracterizando
-um ponto de coordenação MPI-IO antes do início das escritas paralelas.
+execução do SDDP segundo a arquitetura proposta. Essa representação
+destaca a separação entre os pontos de coordenação MPI-IO e o período
+em que os processos executam, de forma independente, a simulação dos
+cenários e a escrita dos respectivos resultados. Com isso, evidencia-se
+que a coordenação global fica concentrada nas etapas de preparação e
+finalização dos arquivos, enquanto o ciclo principal de processamento
+permanece distribuído entre os processos.
+
+A execução de cada processo inicia com o recebimento de uma tarefa,
+correspondente a um cenário a ser resolvido. Em seguida, os processos
+participam de uma operação coletiva de abertura dos arquivos de
+resultado, caracterizando um ponto de coordenação MPI-IO antes do
+início das escritas paralelas.
 
 Após essa etapa, cada processo resolve o cenário recebido e, ao final da
 simulação, efetua escritas independentes nos diversos arquivos de
 resultado. Concluída a persistência dos dados, o processo passa a tratar
 um novo cenário, repetindo esse ciclo enquanto houver tarefas
-disponíveis. Quando não há mais cenários a serem resolvidos, inicia-se
+disponíveis. 
+
+Como os cenários possuem tempos de simulação distintos, os processos
+concluem a etapa de cálculo e alcançam a etapa de escrita em momentos
+diferentes. Essa característica orientou a escolha pelas operações
+independentes de escrita do MPI-IO. Como cada processo possui uma
+região de saída previamente determinada, não é necessário coordenar a
+execução das escritas com os demais processos. O uso de escrita coletiva,
+por outro lado, exigiria que os processos participassem conjuntamente das
+chamadas de E/S, introduzindo pontos adicionais de sincronização no fluxo
+de execução. Esses pontos poderiam bloquear processos que já concluíram
+suas simulações enquanto aguardam a participação dos demais, reduzindo a
+independência natural do modelo. Embora o MPI-IO também ofereça variantes
+não bloqueantes, a escrita independente se mostra mais aderente ao padrão
+de execução adotado, no qual cada processo persiste seus resultados assim
+que conclui o cenário correspondente.
+
+Quando não há mais cenários a serem resolvidos, inicia-se
 uma nova etapa de coordenação MPI-IO, dessa vez associada ao fechamento
 coletivo dos arquivos de resultado.
 

@@ -24,6 +24,7 @@
     - Bag-of-tasks
     - MPI (  MPI-IO ) sendo uma unica seção - Melhorar referencias e texto, colocar - figura sobre Eager vs rendevous 
     - falar sobre escrita independentes e colletiva , vantagens de ambas
+    - escritas sincronas e assincronas
     - arquivo compartilhado    
     - acesso continguo vs strides  ( favorece o TWO PHASE I/O )
     - Stripe e OSTs
