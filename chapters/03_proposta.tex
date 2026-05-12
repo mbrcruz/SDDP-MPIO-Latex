@@ -72,6 +72,23 @@ de \textit{striping} associada ao arquivo~\cite{LustreManual}.
   \label{fig:SDDP_architecture2}
 \end{figure}
 
+\subsection{Linha do Tempo do SDDP}
+
+A~Figura~\ref{fig:SDDP_timeline_MPIIO} ilustra a linha do tempo da
+execução do SDDP segundo a arquitetura proposta. A execução de cada
+processo inicia com o recebimento de uma tarefa, correspondente a um
+cenário a ser resolvido. Em seguida, os processos participam de uma
+operação coletiva de abertura dos arquivos de resultado, caracterizando
+um ponto de coordenação MPI-IO antes do início das escritas paralelas.
+
+Após essa etapa, cada processo resolve o cenário recebido e, ao final da
+simulação, efetua escritas independentes nos diversos arquivos de
+resultado. Concluída a persistência dos dados, o processo passa a tratar
+um novo cenário, repetindo esse ciclo enquanto houver tarefas
+disponíveis. Quando não há mais cenários a serem resolvidos, inicia-se
+uma nova etapa de coordenação MPI-IO, dessa vez associada ao fechamento
+coletivo dos arquivos de resultado.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figuras/SDDP_timeline_MPIIO.png}

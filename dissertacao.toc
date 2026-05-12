@@ -15,6 +15,7 @@
 \contentsline {subsection}{\numberline {2.6.1}Padrão dos dados de saída}{10}{subsection.2.6.1}%
 \contentsline {subsection}{\numberline {2.6.2}Arquitetura atual de E/S do SDDP}{12}{subsection.2.6.2}%
 \contentsline {chapter}{\numberline {3}Paralelização dos Mecanismos de E/S do SDDP}{14}{chapter.3}%
+\contentsline {subsection}{\numberline {3.0.1}Linha do Tempo do SDDP}{16}{subsection.3.0.1}%
 \contentsline {chapter}{\numberline {4}Avaliações}{17}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Experimento AWS}{18}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{19}{subsection.4.1.1}%
