@@ -44,8 +44,9 @@
 - Experimentos
 
     - Ultimos experimentos
-        - teste ASYNC AWS , computando tempo de log , sem log block, para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV)  
-        -    teste ASYNC SDUMOMT , computando tempo de log , sem log block, para confirmar a piora na computacao(Necessário para escrever menos no capitulo IV) 
+    - Tempo total da execução no CSV ( e não somente o bloco de computação )        
+    - teste ASYNC AWS , computando tempo de log , sem log block, para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV)  
+    -    teste ASYNC SDUMOMT , computando tempo de log , sem log block, para confirmar a piora na computacao(Necessário para escrever menos no capitulo IV) 
 
     -  Banda agregada percebida pela aplicação.  (chap 3 ) ? 
     - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node. 
