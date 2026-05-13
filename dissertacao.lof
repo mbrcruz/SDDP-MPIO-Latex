@@ -22,6 +22,6 @@
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Banda agregada média para configurações MPI-IO com 4 e 10~OSTs em 16 e 32~nós.}}{29}{figure.4.6}%
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Banda agregada média das implementações atual e MPI-IO no Experimento SDumont.}}{33}{figure.4.7}%
 \contentsline {figure}{\numberline {4.8}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{35}{figure.4.8}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{38}{figure.4.9}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{37}{figure.4.9}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
