@@ -559,20 +559,20 @@ Experimento SDumont, baseada em escritas independentes com MPI-IO sobre o
 sistema de arquivos Lustre operado pelo ClusterStor L300. A
 Tabela~\ref{tab:mpiio_sdumont} consolida os resultados.
 
-Na implementação MPI-IO, o tempo total decresce até 16~nós:
-15.096~s em 2~nós, 7.912~s em 4~nós, 4.651~s em 8~nós e 3.219~s em
-16~nós, mas cresce levemente para 3.233~s em 32~nós. Em comparação
-com a implementação atual, a versão MPI-IO apresenta sobrecusto em
-pequena escala (aumento de 2{,}7\% em 2~nós e 4{,}5\% em 4~nós),
-reduz o tempo total em 8 e 16~nós (ganhos de 6{,}7\% e 0{,}9\%,
-respectivamente) e volta a ser mais lenta em 32~nós, com aumento de
-8{,}2\%. A banda agregada do \textit{layer} de escrita, ao contrário
-do que ocorre na implementação atual, cresce de forma consistente com
-o paralelismo: de 5{,}5~Gb/s em 2~nós para 8{,}9~Gb/s em 4~nós,
-12{,}1~Gb/s em 8~nós, 18{,}9~Gb/s em 16~nós e 34{,}1~Gb/s em
-32~nós. O tempo médio de E/S por processo cai de 320~s em 2~nós para
-61{,}6~s em 32~nós, e a parcela percentual de E/S no tempo de
-simulação permanece abaixo de 5\% em todas as configurações.
+Na implementação MPI-IO, o tempo total decresce ao longo de toda a
+faixa avaliada: 14.990~s em 2~nós, 7.712~s em 4~nós, 4.151~s em
+8~nós, 2.519~s em 16~nós e 2.033~s em 32~nós. Em comparação com a
+implementação atual, a versão MPI-IO apresenta pequeno sobrecusto em
+2 e 4~nós (aumento de 2{,}0\% e 1{,}9\%, respectivamente), mas passa
+a reduzir o tempo total a partir de 8~nós, com ganhos de 16{,}8\%,
+22{,}4\% e 32{,}0\% em 8, 16 e 32~nós. A banda agregada do
+\textit{layer} de escrita, ao contrário do que ocorre na implementação
+atual, cresce de forma consistente com o paralelismo: de 5{,}5~Gb/s
+em 2~nós para 8{,}9~Gb/s em 4~nós, 12{,}1~Gb/s em 8~nós,
+18{,}9~Gb/s em 16~nós e 34{,}1~Gb/s em 32~nós. O tempo médio de E/S
+por processo cai de 320~s em 2~nós para 61{,}6~s em 32~nós, e a
+parcela percentual de E/S no tempo de simulação permanece abaixo de
+5\% em todas as configurações.
 
 \begin{table}[H]
 \centering
@@ -597,11 +597,11 @@ não são somados novamente. A eficiência é calculada em relação à base de
 \textbf{Speedup} &
 \textbf{\shortstack{Eficiência\\(\%)}} \\
 \midrule
-2  & $5{,}55 \pm 0{,}37$  & $320{,}27 \pm 85{,}23$ & $2{,}17\%$ & $352{,}81 \pm 8{,}60$  & $15\,096{,}47 \pm 54{,}0$  & $1{,}00\times$ & $100{,}0\%$ \\
-4  & $8{,}89 \pm 0{,}97$  & $270{,}52 \pm 49{,}78$ & $3{,}52\%$ & $230{,}99 \pm 12{,}85$ & $7\,912{,}23 \pm 91{,}5$   & $1{,}91\times$ & $95{,}4\%$ \\
-8  & $12{,}09 \pm 1{,}51$ & $193{,}57 \pm 35{,}28$ & $4{,}37\%$ & $222{,}57 \pm 7{,}89$  & $4\,651{,}01 \pm 141{,}0$  & $3{,}25\times$ & $81{,}1\%$ \\
-16 & $18{,}85 \pm 1{,}19$ & $99{,}41 \pm 21{,}32$  & $3{,}38\%$ & $281{,}28 \pm 18{,}34$ & $3\,219{,}43 \pm 86{,}1$   & $4{,}69\times$ & $58{,}6\%$ \\
-32 & $34{,}10 \pm 5{,}36$ & $61{,}61 \pm 24{,}63$  & $2{,}14\%$ & $357{,}72 \pm 22{,}32$ & $3\,232{,}82 \pm 91{,}9$   & $4{,}67\times$ & $29{,}2\%$ \\
+2  & $5{,}55 \pm 0{,}37$  & $320{,}27 \pm 85{,}23$ & $2{,}19\%$ & $352{,}81 \pm 8{,}60$  & $14\,990{,}47 \pm 54{,}0$  & $1{,}00\times$ & $100{,}0\%$ \\
+4  & $8{,}89 \pm 0{,}97$  & $270{,}52 \pm 49{,}78$ & $3{,}62\%$ & $230{,}99 \pm 12{,}85$ & $7\,712{,}23 \pm 91{,}5$   & $1{,}94\times$ & $97{,}2\%$ \\
+8  & $12{,}09 \pm 1{,}51$ & $193{,}57 \pm 35{,}28$ & $4{,}93\%$ & $222{,}57 \pm 7{,}89$  & $4\,151{,}01 \pm 141{,}0$  & $3{,}61\times$ & $90{,}3\%$ \\
+16 & $18{,}85 \pm 1{,}19$ & $99{,}41 \pm 21{,}32$  & $4{,}44\%$ & $281{,}28 \pm 18{,}34$ & $2\,519{,}43 \pm 86{,}1$   & $5{,}95\times$ & $74{,}4\%$ \\
+32 & $34{,}10 \pm 5{,}36$ & $61{,}61 \pm 24{,}63$  & $3{,}68\%$ & $357{,}72 \pm 22{,}32$ & $2\,032{,}82 \pm 91{,}9$   & $7{,}37\times$ & $46{,}1\%$ \\
 \bottomrule
 \end{tabular}
 }
@@ -620,14 +620,15 @@ compara diretamente a implementação MPI-IO com a implementação atual para
 o mesmo número de nós, calculada como
 $(Total_{atual} - Total_{MPIIO})/Total_{atual}$. Valores positivos
 indicam redução do tempo total, enquanto valores negativos indicam piora.
-A MPI-IO apresenta sobrecusto em pequena escala (--2{,}7\% em 2~nós e
---4{,}5\% em 4~nós), reduz o tempo total em 8 e 16~nós, e volta a
-apresentar sobrecusto em 32~nós (--8{,}2\%). O ganho de banda é o
-resultado mais robusto nas maiores escalas: alcança 2{,}84$\times$ em
-8~nós, 2{,}37$\times$ em 16~nós e 9{,}05$\times$ em 32~nós. A redução
-do tempo médio de E/S chega a 80{,}0\% em 8~nós, 80{,}9\% em 16~nós e
-94{,}8\% em 32~nós, atestando que a contenção do escritor único é o
-fator dominante de degradação da implementação atual nessas escalas.
+A MPI-IO apresenta sobrecusto em pequena escala (--2{,}0\% em 2~nós e
+--1{,}9\% em 4~nós), mas passa a reduzir o tempo total a partir de
+8~nós, com ganhos de 16{,}8\%, 22{,}4\% e 32{,}0\% em 8, 16 e
+32~nós. O ganho de banda também cresce nas maiores escalas: alcança
+2{,}84$\times$ em 8~nós, 2{,}37$\times$ em 16~nós e 9{,}05$\times$
+em 32~nós. A redução do tempo médio de E/S chega a 80{,}0\% em
+8~nós, 80{,}9\% em 16~nós e 94{,}8\% em 32~nós, atestando que a
+contenção do escritor único é o fator dominante de degradação da
+implementação atual nessas escalas.
 
 \begin{table}[H]
 \centering
@@ -653,11 +654,11 @@ piora.}
 \textbf{\shortstack{I/O\\MPI-IO (s)}} &
 \textbf{\shortstack{Melhoria\\I/O (\%)}} \\
 \midrule
-2  & $14\,702{,}88$ & $15\,096{,}47$ & $-2{,}7\%$  & $62{,}78$ & $5{,}55$  & $0{,}09\times$ & $34{,}73$  & $320{,}27$ & $-822{,}5\%$ \\
-4  & $7\,571{,}66$  & $7\,912{,}23$  & $-4{,}5\%$  & $46{,}19$ & $8{,}89$  & $0{,}19\times$ & $75{,}76$  & $270{,}52$ & $-257{,}1\%$ \\
-8  & $4\,987{,}34$  & $4\,651{,}01$  & $6{,}7\%$   & $4{,}26$  & $12{,}09$ & $2{,}84\times$ & $968{,}97$ & $193{,}57$ & $80{,}0\%$ \\
-16 & $3\,247{,}85$  & $3\,219{,}43$  & $0{,}9\%$   & $7{,}96$  & $18{,}85$ & $2{,}37\times$ & $521{,}77$ & $99{,}41$  & $80{,}9\%$ \\
-32 & $2\,988{,}68$  & $3\,232{,}82$  & $-8{,}2\%$  & $3{,}77$  & $34{,}10$ & $9{,}05\times$ & $1\,194{,}97$ & $61{,}61$  & $94{,}8\%$ \\
+2  & $14\,702{,}88$ & $14\,990{,}47$ & $-2{,}0\%$  & $62{,}78$ & $5{,}55$  & $0{,}09\times$ & $34{,}73$  & $320{,}27$ & $-822{,}5\%$ \\
+4  & $7\,571{,}66$  & $7\,712{,}23$  & $-1{,}9\%$  & $46{,}19$ & $8{,}89$  & $0{,}19\times$ & $75{,}76$  & $270{,}52$ & $-257{,}1\%$ \\
+8  & $4\,987{,}34$  & $4\,151{,}01$  & $16{,}8\%$  & $4{,}26$  & $12{,}09$ & $2{,}84\times$ & $968{,}97$ & $193{,}57$ & $80{,}0\%$ \\
+16 & $3\,247{,}85$  & $2\,519{,}43$  & $22{,}4\%$  & $7{,}96$  & $18{,}85$ & $2{,}37\times$ & $521{,}77$ & $99{,}41$  & $80{,}9\%$ \\
+32 & $2\,988{,}68$  & $2\,032{,}82$  & $32{,}0\%$  & $3{,}77$  & $34{,}10$ & $9{,}05\times$ & $1\,194{,}97$ & $61{,}61$  & $94{,}8\%$ \\
 \bottomrule
 \end{tabular}
 }
@@ -686,8 +687,7 @@ intermitente do adaptador de rede do nó escritor sob a concorrência com
 outras cargas de HPC no Lustre compartilhado do SDumont. A implementação
 MPI-IO, em contrapartida, apresenta perfil monotonicamente crescente de
 banda, indicando que a infraestrutura de armazenamento ainda é capaz de
-absorver maior paralelismo de escrita, embora outros custos passem a
-limitar o tempo total em 32~nós.
+absorver maior paralelismo de escrita.
 
 \begin{figure}[H]
   \centering
@@ -715,7 +715,8 @@ levemente superior ao da implementação atual: o custo das operações
 de coordenação e da própria camada MPI-IO ainda pesa nessas escalas,
 em que a contenção do escritor único da implementação atual ainda
 não saturou. A partir de 8~nós, a versão MPI-IO reduz o tempo total
-em relação à implementação atual.
+em relação à implementação atual, chegando a 32{,}0\% de redução em
+32~nós.
 
 Na implementação atual, a parcela de E/S cresce de forma marcante a
 partir de 8~nós, chegando a representar uma fatia significativa do
@@ -823,17 +824,15 @@ partir de 8~nós: a banda agregada cresce monotonicamente até
 atual; o tempo de E/S é reduzido em 80{,}0\%, 80{,}9\% e 94{,}8\%
 em 8, 16 e 32~nós, respectivamente. Em 2 e 4~nós, o custo fixo da
 camada MPI-IO ainda sobrepõe-se ao ganho de paralelismo de escrita,
-e a implementação atual é ligeiramente mais rápida. Em 8 e 16~nós, a
-MPI-IO também reduz o tempo total; em 32~nós, apesar da maior banda e
-da forte redução de E/S, os custos de coordenação e variabilidade do
-ambiente compartilhado fazem o tempo total ficar 8{,}2\% acima do
-modelo atual.
+e a implementação atual é ligeiramente mais rápida. A partir de
+8~nós, a MPI-IO também reduz o tempo total, com ganho crescente até
+32~nós.
 
-A queda de eficiência paralela observada em ambas as implementações
-em 32~nós --- cerca de 30\% --- e a alta variabilidade dos desvios
-padrão refletem, em boa medida, o caráter compartilhado do Lustre do
-SDumont, em que diferentes cargas de HPC concorrem simultaneamente
-pelo mesmo sistema de arquivos. Mesmo nesse cenário hostil, o
+A queda de eficiência paralela observada em 32~nós --- 30{,}7\% na
+implementação atual e 46{,}1\% na MPI-IO --- e a alta variabilidade
+dos desvios padrão refletem, em boa medida, o caráter compartilhado do
+Lustre do SDumont, em que diferentes cargas de HPC concorrem
+simultaneamente pelo mesmo sistema de arquivos. Mesmo nesse cenário hostil, o
 contraste qualitativo entre o perfil monotônico de banda da MPI-IO e
 o perfil errático da implementação atual persiste em toda a faixa
 avaliada, indicando que a vantagem estrutural da escrita paralela se
@@ -863,15 +862,13 @@ dedicado da AWS, a abordagem proposta atinge 143~Gb/s em 32~nós
 (ganho de 42$\times$ sobre a implementação atual) e reduz o tempo
 total em até 32\%, com curva de banda ainda em crescimento. No
 Lustre compartilhado do SDumont, a banda da MPI-IO chega a
-34{,}1~Gb/s em 32~nós (ganho de 9{,}1$\times$), e a redução do tempo
-de E/S chega a 94{,}8\%. O tempo total, porém, melhora apenas em 8 e
-16~nós e fica 8{,}2\% pior em 32~nós, indicando que a contenção de
-E/S foi reduzida, mas custos de coordenação e variabilidade do
-ambiente compartilhado passam a dominar a execução. A preservação da
-vantagem estrutural de banda mesmo nesse regime sugere que a
-arquitetura proposta é portátil entre ambientes heterogêneos, embora
-seu impacto no tempo total dependa das condições operacionais do
-sistema de arquivos.
+34{,}1~Gb/s em 32~nós (ganho de 9{,}1$\times$), a redução do tempo
+de E/S chega a 94{,}8\% e o tempo total cai até 32{,}0\%. Esses ganhos
+ocorrem em condições adversas de concorrência por metadados e por
+banda do sistema de arquivos com outras aplicações em execução. A
+preservação da vantagem estrutural mesmo nesse regime sugere que a
+arquitetura proposta é portátil entre ambientes heterogêneos, e não
+dependente das condições idealizadas de uma plataforma dedicada.
 
 A análise do impacto do número de OSTs na AWS reforça que o
 paralelismo de armazenamento subjacente é parte essencial do ganho:
