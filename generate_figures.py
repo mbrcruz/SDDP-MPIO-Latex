@@ -246,22 +246,13 @@ def result_file_format_plot(output: str) -> None:
         "Elemento N",
     ]
     rows = [
-        ["1", "1", "1", "v(1,1,1,c1)", "v(1,1,1,c2)", "v(1,1,1,c3)", "...", "v(1,1,1,cN)"],
-        ["1", "1", "2", "v(1,1,2,c1)", "v(1,1,2,c2)", "v(1,1,2,c3)", "...", "v(1,1,2,cN)"],
+        ["1", "1", "1", "142.37", "88.04", "317.92", "...", "51.68"],
+        ["1", "1", "2", "139.85", "91.27", "305.44", "...", "49.13"],
         ["...", "...", "...", "...", "...", "...", "...", "..."],
-        ["2", "1", "1", "v(2,1,1,c1)", "v(2,1,1,c2)", "v(2,1,1,c3)", "...", "v(2,1,1,cN)"],
+        ["2", "1", "1", "156.20", "74.66", "288.09", "...", "63.41"],
         ["...", "...", "...", "...", "...", "...", "...", "..."],
-        ["E", "S", "H", "v(E,S,H,c1)", "v(E,S,H,c2)", "v(E,S,H,c3)", "...", "v(E,S,H,cN)"],
+        ["E", "S", "H", "121.09", "96.58", "334.71", "...", "57.24"],
     ]
-
-    text(6.0, 6.15, "Formato lógico dos arquivos binários de resultado", 15, "bold")
-    text(
-        6.0,
-        5.75,
-        "Cada linha identifica uma combinação (estágio, cenário, hora) e armazena valores por elemento do sistema elétrico.",
-        9.4,
-        color=colors["muted"],
-    )
 
     x = table_x
     for idx, (header, width) in enumerate(zip(headers, col_widths)):
@@ -514,14 +505,25 @@ def sddp_architecture2_plot(output: str) -> None:
     file_x0 = shared_x + (shared_w - file_count * file_w - (file_count - 1) * file_gap) / 2
     file_specs = [
         ("Arquivo1", []),
-        ("Arquivo2", [("P2", 0.56), ("PN-1", 0.76)]),
+        ("Arquivo2", [("P2", 0.90), ("PN-1", 0.80)]),
         ("Arquivo3", []),
-        ("Arquivo4", [("PN-1", 0.42), ("PN", 0.64)]),
-        ("Arquivo5", [("P2", 0.66)]),
-        ("Arquivo6", [("P2", 0.52), ("PN", 0.78)]),
-        ("Arquivo7", [("PN-1", 0.75)]),
-        ("ArquivoN", [("PN-1", 0.5), ("PN", 0.74)]),
+        ("Arquivo4", [("PN", 0.70)]),
+        ("Arquivo5", [("P2", 0.60)]),
+        ("Arquivo6", [("PN-1", 0.50), ("PN", 0.40)]),
+        ("Arquivo7", [("P2", 0.30)]),
+        ("ArquivoN", [("PN-1", 0.20), ("PN", 0.10)]),
     ]
+    file_colors = [
+        "#B3E2CD",
+        "#FDCDAC",
+        "#CBD5E8",
+        "#F4CAE4",
+        "#E6F5C9",
+        "#FFF2AE",
+        "#F1E2CC",
+        "#CCCCCC",
+    ]
+    file_color_by_name = {file_name: file_colors[i] for i, (file_name, _) in enumerate(file_specs)}
     text(file_x0 - 0.22, file_y + file_h / 2 - 0.02, "offset", 7.0, "bold", colors["muted"], ha="right")
     for i, (file_name, writes) in enumerate(file_specs):
         fx = file_x0 + i * (file_w + file_gap)
@@ -530,14 +532,14 @@ def sddp_architecture2_plot(output: str) -> None:
                 (fx, file_y - 0.02),
                 file_w,
                 file_h,
-                facecolor=colors["stripe_a"] if i % 2 == 0 else colors["stripe_b"],
+                facecolor=file_color_by_name[file_name],
                 edgecolor="#B8C2CC",
                 linewidth=1.0,
-                alpha=0.86,
+                alpha=0.82,
             )
         )
-        for j, (key, offset_ratio) in enumerate(writes):
-            offset_y = file_y + 0.14 + j * 0.18
+        for key, offset_ratio in writes:
+            offset_y = file_y + 0.10 + offset_ratio * (file_h - 0.20)
             ax.plot(
                 [fx + 0.10 * file_w, fx + 0.90 * file_w],
                 [offset_y, offset_y],
@@ -574,7 +576,7 @@ def sddp_architecture2_plot(output: str) -> None:
     lustre_x, lustre_y, lustre_w, lustre_h = 0.6, 0.65, 10.8, 2.2
     box(lustre_x, lustre_y, lustre_w, lustre_h, colors["lustre"], colors["lustre_border"])
     text(lustre_x + lustre_w / 2, lustre_y + lustre_h - 0.25, "Sistema de arquivos Lustre", 14, "bold", colors["lustre_border"])
-    text(lustre_x + lustre_w / 2, lustre_y + lustre_h - 0.55, "striping distribui blocos dos arquivos entre OSTs", 9.3, color=colors["muted"], style="italic")
+    text(lustre_x + lustre_w / 2, lustre_y + lustre_h - 0.55, "striping distribui blocos coloridos dos arquivos entre OSTs", 9.3, color=colors["muted"], style="italic")
 
     storage_specs = [
         ("MDS", 1.0),
@@ -583,11 +585,11 @@ def sddp_architecture2_plot(output: str) -> None:
         ("OST 3", 7.35),
         ("OST 4", 9.45),
     ]
-    stripe_labels = {
-        "OST 1": ("stripe 1", "stripe 5"),
-        "OST 2": ("stripe 2", "stripe 6"),
-        "OST 3": ("stripe 3", "stripe N-1"),
-        "OST 4": ("stripe 4", "stripe N"),
+    stripe_distribution = {
+        "OST 1": [("Arq. 1", "Arquivo1"), ("Arq. 5", "Arquivo5")],
+        "OST 2": [("Arq. 2", "Arquivo2"), ("Arq. 6", "Arquivo6")],
+        "OST 3": [("Arq. 3", "Arquivo3"), ("Arq. 7", "Arquivo7")],
+        "OST 4": [("Arq. 4", "Arquivo4"), ("Arq. N", "ArquivoN")],
     }
 
     for title, x in storage_specs:
@@ -598,8 +600,15 @@ def sddp_architecture2_plot(output: str) -> None:
             continue
 
         stripe_specs = [
-            (lustre_y + 0.70, colors["stripe_a"], stripe_labels[title][0]),
-            (lustre_y + 0.38, colors["stripe_b"], stripe_labels[title][1]),
+            (
+                stripe_y,
+                file_color_by_name[file_name],
+                stripe_label,
+            )
+            for stripe_y, (stripe_label, file_name) in zip(
+                [lustre_y + 0.70, lustre_y + 0.38],
+                stripe_distribution[title],
+            )
         ]
         for stripe_y, stripe_color, stripe_label in stripe_specs:
             box(x + 0.16, stripe_y, 1.13, 0.23, stripe_color, "#B8C2CC", lw=0.8)

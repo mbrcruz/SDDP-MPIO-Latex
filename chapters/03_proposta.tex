@@ -2,8 +2,11 @@
 \label{cap:proposta}
 
 Este capítulo apresenta a proposta de paralelização dos mecanismos de
-entrada e saída (E/S) do SDDP. A solução substitui o modelo atual,
-por uma organização baseada em MPI-IO sobre
+entrada e saída (E/S) do SDDP.
+
+\section{Visão geral da arquitetura}
+
+A solução substitui o modelo atual por uma organização baseada em MPI-IO sobre
 o sistema de arquivos Lustre. Nessa abordagem, cada processo grava
 diretamente seus próprios resultados em regiões independentes do espaço de
 saída, evitando a concentração das operações de E/S em um único processo.
@@ -32,48 +35,16 @@ múltiplos processos operam concorrentemente sobre o mesmo arquivo
 lógico em \textit{offsets} distintos por meio das primitivas do
 MPI-IO~\cite{mpiioCite}. % verificar chave
 
-No regime de execução adotado, cada processo resolve a simulação de
-um cenário sorteado e, ao término dessa etapa, persiste os blocos de
-dados resultantes em dezenas de arquivos binários no formato
-proprietário do modelo SDDP. O tamanho de cada bloco de dados varia
-conforme o arquivo de resultado produzido. Em seguida, o processo recebe
-uma nova tarefa, correspondente a um novo cenário a ser resolvido,
-caracterizando um padrão de execução do tipo
-\textit{bag-of-tasks}~\cite{Cirne:2003}.
-
-Como a simulação de cada cenário transcorre de forma independente,
-a abordagem baseada em MPI-IO permite que cada operação de escrita
-também seja independente: cada processo grava em um \textit{offset}
-específico, determinado pelo cenário resolvido, sem necessidade de
-sincronização explícita entre escritas concorrentes.
-
-Como cada cenário ocupa um \textit{offset} próprio em cada arquivo
-de resultado, elimina-se o risco de escritas concorrentes incidirem
-sobre uma mesma região. Essa propriedade constitui um benefício
-relevante da implementação proposta, pois dispensa o emprego de
-mecanismos de bloqueio (\textit{locks}) para assegurar a corretude
-das operações concorrentes.
-
-Cada bloco gravado nos arquivos de resultado é alocado em um
-\textit{stripe} específico de um OST do Lustre. Quando o volume
-acumulado ultrapassa o tamanho configurado para o \textit{stripe},
-um novo \textit{stripe} é alocado em outro OST. A atribuição dos
-\textit{stripes} aos OSTs ocorre de forma circular
-(\textit{round-robin}), de modo que cada arquivo de resultado é
-fisicamente distribuído entre os múltiplos \textit{stripes}
-alocados em OSTs distintos. Esse padrão permite paralelizar as
-operações de escrita sobre um mesmo arquivo, com grau de
-paralelismo limitado pelo número de OSTs definido na configuração
-de \textit{striping} associada ao arquivo~\cite{LustreManual}.
-
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figuras/SDDP_architecture2.png}
+  \makebox[\textwidth][c]{%
+    \includegraphics[width=0.95\paperwidth]{figuras/SDDP_architecture2.png}%
+  }
   \caption{Proposta com MPI-IO e Lustre.}
   \label{fig:SDDP_architecture2}
 \end{figure}
 
-\section{Linha do Tempo do SDDP}
+\section{Modelo de execução}
 
 A~Figura~\ref{fig:SDDP_timeline_MPIIO} ilustra a linha do tempo da
 execução do SDDP segundo a arquitetura proposta. Essa representação
@@ -91,7 +62,16 @@ recebimento das tarefas concluídas pelos \textit{ranks} trabalhadores. Por
 esse motivo, sua linha é representada integralmente como comunicação.
 
 A execução de cada processo inicia com o recebimento de uma tarefa,
-correspondente a um cenário a ser resolvido. Em seguida, os processos
+correspondente a um cenário a ser resolvido. No regime de execução
+adotado, cada processo resolve a simulação de um cenário sorteado e, ao
+término dessa etapa, persiste os blocos de dados resultantes em dezenas
+de arquivos binários no formato proprietário do modelo SDDP. O tamanho de
+cada bloco de dados varia conforme o arquivo de resultado produzido. Em
+seguida, o processo recebe uma nova tarefa, correspondente a um novo
+cenário a ser resolvido, caracterizando um padrão de execução do tipo
+\textit{bag-of-tasks}~\cite{Cirne:2003}.
+
+Antes do início das escritas paralelas, os processos
 participam de uma operação coletiva de abertura dos arquivos de
 resultado, caracterizando um ponto de coordenação MPI-IO antes do
 início das escritas paralelas.
@@ -102,50 +82,93 @@ resultado. Concluída a persistência dos dados, o processo passa a tratar
 um novo cenário, repetindo esse ciclo enquanto houver tarefas
 disponíveis. 
 
-Como os cenários possuem tempos de simulação distintos, os processos
-concluem a etapa de cálculo e alcançam a etapa de escrita em momentos
-diferentes. Essa característica orientou a escolha pelas operações
-independentes de escrita do MPI-IO. Como cada processo possui uma
-região de saída previamente determinada, não é necessário coordenar a
-execução das escritas com os demais processos. O uso de escrita coletiva,
-por outro lado, exigiria que os processos participassem conjuntamente das
-chamadas de E/S, introduzindo pontos adicionais de sincronização no fluxo
-de execução. Esses pontos poderiam bloquear processos que já concluíram
-suas simulações enquanto aguardam a participação dos demais, reduzindo a
-independência natural do modelo. Embora o MPI-IO também ofereça variantes
-não bloqueantes, a escrita independente se mostra mais aderente ao padrão
-de execução adotado, no qual cada processo persiste seus resultados assim
-que conclui o cenário correspondente.
-
 Quando não há mais cenários a serem resolvidos, inicia-se
 uma nova etapa de coordenação MPI-IO, dessa vez associada ao fechamento
 coletivo dos arquivos de resultado.
 
-
-
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figuras/SDDP_timeline_MPIIO.png}
+  \makebox[\textwidth][c]{%
+    \includegraphics[width=0.95\paperwidth]{figuras/SDDP_timeline_MPIIO.png}%
+  }
   \caption{Linha de tempo da simulação final do SDDP com MPI-IO.}
   \label{fig:SDDP_timeline_MPIIO}
 \end{figure}
+
+\section{Detalhes de implementação}
 
 A~Figura~\ref{fig:formato_arquivos_resultado} detalha a organização
 lógica dos arquivos binários de resultado. Cada registro é identificado
 pelas três primeiras colunas, correspondentes ao estágio, ao cenário e à
 hora. A partir da quarta coluna são armazenados os valores associados aos
 elementos do sistema elétrico. Neste trabalho, um elemento do sistema
-elétrico corresponde a uma entidade modelada no arquivo de resultado,
-como uma usina hidrelétrica, uma usina térmica ou qualquer outro
-componente representado pelo SDDP. Os valores desses elementos variam em
-função da combinação $(\text{estágio}, \text{cenário}, \text{hora})$.
+elétrico corresponde a uma entidade física ou lógica modelada pelo SDDP e
+representada como uma coluna do arquivo de resultado. Esse elemento pode
+ser, por exemplo, uma usina hidrelétrica, uma usina térmica, um
+reservatório, uma barra, uma interligação ou qualquer outro componente do
+sistema elétrico cuja grandeza seja registrada na saída da simulação. Os
+valores desses elementos variam em função da combinação
+$(\text{estágio}, \text{cenário}, \text{hora})$.
 Essa estrutura permite calcular diretamente a região de escrita de cada
 cenário no arquivo. Os marcadores laterais indicam os \textit{offsets} de
 início de cada estágio.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figuras/formato_arquivos_resultado.png}
+  \makebox[\textwidth][c]{%
+    \includegraphics[width=0.95\paperwidth]{figuras/formato_arquivos_resultado.png}%
+  }
   \caption{Formato lógico dos arquivos binários de resultado do SDDP.}
   \label{fig:formato_arquivos_resultado}
 \end{figure}
+
+Como a simulação de cada cenário transcorre de forma independente,
+a abordagem baseada em MPI-IO permite que cada operação de escrita
+também seja independente: cada processo grava em um \textit{offset}
+específico, determinado pelo cenário resolvido, sem necessidade de
+sincronização explícita entre escritas concorrentes.
+
+Como cada cenário ocupa um \textit{offset} próprio em cada arquivo
+de resultado, elimina-se o risco de escritas concorrentes incidirem
+sobre uma mesma região. Essa propriedade constitui um benefício
+relevante da implementação proposta, pois dispensa o emprego de
+mecanismos de bloqueio (\textit{locks}) para assegurar a corretude
+das operações concorrentes. Na implementação, o \textit{offset} de cada
+escrita é calculado a partir da posição lógica do cenário no arquivo,
+do tamanho do registro associado à combinação
+$(\text{estágio}, \text{cenário}, \text{hora})$ e da quantidade de
+elementos do sistema elétrico armazenados em cada registro.
+
+\section{Considerações de configuração}
+
+No Lustre, cada bloco gravado nos arquivos de resultado é alocado em um
+\textit{stripe} específico de um OST. Quando o volume acumulado ultrapassa
+o tamanho configurado para o \textit{stripe}, um novo \textit{stripe} é
+alocado em outro OST. A atribuição dos \textit{stripes} aos OSTs ocorre
+de forma circular (\textit{round-robin}), de modo que cada arquivo de
+resultado é fisicamente distribuído entre os múltiplos \textit{stripes}
+alocados em OSTs distintos. Esse padrão permite paralelizar as operações
+de escrita sobre um mesmo arquivo, com grau de paralelismo limitado pelo
+número de OSTs definido na configuração de \textit{striping} associada ao
+arquivo~\cite{LustreManual}.
+
+Dois parâmetros são centrais nessa configuração. O primeiro é
+\texttt{stripe\_count}, que define a quantidade de OSTs usados por arquivo
+e, portanto, o grau máximo de distribuição física das escritas. O segundo
+é \texttt{stripe\_size}, que define o tamanho de cada faixa antes que o
+arquivo avance para o próximo OST. Valores muito baixos de
+\texttt{stripe\_size} podem aumentar a fragmentação das requisições,
+enquanto valores muito altos podem reduzir a distribuição efetiva entre
+OSTs. A escolha desses parâmetros deve considerar o tamanho típico dos
+blocos gravados pelo SDDP e a concorrência esperada entre os
+\textit{ranks}.
+
+A proposta adota escritas independentes de MPI-IO, pois elas preservam a
+autonomia natural do modelo \textit{bag-of-tasks}: cada \textit{rank}
+persiste seus resultados assim que conclui o cenário recebido. Escritas
+coletivas poderiam permitir agregação interna pela biblioteca MPI-IO, mas
+exigiriam que múltiplos \textit{ranks} participassem conjuntamente da
+mesma chamada de E/S. Nesse contexto, a sincronização adicional poderia
+bloquear \textit{ranks} que já concluíram sua simulação enquanto aguardam
+outros cenários ainda em execução. Por esse motivo, a escrita
+independente é a escolha mais aderente ao padrão de execução avaliado.
