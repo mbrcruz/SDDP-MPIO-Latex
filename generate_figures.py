@@ -204,6 +204,125 @@ def message_count_by_size_plot(output: str) -> None:
     finish(fig, output)
 
 
+def result_file_format_plot(output: str) -> None:
+    fig, ax = plt.subplots(figsize=(12.6, 5.8))
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 6.5)
+    ax.axis("off")
+    fig.patch.set_facecolor("white")
+
+    colors = {
+        "meta": "#E8F1FA",
+        "meta_border": "#2B6CB0",
+        "values": "#EAF6EA",
+        "values_border": "#2F855A",
+        "row": "#F7FBFF",
+        "text": "#263238",
+        "muted": "#607D8B",
+        "highlight": "#FFF3CD",
+        "highlight_border": "#B7791F",
+        "offset": "#D97706",
+    }
+
+    def box(x, y, w, h, face, edge, lw=1.5):
+        rect = plt.Rectangle((x, y), w, h, facecolor=face, edgecolor=edge, linewidth=lw)
+        ax.add_patch(rect)
+        return rect
+
+    def text(x, y, label, size=10, weight="normal", color=None, ha="center", va="center"):
+        ax.text(x, y, label, fontsize=size, fontweight=weight, color=color or colors["text"], ha=ha, va=va)
+
+    table_x, table_y = 1.45, 1.2
+    row_h = 0.58
+    col_widths = [1.08, 1.08, 1.08, 1.34, 1.34, 1.34, 0.74, 1.34]
+    headers = [
+        "Estágios",
+        "Cenários",
+        "Hora",
+        "Elemento 1",
+        "Elemento 2",
+        "Elemento 3",
+        "...",
+        "Elemento N",
+    ]
+    rows = [
+        ["1", "1", "1", "v(1,1,1,c1)", "v(1,1,1,c2)", "v(1,1,1,c3)", "...", "v(1,1,1,cN)"],
+        ["1", "1", "2", "v(1,1,2,c1)", "v(1,1,2,c2)", "v(1,1,2,c3)", "...", "v(1,1,2,cN)"],
+        ["...", "...", "...", "...", "...", "...", "...", "..."],
+        ["2", "1", "1", "v(2,1,1,c1)", "v(2,1,1,c2)", "v(2,1,1,c3)", "...", "v(2,1,1,cN)"],
+        ["...", "...", "...", "...", "...", "...", "...", "..."],
+        ["E", "S", "H", "v(E,S,H,c1)", "v(E,S,H,c2)", "v(E,S,H,c3)", "...", "v(E,S,H,cN)"],
+    ]
+
+    text(6.0, 6.15, "Formato lógico dos arquivos binários de resultado", 15, "bold")
+    text(
+        6.0,
+        5.75,
+        "Cada linha identifica uma combinação (estágio, cenário, hora) e armazena valores por elemento do sistema elétrico.",
+        9.4,
+        color=colors["muted"],
+    )
+
+    x = table_x
+    for idx, (header, width) in enumerate(zip(headers, col_widths)):
+        is_meta = idx < 3
+        face = colors["meta"] if is_meta else colors["values"]
+        edge = colors["meta_border"] if is_meta else colors["values_border"]
+        box(x, table_y + row_h * len(rows), width, row_h, face, edge, lw=1.8)
+        text(x + width / 2, table_y + row_h * len(rows) + row_h / 2, header, 8.9, "bold", edge)
+        x += width
+
+    for row_idx, row in enumerate(rows):
+        y = table_y + row_h * (len(rows) - 1 - row_idx)
+        x = table_x
+        for col_idx, (value, width) in enumerate(zip(row, col_widths)):
+            is_meta = col_idx < 3
+            face = "#FFFFFF" if row_idx % 2 == 0 else colors["row"]
+            edge = "#B8C2CC"
+            if row_idx == len(rows) - 1:
+                face = colors["highlight"] if is_meta else "#F8FFF8"
+                edge = colors["highlight_border"] if is_meta else "#B8C2CC"
+            box(x, y, width, row_h, face, edge, lw=1.0)
+            text(x + width / 2, y + row_h / 2, value, 7.4 if col_idx >= 3 else 8.8, color=colors["text"])
+            x += width
+
+    stage_offsets = [
+        (0, "offset\nestágio 1"),
+        (3, "offset\nestágio 2"),
+        (5, "offset\nestágio E"),
+    ]
+    for row_idx, label in stage_offsets:
+        y = table_y + row_h * (len(rows) - 1 - row_idx) + row_h / 2
+        text(table_x - 0.42, y, label, 7.5, "bold", colors["offset"], ha="right")
+        ax.annotate(
+            "",
+            xy=(table_x - 0.02, y),
+            xytext=(table_x - 0.32, y),
+            arrowprops=dict(arrowstyle="-|>", color=colors["offset"], linewidth=1.3),
+        )
+
+    meta_w = sum(col_widths[:3])
+    values_x = table_x + meta_w
+    values_w = sum(col_widths[3:])
+    text(table_x + meta_w / 2, 0.65, "Colunas de identificação do registro", 9.4, "bold", colors["meta_border"])
+    text(values_x + values_w / 2, 0.65, "Valores gravados a partir da coluna 4", 9.4, "bold", colors["values_border"])
+
+    ax.annotate(
+        "",
+        xy=(table_x + meta_w / 2, table_y - 0.03),
+        xytext=(table_x + meta_w / 2, 0.85),
+        arrowprops=dict(arrowstyle="-|>", color=colors["meta_border"], linewidth=1.4),
+    )
+    ax.annotate(
+        "",
+        xy=(values_x + values_w / 2, table_y - 0.03),
+        xytext=(values_x + values_w / 2, 0.85),
+        arrowprops=dict(arrowstyle="-|>", color=colors["values_border"], linewidth=1.4),
+    )
+
+    finish(fig, output)
+
+
 def sddp_timeline_plot(output: str) -> None:
     fig, ax = plt.subplots(figsize=(12.4, 5.6))
     ax.set_xlim(-0.25, 10.8)
@@ -508,6 +627,7 @@ def main() -> None:
     message_count_by_size_plot("histograma_mensagens.png")
     sddp_timeline_plot("SDDP_timeline_MPIIO.png")
     sddp_architecture2_plot("SDDP_architecture2.png")
+    result_file_format_plot("formato_arquivos_resultado.png")
 
 
 if __name__ == "__main__":

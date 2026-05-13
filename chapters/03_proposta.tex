@@ -129,3 +129,23 @@ coletivo dos arquivos de resultado.
   \caption{Linha de tempo da simulação final do SDDP com MPI-IO.}
   \label{fig:SDDP_timeline_MPIIO}
 \end{figure}
+
+A~Figura~\ref{fig:formato_arquivos_resultado} detalha a organização
+lógica dos arquivos binários de resultado. Cada registro é identificado
+pelas três primeiras colunas, correspondentes ao estágio, ao cenário e à
+hora. A partir da quarta coluna são armazenados os valores associados aos
+elementos do sistema elétrico. Neste trabalho, um elemento do sistema
+elétrico corresponde a uma entidade modelada no arquivo de resultado,
+como uma usina hidrelétrica, uma usina térmica ou qualquer outro
+componente representado pelo SDDP. Os valores desses elementos variam em
+função da combinação $(\text{estágio}, \text{cenário}, \text{hora})$.
+Essa estrutura permite calcular diretamente a região de escrita de cada
+cenário no arquivo. Os marcadores laterais indicam os \textit{offsets} de
+início de cada estágio.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/formato_arquivos_resultado.png}
+  \caption{Formato lógico dos arquivos binários de resultado do SDDP.}
+  \label{fig:formato_arquivos_resultado}
+\end{figure}

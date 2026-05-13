@@ -12,6 +12,7 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Proposta com MPI-IO e Lustre.}}{15}{figure.3.1}%
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Linha de tempo da simulação final do SDDP com MPI-IO.}}{17}{figure.3.2}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Formato lógico dos arquivos binários de resultado do SDDP.}}{17}{figure.3.3}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{19}{figure.4.1}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média no Experimento AWS.}}{23}{figure.4.2}%
