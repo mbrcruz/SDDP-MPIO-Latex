@@ -84,6 +84,12 @@ que a coordenação global fica concentrada nas etapas de preparação e
 finalização dos arquivos, enquanto o ciclo principal de processamento
 permanece distribuído entre os processos.
 
+O \textit{rank} coordenador representa o \textit{rank}~0,
+responsável por distribuir as tarefas aos demais \textit{ranks}. Quando não
+está enviando uma nova tarefa, esse \textit{rank} permanece aguardando o
+recebimento das tarefas concluídas pelos \textit{ranks} trabalhadores. Por
+esse motivo, sua linha é representada integralmente como comunicação.
+
 A execução de cada processo inicia com o recebimento de uma tarefa,
 correspondente a um cenário a ser resolvido. Em seguida, os processos
 participam de uma operação coletiva de abertura dos arquivos de
@@ -114,6 +120,8 @@ que conclui o cenário correspondente.
 Quando não há mais cenários a serem resolvidos, inicia-se
 uma nova etapa de coordenação MPI-IO, dessa vez associada ao fechamento
 coletivo dos arquivos de resultado.
+
+
 
 \begin{figure}[H]
   \centering
