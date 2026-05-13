@@ -43,12 +43,17 @@
     
 - Experimentos
 
+    - Ultimos experimentos
+        - teste ASYNC AWS , computando tempo de log , sem log block, para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV)  
+        -    teste ASYNC SDUMOMT , computando tempo de log , sem log block, para confirmar a piora na computacao(Necessário para escrever menos no capitulo IV) 
+
+    -  Banda agregada percebida pela aplicação.  (chap 3 ) ? 
     - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node. 
     - por que stripe de 1 MB ? 
-    - Banda agregada percebida pela aplicação.
-    - teste ASYNC SDumont ( Falta 32 nós)
-    - teste ASYNC AWS ( Necessário para escrever menos no capitulo IV)
+   
     - Teste com IOR two phase I/O e banda. 
+
+      - ~~teste ASYNC SDumont ( Falta 32 nós) ~~
 
 - Trabalhos relacionados
     - Buscar trabalhos para relacionados ao problema
