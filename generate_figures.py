@@ -221,7 +221,7 @@ def sddp_timeline_plot(output: str) -> None:
     }
 
     processes = [
-        ("Rank 0\nCoordenador", 3.3, 0.18, 0.72, []),
+        ("Rank 0\nDistribuidor", 3.3, 0.18, 0.72, []),
         ("Rank 1", 2.35, 0.46, 0.28, [(2, 2.05), (6, 0.7), (10, 2.2)]),
         ("Rank 2", 1.4, 0.68, 0.44, [(3, 1.55), (7, 0.62), (11, 1.15), (12, 0.72)]),
         ("Rank N", 0.45, 0.24, 0.84, [(4, 0.9), (8, 2.8), ("X", 1.1)]),
@@ -364,7 +364,7 @@ def sddp_architecture2_plot(output: str) -> None:
         )
 
     process_specs = [
-        (0.55, 5.85, "P1", "Rank 0\ncoordenador", "gerencia tarefas"),
+        (0.55, 5.85, "P1", "Rank 0\ndistribuidor", "distribui tarefas"),
         (3.1, 5.85, "P2", "Rank 1", "cenários 2, 6, 10"),
         (5.55, 5.85, None, "...", ""),
         (7.3, 5.85, "PN-1", "Rank N-1", "cenários 3, 7, 11"),

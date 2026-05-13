@@ -84,7 +84,7 @@ que a coordenação global fica concentrada nas etapas de preparação e
 finalização dos arquivos, enquanto o ciclo principal de processamento
 permanece distribuído entre os processos.
 
-O \textit{rank} coordenador representa o \textit{rank}~0,
+O \textit{rank} distribuidor representa o \textit{rank}~0,
 responsável por distribuir as tarefas aos demais \textit{ranks}. Quando não
 está enviando uma nova tarefa, esse \textit{rank} permanece aguardando o
 recebimento das tarefas concluídas pelos \textit{ranks} trabalhadores. Por
