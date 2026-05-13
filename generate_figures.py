@@ -223,18 +223,17 @@ def sddp_timeline_plot(output: str) -> None:
     processes = [
         ("Rank 0\nCoordenador", 3.3, 0.18, 0.72, []),
         ("Rank 1", 2.35, 0.46, 0.28, [(2, 2.05), (6, 0.7), (10, 2.2)]),
-        ("Rank 2", 1.4, 0.68, 0.44, [(3, 2.3), (7, 0.8), (11, 1.85)]),
-        ("Rank N", 0.45, 0.24, 0.84, [(4, 0.65), (8, 2.4), ("X", 0.9)]),
+        ("Rank 2", 1.4, 0.68, 0.44, [(3, 1.55), (7, 0.62), (11, 1.15), (12, 0.72)]),
+        ("Rank N", 0.45, 0.24, 0.84, [(4, 0.9), (8, 2.8), ("X", 1.1)]),
     ]
     coord_start_x = 0.15
-    coord_width = 0.66
-    initial_coord_end_x = 1.35
-    final_coord_end_x = 8.85
-    io_widths = [0.34, 0.38, 0.36]
+    initial_coord_end_x = 0.95
+    final_coord_end_x = 8.15
+    io_widths = [0.34, 0.38, 0.36, 0.30]
     post_io_comm_widths = [
         [0.16, 0.54, 0.22],
         [0.34, 0.14, 0.42],
-        [0.50, 0.20, 0.34],
+        [0.42, 0.16, 0.28, 0.18],
         [0.18, 0.60, 0.16],
     ]
 
@@ -266,7 +265,8 @@ def sddp_timeline_plot(output: str) -> None:
         ax.hlines(y, 0.0, 9.75, color=colors["line"], linewidth=2.0, zorder=1)
         ax.text(-0.08, y, process, ha="right", va="center", fontsize=10.5, color=colors["text"], weight="bold")
         if process_index == 0:
-            block(coord_start_x, y, 9.55, 0.3, colors["comm"], "", size=8.5)
+            coordinator_end_x = final_coord_end_x + processes[-1][3]
+            block(coord_start_x, y, coordinator_end_x - coord_start_x, 0.3, colors["comm"], "", size=8.5)
             continue
         x = coord_start_x
         block(x, y, initial_comm_width, 0.3, colors["comm"], "", size=8.5)
