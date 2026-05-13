@@ -221,10 +221,10 @@ def sddp_timeline_plot(output: str) -> None:
     }
 
     processes = [
-        ("Processo 0", 3.3, 0.18, 0.72, [(1, 0.75), (5, 2.25), (9, 0.65)]),
-        ("Processo 1", 2.35, 0.46, 0.28, [(2, 2.05), (6, 0.7), (10, 2.2)]),
-        ("Processo 2", 1.4, 0.68, 0.44, [(3, 2.3), (7, 0.8), (11, 1.85)]),
-        ("Processo N", 0.45, 0.24, 0.84, [(4, 0.65), (8, 2.4), ("X", 0.9)]),
+        ("Rank 0\nCoordenador", 3.3, 0.18, 0.72, []),
+        ("Rank 1", 2.35, 0.46, 0.28, [(2, 2.05), (6, 0.7), (10, 2.2)]),
+        ("Rank 2", 1.4, 0.68, 0.44, [(3, 2.3), (7, 0.8), (11, 1.85)]),
+        ("Rank N", 0.45, 0.24, 0.84, [(4, 0.65), (8, 2.4), ("X", 0.9)]),
     ]
     coord_start_x = 0.15
     coord_width = 0.66
@@ -265,6 +265,9 @@ def sddp_timeline_plot(output: str) -> None:
     for process_index, (process, y, initial_comm_width, final_comm_width, tasks) in enumerate(processes):
         ax.hlines(y, 0.0, 9.75, color=colors["line"], linewidth=2.0, zorder=1)
         ax.text(-0.08, y, process, ha="right", va="center", fontsize=10.5, color=colors["text"], weight="bold")
+        if process_index == 0:
+            block(coord_start_x, y, 9.55, 0.3, colors["comm"], "", size=8.5)
+            continue
         x = coord_start_x
         block(x, y, initial_comm_width, 0.3, colors["comm"], "", size=8.5)
         x += initial_comm_width
@@ -299,7 +302,7 @@ def sddp_timeline_plot(output: str) -> None:
 def sddp_architecture2_plot(output: str) -> None:
     fig, ax = plt.subplots(figsize=(12.8, 7.4))
     ax.set_xlim(0, 12)
-    ax.set_ylim(0, 7.15)
+    ax.set_ylim(0, 7.45)
     ax.axis("off")
     fig.patch.set_facecolor("white")
 
@@ -344,12 +347,28 @@ def sddp_architecture2_plot(output: str) -> None:
             arrowprops=dict(arrowstyle="-|>", color=color or colors["arrow"], linewidth=lw, alpha=alpha, shrinkA=0, shrinkB=0),
         )
 
+    def curved_arrow(x1, y1, x2, y2, rad=0.0, color=None, lw=1.5, alpha=1.0):
+        ax.annotate(
+            "",
+            xy=(x2, y2),
+            xytext=(x1, y1),
+            arrowprops=dict(
+                arrowstyle="-|>",
+                color=color or colors["arrow"],
+                linewidth=lw,
+                alpha=alpha,
+                shrinkA=0,
+                shrinkB=0,
+                connectionstyle=f"arc3,rad={rad}",
+            ),
+        )
+
     process_specs = [
-        (0.55, 5.85, "P1", "Processo 1", "cenários 1, 5, 9"),
-        (3.1, 5.85, "P2", "Processo 2", "cenários 2, 6, 10"),
+        (0.55, 5.85, "P1", "Rank 0\ncoordenador", "gerencia tarefas"),
+        (3.1, 5.85, "P2", "Rank 1", "cenários 2, 6, 10"),
         (5.55, 5.85, None, "...", ""),
-        (7.3, 5.85, "PN-1", "Processo N-1", "cenários 3, 7, 11"),
-        (9.85, 5.85, "PN", "Processo N", "cenários 4, 8, X"),
+        (7.3, 5.85, "PN-1", "Rank N-1", "cenários 3, 7, 11"),
+        (9.85, 5.85, "PN", "Rank N", "cenários 4, 8, X"),
     ]
     process_centers = {}
     for x, y, key, title, subtitle in process_specs:
@@ -360,7 +379,7 @@ def sddp_architecture2_plot(output: str) -> None:
         process_color = process_colors[key]
         box(x, y, 1.75, 1.05, colors["process"], process_color, lw=2.0)
         box(x, y + 0.94, 1.75, 0.11, process_color, process_color, lw=0.0)
-        text(x + 0.88, y + 0.75, title, 11, "bold", process_color)
+        text(x + 0.88, y + 0.75, title, 9.2 if "\n" in title else 11, "bold", process_color)
         text(x + 0.88, y + 0.38, subtitle, 8.8, color=colors["muted"])
         process_centers[key] = (x + 0.88, y)
 
@@ -375,14 +394,14 @@ def sddp_architecture2_plot(output: str) -> None:
     file_h = 0.86
     file_x0 = shared_x + (shared_w - file_count * file_w - (file_count - 1) * file_gap) / 2
     file_specs = [
-        ("Arquivo1", [("P1", 0.34)]),
+        ("Arquivo1", []),
         ("Arquivo2", [("P2", 0.56), ("PN-1", 0.76)]),
-        ("Arquivo3", [("P1", 0.72)]),
+        ("Arquivo3", []),
         ("Arquivo4", [("PN-1", 0.42), ("PN", 0.64)]),
         ("Arquivo5", [("P2", 0.66)]),
-        ("Arquivo6", [("P1", 0.24), ("P2", 0.52), ("PN", 0.78)]),
+        ("Arquivo6", [("P2", 0.52), ("PN", 0.78)]),
         ("Arquivo7", [("PN-1", 0.75)]),
-        ("ArquivoN", [("P1", 0.26), ("PN-1", 0.5), ("PN", 0.74)]),
+        ("ArquivoN", [("PN-1", 0.5), ("PN", 0.74)]),
     ]
     text(file_x0 - 0.22, file_y + file_h / 2 - 0.02, "offset", 7.0, "bold", colors["muted"], ha="right")
     for i, (file_name, writes) in enumerate(file_specs):
@@ -409,8 +428,13 @@ def sddp_architecture2_plot(output: str) -> None:
             )
         text(fx + file_w / 2, file_y + file_h + 0.22, file_name, 8.8, "bold", colors["text"])
 
+    r0_x, r0_y = process_centers["P1"]
+    coord_y = r0_y + 1.08
+    for target_key, rad in [("P2", 0.0), ("PN-1", 0.16), ("PN", 0.24)]:
+        target_x, _ = process_centers[target_key]
+        curved_arrow(r0_x, coord_y, target_x, coord_y, rad=rad, color=process_colors["P1"], lw=1.1, alpha=0.7)
+
     for key, (x1, y1), x2 in [
-        ("P1", process_centers["P1"], 2.35),
         ("P2", process_centers["P2"], 4.35),
         ("PN-1", process_centers["PN-1"], 7.65),
         ("PN", process_centers["PN"], 9.65),
