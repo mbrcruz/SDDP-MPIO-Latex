@@ -4,27 +4,23 @@
 
 
 - Trabalhar no capitulo III 
+
+    - Formato dados
+    - Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous ) - minimzar pressão pelo uso de memoria.
+    - Processo Gerenciador de tarefas";    
+    - Fortan,C/C++,Mosel
+    - Metodologia dos experimentos e intrumentação    
+    - bind-to core
     - ~~Introdução da arquitetura proposta~~
     - ~~Visão geral e explicação da arquitetura proposta.~~
-    - ~~novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos. ~~  
+    - ~~novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.~~  
     - ~~Relacionar com arquivos compartilhados - blocos de dados separados em OSTs~~
     - ~~Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp.~~
     - ~~Mostrar como os arquivos são distribuidos em stripes.~~   
     
-    - Formato dados
-    - Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous ) - minimzar pressão pelo uso de memoria.
-    - Processo Gerenciador de tarefas";
-    - bind-to core
-    - Fortan,C/C++,Mosel
-    - Metodologia  ???
     
 
 
-
-
-
-
-- Introdução e capitulo 2.7 - Mario
 - Capitulo 2
     - ~~reduzir titulos da fundamentação teorica~~
     - Bag-of-tasks
@@ -40,6 +36,11 @@
         - desenhar formato dos dados.
         - arquitetura atual.
         - pipeline SDDP com algoritmo atual
+- Introdução
+    - Por que não paralelização da leitura.
+    - importancia de usar mais cenários.
+    - aquecimento global X aumento saidas
+
     
 
 
