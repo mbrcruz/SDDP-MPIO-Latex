@@ -48,14 +48,15 @@
     
 - Experimentos
 
-    - Ultimos experimentos
-    - Tempo total da execução no CSV ( e não somente o bloco de computação )        
-    - teste ASYNC AWS , computando tempo de log , sem log block, para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV)  
-    -    teste ASYNC SDUMOMT , computando tempo de log , sem log block, para confirmar a piora na computacao(Necessário para escrever menos no capitulo IV) 
+    - Ultimos experimentos ( ASYNC)
+        - ~~Validação: compara os 3 implementacoes AWS com 16 nodes~~
+        - ~~Tempo total da execução no CSV ( e não somente o bloco de computação )~~
+        - teste ASYNC AWS , computando tempo de log , sem log block, para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV) - em execução
+        - teste ASYNC SDUMOMT , computando tempo de log , sem log block, para confirmar a piora na computacao(Necessário para escrever menos no capitulo IV) - está em fila
 
-    -  Banda agregada percebida pela aplicação.  (chap 3 ) ? 
+    - Banda agregada percebida pela aplicação.  (chap 3 ) ??? 
     - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node. 
-    - por que stripe de 1 MB ? 
+    - Por que stripe de 1 MB? 
    
     - Teste com IOR two phase I/O e banda. 
 
