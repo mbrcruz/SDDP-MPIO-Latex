@@ -109,17 +109,16 @@ diagnóstico de que o adaptador de rede do nó mestre se torna ponto de
 contenção à medida que aumenta o número de processos emissores
 concorrentes.
 
-Na Tabela~\ref{tab:central_aws}, o tempo total corresponde à soma entre
-o tempo médio de simulação e o tempo médio de comunicação. O tempo de
-I/O é apresentado como uma parcela interna do tempo de simulação e, por
-isso, não é somado novamente ao total.
+Na Tabela~\ref{tab:central_aws}, o tempo total corresponde ao tempo de
+execução medido, que inclui computação, E/S e comunicação. Os tempos de
+I/O e comunicação são apresentados separadamente.
 
 \begin{table}[H]
 \centering
 \caption{Desempenho do Experimento AWS com a implementação atual,
 incluindo tempos de I/O, comunicação, tempo total, \textit{speedup},
-eficiência e percentual de I/O. O total corresponde ao tempo de simulação
-mais comunicação, e a eficiência é calculada em relação à base de 2~nós.}
+eficiência e percentual de I/O. A eficiência é calculada em relação à
+base de 2~nós.}
 \label{tab:central_aws}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -136,11 +135,11 @@ mais comunicação, e a eficiência é calculada em relação à base de 2~nós.
 \textbf{Speedup} &
 \textbf{\shortstack{Eficiência\\(\%)}} \\
 \midrule
-2  & $60{,}51 \pm 5{,}20$ & $30{,}85 \pm 13{,}23$   & $0{,}34\%$  & $177{,}51 \pm 29{,}73$    & $8\,971{,}23 \pm 323{,}48$ & $1{,}00\times$ & $100{,}0\%$ \\
-4  & $51{,}28 \pm 2{,}82$ & $78{,}23 \pm 27{,}79$   & $1{,}62\%$  & $212{,}76 \pm 19{,}33$    & $4\,823{,}20 \pm 40{,}39$  & $1{,}86\times$ & $93{,}0\%$ \\
-8  & $18{,}94 \pm 3{,}76$ & $201{,}67 \pm 53{,}32$  & $7{,}64\%$  & $174{,}04 \pm 12{,}90$    & $2\,639{,}18 \pm 32{,}59$  & $3{,}40\times$ & $85{,}0\%$ \\
-16 & $4{,}52  \pm 0{,}33$ & $527{,}94 \pm 53{,}07$  & $28{,}18\%$ & $167{,}77 \pm 7{,}07$     & $1\,873{,}56 \pm 52{,}28$  & $4{,}79\times$ & $59{,}9\%$ \\
-32 & $3{,}37  \pm 0{,}10$ & $996{,}57 \pm 166{,}98$ & $49{,}51\%$ & $304{,}96 \pm 3{,}83$     & $2\,013{,}06 \pm 25{,}99$  & $4{,}46\times$ & $27{,}9\%$ \\
+2  & $60{,}51 \pm 4{,}56$ & $30{,}85 \pm 2{,}05$ & $0{,}34\%$  & $177{,}51 \pm 26{,}06$ & $8\,971{,}23 \pm 305{,}56$ & $1{,}00\times$ & $100{,}0\%$ \\
+4  & $51{,}28 \pm 2{,}48$ & $78{,}23 \pm 3{,}04$ & $1{,}62\%$  & $212{,}76 \pm 16{,}94$ & $4\,823{,}20 \pm 46{,}53$  & $1{,}86\times$ & $93{,}0\%$ \\
+8  & $18{,}94 \pm 3{,}30$ & $201{,}67 \pm 4{,}13$ & $7{,}64\%$  & $174{,}04 \pm 11{,}31$ & $2\,639{,}18 \pm 16{,}07$  & $3{,}40\times$ & $85{,}0\%$ \\
+16 & $4{,}52  \pm 0{,}29$ & $527{,}94 \pm 2{,}91$ & $28{,}18\%$ & $167{,}77 \pm 6{,}19$  & $1\,873{,}56 \pm 49{,}91$  & $4{,}79\times$ & $59{,}9\%$ \\
+32 & $3{,}37  \pm 0{,}09$ & $996{,}57 \pm 5{,}28$ & $49{,}51\%$ & $304{,}96 \pm 3{,}36$  & $2\,013{,}06 \pm 25{,}50$  & $4{,}46\times$ & $27{,}9\%$ \\
 \bottomrule
 \end{tabular}
 }
@@ -157,38 +156,39 @@ paralelismo dos múltiplos OSTs.
 
 A Tabela~\ref{tab:mpiio_aws} consolida os resultados obtidos com a
 implementação MPI-IO no Experimento AWS. Assim como na tabela anterior,
-o tempo total corresponde à soma entre simulação e comunicação. O tempo
-de I/O e o tempo de Coordenação MPI-IO, correspondente às chamadas
-\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}, são parcelas internas
-do tempo de simulação e não são somados novamente ao total.
+o tempo total corresponde ao tempo de execução medido, que inclui
+computação, E/S, comunicação e Coordenação MPI-IO. Os tempos de I/O,
+comunicação e Coordenação MPI-IO são apresentados separadamente; a coordenação corresponde às chamadas
+\texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}.
 
 \begin{table}[H]
 \centering
 \caption{Desempenho do Experimento AWS com a implementação MPI-IO,
-incluindo tempos de I/O, comunicação, tempo total, \textit{speedup},
-eficiência e percentual de I/O. O total corresponde ao tempo de simulação
-mais comunicação, e a eficiência é calculada em relação à base de 2~nós.}
+incluindo tempos de I/O, comunicação, coordenação, tempo total,
+\textit{speedup}, eficiência e percentual de I/O. A eficiência é
+calculada em relação à base de 2~nós.}
 \label{tab:mpiio_aws}
 \small
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.25}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{cccccccc}
+\begin{tabular}{ccccccccc}
 \toprule
 \textbf{Nós} &
 \textbf{\shortstack{Banda\\(Gb/s)}} &
 \textbf{\shortstack{I/O\\(s)}} &
 \textbf{\% I/O} &
 \textbf{\shortstack{Comunicação\\(s)}} &
+\textbf{\shortstack{Coord.\\(s)}} &
 \textbf{\shortstack{Total\\(s)}} &
 \textbf{Speedup} &
 \textbf{\shortstack{Eficiência\\(\%)}} \\
 \midrule
-2  & $33{,}80 \pm 3{,}21$   & $71{,}89 \pm 68{,}92$ & $0{,}81\%$ & $170{,}21 \pm 17{,}52$ & $8\,847{,}89 \pm 127{,}16$ & $1{,}00\times$ & $100{,}0\%$ \\
-4  & $52{,}22 \pm 9{,}25$   & $31{,}30 \pm 6{,}94$  & $0{,}65\%$ & $188{,}12 \pm 14{,}94$ & $4\,795{,}86 \pm 18{,}74$  & $1{,}84\times$ & $92{,}0\%$ \\
-8  & $83{,}49 \pm 12{,}71$  & $26{,}33 \pm 5{,}28$  & $1{,}02\%$ & $206{,}21 \pm 18{,}68$ & $2\,574{,}70 \pm 31{,}83$  & $3{,}44\times$ & $86{,}0\%$ \\
-16 & $96{,}17 \pm 8{,}31$   & $20{,}37 \pm 3{,}98$  & $1{,}26\%$ & $215{,}97 \pm 33{,}65$ & $1\,613{,}30 \pm 45{,}80$  & $5{,}48\times$ & $68{,}5\%$ \\
-32 & $142{,}98 \pm 21{,}95$ & $18{,}18 \pm 3{,}54$  & $1{,}32\%$ & $269{,}76 \pm 18{,}83$ & $1\,374{,}10 \pm 61{,}95$  & $6{,}44\times$ & $40{,}3\%$ \\
+2  & $33{,}80 \pm 2{,}82$   & $71{,}89 \pm 10{,}68$ & $0{,}81\%$ & $170{,}21 \pm 15{,}36$ & $45{,}02 \pm 3{,}08$  & $8\,847{,}89 \pm 122{,}57$ & $1{,}00\times$ & $100{,}0\%$ \\
+4  & $52{,}22 \pm 8{,}11$   & $31{,}30 \pm 0{,}76$  & $0{,}65\%$ & $188{,}12 \pm 13{,}10$ & $48{,}66 \pm 2{,}46$  & $4\,795{,}86 \pm 20{,}57$  & $1{,}84\times$ & $92{,}2\%$ \\
+8  & $83{,}49 \pm 11{,}14$  & $26{,}33 \pm 0{,}41$  & $1{,}02\%$ & $206{,}21 \pm 16{,}37$ & $72{,}34 \pm 1{,}28$  & $2\,574{,}70 \pm 16{,}07$  & $3{,}44\times$ & $85{,}9\%$ \\
+16 & $96{,}17 \pm 7{,}28$   & $20{,}37 \pm 0{,}22$  & $1{,}26\%$ & $215{,}97 \pm 29{,}50$ & $97{,}42 \pm 9{,}58$  & $1\,613{,}30 \pm 56{,}15$  & $5{,}48\times$ & $68{,}6\%$ \\
+32 & $142{,}98 \pm 19{,}24$ & $18{,}18 \pm 0{,}11$  & $1{,}32\%$ & $269{,}76 \pm 16{,}50$ & $166{,}13 \pm 9{,}09$ & $1\,374{,}10 \pm 49{,}47$  & $6{,}44\times$ & $40{,}2\%$ \\
 \bottomrule
 \end{tabular}
 }
@@ -342,8 +342,8 @@ resolvidos. Esse custo, no entanto, varia com o número de nós
 computacionais, já que envolve sincronização coletiva entre todos os
 \textit{ranks} envolvidos na abertura do arquivo compartilhado --- e
 é exatamente esse comportamento que se observa nos dados, com a
-parcela absoluta crescendo de poucos segundos em 2~nós a algumas
-dezenas em 32~nós. Os experimentos aqui apresentados consideram
+parcela absoluta crescendo de 45~s em 2~nós para 166~s em 32~nós.
+Os experimentos aqui apresentados consideram
 apenas três estágios mensais, o que mantém o tempo total de
 simulação relativamente curto e infla a fração percentual da
 Coordenação MPI-IO; em execuções de operação programada típicas do
