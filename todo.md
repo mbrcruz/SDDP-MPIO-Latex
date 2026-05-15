@@ -56,7 +56,8 @@
 
     - Banda agregada percebida pela aplicação.  (chap 3 ) ??? 
     - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node. 
-    - Por que stripe de 1 MB? 
+    - Por que stripe de 1 MB?
+    - Stripe count 
    
     - Teste com IOR two phase I/O e banda. 
 
