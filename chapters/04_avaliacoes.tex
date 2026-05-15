@@ -145,25 +145,26 @@ base de 2~nós.}
 }
 \end{table}
 
-\subsection{Avaliação da implementação MPI-IO com escritas independentes}
+\subsection{Avaliação da implementação MPI-IO com escritas independentes assíncronas}
 \label{sec:aws_mpiio}
 Esta subseção analisa o desempenho da arquitetura proposta, baseada em
-escritas independentes com MPI-IO sobre o sistema de arquivos Lustre, no
-Experimento AWS. Nesta abordagem cada processo MPI escreve seus
+escritas independentes assíncronas com MPI-IO sobre o sistema de arquivos
+Lustre, no Experimento AWS. Nesta abordagem cada processo MPI escreve seus
 próprios dados diretamente no FSx for Lustre, eliminando o ponto de
 contenção associado a um único processo escritor e explorando o
 paralelismo dos múltiplos OSTs.
 
 A Tabela~\ref{tab:mpiio_aws} consolida os resultados obtidos com a
-implementação MPI-IO no Experimento AWS. Assim como na tabela anterior,
-o tempo total corresponde ao tempo de execução medido, que inclui
-computação, E/S, comunicação e Coordenação MPI-IO. Os tempos de I/O,
-comunicação e Coordenação MPI-IO são apresentados separadamente; a coordenação corresponde às chamadas
+implementação MPI-IO assíncrona no Experimento AWS. Assim como na tabela
+anterior, o tempo total corresponde ao tempo de execução medido, que
+inclui computação, E/S, comunicação e Coordenação MPI-IO. Os tempos de
+I/O, comunicação e Coordenação MPI-IO são apresentados separadamente; a
+coordenação corresponde às chamadas
 \texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}.
 
 \begin{table}[H]
 \centering
-\caption{Desempenho do Experimento AWS com a implementação MPI-IO,
+\caption{Desempenho do Experimento AWS com a implementação MPI-IO assíncrona,
 incluindo tempos de I/O, comunicação, coordenação, tempo total,
 \textit{speedup}, eficiência e percentual de I/O. A eficiência é
 calculada em relação à base de 2~nós.}
@@ -184,11 +185,11 @@ calculada em relação à base de 2~nós.}
 \textbf{Speedup} &
 \textbf{\shortstack{Eficiência\\(\%)}} \\
 \midrule
-2  & $33{,}80 \pm 2{,}82$   & $71{,}89 \pm 10{,}68$ & $0{,}81\%$ & $170{,}21 \pm 15{,}36$ & $45{,}02 \pm 3{,}08$  & $8\,847{,}89 \pm 122{,}57$ & $1{,}00\times$ & $100{,}0\%$ \\
-4  & $52{,}22 \pm 8{,}11$   & $31{,}30 \pm 0{,}76$  & $0{,}65\%$ & $188{,}12 \pm 13{,}10$ & $48{,}66 \pm 2{,}46$  & $4\,795{,}86 \pm 20{,}57$  & $1{,}84\times$ & $92{,}2\%$ \\
-8  & $83{,}49 \pm 11{,}14$  & $26{,}33 \pm 0{,}41$  & $1{,}02\%$ & $206{,}21 \pm 16{,}37$ & $72{,}34 \pm 1{,}28$  & $2\,574{,}70 \pm 16{,}07$  & $3{,}44\times$ & $85{,}9\%$ \\
-16 & $96{,}17 \pm 7{,}28$   & $20{,}37 \pm 0{,}22$  & $1{,}26\%$ & $215{,}97 \pm 29{,}50$ & $97{,}42 \pm 9{,}58$  & $1\,613{,}30 \pm 56{,}15$  & $5{,}48\times$ & $68{,}6\%$ \\
-32 & $142{,}98 \pm 19{,}24$ & $18{,}18 \pm 0{,}11$  & $1{,}32\%$ & $269{,}76 \pm 16{,}50$ & $166{,}13 \pm 9{,}09$ & $1\,374{,}10 \pm 49{,}47$  & $6{,}44\times$ & $40{,}2\%$ \\
+2  & $57{,}04 \pm 7{,}42$   & $18{,}57 \pm 0{,}86$ & $0{,}21\%$ & $188{,}65 \pm 22{,}49$ & $42{,}48 \pm 6{,}74$  & $8\,858{,}91 \pm 97{,}68$ & $1{,}00\times$ & $100{,}0\%$ \\
+4  & $106{,}04 \pm 17{,}02$ & $12{,}54 \pm 0{,}38$ & $0{,}24\%$ & $233{,}95 \pm 21{,}24$ & $51{,}23 \pm 13{,}28$ & $5\,127{,}24 \pm 94{,}25$ & $1{,}73\times$ & $86{,}4\%$ \\
+8  & $167{,}03 \pm 35{,}23$ & $9{,}36 \pm 0{,}32$  & $0{,}36\%$ & $186{,}69 \pm 18{,}47$ & $69{,}82 \pm 4{,}10$  & $2\,599{,}75 \pm 32{,}55$ & $3{,}41\times$ & $85{,}2\%$ \\
+16 & $274{,}24 \pm 13{,}44$ & $7{,}42 \pm 0{,}10$  & $0{,}48\%$ & $233{,}77 \pm 4{,}50$  & $83{,}53 \pm 3{,}65$  & $1\,558{,}33 \pm 8{,}23$  & $5{,}68\times$ & $71{,}1\%$ \\
+32 & $380{,}30 \pm 26{,}86$ & $8{,}93 \pm 0{,}08$  & $0{,}70\%$ & $236{,}02 \pm 8{,}15$  & $147{,}26 \pm 6{,}41$ & $1\,274{,}25 \pm 20{,}95$ & $6{,}95\times$ & $43{,}5\%$ \\
 \bottomrule
 \end{tabular}
 }
@@ -202,19 +203,19 @@ agregada, tempo de execução e tempo de bloqueio de envio em função do
 número de nós para as duas implementações.
 
 A Tabela~\ref{tab:comparativo_aws} resume os principais indicadores
-comparativos do Experimento AWS. A melhoria no tempo total é positiva em
-todas as escalas avaliadas, mas torna-se mais expressiva quando a
-implementação atual passa a ser dominada pela contenção de E/S: a redução
-do tempo total cresce de 2{,}4\% em 8~nós para 13{,}9\% em 16~nós e
-31{,}7\% em 32~nós. A comparação de banda evidencia o principal ganho da
-arquitetura proposta: a MPI-IO passa de desempenho similar em 4~nós para
-4{,}41$\times$ a banda da implementação atual em 8~nós,
-21{,}27$\times$ em 16~nós e 42{,}49$\times$ em 32~nós. A redução do
-tempo de E/S também cresce com a escala, chegando a 98{,}2\% em 32~nós.
+comparativos do Experimento AWS. A melhoria no tempo total é pequena em
+2~nós, torna-se negativa em 4~nós, mas passa a ser positiva a partir de
+8~nós e cresce nas maiores escalas: 1{,}5\% em 8~nós, 16{,}8\% em
+16~nós e 36{,}7\% em 32~nós. A comparação de banda evidencia o principal
+ganho da arquitetura proposta: a MPI-IO assíncrona passa de desempenho
+ligeiramente inferior em 2~nós para 2{,}07$\times$ a banda da
+implementação atual em 4~nós, 8{,}82$\times$ em 8~nós, 60{,}66$\times$
+em 16~nós e 113{,}00$\times$ em 32~nós. A redução do tempo de E/S também
+cresce com a escala, chegando a 99{,}1\% em 32~nós.
 
 \begin{table}[H]
 \centering
-\caption{Resumo comparativo entre a implementação atual e MPI-IO no
+\caption{Resumo comparativo entre a implementação atual e MPI-IO assíncrona no
 Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas
 em relação à implementação atual; valores negativos indicam piora.}
 \label{tab:comparativo_aws}
@@ -235,11 +236,11 @@ em relação à implementação atual; valores negativos indicam piora.}
 \textbf{\shortstack{I/O\\MPI-IO (s)}} &
 \textbf{\shortstack{Melhoria\\I/O (\%)}} \\
 \midrule
-2  & $8\,971{,}23$ & $8\,847{,}89$ & $1{,}4\%$  & $60{,}51$ & $33{,}80$  & $0{,}56\times$  & $30{,}85$  & $71{,}89$ & $-133{,}0\%$ \\
-4  & $4\,823{,}20$ & $4\,795{,}86$ & $0{,}6\%$  & $51{,}28$ & $52{,}22$  & $1{,}02\times$  & $78{,}23$  & $31{,}30$ & $60{,}0\%$ \\
-8  & $2\,639{,}18$ & $2\,574{,}70$ & $2{,}4\%$  & $18{,}94$ & $83{,}49$  & $4{,}41\times$  & $201{,}67$ & $26{,}33$ & $86{,}9\%$ \\
-16 & $1\,873{,}56$ & $1\,613{,}30$ & $13{,}9\%$ & $4{,}52$  & $96{,}17$  & $21{,}27\times$ & $527{,}94$ & $20{,}37$ & $96{,}1\%$ \\
-32 & $2\,013{,}06$ & $1\,374{,}10$ & $31{,}7\%$ & $3{,}37$  & $142{,}98$ & $42{,}49\times$ & $996{,}57$ & $18{,}18$ & $98{,}2\%$ \\
+2  & $8\,971{,}23$ & $8\,858{,}91$ & $1{,}3\%$   & $60{,}51$ & $57{,}04$  & $0{,}94\times$   & $30{,}85$  & $18{,}57$ & $39{,}8\%$ \\
+4  & $4\,823{,}20$ & $5\,127{,}24$ & $-6{,}3\%$  & $51{,}28$ & $106{,}04$ & $2{,}07\times$   & $78{,}23$  & $12{,}54$ & $84{,}0\%$ \\
+8  & $2\,639{,}18$ & $2\,599{,}75$ & $1{,}5\%$   & $18{,}94$ & $167{,}03$ & $8{,}82\times$   & $201{,}67$ & $9{,}36$  & $95{,}4\%$ \\
+16 & $1\,873{,}56$ & $1\,558{,}33$ & $16{,}8\%$  & $4{,}52$  & $274{,}24$ & $60{,}66\times$  & $527{,}94$ & $7{,}42$  & $98{,}6\%$ \\
+32 & $2\,013{,}06$ & $1\,274{,}25$ & $36{,}7\%$  & $3{,}37$  & $380{,}30$ & $113{,}00\times$ & $996{,}57$ & $8{,}93$  & $99{,}1\%$ \\
 \bottomrule
 \end{tabular}
 }
@@ -252,18 +253,18 @@ implementação atual parte de aproximadamente 60{,}5~Gb/s em 2~nós
 e degrada-se de forma acentuada com o aumento do paralelismo, atingindo
 18{,}9~Gb/s em 8~nós, 4{,}5~Gb/s em 16~nós e 3{,}4~Gb/s em 32~nós ---
 uma redução de mais de uma ordem de grandeza. Em contraste, a
-implementação MPI-IO parte de 33{,}8~Gb/s em 2~nós e cresce
-monotonicamente, alcançando 52{,}2~Gb/s em 4~nós, 83{,}5~Gb/s em 8~nós,
-96{,}2~Gb/s em 16~nós e 143{,}0~Gb/s em 32~nós.
+implementação MPI-IO assíncrona parte de 57{,}0~Gb/s em 2~nós e cresce
+monotonicamente, alcançando 106{,}0~Gb/s em 4~nós, 167{,}0~Gb/s em
+8~nós, 274{,}2~Gb/s em 16~nós e 380{,}3~Gb/s em 32~nós.
 
-Em 2~nós, a banda agregada da implementação atual é cerca de 79\% maior
-que a da implementação MPI-IO. Esse comportamento é coerente com o fato
+Em 2~nós, a banda agregada da implementação atual é cerca de 6\% maior
+que a da implementação MPI-IO assíncrona. Esse comportamento é coerente com o fato
 de que, em pequena escala, o gargalo do processo escritor único ainda não
 se manifesta, e o custo fixo da coordenação da E/S paralela tem maior
 peso relativo. A partir de 4~nós, entretanto, a implementação MPI-IO já
 supera a atual. Em 8~nós, a banda agregada é aproximadamente
-$4{,}4\times$ maior; em 16~nós, cerca de $21{,}3\times$ maior; e, em
-32~nós, aproximadamente $42{,}5\times$ maior. Esse resultado indica que a
+$8{,}8\times$ maior; em 16~nós, cerca de $60{,}7\times$ maior; e, em
+32~nós, aproximadamente $113{,}0\times$ maior. Esse resultado indica que a
 arquitetura proposta explora a infraestrutura de armazenamento em uma
 escala completamente diferente da arquitetura baseada em escritor único.
 
@@ -290,28 +291,30 @@ disponível, tornando a aplicação adequada para execuções em larga escala.
 \end{figure}
 
 A Figura~\ref{fig:Tempo_execucao_AWS} apresenta a evolução do tempo total
-de execução no Experimento AWS, contrastando a implementação atual e a implementação MPI-IO sobre o Lustre.
+de execução no Experimento AWS, contrastando a implementação atual e a
+implementação MPI-IO assíncrona sobre o Lustre.
 As barras de erro representam apenas o desvio padrão do tempo de execução
 total, e não desvios individuais das parcelas internas.
 Nas configurações de menor escala, em que a E/S não é o componente
-dominante, as duas curvas evoluem de forma muito próxima: em 2~nós,
-$8{,}97 \times 10^{3}$~s no modelo atual contra $8{,}85 \times
-10^{3}$~s no modelo MPI-IO; em 4~nós, $4{,}82 \times 10^{3}$~s contra
-$4{,}80 \times 10^{3}$~s. Esse comportamento é coerente, uma vez que,
-em pequena escala, o tempo de execução é dominado pela computação e a
-contenção sobre o processo escritor ainda não se manifesta.
+dominante, as duas curvas evoluem de forma próxima: em 2~nós,
+$8{,}97 \times 10^{3}$~s no modelo atual contra $8{,}86 \times
+10^{3}$~s no modelo MPI-IO; em 4~nós, entretanto, a versão MPI-IO
+assíncrona apresenta $5{,}13 \times 10^{3}$~s contra $4{,}82 \times
+10^{3}$~s da implementação atual. Esse comportamento é coerente, uma vez
+que, em pequena escala, o tempo de execução é dominado pela computação e
+o custo da coordenação ainda tem maior peso relativo.
 
 A divergência entre as duas curvas torna-se evidente a partir de 8~nós e
 se acentua de forma marcante nas configurações de maior porte. Enquanto a
 implementação atual apresenta um regime de saturação --- com o
 tempo de execução passando de $2{,}64 \times 10^{3}$~s em 8~nós para
 $1{,}87 \times 10^{3}$~s em 16~nós e voltando a crescer para
-$2{,}01 \times 10^{3}$~s em 32~nós ---, a implementação MPI-IO mantém
-uma redução consistente do tempo total, atingindo $2{,}57 \times
-10^{3}$~s em 8~nós, $1{,}61 \times 10^{3}$~s em 16~nós e $1{,}37
+$2{,}01 \times 10^{3}$~s em 32~nós ---, a implementação MPI-IO assíncrona mantém
+uma redução consistente do tempo total, atingindo $2{,}60 \times
+10^{3}$~s em 8~nós, $1{,}56 \times 10^{3}$~s em 16~nós e $1{,}27
 \times 10^{3}$~s em 32~nós. Em termos relativos, isso corresponde a uma
-redução do tempo total de aproximadamente 2\% em 8~nós, 14\% em 16~nós
-e 32\% em 32~nós em relação ao modelo atual.
+redução do tempo total de aproximadamente 1{,}5\% em 8~nós, 16{,}8\% em
+16~nós e 36{,}7\% em 32~nós em relação ao modelo atual.
 
 A figura também evidencia que, na implementação atual, o
 crescimento do número de nós deixa de produzir ganho de desempenho a
@@ -319,19 +322,19 @@ partir de 16~nós e passa a ser, na prática, contraproducente em 32~nós
 --- comportamento característico de regime degradado sob \textit{strong
 scaling}, no qual a contenção do processo escritor mais do que compensa
 os ganhos de paralelismo computacional. Em contraste, a curva
-MPI-IO permanece monotonicamente decrescente em todo o intervalo
+MPI-IO assíncrona permanece monotonicamente decrescente em todo o intervalo
 avaliado, indicando que a infraestrutura de armazenamento ainda não
 atingiu sua capacidade limite mesmo na maior configuração testada.
 
-Cabe observar que, na implementação MPI-IO, o tempo de E/S torna-se uma
+Cabe observar que, na implementação MPI-IO assíncrona, o tempo de E/S torna-se uma
 fração pequena do tempo total em todas as escalas, permanecendo próximo
-de 1\% a partir de 8~nós. Na implementação atual, por outro lado, a
+ou abaixo de 1\% a partir de 4~nós. Na implementação atual, por outro lado, a
 fração de E/S cresce de 7,6\% em 8~nós para 28,2\% em 16~nós e 49,5\%
-em 32~nós. Na implementação MPI-IO, parte do tempo de simulação passa a
+em 32~nós. Na implementação MPI-IO assíncrona, parte do tempo de simulação passa a
 ser ocupada pela Coordenação MPI-IO, medida pelas chamadas
 \texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close}: essa parcela cresce
-de 0,5\% em 2~nós para 1,0\% em 4~nós, 2,8\% em 8~nós, 6,0\% em 16~nós
-e 12,1\% em 32~nós. Esse crescimento percentual, contudo, reflete
+de 0{,}5\% em 2~nós para 1{,}0\% em 4~nós, 2{,}7\% em 8~nós, 5{,}4\%
+em 16~nós e 11{,}6\% em 32~nós. Esse crescimento percentual, contudo, reflete
 sobretudo a redução do tempo de simulação com o aumento do paralelismo
 e não um aumento da carga útil tratada por essas chamadas. Como
 \texttt{MPI\_File\_Open}/\texttt{MPI\_File\_Close} são executadas
@@ -342,7 +345,7 @@ resolvidos. Esse custo, no entanto, varia com o número de nós
 computacionais, já que envolve sincronização coletiva entre todos os
 \textit{ranks} envolvidos na abertura do arquivo compartilhado --- e
 é exatamente esse comportamento que se observa nos dados, com a
-parcela absoluta crescendo de 45~s em 2~nós para 166~s em 32~nós.
+parcela absoluta crescendo de 42~s em 2~nós para 147~s em 32~nós.
 Os experimentos aqui apresentados consideram
 apenas três estágios mensais, o que mantém o tempo total de
 simulação relativamente curto e infla a fração percentual da
@@ -351,10 +354,9 @@ SIN, com horizonte de vários anos e número de cenários muito maior,
 o custo absoluto dessas chamadas, para uma dada configuração de nós,
 permanece o mesmo enquanto o tempo total cresce em ordem de
 magnitude, diluindo a parcela de coordenação para níveis
-desprezíveis. Em todas as escalas
-avaliadas, e mesmo sob essa inflação relativa do custo de coordenação,
-a implementação MPI-IO já apresenta tempo total inferior ao da
-implementação atual.
+desprezíveis. A partir de 8~nós, e mesmo sob essa inflação relativa do
+custo de coordenação, a implementação MPI-IO assíncrona já apresenta
+tempo total inferior ao da implementação atual.
 
 \begin{figure}[H]
   \centering

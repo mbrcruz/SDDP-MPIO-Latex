@@ -22,7 +22,7 @@
 \contentsline {chapter}{\numberline {4}Avaliações}{19}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Experimento AWS}{20}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{21}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes}{22}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes assíncronas}{22}{subsection.4.1.2}%
 \contentsline {subsection}{\numberline {4.1.3}Análise comparativa}{23}{subsection.4.1.3}%
 \contentsline {subsection}{\numberline {4.1.4}Avaliação do impacto do número de OSTs}{27}{subsection.4.1.4}%
 \contentsline {section}{\numberline {4.2}Experimento SDumont}{29}{section.4.2}%

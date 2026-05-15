@@ -51,7 +51,8 @@
     - Ultimos experimentos ( ASYNC)
         - ~~Validação: compara os 3 implementacoes AWS com 16 nodes~~
         - ~~Tempo total da execução no CSV ( e não somente o bloco de computação )~~
-        - teste ASYNC AWS , computando tempo de log , sem log block, para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV) - em execução
+        - ~~teste ASYNC AWS , computando tempo de log , sem log block, para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV) ~~
+        - teste ASYNC 4 OSTS
         - teste ASYNC SDUMOMT , computando tempo de log , sem log block, para confirmar a piora na computacao(Necessário para escrever menos no capitulo IV) - está em fila
 
     - Banda agregada percebida pela aplicação.  (chap 3 ) ??? 
@@ -60,8 +61,7 @@
     - Stripe count 
    
     - Teste com IOR two phase I/O e banda. 
-
-      - ~~teste ASYNC SDumont ( Falta 32 nós) ~~
+    - ~~teste ASYNC SDumont ( Falta 32 nós) ~~
 
 - Trabalhos relacionados
     - Buscar trabalhos para relacionados ao problema
