@@ -5,12 +5,11 @@
 
 - Trabalhar no capitulo III 
 
-    - Formato dados
-    - Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous ) - minimzar pressão pelo uso de memoria.
+    - ~~Formato dados~~
+    - ~~Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous ) - minimzar pressão pelo uso de memoria.~~
     - Processo Gerenciador de tarefas";    
-    - Fortan,C/C++,Mosel
-    - Metodologia dos experimentos e intrumentação    
-    - bind-to core
+    - ~~Fortan,C/C++,Mosel~~
+   
     - ~~Introdução da arquitetura proposta~~
     - ~~Visão geral e explicação da arquitetura proposta.~~
     - ~~novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.~~  
@@ -32,10 +31,11 @@
     - Stripe e OSTs
 
     - SDDP
-        - Introdução - Explicar o que é um cenario.
-        - desenhar formato dos dados.
+        - Introdução - Explicar o que é um cenario.        - 
         - arquitetura atual.
+        - Comparar formato dos resultados horário e por bloco.
         - pipeline SDDP com algoritmo atual
+        -
 - Introdução
     - Por que não paralelização da leitura.
     - importancia de usar mais cenários.
@@ -54,8 +54,9 @@
         - ~~teste ASYNC AWS , computando tempo de log , sem log block, para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV) ~~
         - teste ASYNC 4 OSTS
         - teste ASYNC SDUMOMT , computando tempo de log , sem log block, para confirmar a piora na computacao(Necessário para escrever menos no capitulo IV) - está em fila
-
-    - Banda agregada percebida pela aplicação.  (chap 3 ) ??? 
+    - Metodologia dos experimentos e intrumentação    
+    - bind-to core
+    - Banda agregada percebida pela aplicação. 
     - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node. 
     - Por que stripe de 1 MB?
     - Stripe count 

@@ -161,15 +161,38 @@ arquivo com 1 elemento possui 4 colunas --- estágio, cenário, hora e o valor
 do elemento ---, totalizando aproximadamente $11{,}25$~KB. Com 10
 elementos, o bloco passa a ter 13 colunas e ocupa
 $36{,}56$~KB. Já com 300 elementos, o bloco possui
-303 colunas e ocupa $852{,}19$~KB. Dessa forma,
+303 colunas e ocupa $852{,}19$~KB. Além disso, alguns resultados podem
+registrar apenas uma única hora, gerando blocos de dados ainda menores.
+Dessa forma,
 a estrutura física do sistema elétrico modelado influencia diretamente o volume
 de dados produzido e, consequentemente, o tamanho das escritas realizadas.
+
+\subsection{Implementação das escritas independentes}
 
 Como a simulação de cada cenário transcorre de forma independente,
 a abordagem baseada em MPI-IO permite que cada operação de escrita
 também seja independente: cada processo grava em um \textit{offset}
 específico, determinado pelo cenário resolvido, sem necessidade de
 sincronização explícita entre escritas concorrentes.
+
+A implementação adota escritas independentes de MPI-IO, combinando chamadas
+assíncronas e síncronas conforme o tamanho do bloco de dados. Para blocos
+menores que 128~KB, são utilizadas operações assíncronas, permitindo que o
+processo solicite a escrita e retome a execução sem aguardar imediatamente a
+conclusão da operação. Para blocos iguais ou superiores a 128~KB, são
+utilizadas operações síncronas, nas quais o processo aguarda a conclusão da
+escrita antes de prosseguir. Essa escolha segue uma lógica análoga à distinção
+entre os protocolos Eager e Rendezvous em comunicação MPI: blocos pequenos
+tendem a ser tratados de forma mais direta, com menor custo de coordenação,
+enquanto blocos maiores justificam um fluxo mais controlado, reduzindo o risco
+de acúmulo de requisições pendentes e de pressão sobre buffers internos.
+
+Essa estratégia também facilita a comparação com a implementação atual. Como a
+arquitetura original já apresenta comportamento distinto para mensagens de
+tamanhos diferentes, separar os blocos pequenos e grandes na implementação
+MPI-IO permite avaliar a nova solução sob uma lógica compatível com o perfil
+de comunicação observado anteriormente, isolando melhor o impacto da mudança
+no mecanismo de escrita.
 
 Como cada cenário ocupa um \textit{offset} próprio em cada arquivo
 de resultado, elimina-se o risco de escritas concorrentes incidirem
