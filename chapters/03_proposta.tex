@@ -97,6 +97,34 @@ coletivo dos arquivos de resultado.
 
 \section{Detalhes de implementação}
 
+A implementação do SDDP é composta por módulos com responsabilidades
+distintas. Os módulos principais da aplicação, escritos em Fortran, controlam
+o fluxo de execução da simulação e orquestram a chamada aos módulos de acesso
+a dados, enquanto os algoritmos de otimização são escritos em Mosel. Já os
+módulos de acesso a dados são implementados em \texttt{C++}, concentrando as rotinas de
+leitura e escrita dos arquivos de entrada e saída. Foi nesse ponto da
+arquitetura que a solução baseada em MPI-IO foi incorporada, substituindo o
+fluxo centralizado de escrita por operações paralelas realizadas diretamente
+pelos processos MPI. Essa separação permitiu introduzir a nova estratégia de
+E/S sem alterar a estrutura principal do algoritmo SDDP, preservando a lógica
+de simulação e restringindo as mudanças ao caminho de persistência dos
+resultados. Na prática, as rotinas MPI-IO são utilizadas para abrir os
+arquivos de resultado de forma compartilhada e permitir que cada processo
+grave diretamente os blocos produzidos pela simulação em posições previamente
+calculadas, conforme a organização lógica dos arquivos descrita a seguir.
+
+\subsection{Formato dos resultados}
+
+A implementação proposta preserva o formato dos arquivos de resultado
+utilizado pelo SDDP. Essa decisão foi adotada para manter a compatibilidade
+com a cadeia de softwares que consome esses arquivos em etapas posteriores
+do fluxo de trabalho. Assim, a mudança introduzida pela solução MPI-IO
+concentra-se na forma como os dados são gravados, sem alterar a estrutura
+lógica esperada pelos demais programas que dependem das saídas da simulação.
+Além disso, a manutenção do formato original permite estabelecer uma linha de
+base para comparações futuras com outras propostas de organização dos arquivos
+de resultado.
+
 A~Figura~\ref{fig:formato_arquivos_resultado} detalha a organização
 lógica dos arquivos binários de resultado. Cada registro é identificado
 pelas três primeiras colunas, correspondentes ao estágio, ao cenário e à
@@ -121,6 +149,21 @@ início de cada estágio.
   \caption{Formato lógico dos arquivos binários de resultado do SDDP.}
   \label{fig:formato_arquivos_resultado}
 \end{figure}
+
+O número de elementos presentes em cada arquivo de resultado pode variar
+substancialmente de acordo com o sistema elétrico analisado, pois cada sistema
+possui sua própria estrutura de equipamentos e componentes representados no
+modelo. Como cada elemento corresponde a uma coluna adicional no arquivo, essa
+variação também altera o tamanho dos blocos de dados gravados. Por exemplo,
+considerando um bloco horário associado a um par
+$(\text{estágio}, \text{cenário})$, com 720 horas e valores de 4 bytes, um
+arquivo com 1 elemento possui 4 colunas --- estágio, cenário, hora e o valor
+do elemento ---, totalizando $4 \times 720 \times 4 = 11.520$ bytes. Com 10
+elementos, o bloco passa a ter 13 colunas e ocupa
+$13 \times 720 \times 4 = 37.440$ bytes. Já com 300 elementos, o bloco possui
+303 colunas e ocupa $303 \times 720 \times 4 = 872.640$ bytes. Dessa forma,
+a estrutura física do sistema elétrico modelado influencia diretamente o volume
+de dados produzido e, consequentemente, o tamanho das escritas realizadas.
 
 Como a simulação de cada cenário transcorre de forma independente,
 a abordagem baseada em MPI-IO permite que cada operação de escrita
