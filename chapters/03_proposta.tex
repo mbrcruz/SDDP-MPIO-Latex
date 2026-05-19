@@ -151,17 +151,17 @@ início de cada estágio.
 \end{figure}
 
 O número de elementos presentes em cada arquivo de resultado pode variar
-substancialmente de acordo com o sistema elétrico analisado, pois cada sistema
-possui sua própria estrutura de equipamentos e componentes representados no
-modelo. Como cada elemento corresponde a uma coluna adicional no arquivo, essa
-variação também altera o tamanho dos blocos de dados gravados. Por exemplo,
+substancialmente de acordo com a base de dados do sistema elétrico analisado,
+pois cada sistema possui sua própria estrutura de equipamentos e componentes
+representados no modelo. Como cada elemento corresponde a uma coluna adicional
+no arquivo, essa variação também altera o tamanho dos blocos de dados gravados. Por exemplo,
 considerando um bloco horário associado a um par
 $(\text{estágio}, \text{cenário})$, com 720 horas e valores de 4 bytes, um
 arquivo com 1 elemento possui 4 colunas --- estágio, cenário, hora e o valor
-do elemento ---, totalizando $4 \times 720 \times 4 = 11.520$ bytes. Com 10
+do elemento ---, totalizando aproximadamente $11{,}25$~KB. Com 10
 elementos, o bloco passa a ter 13 colunas e ocupa
-$13 \times 720 \times 4 = 37.440$ bytes. Já com 300 elementos, o bloco possui
-303 colunas e ocupa $303 \times 720 \times 4 = 872.640$ bytes. Dessa forma,
+$36{,}56$~KB. Já com 300 elementos, o bloco possui
+303 colunas e ocupa $852{,}19$~KB. Dessa forma,
 a estrutura física do sistema elétrico modelado influencia diretamente o volume
 de dados produzido e, consequentemente, o tamanho das escritas realizadas.
 

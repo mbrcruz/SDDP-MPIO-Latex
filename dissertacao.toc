@@ -1,0 +1,35 @@
+\babel@toc {brazilian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {brazilian}{}\relax 
+\contentsline {chapter}{Lista de Figuras}{x}{chapter*.3}%
+\contentsline {chapter}{Lista de Tabelas}{xii}{chapter*.4}%
+\contentsline {chapter}{Lista de Abreviaturas}{xiii}{chapter*.5}%
+\contentsline {chapter}{\numberline {1}Introdução}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Fundamentação Teórica}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}MPI, protocolos de comunicação e operações paralelas de arquivos}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Sistema de arquivos paralelo Lustre}{7}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Adaptadores de rede em HPC: Ethernet e InfiniBand}{7}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Computação em nuvem para HPC: AWS}{8}{section.2.4}%
+\contentsline {section}{\numberline {2.5}O Programa Mensal da Operação (PMO)}{8}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Algoritmo SDDP}{9}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Arquitetura atual de E/S do SDDP}{10}{subsection.2.6.1}%
+\contentsline {chapter}{\numberline {3}Paralelização dos Mecanismos de E/S do SDDP}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Visão geral da arquitetura}{12}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Modelo de execução}{13}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Detalhes de implementação}{14}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Formato dos resultados}{15}{subsection.3.3.1}%
+\contentsline {section}{\numberline {3.4}Considerações de configuração}{17}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Avaliações}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Experimento AWS}{19}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{20}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes}{21}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Análise comparativa}{22}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Avaliação do impacto do número de OSTs}{26}{subsection.4.1.4}%
+\contentsline {section}{\numberline {4.2}Experimento SDumont}{28}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{29}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO com escritas independentes}{30}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{31}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Síntese das avaliações}{37}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{39}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{40}{chapter.6}%
+\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{41}{chapter*.6}%
