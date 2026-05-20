@@ -449,12 +449,15 @@ operações de envio dessas classes.
 
 A Figura~\ref{fig:Experimento_OSTs_banda} complementa essa análise ao
 apresentar a banda agregada média obtida em cada configuração. Com
-16~nós, a configuração com 10~OSTs atinge 96{,}2~Gb/s, contra 49{,}4~Gb/s
-com 4~OSTs. Com 32~nós, a diferença aumenta substancialmente: a banda
-agregada chega a 143{,}0~Gb/s com 10~OSTs, enquanto a configuração com
-4~OSTs fica limitada a 16{,}1~Gb/s. Esse comportamento indica que, quando
-a concorrência entre processos aumenta, a configuração com menos OSTs
-passa a limitar a escalabilidade da E/S.
+16~nós, a configuração com 10~OSTs atinge 274{,}2~Gb/s, contra
+49{,}4~Gb/s com 4~OSTs, ganho de aproximadamente 5{,}6$\times$. Ao
+passar de 16 para 32~nós, as configurações exibem tendências opostas:
+com 10~OSTs, a banda cresce para 380{,}3~Gb/s, enquanto, com 4~OSTs, cai
+para 16{,}1~Gb/s. Dessa forma, em 32~nós, o uso de 10~OSTs resulta em
+ganho de aproximadamente 23{,}6$\times$ sobre a configuração com 4~OSTs.
+Esse comportamento indica que, quando a concorrência entre processos
+aumenta, a configuração com menos OSTs passa a limitar a escalabilidade
+da E/S.
 
 Assim, a análise conjunta das duas figuras indica que o aumento no
 número de OSTs melhora tanto a largura de banda agregada quanto o tempo
@@ -467,8 +470,8 @@ menos dispositivos e introduz gargalos mais visíveis no cenário com
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figuras/Experimento_OSTs_banda.png}
-  \caption{Banda agregada média para configurações MPI-IO com 4 e
-  10~OSTs em 16 e 32~nós.}
+  \caption{Banda agregada média da implementação MPI-IO para
+  configurações com 4 e 10~OSTs em 16 e 32~nós.}
   \label{fig:Experimento_OSTs_banda}
 \end{figure}
 
@@ -880,8 +883,8 @@ dependente das condições idealizadas de uma plataforma dedicada.
 
 A análise do impacto do número de OSTs na AWS reforça que o
 paralelismo de armazenamento subjacente é parte essencial do ganho:
-sair de 4 para 10~OSTs quase dobra a banda agregada em 16~nós e a
-amplia em aproximadamente 8{,}9$\times$ em 32~nós, além de reduzir o
+sair de 4 para 10~OSTs amplia a banda agregada em aproximadamente
+5{,}6$\times$ em 16~nós e 23{,}6$\times$ em 32~nós, além de reduzir o
 tempo médio das escritas nas classes de bloco maiores. Essa observação
 sugere que, em deployments futuros, o dimensionamento da camada de
 armazenamento --- número de OSTs e largura de \textit{stripe} ---
