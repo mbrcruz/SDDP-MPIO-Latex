@@ -21,17 +21,25 @@
 \contentsline {subsection}{\numberline {3.3.1}Formato dos resultados}{16}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Implementação das escritas independentes}{17}{subsection.3.3.2}%
 \contentsline {section}{\numberline {3.4}Considerações de configuração}{19}{section.3.4}%
-\contentsline {chapter}{\numberline {4}Avaliações}{20}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Experimento AWS}{21}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{22}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes}{23}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Análise comparativa}{24}{subsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.1.4}Avaliação do impacto do número de OSTs}{28}{subsection.4.1.4}%
-\contentsline {section}{\numberline {4.2}Experimento SDumont}{31}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{32}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO com escritas independentes}{33}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{33}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Síntese das avaliações}{39}{section.4.3}%
-\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{41}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{42}{chapter.6}%
-\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{43}{chapter*.6}%
+\contentsline {section}{\numberline {3.5}Instrumentação}{19}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Registros gerados pela instrumentação}{20}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Tempo de computação}{21}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Tempo de coordenação MPI}{21}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}Tempo total de E/S}{21}{subsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.5.5}Tempo de bloqueio na transferência dos blocos de dados}{22}{subsection.3.5.5}%
+\contentsline {subsection}{\numberline {3.5.6}Banda agregada média percebida pela aplicação}{22}{subsection.3.5.6}%
+\contentsline {paragraph}{Banda percebida \textit {versus} banda agregada real.}{23}{section*.6}%
+\contentsline {chapter}{\numberline {4}Avaliações}{24}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Experimento AWS}{25}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{26}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes}{27}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Análise comparativa}{28}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Avaliação do impacto do número de OSTs}{32}{subsection.4.1.4}%
+\contentsline {section}{\numberline {4.2}Experimento SDumont}{35}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{36}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO com escritas independentes}{37}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{37}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Síntese das avaliações}{43}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{45}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{46}{chapter.6}%
+\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{47}{chapter*.7}%

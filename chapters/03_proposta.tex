@@ -271,3 +271,233 @@ mesma chamada de E/S. Nesse contexto, a sincronização adicional poderia
 bloquear \textit{ranks} que já concluíram sua simulação enquanto aguardam
 outros cenários ainda em execução. Por esse motivo, a escrita
 independente é a escolha mais aderente ao padrão de execução avaliado.
+
+\section{Instrumentação}
+\label{sec:instrumentacao}
+
+A avaliação empírica apresentada no Capítulo~\ref{cap:avaliacoes} requer
+medições detalhadas dos tempos consumidos em cada etapa do ciclo de
+execução do SDDP. Para isso, tanto a implementação atual quanto a
+implementação proposta foram instrumentadas no módulo de persistência
+do SDDP --- o mesmo ponto da arquitetura no qual a solução baseada em
+MPI-IO foi incorporada (Seção~\ref{cap:proposta}). Os cronômetros foram
+posicionados imediatamente antes e depois das chamadas instrumentadas
+utilizando \texttt{MPI\_Wtime}, primitiva da própria biblioteca MPI cuja
+resolução é adequada para temporização de operações de E/S e
+comunicação. Dessa forma, os tempos refletem exatamente o que cada
+processo observa em sua execução, sem interferência de relógios externos
+ou de ferramentas de \textit{profiling} fora do espaço de memória da
+aplicação.
+
+A instrumentação foi mantida coerente entre as duas implementações, de
+modo a permitir comparação direta. Cada métrica possui uma definição
+operacional única, aplicável tanto ao modelo centralizado --- em que a
+transferência dos blocos de dados ocorre por \texttt{MPI\_Send} e
+\texttt{MPI\_Recv} até o \textit{rank} escritor --- quanto ao modelo
+MPI-IO, em que a transferência ocorre por chamadas a
+\texttt{MPI\_File\_write\_at} e \texttt{MPI\_File\_iwrite\_at}, conforme
+o tamanho do bloco de dados.
+
+\subsection{Registros gerados pela instrumentação}
+\label{sec:logs_instrumentacao}
+
+Os tempos coletados são persistidos em arquivos de \textit{log} textuais
+gerados por \textit{rank}, de forma a evitar contenção sobre um mesmo
+descritor de arquivo e a permitir consolidação \textit{off-line}. A
+estratégia de gravação acumula os valores em memória durante a execução
+e os escreve em disco apenas ao final, fora da janela de medição, de
+modo a minimizar a perturbação introduzida pela própria instrumentação.
+A Tabela~\ref{tab:logs_instrumentacao} sumariza os arquivos produzidos
+para cada \textit{rank} $p$.
+
+\begin{table}[H]
+\centering
+\caption{Arquivos de \textit{log} gerados pela instrumentação, por
+\textit{rank}~$p$.}
+\label{tab:logs_instrumentacao}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{p{0.30\textwidth} p{0.62\textwidth}}
+\toprule
+\textbf{Arquivo} & \textbf{Conteúdo} \\
+\midrule
+\texttt{mpiio-\{p\}.log} &
+Um registro por operação de escrita do \textit{rank}~$p$, contendo
+estágio, cenário, identificador do arquivo, número de sequência,
+\textit{timestamps} de início e fim da chamada
+(\texttt{MPI\_File\_write\_at} ou \texttt{MPI\_File\_iwrite\_at}) e
+tamanho do bloco em \textit{bytes}. \\
+\texttt{mpiio-collective-\{p\}.log} &
+Um registro por operação coletiva de E/S, com tipo (\texttt{open} ou
+\texttt{close}), nome do arquivo e \textit{timestamps} de início e fim
+da chamada (\texttt{MPI\_File\_open} ou \texttt{MPI\_File\_close}). \\
+\texttt{mpiio-\{p\}-wait.log} &
+Tempo acumulado em que o \textit{rank}~$p$ permaneceu bloqueado
+aguardando a liberação dos \textit{slots} de \textit{buffer} utilizados
+pelas escritas assíncronas (\texttt{MPI\_Wait} obrigatório quando ambos
+os \textit{slots} estão ocupados). \\
+\texttt{sddptimer\{p\}.log} &
+Temporizadores internos do SDDP, em particular \texttt{Simulation} ---
+tempo total da fase de simulação --- e \texttt{Hourly simulation} ---
+tempo gasto especificamente no trabalho de resolução horária dos
+cenários, sem chamadas MPI. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A partir desses arquivos, as métricas são derivadas por agregação. As
+subseções seguintes descrevem cada métrica em termos das grandezas
+medidas e do significado físico que carregam para a análise de
+desempenho.
+
+\subsection{Tempo de computação}
+\label{sec:metrica_computacao}
+
+Corresponde ao tempo gasto por cada \textit{rank} no trabalho útil da
+aplicação --- a resolução numérica dos cenários a ele atribuídos ---,
+excluídas as chamadas MPI de coordenação e as operações de E/S. Esse
+intervalo é obtido a partir do temporizador \texttt{Hourly simulation}
+do \texttt{sddptimer\{p\}.log}, que delimita estritamente o trecho de
+código responsável pela simulação horária no SDDP.
+
+Em um cenário de \textit{strong scaling}, espera-se que esse tempo
+decresça aproximadamente de forma linear com o número de nós, dado que
+cada nó passa a processar uma fração menor do total de cenários.
+Desvios sistemáticos dessa tendência indicariam contenção indireta
+sobre recursos compartilhados (memória, \textit{cache} ou rede) ou
+desbalanceamento entre os \textit{ranks}, mas não devem ser
+sensíveis ao mecanismo de E/S adotado. O tempo de computação serve,
+portanto, como referência estável contra a qual os tempos de
+comunicação, de E/S e de coordenação podem ser comparados.
+
+\subsection{Tempo de coordenação MPI}
+\label{sec:metrica_coordenacao}
+
+Reúne os tempos despendidos em chamadas MPI que não correspondem à
+transferência dos blocos de dados em si, mas sim ao estabelecimento de
+pontos de coordenação entre processos. Estão incluídas, nessa categoria,
+as operações coletivas de abertura e fechamento dos arquivos de
+resultado (\texttt{MPI\_File\_open} e \texttt{MPI\_File\_close}),
+registradas no \texttt{mpiio-collective-\{p\}.log}. Por se tratar de
+operações coletivas exigidas pela semântica da biblioteca MPI-IO, são
+inerentes à implementação proposta e ausentes na implementação atual,
+que opera apenas com primitivas ponto a ponto.
+
+Essa métrica é particularmente relevante para a arquitetura proposta,
+pois revela o custo embutido nas operações coletivas, que tende a
+crescer com o número de \textit{ranks} participantes. Em escala, esse
+custo pode emergir como gargalo adicional, mesmo quando o tempo de E/S
+por \textit{rank} se reduz~\cite{mpiioCite}. Capturá-lo separadamente
+permite distinguir o ganho líquido da paralelização das escritas do
+custo adicional imposto pela própria coordenação coletiva.
+
+\subsection{Tempo total de E/S}
+\label{sec:metrica_io_total}
+
+Corresponde ao tempo total que cada \textit{rank} dedica às operações
+associadas à persistência dos blocos de dados, calculado pela soma dos
+intervalos $T_e^{\text{io}} - T_s^{\text{io}}$ registrados no
+\texttt{mpiio-\{p\}.log}. Na implementação MPI-IO, esse tempo
+corresponde às chamadas \texttt{MPI\_File\_write\_at} (síncronas, para
+blocos $\geq 128$~KB) e \texttt{MPI\_File\_iwrite\_at} (assíncronas,
+para blocos $< 128$~KB). Na implementação atual, embora o
+\textit{rank} escritor concentre toda a escrita em disco, a contabilização
+inclui o tempo gasto pelos \textit{ranks} trabalhadores nas chamadas
+\texttt{MPI\_Send} responsáveis pelo encaminhamento dos blocos, de modo
+a tornar as duas instrumentações diretamente comparáveis.
+
+A métrica caracteriza, de forma agregada, o custo computacional que a
+E/S representa para a aplicação, independentemente de o trabalho estar
+concentrado em um único processo ou distribuído entre todos. Diferenças
+entre as duas implementações nessa métrica refletem o impacto direto da
+paralelização das escritas sobre o caminho de persistência.
+
+\subsection{Tempo de bloqueio na transferência dos blocos de dados}
+\label{sec:metrica_bloqueio}
+
+Restringe-se ao intervalo em que o \textit{rank} permanece efetivamente
+bloqueado aguardando a conclusão de uma transferência, sem condição de
+prosseguir com a execução subsequente. Na implementação proposta,
+essa parcela é registrada no \texttt{mpiio-\{p\}-wait.log} e
+corresponde, especificamente, ao tempo gasto em
+\texttt{MPI\_Wait} quando ambos os \textit{slots} do esquema de duplo
+\textit{buffer} adotado pela implementação se encontram ocupados ---
+único ponto em que o \textit{rank} é obrigado a aguardar a finalização
+de uma escrita assíncrona antes de submeter a próxima. Para escritas
+síncronas, o tempo de bloqueio coincide com a duração total da chamada
+\texttt{MPI\_File\_write\_at}, já contabilizada no tempo total de E/S.
+
+A separação entre tempo total de E/S e tempo de bloqueio é
+especialmente relevante na análise de granularidade dos blocos. Para
+blocos pequenos, predominam custos fixos de iniciação e coordenação;
+para blocos grandes, predomina o tempo efetivo de transferência. O
+tempo de bloqueio, ao isolar a parcela perceptível como atraso pela
+aplicação, é o que efetivamente limita a sobreposição entre a
+computação e as operações de escrita. Em uma execução bem dimensionada,
+espera-se que esse tempo seja baixo, indicando que a estratégia
+assíncrona conseguiu mascarar a latência do subsistema de armazenamento.
+Crescimentos sistemáticos do tempo de bloqueio em função do número de
+\textit{ranks} sugerem saturação dos recursos do sistema de arquivos ou
+contenção entre escritas concorrentes.
+
+\subsection{Banda agregada média percebida pela aplicação}
+\label{sec:metrica_banda_percebida}
+
+A banda agregada percebida pela aplicação é a métrica derivada que
+sintetiza, em uma única grandeza, o quanto da capacidade de E/S
+disponível a aplicação efetivamente consegue aproveitar ao longo da
+execução. É calculada a partir dos registros do \texttt{mpiio-\{p\}.log}
+particionando-se a fase de simulação em janelas de tempo de duração
+fixa~$\Delta$. Para cada janela $w$, computa-se a razão entre o volume
+total de dados gravados por todos os \textit{ranks} naquele intervalo e
+o tempo de E/S acumulado pelo \textit{rank} mais lento da janela:
+
+\[
+B_w \;=\; \frac{\displaystyle\sum_{i=1}^{P} V_{i,w}}{\displaystyle\max_{i=1,\ldots,P}\, T_{i,w}^{\text{E/S}}},
+\]
+
+\noindent em que $V_{i,w}$ é o volume gravado pelo \textit{rank}~$i$ na
+janela~$w$, $T_{i,w}^{\text{E/S}}$ é o tempo de E/S acumulado por esse
+\textit{rank} dentro da mesma janela e $P$ é o número de processos. O
+denominador adota o tempo do processo mais lento, em consonância com o
+comportamento síncrono da aplicação ao final de cada janela: o avanço
+para a próxima etapa só é possível quando todos os \textit{ranks}
+concluem suas escritas. O valor reportado para uma execução é a média
+aritmética de $B_w$ ao longo das janelas que cobrem a fase de
+simulação, e a banda agregada média associada a uma configuração de nós
+corresponde à média dessa grandeza ao longo das cinco repetições
+realizadas para cada configuração, acompanhada do respectivo desvio
+padrão.
+
+\paragraph{Banda percebida \textit{versus} banda agregada real.} É
+fundamental destacar que essa métrica caracteriza a banda
+\textit{percebida pela aplicação} e não a \textit{banda agregada real}
+oferecida pelo sistema de arquivos paralelo. A banda agregada real
+corresponde ao débito máximo que o subsistema de armazenamento ---
+conjunto de OSTs, MDS, rede de interconexão e clientes Lustre --- é
+capaz de sustentar e seria tipicamente obtida por meio de ferramentas
+de \textit{benchmarking} dedicadas, como IOR, sob padrões de acesso
+idealizados (blocos grandes, alinhamento perfeito e ausência de
+contenção). Esse valor representa, em essência, um limite superior de
+referência para o sistema de armazenamento, mas não é diretamente
+observável pela aplicação SDDP.
+
+A banda percebida, em contrapartida, incorpora todas as fontes de
+sobrecarga interpostas entre a aplicação e o meio de armazenamento:
+fragmentação das requisições em blocos pequenos, contenção entre
+\textit{ranks} concorrentes sobre os mesmos OSTs, custos de coordenação
+do MPI-IO e da pilha de software, sincronizações implícitas dentro da
+biblioteca e eventuais bloqueios decorrentes do próprio modelo de
+execução \textit{bag-of-tasks}. Em consequência, é esperado que a banda
+percebida seja inferior à banda agregada real, especialmente quando o
+perfil de E/S apresenta predominância de blocos de tamanho reduzido,
+como ocorre no SDDP.
+
+A escolha por reportar a banda percebida está alinhada ao objetivo
+deste trabalho, que é avaliar quanto da capacidade disponível a
+aplicação consegue efetivamente aproveitar --- e não caracterizar o
+sistema de arquivos isoladamente. Sob essa ótica, a métrica reflete,
+simultaneamente, o desempenho do subsistema de armazenamento e a
+eficácia da estratégia de E/S adotada pela aplicação, sendo, portanto,
+a mais adequada para a comparação direta entre as duas implementações
+investigadas.
