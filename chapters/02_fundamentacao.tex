@@ -505,8 +505,10 @@ compara os dois formatos de maneira esquemática.
 \subsection{Arquitetura atual de E/S do SDDP}
 \label{sec:arq_atual}
 Na arquitetura atual do SDDP, apenas um \textit{rank} MPI (o
-\textit{rank}~1) é designado para realizar todas as operações de E/S do
-sistema. Cada nó de computação, após resolver sua respectiva tarefa, envia
+\textit{rank}~1, denominado processo escritor) é designado para realizar
+todas as operações de E/S do sistema. O \textit{rank}~0 atua como processo
+distribuidor, coordenando o envio de tarefas e configurações aos demais
+\textit{ranks}. Cada nó de computação, após resolver sua respectiva tarefa, envia
 os resultados por meio de um \textit{buffer} de dados utilizando a função
 \texttt{MPI\_Send}. Esse \textit{buffer} é então recebido pelo processo
 escritor através de uma chamada \texttt{MPI\_Recv} e, posteriormente, os
@@ -517,7 +519,8 @@ arquitetura.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{figuras/SDDP_architecture.png}
-  \caption{Algoritmo SDDP com processo escritor.}
+  \caption{Arquitetura atual de E/S do SDDP com o \textit{rank}~0 atuando
+  como processo distribuidor e o \textit{rank}~1 como processo escritor.}
   \label{fig:SDDP_architecture}
 \end{figure}
 

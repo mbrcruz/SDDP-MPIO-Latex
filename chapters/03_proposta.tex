@@ -29,18 +29,21 @@ sistema de arquivos paralelo, em vez de ser serializada por um único
 processo.
 
 A~Figura~\ref{fig:SDDP_architecture2} apresenta uma visão geral da
-arquitetura proposta. Cada processo grava seus resultados de forma
-independente sobre arquivos compartilhados, abstração na qual
-múltiplos processos operam concorrentemente sobre o mesmo arquivo
-lógico em \textit{offsets} distintos por meio das primitivas do
-MPI-IO~\cite{mpiioCite}. % verificar chave
+arquitetura proposta. O \textit{rank}~0 atua como processo distribuidor,
+responsável por coordenar a distribuição das tarefas, enquanto os demais
+processos gravam seus resultados de forma independente sobre arquivos
+compartilhados. Nessa abstração, múltiplos processos operam
+concorrentemente sobre o mesmo arquivo lógico em \textit{offsets} distintos
+por meio das primitivas do MPI-IO~\cite{mpiioCite}. % verificar chave
 
 \begin{figure}[H]
   \centering
   \makebox[\textwidth][c]{%
     \includegraphics[width=0.95\paperwidth]{figuras/SDDP_architecture2.png}%
   }
-  \caption{Proposta com MPI-IO e Lustre.}
+  \caption{Arquitetura proposta com MPI-IO e Lustre, com o \textit{rank}~0
+  atuando como processo distribuidor e os demais processos escrevendo
+  diretamente em arquivos compartilhados.}
   \label{fig:SDDP_architecture2}
 \end{figure}
 
@@ -55,9 +58,9 @@ que a coordenação global fica concentrada nas etapas de preparação e
 finalização dos arquivos, enquanto o ciclo principal de processamento
 permanece distribuído entre os processos.
 
-O \textit{rank} distribuidor representa o \textit{rank}~0,
-responsável por distribuir as tarefas aos demais \textit{ranks}. Quando não
-está enviando uma nova tarefa, esse \textit{rank} permanece aguardando o
+O processo distribuidor representa o \textit{rank}~0, responsável por
+distribuir as tarefas aos demais \textit{ranks}. Quando não está enviando uma
+nova tarefa, esse \textit{rank} permanece aguardando o
 recebimento das tarefas concluídas pelos \textit{ranks} trabalhadores. Por
 esse motivo, sua linha é representada integralmente como comunicação.
 
@@ -91,7 +94,8 @@ coletivo dos arquivos de resultado.
   \makebox[\textwidth][c]{%
     \includegraphics[width=0.95\paperwidth]{figuras/SDDP_timeline_MPIIO.png}%
   }
-  \caption{Linha de tempo da simulação final do SDDP com MPI-IO.}
+  \caption{Linha de tempo da simulação final do SDDP com MPI-IO, destacando o
+  \textit{rank}~0 como processo distribuidor.}
   \label{fig:SDDP_timeline_MPIIO}
 \end{figure}
 
