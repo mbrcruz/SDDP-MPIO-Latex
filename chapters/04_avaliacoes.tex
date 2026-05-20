@@ -15,6 +15,10 @@ outubro de 2023. Para a etapa de simulação horária, que constitui o foco
 principal deste estudo, foram considerados 1.536 cenários em ambos os
 experimentos (AWS e SDumont), com três estágios mensais.
 
+Para cada configuração avaliada, foram executadas cinco repetições; os
+valores reportados nas tabelas e figuras deste capítulo correspondem à
+média e ao desvio padrão dessas amostras.
+
 Como cada \textit{rank} MPI apresentou consumo de memória residente
 superior a 8~GB, optou-se, em ambos os experimentos, por mapear apenas
 um \textit{rank} por núcleo físico --- isto é, sem o uso do
@@ -87,7 +91,9 @@ paralelo Lustre versão~2.12 de 12~TB, com 1~MDS de 350~GB e 10~OSTs de
 \textit{stripes} de 1~MB, disponibilizado por meio do serviço
 Amazon FSx for Lustre. Pelos motivos discutidos na introdução do
 capítulo, configurou-se um \textit{rank} por núcleo físico, totalizando
-24 cenários simultâneos por nó~\cite{intel:23,aws:24}.
+24 \textit{ranks} MPI por nó, que processam cenários em paralelo
+segundo o padrão \textit{bag-of-tasks} descrito na
+Subseção~\ref{sec:padrao_dados_sddp}~\cite{intel:23,aws:24}.
 
 
 \subsection{Avaliação da implementação atual}
@@ -106,7 +112,7 @@ scaling} limitado pela E/S. A banda agregada degrada-se de 60{,}5~Gb/s
 em 2~nós para 3{,}4~Gb/s em 32~nós (mais de uma ordem de grandeza), e o
 percentual do tempo dedicado à E/S cresce de 0{,}34\% em 2~nós para
 49{,}51\% em 32~nós. Esses números são coerentes com o
-diagnóstico de que o adaptador de rede do nó mestre se torna ponto de
+diagnóstico de que o adaptador de rede do nó escritor se torna ponto de
 contenção à medida que aumenta o número de processos emissores
 concorrentes.
 
@@ -406,6 +412,13 @@ uma vez que os dados podem ser distribuídos entre múltiplos dispositivos
 de armazenamento, permitindo acessos concorrentes por diferentes
 processos.
 
+A análise apresentada nesta subseção foi conduzida em rodada experimental
+específica, com instrumentação dedicada à isolação do efeito do número de
+OSTs. Os valores absolutos não devem ser comparados diretamente com os
+das Subseções \ref{sec:aws_atual}--\ref{sec:avaliacao_comparativa_aws}
+(em particular, com a Tabela~\ref{tab:mpiio_aws}); o foco aqui é a
+tendência relativa entre as configurações de 4 e 10 OSTs.
+
 Para esta avaliação, foram realizados experimentos com a abordagem
 MPI-IO variando-se a quantidade de OSTs disponíveis no FSx for Lustre,
 comparando configurações com 4~OSTs e 10~OSTs para execuções com 16 e
@@ -498,7 +511,8 @@ implementação do Lustre é composta por 1~nó MDS (com 1~MDT) e 6~nós OSSs
 com \textit{stripes} de 1~MB, disponibilizando um
 espaço total de armazenamento de 1,1~PB. Pelos motivos discutidos na
 introdução do capítulo, também aqui se configurou um \textit{rank} por
-núcleo físico, totalizando 24~cenários simultâneos por nó.
+núcleo físico, totalizando 24 \textit{ranks} MPI por nó, que processam
+cenários em paralelo segundo o padrão \textit{bag-of-tasks}.
 
 Diferentemente do FSx for Lustre dedicado utilizado no Experimento AWS, o
 sistema de arquivos do SDumont é compartilhado com outras cargas de
