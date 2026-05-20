@@ -134,7 +134,7 @@ base de 2~nós.}
 \begin{tabular}{cccccccc}
 \toprule
 \textbf{Nós} &
-\textbf{\shortstack{Banda\\(Gb/s)}} &
+\textbf{\shortstack{Banda percebida\\(Gb/s)}} &
 \textbf{\shortstack{I/O\\(s)}} &
 \textbf{\% I/O} &
 \textbf{\shortstack{Comunicação\\(s)}} &
@@ -183,7 +183,7 @@ calculada em relação à base de 2~nós.}
 \begin{tabular}{ccccccccc}
 \toprule
 \textbf{Nós} &
-\textbf{\shortstack{Banda\\(Gb/s)}} &
+\textbf{\shortstack{Banda percebida\\(Gb/s)}} &
 \textbf{\shortstack{I/O\\(s)}} &
 \textbf{\% I/O} &
 \textbf{\shortstack{Comunicação\\(s)}} &
@@ -236,9 +236,9 @@ em relação à implementação atual; valores negativos indicam piora.}
 \textbf{\shortstack{Total\\atual (s)}} &
 \textbf{\shortstack{Total\\MPI-IO (s)}} &
 \textbf{\shortstack{Melhoria\\no total (\%)}} &
-\textbf{\shortstack{Banda\\atual (Gb/s)}} &
-\textbf{\shortstack{Banda\\MPI-IO (Gb/s)}} &
-\textbf{\shortstack{Ganho\\de banda}} &
+\textbf{\shortstack{Banda percebida\\atual (Gb/s)}} &
+\textbf{\shortstack{Banda percebida\\MPI-IO (Gb/s)}} &
+\textbf{\shortstack{Ganho de\\banda perc.}} &
 \textbf{\shortstack{I/O\\atual (s)}} &
 \textbf{\shortstack{I/O\\MPI-IO (s)}} &
 \textbf{\shortstack{Melhoria\\I/O (\%)}} \\
@@ -253,8 +253,8 @@ em relação à implementação atual; valores negativos indicam piora.}
 }
 \end{table}
 
-A Figura~\ref{fig:Banda_AWS} apresenta a evolução da largura de banda
-agregada média no Experimento AWS. As duas curvas exibem comportamentos
+A Figura~\ref{fig:Banda_AWS} apresenta a evolução da banda agregada
+média percebida pela aplicação no Experimento AWS. As duas curvas exibem comportamentos
 qualitativamente opostos: a
 implementação atual parte de aproximadamente 60{,}5~Gb/s em 2~nós
 e degrada-se de forma acentuada com o aumento do paralelismo, atingindo
@@ -293,7 +293,8 @@ disponível, tornando a aplicação adequada para execuções em larga escala.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figuras/Banda_AWS.png}
-  \caption{Banda agregada média no Experimento AWS.}
+  \caption{Banda agregada média percebida pela aplicação no
+  Experimento AWS.}
   \label{fig:Banda_AWS}
 \end{figure}
 
@@ -461,7 +462,8 @@ operações de envio dessas classes.
 \end{figure}
 
 A Figura~\ref{fig:Experimento_OSTs_banda} complementa essa análise ao
-apresentar a banda agregada média obtida em cada configuração. Com
+apresentar a banda agregada média percebida pela aplicação em cada
+configuração. Com
 16~nós, a configuração com 10~OSTs atinge 274{,}2~Gb/s, contra
 49{,}4~Gb/s com 4~OSTs, ganho de aproximadamente 5{,}6$\times$. Ao
 passar de 16 para 32~nós, as configurações exibem tendências opostas:
@@ -483,8 +485,9 @@ menos dispositivos e introduz gargalos mais visíveis no cenário com
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figuras/Experimento_OSTs_banda.png}
-  \caption{Banda agregada média da implementação MPI-IO para
-  configurações com 4 e 10~OSTs em 16 e 32~nós.}
+  \caption{Banda agregada média percebida pela aplicação na
+  implementação MPI-IO para configurações com 4 e 10~OSTs em 16 e
+  32~nós.}
   \label{fig:Experimento_OSTs_banda}
 \end{figure}
 
@@ -559,7 +562,7 @@ E/S e comunicação. A eficiência é calculada em relação à base de 2~nós.}
 \begin{tabular}{cccccccc}
 \toprule
 \textbf{Nós} &
-\textbf{\shortstack{Banda\\(Gb/s)}} &
+\textbf{\shortstack{Banda percebida\\(Gb/s)}} &
 \textbf{\shortstack{I/O\\(s)}} &
 \textbf{\% I/O} &
 \textbf{\shortstack{Comunicação\\(s)}} &
@@ -613,7 +616,7 @@ E/S, comunicação e Coordenação MPI-IO. A eficiência é calculada em relaç�
 \begin{tabular}{ccccccccc}
 \toprule
 \textbf{Nós} &
-\textbf{\shortstack{Banda\\(Gb/s)}} &
+\textbf{\shortstack{Banda percebida\\(Gb/s)}} &
 \textbf{\shortstack{I/O\\(s)}} &
 \textbf{\% I/O} &
 \textbf{\shortstack{Comunicação\\(s)}} &
@@ -672,9 +675,9 @@ piora.}
 \textbf{\shortstack{Total\\atual (s)}} &
 \textbf{\shortstack{Total\\MPI-IO (s)}} &
 \textbf{\shortstack{Melhoria\\no total (\%)}} &
-\textbf{\shortstack{Banda\\atual (Gb/s)}} &
-\textbf{\shortstack{Banda\\MPI-IO (Gb/s)}} &
-\textbf{\shortstack{Ganho\\de banda}} &
+\textbf{\shortstack{Banda percebida\\atual (Gb/s)}} &
+\textbf{\shortstack{Banda percebida\\MPI-IO (Gb/s)}} &
+\textbf{\shortstack{Ganho de\\banda perc.}} &
 \textbf{\shortstack{I/O\\atual (s)}} &
 \textbf{\shortstack{I/O\\MPI-IO (s)}} &
 \textbf{\shortstack{Melhoria\\I/O (\%)}} \\
@@ -690,6 +693,7 @@ piora.}
 \end{table}
 
 A Figura~\ref{fig:Banda_SDumont} compara a banda agregada média
+percebida pela aplicação
 obtida pela implementação atual e pela implementação MPI-IO. Em 2 e
 4~nós, a implementação atual apresenta a maior banda observada, com
 62{,}8~Gb/s e 46{,}2~Gb/s respectivamente, enquanto a MPI-IO atinge
@@ -717,8 +721,8 @@ absorver maior paralelismo de escrita.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figuras/Banda_SDumont.png}
-  \caption{Banda agregada média das implementações atual e MPI-IO no
-  Experimento SDumont.}
+  \caption{Banda agregada média percebida pela aplicação nas
+  implementações atual e MPI-IO no Experimento SDumont.}
   \label{fig:Banda_SDumont}
 \end{figure}
 
