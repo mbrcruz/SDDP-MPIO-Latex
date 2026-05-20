@@ -417,22 +417,27 @@ A Figura~\ref{fig:Experimento_OSTs} apresenta o tempo médio de envio
 por classe de tamanho das mensagens. Cada subfigura corresponde a uma
 classe de tamanho, enquanto as barras comparam as configurações MPI-IO
 com 4 e 10~OSTs para 16 e 32~nós de cálculo. Em 16~nós, o uso de
-10~OSTs reduz o tempo médio de envio nas quatro classes analisadas:
-de 2,6~ms para 2,1~ms nas mensagens de até 1~KB, de 18~ms para
-4,7~ms nas mensagens de até 128~KB, de 20~ms para 7,1~ms nas mensagens
-de até 1~MB e de 87~ms para 48~ms nas mensagens de até 50~MB.
+10~OSTs aumenta o tempo médio de envio nas classes pequenas, de
+0{,}014~ms para 2{,}1~ms nas mensagens de até 1~KB e de 0{,}014~ms para
+4{,}7~ms nas mensagens de até 128~KB. Nas classes que concentram maior
+volume de dados, porém, o comportamento se inverte: o tempo cai de
+82{,}6~ms para 7{,}1~ms nas mensagens de até 1~MB e de 524~ms para
+48~ms nas mensagens de até 50~MB.
 
 O efeito é mais pronunciado em 32~nós, quando a maior concorrência entre
 processos amplia a diferença entre as duas configurações. Nesse cenário,
-os tempos caem de 10~ms para 3,2~ms nas mensagens de até 1~KB, de
-111~ms para 10~ms nas mensagens de até 128~KB, de 90~ms para 14~ms nas
-mensagens de até 1~MB e de 304~ms para 105~ms nas mensagens de até
-50~MB. Esses resultados mostram que a redução do número de OSTs aumenta
-a contenção no acesso aos dados, sobretudo quando o número de nós de
-cálculo cresce. Embora a escrita seja realizada em paralelo por meio de
-MPI-IO, a disponibilidade de menos alvos de armazenamento limita o
-paralelismo efetivo do Lustre e aumenta o tempo observado nas operações
-de envio.
+as classes pequenas permanecem mais rápidas com 4~OSTs, com tempos de
+0{,}018~ms nas mensagens de até 1~KB e 0{,}018~ms nas mensagens de até
+128~KB, contra 3{,}2~ms e 10~ms com 10~OSTs. Para blocos maiores,
+entretanto, o aumento do número de OSTs reduz o tempo médio de envio de
+309~ms para 13{,}7~ms nas mensagens de até 1~MB e de 1{,}89~s para
+105~ms nas mensagens de até 50~MB. Esses resultados mostram que a
+redução do número de OSTs aumenta a contenção no acesso aos dados
+principalmente nas classes de maior volume, sobretudo quando o número de
+nós de cálculo cresce. Embora a escrita seja realizada em paralelo por
+meio de MPI-IO, a disponibilidade de menos alvos de armazenamento limita
+o paralelismo efetivo do Lustre e aumenta o tempo observado nas
+operações de envio dessas classes.
 
 \begin{figure}[H]
   \centering
@@ -444,19 +449,20 @@ de envio.
 
 A Figura~\ref{fig:Experimento_OSTs_banda} complementa essa análise ao
 apresentar a banda agregada média obtida em cada configuração. Com
-16~nós, a configuração com 10~OSTs atinge 96,2~Gb/s, contra 78,1~Gb/s
+16~nós, a configuração com 10~OSTs atinge 96{,}2~Gb/s, contra 49{,}4~Gb/s
 com 4~OSTs. Com 32~nós, a diferença aumenta substancialmente: a banda
-agregada chega a 143,0~Gb/s com 10~OSTs, enquanto a configuração com
-4~OSTs fica limitada a 36,7~Gb/s. Esse comportamento indica que, quando
+agregada chega a 143{,}0~Gb/s com 10~OSTs, enquanto a configuração com
+4~OSTs fica limitada a 16{,}1~Gb/s. Esse comportamento indica que, quando
 a concorrência entre processos aumenta, a configuração com menos OSTs
 passa a limitar a escalabilidade da E/S.
 
 Assim, a análise conjunta das duas figuras indica que o aumento no
 número de OSTs melhora tanto a largura de banda agregada quanto o tempo
-médio das operações de envio. A configuração com 10~OSTs permite melhor
-distribuição das requisições entre os alvos de armazenamento, enquanto a
-configuração com 4~OSTs concentra o tráfego em menos dispositivos e
-introduz gargalos mais visíveis no cenário com 32~nós.
+médio das operações de envio nas classes de maior volume. A configuração
+com 10~OSTs permite melhor distribuição das requisições entre os alvos de
+armazenamento, enquanto a configuração com 4~OSTs concentra o tráfego em
+menos dispositivos e introduz gargalos mais visíveis no cenário com
+32~nós.
 
 \begin{figure}[H]
   \centering
@@ -874,9 +880,9 @@ dependente das condições idealizadas de uma plataforma dedicada.
 
 A análise do impacto do número de OSTs na AWS reforça que o
 paralelismo de armazenamento subjacente é parte essencial do ganho:
-dobrar o número de OSTs de 4 para 10 quase quadruplica a banda
-agregada em 32~nós e reduz o tempo médio das escritas em quase uma
-ordem de magnitude nas classes de bloco maiores. Essa observação
+sair de 4 para 10~OSTs quase dobra a banda agregada em 16~nós e a
+amplia em aproximadamente 8{,}9$\times$ em 32~nós, além de reduzir o
+tempo médio das escritas nas classes de bloco maiores. Essa observação
 sugere que, em deployments futuros, o dimensionamento da camada de
 armazenamento --- número de OSTs e largura de \textit{stripe} ---
 deve ser tratado como parâmetro de projeto, e não como detalhe
