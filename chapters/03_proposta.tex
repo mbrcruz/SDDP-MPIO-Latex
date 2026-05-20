@@ -64,30 +64,24 @@ nova tarefa, esse \textit{rank} permanece aguardando o
 recebimento das tarefas concluídas pelos \textit{ranks} trabalhadores. Por
 esse motivo, sua linha é representada integralmente como comunicação.
 
-A execução de cada processo inicia com o recebimento de uma tarefa,
-correspondente a um cenário a ser resolvido. No regime de execução
-adotado, cada processo resolve a simulação de um cenário sorteado e, ao
-término dessa etapa, persiste os blocos de dados resultantes em dezenas
-de arquivos binários no formato proprietário do modelo SDDP. O tamanho de
-cada bloco de dados varia conforme o arquivo de resultado produzido. Em
-seguida, o processo recebe uma nova tarefa, correspondente a um novo
-cenário a ser resolvido, caracterizando um padrão de execução do tipo
-\textit{bag-of-tasks}~\cite{Cirne:2003}.
+Antes do início do ciclo de tarefas, os processos participam de uma
+operação coletiva de abertura dos arquivos de resultado. Esse ponto de
+coordenação MPI-IO estabelece o estado compartilhado necessário às
+escritas independentes que se seguem.
 
-Antes do início das escritas paralelas, os processos
-participam de uma operação coletiva de abertura dos arquivos de
-resultado, caracterizando um ponto de coordenação MPI-IO antes do
-início da execução.
+A partir desse momento, cada \textit{rank} trabalhador executa o ciclo
+\textit{bag-of-tasks}~\cite{Cirne:2003}: recebe do processo distribuidor
+uma tarefa correspondente a um cenário, resolve a simulação desse
+cenário e, ao término, efetua escritas independentes nos diversos
+arquivos de resultado, persistindo os blocos no formato proprietário do
+modelo SDDP. O tamanho de cada bloco varia conforme o arquivo de
+resultado produzido. Concluída a persistência, o processo solicita uma
+nova tarefa ao distribuidor, repetindo esse ciclo enquanto houver
+cenários disponíveis.
 
-Após essa etapa, cada processo resolve o cenário recebido e, ao final da
-simulação, efetua escritas independentes nos diversos arquivos de
-resultado. Concluída a persistência dos dados, o processo passa a tratar
-um novo cenário, repetindo esse ciclo enquanto houver tarefas
-disponíveis. 
-
-Quando não há mais cenários a serem resolvidos, inicia-se
-uma nova etapa de coordenação MPI-IO, dessa vez associada ao fechamento
-coletivo dos arquivos de resultado.
+Quando não há mais cenários a serem resolvidos, inicia-se uma nova
+etapa de coordenação MPI-IO, dessa vez associada ao fechamento coletivo
+dos arquivos de resultado.
 
 \begin{figure}[H]
   \centering
@@ -268,9 +262,9 @@ OSTs. A escolha desses parâmetros deve considerar o tamanho típico dos
 blocos gravados pelo SDDP e a concorrência esperada entre os
 \textit{ranks}.
 
-A proposta adota escritas independentes de MPI-IO, pois elas preservam a
-autonomia natural do modelo \textit{bag-of-tasks}: cada \textit{rank}
-persiste seus resultados assim que conclui o cenário recebido. Escritas
+A escolha entre escritas independentes e coletivas favorece a primeira
+pelo modelo \textit{bag-of-tasks}: cada \textit{rank} persiste seus
+resultados assim que conclui o cenário recebido. Escritas
 coletivas poderiam permitir agregação interna pela biblioteca MPI-IO, mas
 exigiriam que múltiplos \textit{ranks} participassem conjuntamente da
 mesma chamada de E/S. Nesse contexto, a sincronização adicional poderia
