@@ -413,12 +413,15 @@ uma vez que os dados podem ser distribuídos entre múltiplos dispositivos
 de armazenamento, permitindo acessos concorrentes por diferentes
 processos.
 
-A análise apresentada nesta subseção foi conduzida em rodada experimental
-específica, com instrumentação dedicada à isolação do efeito do número de
-OSTs. Os valores absolutos não devem ser comparados diretamente com os
-das Subseções \ref{sec:aws_atual}--\ref{sec:avaliacao_comparativa_aws}
-(em particular, com a Tabela~\ref{tab:mpiio_aws}); o foco aqui é a
-tendência relativa entre as configurações de 4 e 10 OSTs.
+A configuração de 10~OSTs aqui considerada é a mesma utilizada no
+Experimento AWS principal (Subseção~\ref{sec:aws_mpiio},
+Tabela~\ref{tab:mpiio_aws}); a configuração de 4~OSTs foi obtida em
+rodada dedicada, com todos os demais parâmetros mantidos constantes ---
+base de dados PMO/PAR de outubro de 2023, 1.536 cenários, três estágios
+mensais, 24 \textit{ranks} MPI por nó e mesma instrumentação MPI-IO.
+Os valores absolutos das duas configurações são, portanto, diretamente
+comparáveis, e o foco da análise é o efeito isolado do número de OSTs
+sobre o desempenho das operações de E/S.
 
 Para esta avaliação, foram realizados experimentos com a abordagem
 MPI-IO variando-se a quantidade de OSTs disponíveis no FSx for Lustre,
