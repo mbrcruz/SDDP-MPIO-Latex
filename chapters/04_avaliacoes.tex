@@ -430,28 +430,31 @@ de modo a isolar o efeito da infraestrutura de armazenamento.
 A Figura~\ref{fig:Experimento_OSTs} apresenta o tempo médio de envio
 por classe de tamanho das mensagens. Cada subfigura corresponde a uma
 classe de tamanho, enquanto as barras comparam as configurações MPI-IO
-com 4 e 10~OSTs para 16 e 32~nós de cálculo. Em 16~nós, o uso de
-10~OSTs aumenta o tempo médio de envio nas classes pequenas, de
-0{,}014~ms para 2{,}1~ms nas mensagens de até 1~KB e de 0{,}014~ms para
-4{,}7~ms nas mensagens de até 128~KB. Nas classes que concentram maior
-volume de dados, porém, o comportamento se inverte: o tempo cai de
-82{,}6~ms para 7{,}1~ms nas mensagens de até 1~MB e de 524~ms para
-48~ms nas mensagens de até 50~MB.
+com 4 e 10~OSTs para 16 e 32~nós de cálculo. Em 16~nós, as classes
+pequenas apresentam tempos da mesma ordem de grandeza nas duas
+configurações: 0{,}014~ms com 4~OSTs contra 0{,}015~ms com 10~OSTs nas
+mensagens de até 1~KB, e 0{,}014~ms contra 0{,}012~ms nas mensagens de
+até 128~KB. Nas classes que concentram maior volume de dados, o ganho
+do paralelismo de armazenamento se manifesta com força: o tempo cai de
+82{,}6~ms para 5{,}7~ms nas mensagens de até 1~MB
+(aproximadamente 14{,}5$\times$ mais rápido) e de 524~ms para 47{,}1~ms
+nas mensagens de até 50~MB (aproximadamente 11{,}1$\times$).
 
-O efeito é mais pronunciado em 32~nós, quando a maior concorrência entre
-processos amplia a diferença entre as duas configurações. Nesse cenário,
-as classes pequenas permanecem mais rápidas com 4~OSTs, com tempos de
-0{,}018~ms nas mensagens de até 1~KB e 0{,}018~ms nas mensagens de até
-128~KB, contra 3{,}2~ms e 10~ms com 10~OSTs. Para blocos maiores,
-entretanto, o aumento do número de OSTs reduz o tempo médio de envio de
-309~ms para 13{,}7~ms nas mensagens de até 1~MB e de 1{,}89~s para
-105~ms nas mensagens de até 50~MB. Esses resultados mostram que a
-redução do número de OSTs aumenta a contenção no acesso aos dados
-principalmente nas classes de maior volume, sobretudo quando o número de
-nós de cálculo cresce. Embora a escrita seja realizada em paralelo por
-meio de MPI-IO, a disponibilidade de menos alvos de armazenamento limita
-o paralelismo efetivo do Lustre e aumenta o tempo observado nas
-operações de envio dessas classes.
+O efeito é ainda mais pronunciado em 32~nós, quando a maior concorrência
+entre processos amplia a diferença entre as duas configurações. As
+classes pequenas mantêm-se com tempos próximos --- 0{,}018~ms com
+4~OSTs contra 0{,}016~ms com 10~OSTs nas mensagens de até 1~KB, e
+0{,}018~ms contra 0{,}014~ms nas mensagens de até 128~KB ---, mas o
+ganho nas classes maiores se acentua: o tempo médio cai de 309~ms para
+13{,}8~ms nas mensagens de até 1~MB (cerca de 22{,}4$\times$ mais
+rápido) e de 1{,}89~s para 113{,}5~ms nas mensagens de até 50~MB
+(cerca de 16{,}6$\times$). Esses resultados mostram que a redução do
+número de OSTs aumenta a contenção no acesso aos dados principalmente
+nas classes de maior volume, sobretudo quando o número de nós de
+cálculo cresce. Embora a escrita seja realizada em paralelo por meio de
+MPI-IO, a disponibilidade de menos alvos de armazenamento limita o
+paralelismo efetivo do Lustre e aumenta o tempo observado nas operações
+de envio dessas classes.
 
 \begin{figure}[H]
   \centering
