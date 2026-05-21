@@ -1,0 +1,45 @@
+\babel@toc {brazilian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {brazilian}{}\relax 
+\contentsline {chapter}{Lista de Figuras}{x}{chapter*.3}%
+\contentsline {chapter}{Lista de Tabelas}{xii}{chapter*.4}%
+\contentsline {chapter}{Lista de Abreviaturas}{xiii}{chapter*.5}%
+\contentsline {chapter}{\numberline {1}Introdução}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Fundamentação Teórica}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}MPI, protocolos de comunicação e operações paralelas de arquivos}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Sistema de arquivos paralelo Lustre}{7}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Adaptadores de rede em HPC: Ethernet e InfiniBand}{7}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Computação em nuvem para HPC: AWS}{8}{section.2.4}%
+\contentsline {section}{\numberline {2.5}O Programa Mensal da Operação (PMO)}{8}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Algoritmo SDDP}{9}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Comparação dos formatos dos resultados}{10}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Arquitetura atual de E/S do SDDP}{11}{subsection.2.6.2}%
+\contentsline {chapter}{\numberline {3}Paralelização dos Mecanismos de E/S do SDDP}{13}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Visão geral da arquitetura}{13}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Modelo de execução}{14}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Detalhes de implementação}{15}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Formato dos resultados}{16}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Implementação das escritas independentes}{17}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Considerações de configuração}{19}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Instrumentação}{19}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Registros gerados pela instrumentação}{20}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Tempo de computação}{21}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Tempo de coordenação MPI}{21}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}Tempo total de E/S}{21}{subsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.5.5}Tempo de bloqueio na transferência dos blocos de dados}{22}{subsection.3.5.5}%
+\contentsline {subsection}{\numberline {3.5.6}Banda agregada média percebida pela aplicação}{22}{subsection.3.5.6}%
+\contentsline {paragraph}{Banda percebida \textit {versus} banda agregada real.}{23}{section*.6}%
+\contentsline {chapter}{\numberline {4}Avaliações}{24}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Experimento AWS}{25}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{26}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes}{27}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Análise comparativa}{27}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Avaliação do impacto do número de OSTs}{32}{subsection.4.1.4}%
+\contentsline {section}{\numberline {4.2}Experimento SDumont}{35}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{36}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO com escritas independentes}{37}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{37}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Síntese das avaliações}{43}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{45}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{46}{chapter.6}%
+\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{47}{chapter*.7}%
