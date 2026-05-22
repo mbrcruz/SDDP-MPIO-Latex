@@ -482,22 +482,36 @@ contenção). Esse valor representa, em essência, um limite superior de
 referência para o sistema de armazenamento, mas não é diretamente
 observável pela aplicação SDDP.
 
-A banda percebida, em contrapartida, incorpora todas as fontes de
-sobrecarga interpostas entre a aplicação e o meio de armazenamento:
-fragmentação das requisições em blocos pequenos, contenção entre
-\textit{ranks} concorrentes sobre os mesmos OSTs, custos de coordenação
-do MPI-IO e da pilha de software, sincronizações implícitas dentro da
-biblioteca e eventuais bloqueios decorrentes do próprio modelo de
-execução \textit{bag-of-tasks}. Em consequência, é esperado que a banda
-percebida seja inferior à banda agregada real, especialmente quando o
-perfil de E/S apresenta predominância de blocos de tamanho reduzido,
-como ocorre no SDDP.
+A banda percebida, em contrapartida, mede o volume gravado em função do
+tempo em que a aplicação permanece efetivamente bloqueada nas operações
+de E/S. Para escritas síncronas (\texttt{MPI\_File\_write\_at}), o
+intervalo registrado no \texttt{mpiio-\{p\}.log} corresponde à duração
+integral da chamada, durante a qual o \textit{rank} fica impedido de
+prosseguir. Para escritas assíncronas (\texttt{MPI\_File\_iwrite\_at}),
+o intervalo registrado refere-se apenas ao despacho da operação ---
+tipicamente desprezível ---, de modo que escritas assíncronas
+bem-sucedidas não inflam o denominador. O tempo eventual de espera por
+\texttt{MPI\_Wait}, que ocorre apenas quando os \textit{slots} de duplo
+\textit{buffer} estão ocupados, é contabilizado separadamente
+(Seção~\ref{sec:metrica_bloqueio}) e não compõe a banda percebida. Em
+consequência, a métrica captura especificamente a parcela de sobrecarga
+que se traduz em bloqueio do caminho de execução: custos internos da
+biblioteca MPI-IO, contenção entre OSTs ou sincronizações implícitas
+que sejam mascaradas pelo paralelismo das escritas assíncronas não
+aparecem na medida. É esperado, portanto, que a banda percebida seja
+inferior à banda agregada real do sistema de arquivos, mas a diferença
+reflete somente a sobrecarga efetivamente perceptível pela aplicação.
 
 A escolha por reportar a banda percebida está alinhada ao objetivo
 deste trabalho, que é avaliar quanto da capacidade disponível a
 aplicação consegue efetivamente aproveitar --- e não caracterizar o
-sistema de arquivos isoladamente. Sob essa ótica, a métrica reflete,
-simultaneamente, o desempenho do subsistema de armazenamento e a
-eficácia da estratégia de E/S adotada pela aplicação, sendo, portanto,
-a mais adequada para a comparação direta entre as duas implementações
-investigadas.
+sistema de arquivos isoladamente. Sob essa ótica, a métrica reflete o
+desempenho do subsistema de armazenamento \emph{na medida em que ele
+bloqueia a aplicação}, capturando simultaneamente a vazão sustentada
+pela infraestrutura e a eficácia da estratégia de E/S em sobrepor
+escritas com computação. É essa combinação que a torna adequada para a
+comparação direta entre as duas implementações investigadas: uma
+estratégia que reduza o tempo de bloqueio --- seja por paralelizar
+escritas em múltiplos OSTs, seja por mascará-las com chamadas
+assíncronas --- eleva a banda percebida ainda que a banda agregada real
+do sistema permaneça inalterada.
