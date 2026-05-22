@@ -15,157 +15,163 @@
 \@writefile{toc}{\contentsline {chapter}{Lista de Abreviaturas}{xiii}{chapter*.5}\protected@file@percent }
 \citation{Kang:20}
 \citation{Luu:15,Xie:20}
-\citation{mpi50Cite,LustreManual}
+\citation{mpi50Cite}
+\citation{LustreManual}
 \citation{Ajc:10,Ssr:19}
-\citation{MvLm:91}
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Introdução}{1}{chapter.1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{cap:introducao}{{1}{1}{Introdução}{chapter.1}{}}
-\citation{mpiCite,mpiioCite}
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Fundamentação Teórica}{3}{chapter.2}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cap:fundamentacao}{{2}{3}{Fundamentação Teórica}{chapter.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}MPI, protocolos de comunicação e operações paralelas de arquivos}{3}{section.2.1}\protected@file@percent }
-\citation{Wea:99,Rrw:05}
-\citation{mpiCite,Rr:10,Wre:99}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Relação entre comunicação ponto a ponto e E/S paralela. No modelo centralizado, os resultados passam por um processo escritor; no modelo MPI-IO, os próprios processos escrevem diretamente no arquivo.}}{4}{figure.2.1}\protected@file@percent }
-\newlabel{fig:mpi_protocolos_e_io}{{2.1}{4}{Relação entre comunicação ponto a ponto e E/S paralela. No modelo centralizado, os resultados passam por um processo escritor; no modelo MPI-IO, os próprios processos escrevem diretamente no arquivo}{figure.2.1}{}}
-\citation{Cirne:2003}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Diferença entre escritas independentes e coletivas em MPI-IO. Escritas independentes preservam autonomia dos processos; escritas coletivas permitem agregação e reordenação das requisições pela biblioteca MPI-IO.}}{6}{figure.2.2}\protected@file@percent }
-\newlabel{fig:mpiio_ind_coletiva}{{2.2}{6}{Diferença entre escritas independentes e coletivas em MPI-IO. Escritas independentes preservam autonomia dos processos; escritas coletivas permitem agregação e reordenação das requisições pela biblioteca MPI-IO}{figure.2.2}{}}
-\citation{Pjb:02}
-\citation{Fds:03,RlGmmts:05}
-\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Critérios práticos para escolha do modo de escrita em MPI-IO.}}{7}{table.2.1}\protected@file@percent }
-\newlabel{tab:criterios_mpiio}{{2.1}{7}{Critérios práticos para escolha do modo de escrita em MPI-IO}{table.2.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Sistema de arquivos paralelo Lustre}{7}{section.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Adaptadores de rede em HPC: Ethernet e InfiniBand}{7}{section.2.3}\protected@file@percent }
-\citation{Krlkssj:10,Hmns:20}
-\citation{ons:23}
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Computação em nuvem para HPC: AWS}{8}{section.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}O Programa Mensal da Operação (PMO)}{8}{section.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Contexto}{1}{section.1.1}\protected@file@percent }
 \citation{MvLm:91}
 \citation{Cirne:2003}
-\@writefile{toc}{\contentsline {section}{\numberline {2.6}Algoritmo SDDP}{9}{section.2.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Estrutura de cenários e estágios do SDDP. Cada célula corresponde a um subproblema $(\text  {estágio}, \text  {cenário})$. Os cenários são mutuamente independentes e podem ser distribuídos entre \textit  {ranks} MPI, caracterizando uma aplicação \textit  {bag-of-tasks}.}}{10}{figure.2.3}\protected@file@percent }
-\newlabel{fig:SDDP_cenarios_estagios}{{2.3}{10}{Estrutura de cenários e estágios do SDDP. Cada célula corresponde a um subproblema $(\text {estágio}, \text {cenário})$. Os cenários são mutuamente independentes e podem ser distribuídos entre \textit {ranks} MPI, caracterizando uma aplicação \textit {bag-of-tasks}}{figure.2.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.1}Comparação dos formatos dos resultados}{10}{subsection.2.6.1}\protected@file@percent }
-\newlabel{sec:formato_resultados_sddp}{{2.6.1}{10}{Comparação dos formatos dos resultados}{subsection.2.6.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Comparação esquemática entre os formatos de resultados por patamares e horário do SDDP.}}{11}{figure.2.4}\protected@file@percent }
-\newlabel{fig:formatos_resultados_sddp}{{2.4}{11}{Comparação esquemática entre os formatos de resultados por patamares e horário do SDDP}{figure.2.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.2}Arquitetura atual de E/S do SDDP}{11}{subsection.2.6.2}\protected@file@percent }
-\newlabel{sec:arq_atual}{{2.6.2}{11}{Arquitetura atual de E/S do SDDP}{subsection.2.6.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Arquitetura atual de E/S do SDDP com o \textit  {rank}~0 atuando como processo distribuidor e o \textit  {rank}~1 como processo escritor.}}{12}{figure.2.5}\protected@file@percent }
-\newlabel{fig:SDDP_architecture}{{2.5}{12}{Arquitetura atual de E/S do SDDP com o \textit {rank}~0 atuando como processo distribuidor e o \textit {rank}~1 como processo escritor}{figure.2.5}{}}
-\citation{mpiioCite}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Paralelização dos Mecanismos de E/S do SDDP}{13}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}Motivação}{2}{section.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Objetivos e Contribuições}{3}{section.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Organização}{4}{section.1.4}\protected@file@percent }
+\citation{mpiCite,mpiioCite}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Fundamentação Teórica}{5}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cap:proposta}{{3}{13}{Paralelização dos Mecanismos de E/S do SDDP}{chapter.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Visão geral da arquitetura}{13}{section.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Arquitetura proposta com MPI-IO e Lustre, com o \textit  {rank}~0 atuando como processo distribuidor e os demais processos escrevendo diretamente em arquivos compartilhados.}}{14}{figure.3.1}\protected@file@percent }
-\newlabel{fig:SDDP_architecture2}{{3.1}{14}{Arquitetura proposta com MPI-IO e Lustre, com o \textit {rank}~0 atuando como processo distribuidor e os demais processos escrevendo diretamente em arquivos compartilhados}{figure.3.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Modelo de execução}{14}{section.3.2}\protected@file@percent }
+\newlabel{cap:fundamentacao}{{2}{5}{Fundamentação Teórica}{chapter.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}MPI, protocolos de comunicação e operações paralelas de arquivos}{5}{section.2.1}\protected@file@percent }
+\citation{Wea:99,Rrw:05}
+\citation{mpiCite,Rr:10,Wre:99}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Relação entre comunicação ponto a ponto e E/S paralela. No modelo centralizado, os resultados passam por um processo escritor; no modelo MPI-IO, os próprios processos escrevem diretamente no arquivo.}}{6}{figure.2.1}\protected@file@percent }
+\newlabel{fig:mpi_protocolos_e_io}{{2.1}{6}{Relação entre comunicação ponto a ponto e E/S paralela. No modelo centralizado, os resultados passam por um processo escritor; no modelo MPI-IO, os próprios processos escrevem diretamente no arquivo}{figure.2.1}{}}
 \citation{Cirne:2003}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Linha de tempo da simulação final do SDDP com MPI-IO, destacando o \textit  {rank}~0 como processo distribuidor.}}{16}{figure.3.2}\protected@file@percent }
-\newlabel{fig:SDDP_timeline_MPIIO}{{3.2}{16}{Linha de tempo da simulação final do SDDP com MPI-IO, destacando o \textit {rank}~0 como processo distribuidor}{figure.3.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Detalhes de implementação}{16}{section.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Formato dos resultados}{17}{subsection.3.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Formato lógico dos arquivos binários de resultado do SDDP.}}{17}{figure.3.3}\protected@file@percent }
-\newlabel{fig:formato_arquivos_resultado}{{3.3}{17}{Formato lógico dos arquivos binários de resultado do SDDP}{figure.3.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Implementação das escritas independentes}{18}{subsection.3.3.2}\protected@file@percent }
-\citation{LustreManual}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Fluxo de decisão para escritas independentes com MPI-IO.}}{19}{figure.3.4}\protected@file@percent }
-\newlabel{fig:fluxo_escrita_independente}{{3.4}{19}{Fluxo de decisão para escritas independentes com MPI-IO}{figure.3.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Considerações de configuração}{19}{section.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}Instrumentação}{20}{section.3.5}\protected@file@percent }
-\newlabel{sec:instrumentacao}{{3.5}{20}{Instrumentação}{section.3.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Registros gerados pela instrumentação}{20}{subsection.3.5.1}\protected@file@percent }
-\newlabel{sec:logs_instrumentacao}{{3.5.1}{20}{Registros gerados pela instrumentação}{subsection.3.5.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Arquivos de \textit  {log} gerados pela instrumentação, por \textit  {rank}~$p$.}}{21}{table.3.1}\protected@file@percent }
-\newlabel{tab:logs_instrumentacao}{{3.1}{21}{Arquivos de \textit {log} gerados pela instrumentação, por \textit {rank}~$p$}{table.3.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}Tempo de computação}{21}{subsection.3.5.2}\protected@file@percent }
-\newlabel{sec:metrica_computacao}{{3.5.2}{21}{Tempo de computação}{subsection.3.5.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Diferença entre escritas independentes e coletivas em MPI-IO. Escritas independentes preservam autonomia dos processos; escritas coletivas permitem agregação e reordenação das requisições pela biblioteca MPI-IO.}}{8}{figure.2.2}\protected@file@percent }
+\newlabel{fig:mpiio_ind_coletiva}{{2.2}{8}{Diferença entre escritas independentes e coletivas em MPI-IO. Escritas independentes preservam autonomia dos processos; escritas coletivas permitem agregação e reordenação das requisições pela biblioteca MPI-IO}{figure.2.2}{}}
+\citation{Pjb:02}
+\citation{Fds:03,RlGmmts:05}
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Critérios práticos para escolha do modo de escrita em MPI-IO.}}{9}{table.2.1}\protected@file@percent }
+\newlabel{tab:criterios_mpiio}{{2.1}{9}{Critérios práticos para escolha do modo de escrita em MPI-IO}{table.2.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Sistema de arquivos paralelo Lustre}{9}{section.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Adaptadores de rede em HPC: Ethernet e InfiniBand}{9}{section.2.3}\protected@file@percent }
+\citation{Krlkssj:10,Hmns:20}
+\citation{ons:23}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Computação em nuvem para HPC: AWS}{10}{section.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}O Programa Mensal da Operação (PMO)}{10}{section.2.5}\protected@file@percent }
+\citation{MvLm:91}
+\citation{Cirne:2003}
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Algoritmo SDDP}{11}{section.2.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Estrutura de cenários e estágios do SDDP. Cada célula corresponde a um subproblema $(\text  {estágio}, \text  {cenário})$. Os cenários são mutuamente independentes e podem ser distribuídos entre \textit  {ranks} MPI, caracterizando uma aplicação \textit  {bag-of-tasks}.}}{12}{figure.2.3}\protected@file@percent }
+\newlabel{fig:SDDP_cenarios_estagios}{{2.3}{12}{Estrutura de cenários e estágios do SDDP. Cada célula corresponde a um subproblema $(\text {estágio}, \text {cenário})$. Os cenários são mutuamente independentes e podem ser distribuídos entre \textit {ranks} MPI, caracterizando uma aplicação \textit {bag-of-tasks}}{figure.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.1}Comparação dos formatos dos resultados}{12}{subsection.2.6.1}\protected@file@percent }
+\newlabel{sec:formato_resultados_sddp}{{2.6.1}{12}{Comparação dos formatos dos resultados}{subsection.2.6.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Comparação esquemática entre os formatos de resultados por patamares e horário do SDDP.}}{13}{figure.2.4}\protected@file@percent }
+\newlabel{fig:formatos_resultados_sddp}{{2.4}{13}{Comparação esquemática entre os formatos de resultados por patamares e horário do SDDP}{figure.2.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.2}Arquitetura atual de E/S do SDDP}{13}{subsection.2.6.2}\protected@file@percent }
+\newlabel{sec:arq_atual}{{2.6.2}{13}{Arquitetura atual de E/S do SDDP}{subsection.2.6.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Arquitetura atual de E/S do SDDP com o \textit  {rank}~0 atuando como processo distribuidor e o \textit  {rank}~1 como processo escritor.}}{14}{figure.2.5}\protected@file@percent }
+\newlabel{fig:SDDP_architecture}{{2.5}{14}{Arquitetura atual de E/S do SDDP com o \textit {rank}~0 atuando como processo distribuidor e o \textit {rank}~1 como processo escritor}{figure.2.5}{}}
 \citation{mpiioCite}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}Tempo de coordenação MPI}{22}{subsection.3.5.3}\protected@file@percent }
-\newlabel{sec:metrica_coordenacao}{{3.5.3}{22}{Tempo de coordenação MPI}{subsection.3.5.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.4}Tempo total de E/S}{22}{subsection.3.5.4}\protected@file@percent }
-\newlabel{sec:metrica_io_total}{{3.5.4}{22}{Tempo total de E/S}{subsection.3.5.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.5}Tempo de bloqueio na transferência dos blocos de dados}{22}{subsection.3.5.5}\protected@file@percent }
-\newlabel{sec:metrica_bloqueio}{{3.5.5}{22}{Tempo de bloqueio na transferência dos blocos de dados}{subsection.3.5.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.6}Banda agregada média percebida pela aplicação}{23}{subsection.3.5.6}\protected@file@percent }
-\newlabel{sec:metrica_banda_percebida}{{3.5.6}{23}{Banda agregada média percebida pela aplicação}{subsection.3.5.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Banda percebida \textit  {versus} banda agregada real.}{24}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Paralelização dos Mecanismos de E/S do SDDP}{15}{chapter.3}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cap:proposta}{{3}{15}{Paralelização dos Mecanismos de E/S do SDDP}{chapter.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Visão geral da arquitetura}{15}{section.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Arquitetura proposta com MPI-IO e Lustre, com o \textit  {rank}~0 atuando como processo distribuidor e os demais processos escrevendo diretamente em arquivos compartilhados.}}{16}{figure.3.1}\protected@file@percent }
+\newlabel{fig:SDDP_architecture2}{{3.1}{16}{Arquitetura proposta com MPI-IO e Lustre, com o \textit {rank}~0 atuando como processo distribuidor e os demais processos escrevendo diretamente em arquivos compartilhados}{figure.3.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Modelo de execução}{16}{section.3.2}\protected@file@percent }
+\citation{Cirne:2003}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Linha de tempo da simulação final do SDDP com MPI-IO, destacando o \textit  {rank}~0 como processo distribuidor.}}{18}{figure.3.2}\protected@file@percent }
+\newlabel{fig:SDDP_timeline_MPIIO}{{3.2}{18}{Linha de tempo da simulação final do SDDP com MPI-IO, destacando o \textit {rank}~0 como processo distribuidor}{figure.3.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Detalhes de implementação}{18}{section.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Formato dos resultados}{19}{subsection.3.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Formato lógico dos arquivos binários de resultado do SDDP.}}{19}{figure.3.3}\protected@file@percent }
+\newlabel{fig:formato_arquivos_resultado}{{3.3}{19}{Formato lógico dos arquivos binários de resultado do SDDP}{figure.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Implementação das escritas independentes}{20}{subsection.3.3.2}\protected@file@percent }
+\citation{LustreManual}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Fluxo de decisão para escritas independentes com MPI-IO.}}{21}{figure.3.4}\protected@file@percent }
+\newlabel{fig:fluxo_escrita_independente}{{3.4}{21}{Fluxo de decisão para escritas independentes com MPI-IO}{figure.3.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Considerações de configuração}{21}{section.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Instrumentação}{22}{section.3.5}\protected@file@percent }
+\newlabel{sec:instrumentacao}{{3.5}{22}{Instrumentação}{section.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Registros gerados pela instrumentação}{22}{subsection.3.5.1}\protected@file@percent }
+\newlabel{sec:logs_instrumentacao}{{3.5.1}{22}{Registros gerados pela instrumentação}{subsection.3.5.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Arquivos de \textit  {log} gerados pela instrumentação, por \textit  {rank}~$p$.}}{23}{table.3.1}\protected@file@percent }
+\newlabel{tab:logs_instrumentacao}{{3.1}{23}{Arquivos de \textit {log} gerados pela instrumentação, por \textit {rank}~$p$}{table.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}Tempo de computação}{23}{subsection.3.5.2}\protected@file@percent }
+\newlabel{sec:metrica_computacao}{{3.5.2}{23}{Tempo de computação}{subsection.3.5.2}{}}
+\citation{mpiioCite}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}Tempo de coordenação MPI}{24}{subsection.3.5.3}\protected@file@percent }
+\newlabel{sec:metrica_coordenacao}{{3.5.3}{24}{Tempo de coordenação MPI}{subsection.3.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.4}Tempo total de E/S}{24}{subsection.3.5.4}\protected@file@percent }
+\newlabel{sec:metrica_io_total}{{3.5.4}{24}{Tempo total de E/S}{subsection.3.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.5}Tempo de bloqueio na transferência dos blocos de dados}{24}{subsection.3.5.5}\protected@file@percent }
+\newlabel{sec:metrica_bloqueio}{{3.5.5}{24}{Tempo de bloqueio na transferência dos blocos de dados}{subsection.3.5.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.6}Banda agregada média percebida pela aplicação}{25}{subsection.3.5.6}\protected@file@percent }
+\newlabel{sec:metrica_banda_percebida}{{3.5.6}{25}{Banda agregada média percebida pela aplicação}{subsection.3.5.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Banda percebida \textit  {versus} banda agregada real.}{26}{section*.6}\protected@file@percent }
 \citation{Rwe:99,Phrrbrw:09}
 \citation{Amdahl:67}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Avaliações}{26}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Avaliações}{28}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cap:avaliacoes}{{4}{26}{Avaliações}{chapter.4}{}}
+\newlabel{cap:avaliacoes}{{4}{28}{Avaliações}{chapter.4}{}}
 \citation{Rwe:99,Phrrbrw:09}
 \citation{intel:23,aws:24}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{27}{figure.4.1}\protected@file@percent }
-\newlabel{fig:histograma_mensagens}{{4.1}{27}{Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica}{figure.4.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Experimento AWS}{27}{section.4.1}\protected@file@percent }
-\newlabel{sec:exp_aws}{{4.1}{27}{Experimento AWS}{section.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{28}{subsection.4.1.1}\protected@file@percent }
-\newlabel{sec:aws_atual}{{4.1.1}{28}{Avaliação da implementação atual}{subsection.4.1.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit  {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós.}}{29}{table.4.1}\protected@file@percent }
-\newlabel{tab:central_aws}{{4.1}{29}{Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós}{table.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes}{29}{subsection.4.1.2}\protected@file@percent }
-\newlabel{sec:aws_mpiio}{{4.1.2}{29}{Avaliação da implementação MPI-IO com escritas independentes}{subsection.4.1.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, coordenação, tempo total, \textit  {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós.}}{30}{table.4.2}\protected@file@percent }
-\newlabel{tab:mpiio_aws}{{4.2}{30}{Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, coordenação, tempo total, \textit {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós}{table.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Análise comparativa}{30}{subsection.4.1.3}\protected@file@percent }
-\newlabel{sec:avaliacao_comparativa_aws}{{4.1.3}{30}{Análise comparativa}{subsection.4.1.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Resumo comparativo entre a implementação atual e MPI-IO no Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora.}}{30}{table.4.3}\protected@file@percent }
-\newlabel{tab:comparativo_aws}{{4.3}{30}{Resumo comparativo entre a implementação atual e MPI-IO no Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora}{table.4.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média percebida pela aplicação no Experimento AWS.}}{32}{figure.4.2}\protected@file@percent }
-\newlabel{fig:Banda_AWS}{{4.2}{32}{Banda agregada média percebida pela aplicação no Experimento AWS}{figure.4.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Tempo de execução no Experimento AWS.}}{34}{figure.4.3}\protected@file@percent }
-\newlabel{fig:Tempo_execucao_AWS}{{4.3}{34}{Tempo de execução no Experimento AWS}{figure.4.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}}{35}{figure.4.4}\protected@file@percent }
-\newlabel{fig:EnvioPorTamanho_AWS}{{4.4}{35}{Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica)}{figure.4.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Avaliação do impacto do número de OSTs}{35}{subsection.4.1.4}\protected@file@percent }
-\newlabel{sec:exp_osts}{{4.1.4}{35}{Avaliação do impacto do número de OSTs}{subsection.4.1.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs.}}{37}{figure.4.5}\protected@file@percent }
-\newlabel{fig:Experimento_OSTs}{{4.5}{37}{Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs}{figure.4.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Banda agregada média percebida pela aplicação na implementação MPI-IO para configurações com 4 e 10~OSTs em 16 e 32~nós.}}{38}{figure.4.6}\protected@file@percent }
-\newlabel{fig:Experimento_OSTs_banda}{{4.6}{38}{Banda agregada média percebida pela aplicação na implementação MPI-IO para configurações com 4 e 10~OSTs em 16 e 32~nós}{figure.4.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Experimento SDumont}{38}{section.4.2}\protected@file@percent }
-\newlabel{sec:exp_sdumont}{{4.2}{38}{Experimento SDumont}{section.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{39}{subsection.4.2.1}\protected@file@percent }
-\newlabel{sec:sdumont_atual}{{4.2.1}{39}{Avaliação da implementação atual}{subsection.4.2.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S e comunicação. A eficiência é calculada em relação à base de 2~nós.}}{39}{table.4.4}\protected@file@percent }
-\newlabel{tab:central_sdumont}{{4.4}{39}{Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S e comunicação. A eficiência é calculada em relação à base de 2~nós}{table.4.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO com escritas independentes}{40}{subsection.4.2.2}\protected@file@percent }
-\newlabel{sec:sdumont_mpiio}{{4.2.2}{40}{Avaliação da implementação MPI-IO com escritas independentes}{subsection.4.2.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Desempenho do Experimento SDumont com a implementação MPI-IO. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S, comunicação e Coordenação MPI-IO. A eficiência é calculada em relação à base de 2~nós.}}{40}{table.4.5}\protected@file@percent }
-\newlabel{tab:mpiio_sdumont}{{4.5}{40}{Desempenho do Experimento SDumont com a implementação MPI-IO. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S, comunicação e Coordenação MPI-IO. A eficiência é calculada em relação à base de 2~nós}{table.4.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{40}{subsection.4.2.3}\protected@file@percent }
-\newlabel{sec:avaliacao_comparativa_sdumont}{{4.2.3}{40}{Análise comparativa}{subsection.4.2.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Resumo comparativo entre a implementação atual e MPI-IO no Experimento SDumont. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora.}}{41}{table.4.6}\protected@file@percent }
-\newlabel{tab:comparativo_sdumont}{{4.6}{41}{Resumo comparativo entre a implementação atual e MPI-IO no Experimento SDumont. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora}{table.4.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Banda agregada média percebida pela aplicação nas implementações atual e MPI-IO no Experimento SDumont.}}{42}{figure.4.7}\protected@file@percent }
-\newlabel{fig:Banda_SDumont}{{4.7}{42}{Banda agregada média percebida pela aplicação nas implementações atual e MPI-IO no Experimento SDumont}{figure.4.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{43}{figure.4.8}\protected@file@percent }
-\newlabel{fig:Tempo_execucao_SDumont}{{4.8}{43}{Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont}{figure.4.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{45}{figure.4.9}\protected@file@percent }
-\newlabel{fig:EnvioPorTamanho_SDumont}{{4.9}{45}{Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica)}{figure.4.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Síntese das avaliações}{46}{section.4.3}\protected@file@percent }
-\newlabel{sec:sintese_avaliacoes}{{4.3}{46}{Síntese das avaliações}{section.4.3}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{48}{chapter.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{29}{figure.4.1}\protected@file@percent }
+\newlabel{fig:histograma_mensagens}{{4.1}{29}{Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica}{figure.4.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Experimento AWS}{29}{section.4.1}\protected@file@percent }
+\newlabel{sec:exp_aws}{{4.1}{29}{Experimento AWS}{section.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{30}{subsection.4.1.1}\protected@file@percent }
+\newlabel{sec:aws_atual}{{4.1.1}{30}{Avaliação da implementação atual}{subsection.4.1.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit  {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós.}}{31}{table.4.1}\protected@file@percent }
+\newlabel{tab:central_aws}{{4.1}{31}{Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós}{table.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes}{31}{subsection.4.1.2}\protected@file@percent }
+\newlabel{sec:aws_mpiio}{{4.1.2}{31}{Avaliação da implementação MPI-IO com escritas independentes}{subsection.4.1.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, coordenação, tempo total, \textit  {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós.}}{32}{table.4.2}\protected@file@percent }
+\newlabel{tab:mpiio_aws}{{4.2}{32}{Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, coordenação, tempo total, \textit {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós}{table.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Análise comparativa}{32}{subsection.4.1.3}\protected@file@percent }
+\newlabel{sec:avaliacao_comparativa_aws}{{4.1.3}{32}{Análise comparativa}{subsection.4.1.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Resumo comparativo entre a implementação atual e MPI-IO no Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora.}}{32}{table.4.3}\protected@file@percent }
+\newlabel{tab:comparativo_aws}{{4.3}{32}{Resumo comparativo entre a implementação atual e MPI-IO no Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora}{table.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média percebida pela aplicação no Experimento AWS.}}{34}{figure.4.2}\protected@file@percent }
+\newlabel{fig:Banda_AWS}{{4.2}{34}{Banda agregada média percebida pela aplicação no Experimento AWS}{figure.4.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Tempo de execução no Experimento AWS.}}{36}{figure.4.3}\protected@file@percent }
+\newlabel{fig:Tempo_execucao_AWS}{{4.3}{36}{Tempo de execução no Experimento AWS}{figure.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}}{37}{figure.4.4}\protected@file@percent }
+\newlabel{fig:EnvioPorTamanho_AWS}{{4.4}{37}{Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica)}{figure.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Avaliação do impacto do número de OSTs}{37}{subsection.4.1.4}\protected@file@percent }
+\newlabel{sec:exp_osts}{{4.1.4}{37}{Avaliação do impacto do número de OSTs}{subsection.4.1.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs.}}{39}{figure.4.5}\protected@file@percent }
+\newlabel{fig:Experimento_OSTs}{{4.5}{39}{Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs}{figure.4.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Banda agregada média percebida pela aplicação na implementação MPI-IO para configurações com 4 e 10~OSTs em 16 e 32~nós.}}{40}{figure.4.6}\protected@file@percent }
+\newlabel{fig:Experimento_OSTs_banda}{{4.6}{40}{Banda agregada média percebida pela aplicação na implementação MPI-IO para configurações com 4 e 10~OSTs em 16 e 32~nós}{figure.4.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Experimento SDumont}{40}{section.4.2}\protected@file@percent }
+\newlabel{sec:exp_sdumont}{{4.2}{40}{Experimento SDumont}{section.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{41}{subsection.4.2.1}\protected@file@percent }
+\newlabel{sec:sdumont_atual}{{4.2.1}{41}{Avaliação da implementação atual}{subsection.4.2.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S e comunicação. A eficiência é calculada em relação à base de 2~nós.}}{41}{table.4.4}\protected@file@percent }
+\newlabel{tab:central_sdumont}{{4.4}{41}{Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S e comunicação. A eficiência é calculada em relação à base de 2~nós}{table.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO com escritas independentes}{42}{subsection.4.2.2}\protected@file@percent }
+\newlabel{sec:sdumont_mpiio}{{4.2.2}{42}{Avaliação da implementação MPI-IO com escritas independentes}{subsection.4.2.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Desempenho do Experimento SDumont com a implementação MPI-IO. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S, comunicação e Coordenação MPI-IO. A eficiência é calculada em relação à base de 2~nós.}}{42}{table.4.5}\protected@file@percent }
+\newlabel{tab:mpiio_sdumont}{{4.5}{42}{Desempenho do Experimento SDumont com a implementação MPI-IO. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S, comunicação e Coordenação MPI-IO. A eficiência é calculada em relação à base de 2~nós}{table.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{42}{subsection.4.2.3}\protected@file@percent }
+\newlabel{sec:avaliacao_comparativa_sdumont}{{4.2.3}{42}{Análise comparativa}{subsection.4.2.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Resumo comparativo entre a implementação atual e MPI-IO no Experimento SDumont. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora.}}{43}{table.4.6}\protected@file@percent }
+\newlabel{tab:comparativo_sdumont}{{4.6}{43}{Resumo comparativo entre a implementação atual e MPI-IO no Experimento SDumont. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora}{table.4.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Banda agregada média percebida pela aplicação nas implementações atual e MPI-IO no Experimento SDumont.}}{44}{figure.4.7}\protected@file@percent }
+\newlabel{fig:Banda_SDumont}{{4.7}{44}{Banda agregada média percebida pela aplicação nas implementações atual e MPI-IO no Experimento SDumont}{figure.4.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{45}{figure.4.8}\protected@file@percent }
+\newlabel{fig:Tempo_execucao_SDumont}{{4.8}{45}{Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont}{figure.4.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{47}{figure.4.9}\protected@file@percent }
+\newlabel{fig:EnvioPorTamanho_SDumont}{{4.9}{47}{Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica)}{figure.4.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Síntese das avaliações}{48}{section.4.3}\protected@file@percent }
+\newlabel{sec:sintese_avaliacoes}{{4.3}{48}{Síntese das avaliações}{section.4.3}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{50}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cap:trabalhos_relacionados}{{5}{48}{Trabalhos relacionados}{chapter.5}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{49}{chapter.6}\protected@file@percent }
+\newlabel{cap:trabalhos_relacionados}{{5}{50}{Trabalhos relacionados}{chapter.5}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{51}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cap:conclusao}{{6}{49}{Conclusões e trabalhos futuros}{chapter.6}{}}
+\newlabel{cap:conclusao}{{6}{51}{Conclusões e trabalhos futuros}{chapter.6}{}}
 \bibstyle{coppe-unsrt}
 \bibdata{bibliografy}
-\newlabel{bib:begin}{{}{50}{}{page.50}{}}
+\newlabel{bib:begin}{{}{52}{}{page.52}{}}
 \bibcite{Kang:20}{{1}{2020}{{\MakeUppercase    []{Kang}\emph  { et~al.}}}{{Kang, Lee, Hou, Ross, Agrawal, Choudhary, e Liao}}}
 \bibcite{Luu:15}{{2}{2015}{{\MakeUppercase    []{Luu}\emph  { et~al.}}}{{Luu, Winslett, Gropp, Ross, Carns, Harms, Prabhat, Byna, e Yao}}}
 \bibcite{Xie:20}{{3}{2020}{{\MakeUppercase    []{Xie}\emph  { et~al.}}}{{Xie, Oral, Zimmer, Choi, Dillow, Klasky, Lofstead, Podhorszki, e Chase}}}
@@ -174,14 +180,14 @@
 \bibcite{Ajc:10}{{6}{2010}{{\MakeUppercase    []{Conejo}\emph  { et~al.}}}{{Conejo, Carri\'on, e Morales}}}
 \bibcite{Ssr:19}{{7}{2020}{{\MakeUppercase    []{Zakaria}\emph  { et~al.}}}{{Zakaria, Ismail, Lipu, e Hannan}}}
 \bibcite{MvLm:91}{{8}{1991}{{\MakeUppercase    []{Pereira} e \MakeUppercase    []{Pinto}}}{{Pereira e Pinto}}}
-\bibcite{mpiCite}{{9}{2023}{{\MakeUppercase    []{{Message Passing Interface Forum}}}}{{Message Passing Interface Forum}}}
-\@writefile{toc}{\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{50}{chapter*.7}\protected@file@percent }
-\bibcite{mpiioCite}{{10}{1997}{{\MakeUppercase    []{{Message Passing Interface Forum}}}}{{Message Passing Interface Forum}}}
-\bibcite{Wea:99}{{11}{1999}{{\MakeUppercase    []{Gropp}\emph  { et~al.}}}{{Gropp, Lusk, e Skjellum}}}
-\bibcite{Rrw:05}{{12}{2005}{{\MakeUppercase    []{Thakur}\emph  { et~al.}}}{{Thakur, Rabenseifner, e Gropp}}}
-\bibcite{Rr:10}{{13}{2010}{{\MakeUppercase    []{Ross}\emph  { et~al.}}}{{Ross, Thakur, e Gropp}}}
-\bibcite{Wre:99}{{14}{1999{a}}{{\MakeUppercase    []{Thakur}\emph  { et~al.}}}{{Thakur, Gropp, e Lusk}}}
-\bibcite{Cirne:2003}{{15}{2003}{{\MakeUppercase    []{Cirne}\emph  { et~al.}}}{{Cirne, Brasileiro, Sauv\'e, Andrade, Paranhos, Santos-Neto, e Medeiros}}}
+\bibcite{Cirne:2003}{{9}{2003}{{\MakeUppercase    []{Cirne}\emph  { et~al.}}}{{Cirne, Brasileiro, Sauv\'e, Andrade, Paranhos, Santos-Neto, e Medeiros}}}
+\@writefile{toc}{\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{52}{chapter*.7}\protected@file@percent }
+\bibcite{mpiCite}{{10}{2023}{{\MakeUppercase    []{{Message Passing Interface Forum}}}}{{Message Passing Interface Forum}}}
+\bibcite{mpiioCite}{{11}{1997}{{\MakeUppercase    []{{Message Passing Interface Forum}}}}{{Message Passing Interface Forum}}}
+\bibcite{Wea:99}{{12}{1999}{{\MakeUppercase    []{Gropp}\emph  { et~al.}}}{{Gropp, Lusk, e Skjellum}}}
+\bibcite{Rrw:05}{{13}{2005}{{\MakeUppercase    []{Thakur}\emph  { et~al.}}}{{Thakur, Rabenseifner, e Gropp}}}
+\bibcite{Rr:10}{{14}{2010}{{\MakeUppercase    []{Ross}\emph  { et~al.}}}{{Ross, Thakur, e Gropp}}}
+\bibcite{Wre:99}{{15}{1999{a}}{{\MakeUppercase    []{Thakur}\emph  { et~al.}}}{{Thakur, Gropp, e Lusk}}}
 \bibcite{Pjb:02}{{16}{2002}{{\MakeUppercase    []{Braam}}}{{Braam}}}
 \bibcite{Fds:03}{{17}{2003}{{\MakeUppercase    []{Petrini}\emph  { et~al.}}}{{Petrini, Kerbyson, e Pakin}}}
 \bibcite{RlGmmts:05}{{18}{2005}{{\MakeUppercase    []{Graham}\emph  { et~al.}}}{{Graham, Shipman, Barrett, Castain, Bosilca, e Lumsdaine}}}
@@ -193,8 +199,8 @@
 \bibcite{Amdahl:67}{{24}{1967}{{\MakeUppercase    []{Amdahl}}}{{Amdahl}}}
 \bibcite{intel:23}{{25}{2023}{{\MakeUppercase    []{{Intel Corporation}}}}{{Intel Corporation}}}
 \bibcite{aws:24}{{26}{2024}{{\MakeUppercase    []{{Amazon Web Services}}}}{{Amazon Web Services}}}
-\newlabel{bib:end}{{}{52}{}{page.52}{}}
-\newlabel{LastPage}{{6}{52}{Conclusões e trabalhos futuros}{page.52}{}}
-\gdef\lastpage@lastpage{52}
-\gdef\lastpage@lastpageHy{52}
-\gdef \@abspage@last{65}
+\newlabel{bib:end}{{}{54}{}{page.54}{}}
+\newlabel{LastPage}{{6}{54}{Conclusões e trabalhos futuros}{page.54}{}}
+\gdef\lastpage@lastpage{54}
+\gdef\lastpage@lastpageHy{54}
+\gdef \@abspage@last{67}

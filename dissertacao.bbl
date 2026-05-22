@@ -71,6 +71,13 @@
   Planning}, \emph{Mathematical Programming}, v.~52, n. 1--3, \penalty0
   pp.~359--375, 1991.
 
+\bibitem[\MakeUppercase{Cirne}\emph{ et~al.}(2003)Cirne, Brasileiro, Sauv\'e,
+  Andrade, Paranhos, Santos-Neto, e Medeiros]{Cirne:2003}
+\MakeUppercase{Cirne, W., Brasileiro, F., Sauv\'e, J., \MakeLowercase{et~al.}}
+\newblock \coppeenquote{Grid Computing for Bag of Tasks Applications}. In:
+  \emph{Proceedings of the 3rd IFIP Conference on E-Commerce, E-Business and
+  E-Government (I3E)}, 2003.
+
 \bibitem[\MakeUppercase{{Message Passing Interface Forum}}(2023){Message
   Passing Interface Forum}]{mpiCite}
 \MakeUppercase{{Message Passing Interface Forum}}.
@@ -112,13 +119,6 @@
 \newblock \coppeenquote{Data Sieving and Collective {I/O} in {ROMIO}}. In:
   \emph{Proceedings of the 7th Symposium on the Frontiers of Massively Parallel
   Computation}, pp. 182--189, 1999{\natexlab{a}}.
-
-\bibitem[\MakeUppercase{Cirne}\emph{ et~al.}(2003)Cirne, Brasileiro, Sauv\'e,
-  Andrade, Paranhos, Santos-Neto, e Medeiros]{Cirne:2003}
-\MakeUppercase{Cirne, W., Brasileiro, F., Sauv\'e, J., \MakeLowercase{et~al.}}
-\newblock \coppeenquote{Grid Computing for Bag of Tasks Applications}. In:
-  \emph{Proceedings of the 3rd IFIP Conference on E-Commerce, E-Business and
-  E-Government (I3E)}, 2003.
 
 \bibitem[\MakeUppercase{Braam}(2002)Braam]{Pjb:02}
 \MakeUppercase{Braam, P.~J.}

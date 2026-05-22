@@ -6,48 +6,178 @@
 \abbrev{E/S}{Entrada/Saída}
 \abbrev{SDDP}{Stochastic Dual Dynamic Programming}
 
-O aumento da complexidade e do volume de dados em aplicações científicas e
-de engenharia tem tornado a computação paralela uma ferramenta indispensável
-para atender às demandas de desempenho~\cite{Kang:20}. Entretanto,
-operações de entrada e saída (E/S) continuam sendo um dos principais gargalos
-em ambientes de alto desempenho (HPC), particularmente em aplicações que
-processam dados massivos~\cite{Luu:15, Xie:20}. Nesse contexto, o uso de
-bibliotecas como o MPI-IO, combinadas com sistemas de arquivos paralelos como
-o Lustre, tornou-se uma abordagem fundamental para lidar com a escalabilidade
-e a eficiência no acesso aos dados~\cite{mpi50Cite, LustreManual}.
+\section{Contexto}
 
-Paralelamente, a crescente inserção de fontes renováveis na matriz
-energética, como solar e eólica, tem introduzido novas dificuldades na
-formulação e resolução de problemas de otimização associados à operação dos
-sistemas elétricos. A variabilidade e incerteza dessas fontes requerem
-modelos computacionais mais complexos e dependentes de grandes volumes de
-dados, cuja execução eficiente depende tanto do paralelismo computacional
-quanto de soluções eficazes de E/S~\cite{Ajc:10, Ssr:19}.
+A computação de alto desempenho (do inglês \textit{High-Performance
+Computing} --- HPC) tornou-se ferramenta indispensável para
+aplicações científicas e de engenharia que processam volumes
+crescentes de dados~\cite{Kang:20}. Em ambientes HPC modernos, o
+desempenho global de uma aplicação não depende apenas da capacidade
+computacional dos processadores, mas também da eficiência das
+operações de entrada e saída (E/S), que frequentemente se
+constituem como um dos principais gargalos da execução paralela em
+larga escala~\cite{Luu:15, Xie:20}. À medida que o número de nós
+computacionais cresce, requisições concorrentes ao sistema de
+arquivos, contenção sobre adaptadores de rede e custos de
+coordenação entre processos passam a limitar a escalabilidade
+efetiva da aplicação, mesmo quando há paralelismo computacional
+disponível.
 
-\textcolor{red}{\textbf{ToDp: precisamos expandir esse parágrafo, explicar o
-que implica essa mudança de paradigma na simulação tanto para o uso de
-recursos computacionais como para o uso dos resultados pelos usuários do
-SDDP.}}
+Para enfrentar esse desafio, o padrão \textit{Message Passing
+Interface} (MPI), tradicionalmente empregado na coordenação entre
+processos em aplicações HPC, foi estendido a partir do MPI-2 com a
+especificação MPI-IO, que provê primitivas para acesso paralelo a
+arquivos compartilhados~\cite{mpi50Cite}. Combinada a sistemas de
+arquivos paralelos como o Lustre --- amplamente adotado em
+supercomputadores listados no TOP500 ---, a MPI-IO permite que
+múltiplos processos gravem simultaneamente em regiões distintas de
+um mesmo arquivo, distribuindo a carga de E/S entre vários
+\textit{Object Storage Targets} (OSTs) e contornando os gargalos
+típicos de arquiteturas com escritor centralizado~\cite{LustreManual}.
 
-Assim como outras aplicações baseadas em tarefas independentes, o modelo
-SDDP (\textit{Stochastic Dual Dynamic Programming}) é amplamente utilizado
-para planejamento e despacho hidrotérmico em diversos países. À medida que
-os modelos se tornam mais detalhados, em resolução horária, e a quantidade
-de cenários aumenta, a execução do SDDP passa a demandar não apenas alto
-poder computacional, mas também operações intensivas de E/S~\cite{MvLm:91}.
+Esse cenário é especialmente relevante para aplicações que combinam
+alto poder de computação paralela com produção intensiva de
+resultados, como ocorre nas ferramentas de planejamento da operação
+de sistemas elétricos. A crescente inserção de fontes renováveis
+intermitentes --- solar e eólica --- tem aumentado a complexidade
+dos modelos de despacho hidrotérmico e ampliado os volumes de
+dados produzidos, exigindo dessas aplicações tanto desempenho
+computacional quanto soluções eficazes de
+E/S~\cite{Ajc:10, Ssr:19}.
 
-Nesse contexto, esta dissertação investiga o desempenho do MPI-IO sobre
-sistemas de arquivos paralelos como o Lustre nessa classe de aplicações,
-com foco no comportamento da E/S em ambientes HPC.
+\section{Motivação}
 
-Esta dissertação concentra-se na fase de simulação final do SDDP ---
-etapa executada após a convergência da política de operação, na qual um
-conjunto fixo de cortes de Benders é avaliado em larga escala sobre
-múltiplos cenários para produzir os resultados operacionais entregues ao
-planejamento. As escolhas algorítmicas relacionadas à construção da
-política (fase iterativa de geração de cortes) estão fora do escopo
-deste trabalho.
+O algoritmo \textit{Stochastic Dual Dynamic Programming}
+(SDDP)~\cite{MvLm:91} é amplamente utilizado para o planejamento e
+despacho hidrotérmico em sistemas elétricos. No Brasil, o Sistema
+Interligado Nacional (SIN) é operado pelo Operador Nacional do
+Sistema Elétrico (ONS), que utiliza o SDDP no contexto do Programa
+Mensal da Operação (PMO) para projetar a operação eletroenergética
+dos meses seguintes. O algoritmo decompõe o problema em uma malha
+bidimensional de subproblemas indexados por estágio e cenário; a
+fase de simulação final --- etapa em que a política já convergida
+é avaliada em larga escala sobre um conjunto amplo de cenários ---
+é naturalmente paralela, pois os cenários são mutuamente
+independentes e podem ser distribuídos entre processos MPI segundo
+o padrão \textit{bag-of-tasks}~\cite{Cirne:2003}.
 
-\textcolor{red}{\textbf{ToDp: Apresentar organização da dissertação ao final
-da introdução (capítulos 2--5).}}
+A transição da operação programada para resolução horária,
+motivada pela necessidade de capturar adequadamente horários de
+ponta, vales e rampas associados à variabilidade das fontes
+intermitentes, multiplica em uma ordem de grandeza o volume de
+dados produzido por cenário e estágio. Nesse regime, o tempo de
+execução do SDDP deixa de ser dominado exclusivamente pela
+computação e passa a ser fortemente influenciado pelas operações
+de E/S associadas à persistência dos resultados. A arquitetura
+atual do SDDP concentra todas essas operações em um único
+processo escritor: cada cenário resolvido tem seu bloco de
+resultados enviado, via \texttt{MPI\_Send}, ao processo escritor,
+que serializa as gravações em disco. Essa estratégia introduz dois
+gargalos potenciais. O primeiro é o adaptador de rede do nó
+escritor, que recebe todas as transferências concorrentes dos
+processos trabalhadores. O segundo é o próprio caminho de escrita,
+serializado em um único processo, que não aproveita o paralelismo
+do sistema de arquivos subjacente.
 
+Esses gargalos são acentuados pela expansão dos ambientes
+computacionais utilizados no planejamento energético. Além de
+supercomputadores tradicionais, como o Santos Dumont, do
+Laboratório Nacional de Computação Científica (LNCC), surge a
+alternativa da computação em nuvem, em particular a Amazon Web
+Services (AWS), que oferece serviços como o FSx for Lustre
+dedicados a cargas HPC. A portabilidade do SDDP entre esses
+ambientes torna ainda mais relevante o entendimento e a mitigação
+dos gargalos de E/S, já que cada plataforma impõe características
+distintas de hardware, rede e sistema de arquivos. Permanece em
+aberto, contudo, em que medida uma arquitetura de E/S baseada em
+escritas paralelas com MPI-IO sobre Lustre pode substituir o
+modelo com escritor único, sob quais condições os ganhos se
+materializam e como esses ganhos dependem da infraestrutura de
+armazenamento subjacente.
+
+\section{Objetivos e Contribuições}
+
+Esta dissertação propõe e avalia uma arquitetura paralela de E/S
+para o SDDP, baseada em escritas independentes com MPI-IO sobre o
+sistema de arquivos Lustre, com o objetivo de substituir a
+estratégia atual com processo escritor único e investigar os
+ganhos de desempenho e escalabilidade obtidos.
+
+\paragraph{Escopo.} O foco deste trabalho é a \emph{fase de
+simulação final} do SDDP --- etapa executada após a convergência
+da política de operação, em que um conjunto fixo de cortes de
+Benders é avaliado em larga escala sobre múltiplos cenários para
+produzir os resultados operacionais entregues ao planejamento.
+Mais especificamente, o estudo concentra-se na \emph{escrita dos
+resultados} dessa fase, em que se acumula o maior volume de
+dados produzido pela aplicação. Estão deliberadamente fora do
+escopo:
+\begin{itemize}
+  \item a fase iterativa de geração de cortes (construção da
+        política), incluindo suas escolhas algorítmicas;
+  \item a paralelização das operações de \emph{leitura} dos dados
+        de entrada, cujo volume é muito inferior ao da escrita
+        dos resultados horários e não constitui o gargalo
+        investigado;
+  \item eventuais melhorias no \emph{escalonamento} de tarefas
+        entre os \textit{ranks} MPI, mantido conforme a
+        estratégia \textit{bag-of-tasks} já existente no SDDP.
+\end{itemize}
+Essa delimitação permite isolar o impacto da paralelização das
+escritas como variável de estudo, sem confundir os ganhos
+observados com efeitos de outras frentes de otimização.
+
+As principais contribuições desta dissertação são:
+\begin{itemize}
+  \item Diagnóstico dos gargalos da arquitetura atual de E/S do
+        SDDP, com identificação do papel do processo escritor
+        único e dos limites impostos pelo adaptador de rede do nó
+        correspondente;
+
+  \item Proposta de uma arquitetura de E/S paralela baseada em
+        MPI-IO sobre Lustre, com escritas independentes por
+        processo em \textit{offsets} previamente calculados,
+        preservando o formato dos arquivos de resultado consumidos
+        pela cadeia de \textit{softwares} do planejamento da
+        operação;
+
+  \item Instrumentação detalhada das duas implementações com
+        métricas operacionalmente equivalentes, permitindo
+        comparação direta entre tempo de computação, tempo de
+        coordenação MPI, tempo de E/S, tempo de bloqueio e banda
+        agregada percebida pela aplicação;
+
+  \item Avaliação experimental comparativa em dois ambientes
+        distintos --- AWS com FSx for Lustre dedicado e Santos
+        Dumont com Lustre compartilhado ---, em configurações de
+        2 a 32 nós computacionais, identificando o regime em que
+        a arquitetura proposta supera a atual e a magnitude dos
+        ganhos obtidos;
+
+  \item Análise da influência do número de \textit{Object Storage
+        Targets} (OSTs) na escalabilidade da E/S paralela,
+        fornecendo orientações para o dimensionamento do sistema
+        de arquivos em \textit{deployments} futuros.
+\end{itemize}
+
+\section{Organização}
+
+No Capítulo~\ref{cap:fundamentacao} são introduzidos os principais
+conceitos necessários à compreensão desta dissertação: o padrão
+MPI e seus protocolos de comunicação, as operações paralelas de
+arquivos via MPI-IO, o sistema de arquivos paralelo Lustre, as
+características dos adaptadores de rede em HPC, o ambiente AWS
+para HPC, o Programa Mensal da Operação e o algoritmo SDDP,
+incluindo sua arquitetura atual de E/S. No
+Capítulo~\ref{cap:proposta} é detalhada a proposta de
+paralelização dos mecanismos de E/S do SDDP, com o modelo de
+execução, a implementação das escritas independentes, as
+considerações de configuração do Lustre e a instrumentação
+adotada. A descrição dos experimentos realizados nos ambientes
+AWS e Santos Dumont e a discussão dos resultados podem ser
+encontradas no Capítulo~\ref{cap:avaliacoes}. No
+Capítulo~\ref{cap:trabalhos_relacionados} são discutidos os
+trabalhos relacionados ao conteúdo desta dissertação.
+Finalmente, no Capítulo~\ref{cap:conclusao} são resumidos os
+principais resultados e apresentadas as conclusões, com as
+propostas de trabalhos futuros.
