@@ -443,10 +443,14 @@ contenção entre escritas concorrentes.
 \subsection{Banda agregada média percebida pela aplicação}
 \label{sec:metrica_banda_percebida}
 
-A banda agregada percebida pela aplicação é a métrica derivada que
-sintetiza, em uma única grandeza, o quanto da capacidade de E/S
-disponível a aplicação efetivamente consegue aproveitar ao longo da
-execução. É calculada a partir dos registros do \texttt{mpiio-\{p\}.log}
+Define-se, neste trabalho, como \textit{banda agregada percebida pela
+aplicação} a métrica derivada que sintetiza, em uma única grandeza,
+quanto da capacidade de E/S disponível a aplicação SDDP efetivamente
+consegue aproveitar sob seu modelo de execução. Não se trata de uma
+grandeza canônica do contexto HPC, e sim de uma construção operacional
+adotada aqui para tornar mensurável o efeito da paralelização das
+escritas sobre o fluxo da aplicação na comparação entre as duas
+implementações investigadas. É calculada a partir dos registros do \texttt{mpiio-\{p\}.log}
 particionando-se a fase de simulação em janelas de tempo de duração
 fixa~$\Delta$. Para cada janela $w$, computa-se a razão entre o volume
 total de dados gravados por todos os \textit{ranks} naquele intervalo e
@@ -470,9 +474,11 @@ realizadas para cada configuração, acompanhada do respectivo desvio
 padrão.
 
 \paragraph{Banda percebida \textit{versus} banda agregada real.} É
-fundamental destacar que essa métrica caracteriza a banda
-\textit{percebida pela aplicação} e não a \textit{banda agregada real}
-oferecida pelo sistema de arquivos paralelo. A banda agregada real
+fundamental destacar que essa métrica, tal como definida nesta seção,
+caracteriza a banda \textit{percebida pela aplicação} --- conceito
+construído para os fins deste trabalho --- e não a \textit{banda
+agregada real} oferecida pelo sistema de arquivos paralelo, esta sim
+grandeza canônica do contexto HPC. A banda agregada real
 corresponde ao débito máximo que o subsistema de armazenamento ---
 conjunto de OSTs, MDS, rede de interconexão e clientes Lustre --- é
 capaz de sustentar e seria tipicamente obtida por meio de ferramentas
@@ -498,9 +504,15 @@ consequência, a métrica captura especificamente a parcela de sobrecarga
 que se traduz em bloqueio do caminho de execução: custos internos da
 biblioteca MPI-IO, contenção entre OSTs ou sincronizações implícitas
 que sejam mascaradas pelo paralelismo das escritas assíncronas não
-aparecem na medida. É esperado, portanto, que a banda percebida seja
-inferior à banda agregada real do sistema de arquivos, mas a diferença
-reflete somente a sobrecarga efetivamente perceptível pela aplicação.
+aparecem na medida. É esperado, portanto, que a banda percebida possa
+\emph{superar} a banda agregada real do sistema de arquivos: a
+assincronia das escritas e o uso de \textit{buffers} internos da
+pilha MPI e do sistema operacional mascaram parte da latência física
+de persistência, de modo que o volume gravado é contabilizado no
+numerador antes que o tempo correspondente de transferência efetiva
+apareça no denominador. A métrica reporta, assim, a taxa efetiva com
+que a aplicação consegue submeter dados sob seu modelo de execução,
+e não a vazão sustentada pelo subsistema de armazenamento.
 
 A escolha por reportar a banda percebida está alinhada ao objetivo
 deste trabalho, que é avaliar quanto da capacidade disponível a
