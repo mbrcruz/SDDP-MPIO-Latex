@@ -91,8 +91,13 @@ coletivas: chamadas coletivas exigem que todos os \textit{ranks}
 participem conjuntamente da mesma operação de E/S, o que forçaria os
 processos mais rápidos a aguardar a chegada dos mais lentos a cada
 ponto coletivo, anulando parte do paralelismo ganho com a distribuição
-dinâmica e tornando a estratégia de escritas independentes mais
-aderente ao modelo de execução adotado.
+dinâmica. Em casos extremos, esse desencontro pode inclusive provocar
+\textit{deadlock}: se algum \textit{rank} já houver esgotado suas
+tarefas e abandonado o ciclo enquanto outros ainda possuem cenários a
+persistir, a chamada coletiva subsequente ficaria bloqueada
+indefinidamente, à espera de um participante que jamais chegaria.
+Por essas razões, a estratégia de escritas independentes mostra-se
+mais aderente ao modelo de execução adotado.
 
 Quando não há mais cenários a serem resolvidos, inicia-se uma nova
 etapa de coordenação MPI-IO, dessa vez associada ao fechamento coletivo
