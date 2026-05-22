@@ -23,7 +23,7 @@
 \contentsline {section}{\numberline {3.4}Considerações de configuração}{19}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Instrumentação}{19}{section.3.5}%
 \contentsline {subsection}{\numberline {3.5.1}Registros gerados pela instrumentação}{20}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Tempo de computação}{21}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.2}Tempo de computação}{20}{subsection.3.5.2}%
 \contentsline {subsection}{\numberline {3.5.3}Tempo de coordenação MPI}{21}{subsection.3.5.3}%
 \contentsline {subsection}{\numberline {3.5.4}Tempo total de E/S}{21}{subsection.3.5.4}%
 \contentsline {subsection}{\numberline {3.5.5}Tempo de bloqueio na transferência dos blocos de dados}{22}{subsection.3.5.5}%

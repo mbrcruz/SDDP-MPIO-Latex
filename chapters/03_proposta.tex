@@ -331,11 +331,6 @@ tamanho do bloco em \textit{bytes}. \\
 Um registro por operação coletiva de E/S, com tipo (\texttt{open} ou
 \texttt{close}), nome do arquivo e \textit{timestamps} de início e fim
 da chamada (\texttt{MPI\_File\_open} ou \texttt{MPI\_File\_close}). \\
-\texttt{mpiio-\{p\}-wait.log} &
-Tempo acumulado em que o \textit{rank}~$p$ permaneceu bloqueado
-aguardando a liberação dos \textit{slots} de \textit{buffer} utilizados
-pelas escritas assíncronas (\texttt{MPI\_Wait} obrigatório quando ambos
-os \textit{slots} estão ocupados). \\
 \texttt{sddptimer\{p\}.log} &
 Temporizadores internos do SDDP, em particular \texttt{Simulation} ---
 tempo total da fase de simulação --- e \texttt{Hourly simulation} ---
@@ -415,30 +410,30 @@ paralelização das escritas sobre o caminho de persistência.
 \subsection{Tempo de bloqueio na transferência dos blocos de dados}
 \label{sec:metrica_bloqueio}
 
-Restringe-se ao intervalo em que o \textit{rank} permanece efetivamente
-bloqueado aguardando a conclusão de uma transferência, sem condição de
-prosseguir com a execução subsequente. Na implementação proposta,
-essa parcela é registrada no \texttt{mpiio-\{p\}-wait.log} e
-corresponde, especificamente, ao tempo gasto em
-\texttt{MPI\_Wait} quando ambos os \textit{slots} do esquema de duplo
-\textit{buffer} adotado pela implementação se encontram ocupados ---
-único ponto em que o \textit{rank} é obrigado a aguardar a finalização
-de uma escrita assíncrona antes de submeter a próxima. Para escritas
-síncronas, o tempo de bloqueio coincide com a duração total da chamada
-\texttt{MPI\_File\_write\_at}, já contabilizada no tempo total de E/S.
+Corresponde ao tempo total, ao longo da execução, em que o
+\textit{rank} permaneceu impedido de progredir em razão das
+operações de envio dos blocos de dados para persistência. Em termos
+operacionais, é a soma dos intervalos das chamadas de transferência
+registrados no \texttt{mpiio-\{p\}.log}: na implementação proposta,
+as chamadas síncronas \texttt{MPI\_File\_write\_at}, em que o
+bloqueio coincide com a duração integral da chamada, e as chamadas
+assíncronas \texttt{MPI\_File\_iwrite\_at}, em que o bloqueio
+reduz-se ao tempo de despacho da operação, tipicamente desprezível.
+Na implementação atual, em que as transferências ocorrem por
+\texttt{MPI\_Send} até o \textit{rank} escritor, o intervalo
+bloqueante é a própria duração da chamada \texttt{MPI\_Send}.
 
-A separação entre tempo total de E/S e tempo de bloqueio é
-especialmente relevante na análise de granularidade dos blocos. Para
-blocos pequenos, predominam custos fixos de iniciação e coordenação;
-para blocos grandes, predomina o tempo efetivo de transferência. O
-tempo de bloqueio, ao isolar a parcela perceptível como atraso pela
-aplicação, é o que efetivamente limita a sobreposição entre a
-computação e as operações de escrita. Em uma execução bem dimensionada,
-espera-se que esse tempo seja baixo, indicando que a estratégia
-assíncrona conseguiu mascarar a latência do subsistema de armazenamento.
-Crescimentos sistemáticos do tempo de bloqueio em função do número de
-\textit{ranks} sugerem saturação dos recursos do sistema de arquivos ou
-contenção entre escritas concorrentes.
+O tempo de bloqueio, ao agregar todas as parcelas perceptíveis como
+atraso pela aplicação, é o que efetivamente limita a sobreposição
+entre a computação e as operações de escrita. Para blocos pequenos,
+predominam custos fixos de iniciação; para blocos grandes, predomina
+o tempo efetivo de transferência. Em uma execução bem dimensionada,
+espera-se que essa parcela seja baixa, indicando que a estratégia
+assíncrona e o paralelismo de escritas conseguiram mascarar a
+latência do subsistema de armazenamento. Crescimentos sistemáticos
+do tempo de bloqueio em função do número de \textit{ranks} sugerem
+saturação dos recursos do sistema de arquivos ou contenção entre
+escritas concorrentes.
 
 \subsection{Banda agregada média percebida pela aplicação}
 \label{sec:metrica_banda_percebida}
@@ -489,22 +484,19 @@ referência para o sistema de armazenamento, mas não é diretamente
 observável pela aplicação SDDP.
 
 A banda percebida, em contrapartida, mede o volume gravado em função do
-tempo em que a aplicação permanece efetivamente bloqueada nas operações
-de E/S. Para escritas síncronas (\texttt{MPI\_File\_write\_at}), o
-intervalo registrado no \texttt{mpiio-\{p\}.log} corresponde à duração
-integral da chamada, durante a qual o \textit{rank} fica impedido de
-prosseguir. Para escritas assíncronas (\texttt{MPI\_File\_iwrite\_at}),
-o intervalo registrado refere-se apenas ao despacho da operação ---
-tipicamente desprezível ---, de modo que escritas assíncronas
-bem-sucedidas não inflam o denominador. O tempo eventual de espera por
-\texttt{MPI\_Wait}, que ocorre apenas quando os \textit{slots} de duplo
-\textit{buffer} estão ocupados, é contabilizado separadamente
-(Seção~\ref{sec:metrica_bloqueio}) e não compõe a banda percebida. Em
-consequência, a métrica captura especificamente a parcela de sobrecarga
-que se traduz em bloqueio do caminho de execução: custos internos da
-biblioteca MPI-IO, contenção entre OSTs ou sincronizações implícitas
-que sejam mascaradas pelo paralelismo das escritas assíncronas não
-aparecem na medida. É esperado, portanto, que a banda percebida possa
+tempo de bloqueio das operações de envio dos blocos de dados, conforme
+definido na Seção~\ref{sec:metrica_bloqueio}. Para escritas síncronas
+(\texttt{MPI\_File\_write\_at}), o intervalo registrado no
+\texttt{mpiio-\{p\}.log} corresponde à duração integral da chamada,
+durante a qual o \textit{rank} fica impedido de prosseguir. Para
+escritas assíncronas (\texttt{MPI\_File\_iwrite\_at}), o intervalo
+registrado refere-se apenas ao despacho da operação --- tipicamente
+desprezível ---, de modo que escritas assíncronas bem-sucedidas não
+inflam o denominador. Em consequência, a métrica captura
+especificamente a parcela de sobrecarga que se traduz em bloqueio do
+caminho de execução: custos internos da biblioteca MPI-IO, contenção
+entre OSTs ou sincronizações implícitas que sejam mascaradas pelo
+paralelismo das escritas assíncronas não aparecem na medida. É esperado, portanto, que a banda percebida possa
 \emph{superar} a banda agregada real do sistema de arquivos: a
 assincronia das escritas e o uso de \textit{buffers} internos da
 pilha MPI e do sistema operacional mascaram parte da latência física
