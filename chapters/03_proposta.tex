@@ -79,6 +79,21 @@ resultado produzido. Concluída a persistência, o processo solicita uma
 nova tarefa ao distribuidor, repetindo esse ciclo enquanto houver
 cenários disponíveis.
 
+Como o tempo de resolução de cada cenário pode variar, a distribuição
+dinâmica de tarefas conduz a um desbalanceamento natural da carga de
+escrita entre os \textit{ranks} trabalhadores: alguns processos
+concluem --- e persistem --- mais cenários que outros ao longo da
+execução. Na Figura~\ref{fig:SDDP_timeline_MPIIO}, esse efeito aparece
+no \textit{rank}~2, que executa mais ciclos de simulação e escrita do
+que seus pares no mesmo intervalo. Esse desbalanceamento, intrínseco
+ao padrão \textit{bag-of-tasks}, dificulta a adoção de escritas
+coletivas: chamadas coletivas exigem que todos os \textit{ranks}
+participem conjuntamente da mesma operação de E/S, o que forçaria os
+processos mais rápidos a aguardar a chegada dos mais lentos a cada
+ponto coletivo, anulando parte do paralelismo ganho com a distribuição
+dinâmica e tornando a estratégia de escritas independentes mais
+aderente ao modelo de execução adotado.
+
 Quando não há mais cenários a serem resolvidos, inicia-se uma nova
 etapa de coordenação MPI-IO, dessa vez associada ao fechamento coletivo
 dos arquivos de resultado.
