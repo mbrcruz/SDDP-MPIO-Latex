@@ -78,18 +78,20 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Linha de tempo da simulação final do SDDP com MPI-IO, destacando o \textit  {rank}~0 como processo distribuidor.}}{18}{figure.3.2}\protected@file@percent }
 \newlabel{fig:SDDP_timeline_MPIIO}{{3.2}{18}{Linha de tempo da simulação final do SDDP com MPI-IO, destacando o \textit {rank}~0 como processo distribuidor}{figure.3.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Detalhes de implementação}{18}{section.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Formato dos resultados}{19}{subsection.3.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Formato lógico dos arquivos binários de resultado do SDDP.}}{19}{figure.3.3}\protected@file@percent }
-\newlabel{fig:formato_arquivos_resultado}{{3.3}{19}{Formato lógico dos arquivos binários de resultado do SDDP}{figure.3.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Implementação das escritas independentes}{20}{subsection.3.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Implementação das escritas independentes}{19}{subsection.3.3.1}\protected@file@percent }
+\newlabel{sec:escritas_independentes}{{3.3.1}{19}{Implementação das escritas independentes}{subsection.3.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Fluxo de decisão para escritas independentes com MPI-IO.}}{19}{figure.3.3}\protected@file@percent }
+\newlabel{fig:fluxo_escrita_independente}{{3.3}{19}{Fluxo de decisão para escritas independentes com MPI-IO}{figure.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Formato dos resultados}{20}{subsection.3.3.2}\protected@file@percent }
+\newlabel{sec:formato_resultados}{{3.3.2}{20}{Formato dos resultados}{subsection.3.3.2}{}}
 \citation{LustreManual}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Fluxo de decisão para escritas independentes com MPI-IO.}}{21}{figure.3.4}\protected@file@percent }
-\newlabel{fig:fluxo_escrita_independente}{{3.4}{21}{Fluxo de decisão para escritas independentes com MPI-IO}{figure.3.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Formato lógico dos arquivos binários de resultado do SDDP.}}{21}{figure.3.4}\protected@file@percent }
+\newlabel{fig:formato_arquivos_resultado}{{3.4}{21}{Formato lógico dos arquivos binários de resultado do SDDP}{figure.3.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.4}Considerações de configuração}{21}{section.3.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3.5}Instrumentação}{22}{section.3.5}\protected@file@percent }
 \newlabel{sec:instrumentacao}{{3.5}{22}{Instrumentação}{section.3.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Registros gerados pela instrumentação}{22}{subsection.3.5.1}\protected@file@percent }
-\newlabel{sec:logs_instrumentacao}{{3.5.1}{22}{Registros gerados pela instrumentação}{subsection.3.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Registros gerados pela instrumentação}{23}{subsection.3.5.1}\protected@file@percent }
+\newlabel{sec:logs_instrumentacao}{{3.5.1}{23}{Registros gerados pela instrumentação}{subsection.3.5.1}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Arquivos de \textit  {log} gerados pela instrumentação, por \textit  {rank}~$p$.}}{23}{table.3.1}\protected@file@percent }
 \newlabel{tab:logs_instrumentacao}{{3.1}{23}{Arquivos de \textit {log} gerados pela instrumentação, por \textit {rank}~$p$}{table.3.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}Tempo de computação}{23}{subsection.3.5.2}\protected@file@percent }
@@ -99,8 +101,8 @@
 \newlabel{sec:metrica_coordenacao}{{3.5.3}{24}{Tempo de \texttt {MPI\_File\_open}/\texttt {MPI\_File\_close}}{subsection.3.5.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.4}Tempo total de E/S}{24}{subsection.3.5.4}\protected@file@percent }
 \newlabel{sec:metrica_io_total}{{3.5.4}{24}{Tempo total de E/S}{subsection.3.5.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.5}Tempo de bloqueio na transferência dos blocos de dados}{24}{subsection.3.5.5}\protected@file@percent }
-\newlabel{sec:metrica_bloqueio}{{3.5.5}{24}{Tempo de bloqueio na transferência dos blocos de dados}{subsection.3.5.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.5}Tempo de bloqueio na transferência dos blocos de dados}{25}{subsection.3.5.5}\protected@file@percent }
+\newlabel{sec:metrica_bloqueio}{{3.5.5}{25}{Tempo de bloqueio na transferência dos blocos de dados}{subsection.3.5.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.6}Banda agregada média percebida pela aplicação}{25}{subsection.3.5.6}\protected@file@percent }
 \newlabel{sec:metrica_banda_percebida}{{3.5.6}{25}{Banda agregada média percebida pela aplicação}{subsection.3.5.6}{}}
 \@writefile{toc}{\contentsline {paragraph}{Banda percebida \textit  {versus} banda agregada real.}{26}{section*.7}\protected@file@percent }

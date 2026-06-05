@@ -437,13 +437,6 @@ INPUT .\figuras\SDDP_timeline_MPIIO.png
 INPUT .\figuras\SDDP_timeline_MPIIO.png
 INPUT .\figuras\SDDP_timeline_MPIIO.png
 INPUT .\figuras\SDDP_timeline_MPIIO.png
-INPUT .\figuras\formato_arquivos_resultado.png
-INPUT .\figuras\formato_arquivos_resultado.png
-INPUT .\figuras\formato_arquivos_resultado.png
-INPUT .\figuras\formato_arquivos_resultado.png
-INPUT .\figuras\formato_arquivos_resultado.png
-INPUT .\figuras\formato_arquivos_resultado.png
-INPUT .\figuras\formato_arquivos_resultado.png
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecti1095.tfm
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr10.tfm
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi10.tfm
@@ -452,6 +445,13 @@ INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmex10.tf
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt1095.tfm
+INPUT .\figuras\formato_arquivos_resultado.png
+INPUT .\figuras\formato_arquivos_resultado.png
+INPUT .\figuras\formato_arquivos_resultado.png
+INPUT .\figuras\formato_arquivos_resultado.png
+INPUT .\figuras\formato_arquivos_resultado.png
+INPUT .\figuras\formato_arquivos_resultado.png
+INPUT .\figuras\formato_arquivos_resultado.png
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt1440.tfm
 INPUT .\chapters\04_avaliacoes.tex
 INPUT .\chapters\04_avaliacoes.tex

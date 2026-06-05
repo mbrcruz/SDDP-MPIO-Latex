@@ -129,9 +129,88 @@ de simulação e restringindo as mudanças ao caminho de persistência dos
 resultados. Na prática, as rotinas MPI-IO são utilizadas para abrir os
 arquivos de resultado de forma compartilhada e permitir que cada processo
 grave diretamente os blocos produzidos pela simulação em posições previamente
-calculadas, conforme a organização lógica dos arquivos descrita a seguir.
+calculadas, conforme a organização lógica dos arquivos descrita na
+Seção~\ref{sec:formato_resultados}.
+
+\subsection{Implementação das escritas independentes}
+\label{sec:escritas_independentes}
+
+Como a simulação de cada cenário transcorre de forma independente,
+a abordagem baseada em MPI-IO permite que cada operação de escrita
+também seja independente: cada processo grava em um \textit{offset}
+específico, determinado pelo cenário resolvido, sem necessidade de
+sincronização explícita entre escritas concorrentes.
+
+A implementação adota escritas independentes de MPI-IO, combinando chamadas
+assíncronas e síncronas conforme o tamanho do bloco de dados. Para blocos
+menores que 128~KB, são utilizadas operações assíncronas, permitindo que o
+processo solicite a escrita e retome a execução sem aguardar imediatamente a
+conclusão da operação. Para blocos iguais ou superiores a 128~KB, são
+utilizadas operações síncronas, nas quais o processo aguarda a conclusão da
+escrita antes de prosseguir.
+
+Essa escolha fundamenta-se na distribuição real de escritas do SDDP:
+aproximadamente 87\% dos blocos gerados por cenário possuem tamanho
+inferior a 128~KB (Figura~\ref{fig:histograma_mensagens}), de modo que a
+grande maioria das operações segue o caminho assíncrono, mantendo os
+processos computacionais desbloqueados.
+
+A~Figura~\ref{fig:fluxo_escrita_independente} resume o fluxo de decisão
+adotado na implementação. Após o cálculo do \textit{offset} correspondente ao
+cenário, o tamanho do bloco determina a rotina de escrita utilizada: blocos
+menores que 128~KB seguem pelo caminho assíncrono, enquanto blocos iguais ou
+superiores a esse limite seguem pelo caminho síncrono.
+
+\begin{figure}[H]
+  \centering
+  \resizebox{0.95\textwidth}{!}{%
+  \begin{tikzpicture}[
+    font=\small,
+    box/.style={draw, minimum width=3.7cm, minimum height=0.9cm, align=center},
+    decision/.style={draw, minimum width=4.2cm, minimum height=1.0cm, align=center},
+    line/.style={->, thick}
+  ]
+    \node[box] (start) at (0,0) {Bloco de resultado\\do cenário};
+    \node[box] (offset) at (4.8,0) {Cálculo do\\\textit{offset}};
+    \node[decision] (test) at (9.8,0) {Tamanho do bloco\\$< 128$~KB?};
+
+    \node[box] (async) at (9.8,-2.0) {Sim\\Escrita assíncrona\\\texttt{MPI\_File\_iwrite\_at}};
+    \node[box] (sync) at (9.8,2.0) {Não\\Escrita síncrona\\\texttt{MPI\_File\_write\_at}};
+    \node[box] (file) at (15.0,0) {Arquivo de resultado\\compartilhado};
+
+    \draw[line] (start) -- (offset);
+    \draw[line] (offset) -- (test);
+    \draw[line] (test) -- (async);
+    \draw[line] (test) -- (sync);
+    \draw[line] (async) -| (file);
+    \draw[line] (sync) -| (file);
+  \end{tikzpicture}
+  }
+  \caption{Fluxo de decisão para escritas independentes com MPI-IO.}
+  \label{fig:fluxo_escrita_independente}
+\end{figure}
+
+Essa estratégia também facilita a comparação com a implementação atual. Como a
+arquitetura original já apresenta comportamento distinto para mensagens de
+tamanhos diferentes, separar os blocos pequenos e grandes na implementação
+MPI-IO permite avaliar a nova solução sob uma lógica compatível com o perfil
+de comunicação observado anteriormente, isolando melhor o impacto da mudança
+no mecanismo de escrita.
+
+Como cada cenário ocupa um \textit{offset} próprio em cada arquivo
+de resultado, elimina-se o risco de escritas concorrentes incidirem
+sobre uma mesma região. Essa propriedade constitui um benefício
+relevante da implementação proposta, pois dispensa o emprego de
+mecanismos de bloqueio (\textit{locks}) para assegurar a corretude
+das operações concorrentes. Na implementação, o \textit{offset} de cada
+escrita é calculado a partir da posição lógica do cenário no arquivo
+(conforme detalhado na Seção~\ref{sec:formato_resultados}),
+do tamanho do registro associado à combinação
+$(\text{estágio}, \text{cenário}, \text{hora})$ e da quantidade de
+elementos do sistema elétrico armazenados em cada registro.
 
 \subsection{Formato dos resultados}
+\label{sec:formato_resultados}
 
 A implementação proposta preserva o formato dos arquivos de resultado
 utilizado pelo SDDP. Essa decisão foi adotada para manter a compatibilidade
@@ -184,82 +263,6 @@ registrar apenas uma única hora, gerando blocos de dados ainda menores.
 Dessa forma,
 a estrutura física do sistema elétrico modelado influencia diretamente o volume
 de dados produzido e, consequentemente, o tamanho das escritas realizadas.
-
-\subsection{Implementação das escritas independentes}
-
-Como a simulação de cada cenário transcorre de forma independente,
-a abordagem baseada em MPI-IO permite que cada operação de escrita
-também seja independente: cada processo grava em um \textit{offset}
-específico, determinado pelo cenário resolvido, sem necessidade de
-sincronização explícita entre escritas concorrentes.
-
-A implementação adota escritas independentes de MPI-IO, combinando chamadas
-assíncronas e síncronas conforme o tamanho do bloco de dados. Para blocos
-menores que 128~KB, são utilizadas operações assíncronas, permitindo que o
-processo solicite a escrita e retome a execução sem aguardar imediatamente a
-conclusão da operação. Para blocos iguais ou superiores a 128~KB, são
-utilizadas operações síncronas, nas quais o processo aguarda a conclusão da
-escrita antes de prosseguir.
-
-Essa escolha fundamenta-se na distribuição real de escritas do SDDP:
-aproximadamente 87\% dos blocos gerados por cenário possuem tamanho
-inferior a 128~KB (Figura~\ref{fig:histograma_mensagens}), de modo que a
-grande maioria das operações segue o caminho assíncrono, mantendo os
-processos computacionais desbloqueados.
-
-
-A~Figura~\ref{fig:fluxo_escrita_independente} resume o fluxo de decisão
-adotado na implementação. Após o cálculo do \textit{offset} correspondente ao
-cenário, o tamanho do bloco determina a rotina de escrita utilizada: blocos
-menores que 128~KB seguem pelo caminho assíncrono, enquanto blocos iguais ou
-superiores a esse limite seguem pelo caminho síncrono.
-
-\begin{figure}[H]
-  \centering
-  \resizebox{0.95\textwidth}{!}{%
-  \begin{tikzpicture}[
-    font=\small,
-    box/.style={draw, minimum width=3.7cm, minimum height=0.9cm, align=center},
-    decision/.style={draw, minimum width=4.2cm, minimum height=1.0cm, align=center},
-    line/.style={->, thick}
-  ]
-    \node[box] (start) at (0,0) {Bloco de resultado\\do cenário};
-    \node[box] (offset) at (4.8,0) {Cálculo do\\\textit{offset}};
-    \node[decision] (test) at (9.8,0) {Tamanho do bloco\\$< 128$~KB?};
-
-    \node[box] (async) at (9.8,-2.0) {Sim\\Escrita assíncrona\\\texttt{MPI\_File\_iwrite\_at}};
-    \node[box] (sync) at (9.8,2.0) {Não\\Escrita síncrona\\\texttt{MPI\_File\_write\_at}};
-    \node[box] (file) at (15.0,0) {Arquivo de resultado\\compartilhado};
-
-    \draw[line] (start) -- (offset);
-    \draw[line] (offset) -- (test);
-    \draw[line] (test) -- (async);
-    \draw[line] (test) -- (sync);
-    \draw[line] (async) -| (file);
-    \draw[line] (sync) -| (file);
-  \end{tikzpicture}
-  }
-  \caption{Fluxo de decisão para escritas independentes com MPI-IO.}
-  \label{fig:fluxo_escrita_independente}
-\end{figure}
-
-Essa estratégia também facilita a comparação com a implementação atual. Como a
-arquitetura original já apresenta comportamento distinto para mensagens de
-tamanhos diferentes, separar os blocos pequenos e grandes na implementação
-MPI-IO permite avaliar a nova solução sob uma lógica compatível com o perfil
-de comunicação observado anteriormente, isolando melhor o impacto da mudança
-no mecanismo de escrita.
-
-Como cada cenário ocupa um \textit{offset} próprio em cada arquivo
-de resultado, elimina-se o risco de escritas concorrentes incidirem
-sobre uma mesma região. Essa propriedade constitui um benefício
-relevante da implementação proposta, pois dispensa o emprego de
-mecanismos de bloqueio (\textit{locks}) para assegurar a corretude
-das operações concorrentes. Na implementação, o \textit{offset} de cada
-escrita é calculado a partir da posição lógica do cenário no arquivo,
-do tamanho do registro associado à combinação
-$(\text{estágio}, \text{cenário}, \text{hora})$ e da quantidade de
-elementos do sistema elétrico armazenados em cada registro.
 
 \section{Considerações de configuração}
 

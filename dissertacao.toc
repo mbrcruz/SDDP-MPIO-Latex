@@ -23,15 +23,15 @@
 \contentsline {section}{\numberline {3.1}Visão geral da arquitetura}{15}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Modelo de execução}{16}{section.3.2}%
 \contentsline {section}{\numberline {3.3}Detalhes de implementação}{18}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Formato dos resultados}{19}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Implementação das escritas independentes}{20}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.1}Implementação das escritas independentes}{19}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Formato dos resultados}{20}{subsection.3.3.2}%
 \contentsline {section}{\numberline {3.4}Considerações de configuração}{21}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Instrumentação}{22}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Registros gerados pela instrumentação}{22}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.1}Registros gerados pela instrumentação}{23}{subsection.3.5.1}%
 \contentsline {subsection}{\numberline {3.5.2}Tempo de computação}{23}{subsection.3.5.2}%
 \contentsline {subsection}{\numberline {3.5.3}Tempo de \texttt {MPI\_File\_open}/\texttt {MPI\_File\_close}}{24}{subsection.3.5.3}%
 \contentsline {subsection}{\numberline {3.5.4}Tempo total de E/S}{24}{subsection.3.5.4}%
-\contentsline {subsection}{\numberline {3.5.5}Tempo de bloqueio na transferência dos blocos de dados}{24}{subsection.3.5.5}%
+\contentsline {subsection}{\numberline {3.5.5}Tempo de bloqueio na transferência dos blocos de dados}{25}{subsection.3.5.5}%
 \contentsline {subsection}{\numberline {3.5.6}Banda agregada média percebida pela aplicação}{25}{subsection.3.5.6}%
 \contentsline {paragraph}{Banda percebida \textit {versus} banda agregada real.}{26}{section*.7}%
 \contentsline {chapter}{\numberline {4}Avaliações}{28}{chapter.4}%
