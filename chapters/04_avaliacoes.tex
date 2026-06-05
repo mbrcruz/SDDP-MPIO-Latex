@@ -112,7 +112,7 @@ scaling} limitado pela E/S. A banda agregada degrada-se de 60{,}5~Gb/s
 em 2~nós para 3{,}4~Gb/s em 32~nós (mais de uma ordem de grandeza), e o
 percentual do tempo dedicado à E/S cresce de 0{,}34\% em 2~nós para
 49{,}51\% em 32~nós. Esses números são coerentes com o
-diagnóstico de que o adaptador de rede do nó escritor se torna ponto de
+diagnóstico de que a serialização no nó escritor se torna ponto de
 contenção à medida que aumenta o número de processos emissores
 concorrentes. Vale notar que a banda percebida em pequena escala
 (60{,}5~Gb/s em 2~nós) excede a capacidade nominal do adaptador de
@@ -121,8 +121,8 @@ consistente com a definição da métrica
 (Seção~\ref{sec:metrica_banda_percebida}): em 2~nós, os blocos são
 absorvidos com bloqueio mínimo pelos \textit{buffers} da pilha MPI e
 do sistema operacional, e o denominador da banda percebida fica
-reduzido. Conforme cresce o número de \textit{ranks} emissores, o NIC
-do escritor satura, os bloqueios se acumulam e a banda percebida
+reduzido. Conforme cresce o número de \textit{ranks} emissores, a serialização
+no nó escritor satura, os bloqueios se acumulam e a banda percebida
 converge para valores muito inferiores à capacidade nominal do
 adaptador --- exatamente o regime observado a partir de 8~nós.
 
@@ -141,7 +141,7 @@ número de nós, a fração de envios locais diminui rapidamente
 (aproximadamente um quarto em 4~nós, um oitavo em 8~nós e abaixo de
 6\% em 16~nós), e o comportamento da métrica passa a refletir
 predominantemente o tempo de bloqueio das transferências remotas,
-governadas pela saturação do NIC do escritor.
+governadas pela serialização no nó escritor.
 
 Na Tabela~\ref{tab:central_aws}, o tempo total corresponde ao tempo de
 execução medido, que inclui computação, E/S e comunicação. Os tempos de
@@ -302,7 +302,7 @@ escala completamente diferente da arquitetura baseada em escritor único.
 
 Essa diferença de comportamento decorre diretamente da eliminação do
 processo escritor único. Na arquitetura atual, todas as escritas
-convergem para o adaptador de rede de um único nó, que rapidamente se
+convergem para um único nó escritor, cuja serialização rapidamente se
 torna ponto de contenção e limita o \textit{throughput} global ---
 explicando a queda contínua da banda observada. Na abordagem MPI-IO, as operações de escrita são distribuídas entre os
 processos MPI, permitindo que múltiplos fluxos de dados sejam enviados
@@ -912,7 +912,7 @@ superior, pois o gargalo do escritor único ainda não saturou e o
 custo fixo da camada MPI-IO pesa em relação ao tempo total. A partir
 de 8~nós, o quadro de E/S se inverte: a banda agregada da
 implementação atual colapsa e satura, refletindo a contenção sobre
-o adaptador de rede do nó escritor, enquanto a MPI-IO exibe perfil
+a serialização no nó escritor, enquanto a MPI-IO exibe perfil
 monotonicamente crescente de banda. Esse contraste
 qualitativo de comportamento --- e não apenas o ganho pontual em uma
 ou outra escala --- é o resultado mais robusto deste capítulo.
