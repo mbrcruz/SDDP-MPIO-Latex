@@ -1,6 +1,6 @@
-PWD d:\Marcelo\Projetos\Latex
+PWD D:\Marcelo\Projetos\Latex
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT d:\Marcelo\Projetos\Latex\dissertacao.tex
+INPUT dissertacao.tex
 OUTPUT dissertacao.log
 INPUT .\coppe.cls
 INPUT coppe.cls
