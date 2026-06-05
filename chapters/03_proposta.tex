@@ -51,7 +51,7 @@ por meio das primitivas do MPI-IO~\cite{mpiioCite}.
 
 A~Figura~\ref{fig:SDDP_timeline_MPIIO} ilustra a linha do tempo da
 execução do SDDP segundo a arquitetura proposta. Essa representação
-destaca a separação entre os pontos de coordenação MPI-IO e o período
+destaca a separação entre as chamadas \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} e o período
 em que os processos executam, de forma independente, a simulação dos
 cenários e a escrita dos respectivos resultados. Com isso, evidencia-se
 que a coordenação global fica concentrada nas etapas de preparação e
@@ -66,7 +66,7 @@ esse motivo, sua linha é representada integralmente como comunicação.
 
 Antes do início do ciclo de tarefas, os processos participam de uma
 operação coletiva de abertura dos arquivos de resultado. Esse ponto de
-coordenação MPI-IO estabelece o estado compartilhado necessário às
+chamada \texttt{MPI\_File\_open} estabelece o estado compartilhado necessário às
 escritas independentes que se seguem.
 
 A partir desse momento, cada \textit{rank} trabalhador executa o ciclo
@@ -100,7 +100,7 @@ Por essas razões, a estratégia de escritas independentes mostra-se
 mais aderente ao modelo de execução adotado.
 
 Quando não há mais cenários a serem resolvidos, inicia-se uma nova
-etapa de coordenação MPI-IO, dessa vez associada ao fechamento coletivo
+chamada \texttt{MPI\_File\_close}, responsável pelo fechamento coletivo
 dos arquivos de resultado.
 
 \begin{figure}[H]
@@ -385,7 +385,7 @@ sensíveis ao mecanismo de E/S adotado. O tempo de computação serve,
 portanto, como referência estável contra a qual os tempos de
 comunicação, de E/S e de coordenação podem ser comparados.
 
-\subsection{Tempo de coordenação MPI}
+\subsection{Tempo de \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}}
 \label{sec:metrica_coordenacao}
 
 Reúne os tempos despendidos em chamadas MPI que não correspondem à

@@ -332,19 +332,19 @@ def sddp_timeline_plot(output: str) -> None:
 
     processes = [
         ("Rank 0\nProcesso Distribuidor", 3.3, 0.18, 0.72, []),
-        ("Rank 1", 2.35, 0.46, 0.28, [(2, 2.05), (6, 0.7), (10, 2.2)]),
-        ("Rank 2", 1.4, 0.68, 0.44, [(3, 1.55), (7, 0.62), (11, 1.15), (12, 0.72)]),
-        ("Rank N", 0.45, 0.24, 0.84, [(4, 0.9), (8, 2.8), ("X", 1.1)]),
+        ("Rank 1", 2.35, 0.45, 0.28, [(2, 2.05), (6, 0.7), (10, 2.2)]),
+        ("Rank 2", 1.4, 0.45, 0.44, [(3, 1.55), (7, 0.62), (11, 1.15), (12, 0.72)]),
+        ("Rank N", 0.45, 0.45, 0.84, [(4, 0.9), (8, 2.8), ("X", 1.1)]),
     ]
     coord_start_x = 0.15
-    initial_coord_end_x = 0.95
+    initial_coord_end_x = 1.10
     final_coord_end_x = 8.15
     io_widths = [0.34, 0.38, 0.36, 0.30]
     post_io_comm_widths = [
-        [0.16, 0.54, 0.22],
-        [0.34, 0.14, 0.42],
-        [0.42, 0.16, 0.28, 0.18],
-        [0.18, 0.60, 0.16],
+        [0.35, 0.35, 0.35],
+        [0.35, 0.35, 0.35],
+        [0.35, 0.35, 0.35, 0.35],
+        [0.35, 0.35, 0.35],
     ]
 
     def block(x, y, w, h, color, label, edge="white", hatch=None, size=10):
@@ -379,28 +379,31 @@ def sddp_timeline_plot(output: str) -> None:
             block(coord_start_x, y, coordinator_end_x - coord_start_x, 0.3, colors["comm"], "", size=8.5)
             continue
         x = coord_start_x
-        block(x, y, initial_comm_width, 0.3, colors["comm"], "", size=8.5)
+        block(x, y, initial_comm_width, 0.3, colors["comm"], f"{tasks[0][0]}", size=8.0)
         x += initial_comm_width
         block(x, y, initial_coord_end_x - x, 0.5, colors["coord"], "", size=8.5)
         x = initial_coord_end_x
         for idx, (scenario, compute_width) in enumerate(tasks):
             label_size = 6.0 if compute_width < 0.8 else 7.2 if compute_width < 1.1 else 8.8
-            block(x, y, compute_width, 0.5, colors["resolve"], f"Cenário {scenario}", size=label_size)
+            block(x, y, compute_width, 0.5, colors["resolve"], f"{scenario}", size=label_size)
             x += compute_width
-            block(x, y, io_widths[idx], 0.34, colors["io"], "", size=8.5)
+            block(x, y, io_widths[idx], 0.34, colors["io"], f"{scenario}", size=8.0)
             x += io_widths[idx]
-            block(x, y, post_io_comm_widths[process_index][idx], 0.3, colors["comm"], "", size=8.5)
-            x += post_io_comm_widths[process_index][idx]
+            is_last = idx == len(tasks) - 1
+            if not is_last:
+                next_scenario = tasks[idx + 1][0]
+                block(x, y, post_io_comm_widths[process_index][idx], 0.3, colors["comm"], f"{next_scenario}", size=8.0)
+                x += post_io_comm_widths[process_index][idx]
         block(x, y, final_coord_end_x - x, 0.5, colors["coord"], "", size=8.5)
         x = final_coord_end_x
-        block(x, y, final_comm_width, 0.3, colors["comm"], "", size=8.5)
+        block(x, y, final_comm_width, 0.3, colors["comm"], "Fim", size=8.0)
 
     legend_y = 4.28
     legend_items = [
         (0.95, colors["resolve"], "Computação resolvendo cenário X"),
         (4.55, colors["io"], "E/S"),
         (5.65, colors["comm"], "Comunicação"),
-        (7.25, colors["coord"], "Coordenação MPI-IO"),
+        (7.25, colors["coord"], "MPI_File_open/MPI_File_close"),
     ]
     for x, color, label in legend_items:
         ax.add_patch(plt.Rectangle((x, legend_y - 0.13), 0.28, 0.26, facecolor=color, edgecolor="none"))
@@ -635,9 +638,3 @@ def main() -> None:
     message_size_plot(aws_current, aws_mpiio, "EnvioPorTamanho_AWS.png")
     message_count_by_size_plot("histograma_mensagens.png")
     sddp_timeline_plot("SDDP_timeline_MPIIO.png")
-    sddp_architecture2_plot("SDDP_architecture2.png")
-    result_file_format_plot("formato_arquivos_resultado.png")
-
-
-if __name__ == "__main__":
-    main()
