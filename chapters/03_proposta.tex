@@ -199,11 +199,14 @@ menores que 128~KB, são utilizadas operações assíncronas, permitindo que o
 processo solicite a escrita e retome a execução sem aguardar imediatamente a
 conclusão da operação. Para blocos iguais ou superiores a 128~KB, são
 utilizadas operações síncronas, nas quais o processo aguarda a conclusão da
-escrita antes de prosseguir. Essa escolha segue uma lógica análoga à distinção
-entre os protocolos Eager e Rendezvous em comunicação MPI: blocos pequenos
-tendem a ser tratados de forma mais direta, com menor custo de coordenação,
-enquanto blocos maiores justificam um fluxo mais controlado, reduzindo o risco
-de acúmulo de requisições pendentes e de pressão sobre buffers internos.
+escrita antes de prosseguir.
+
+Essa escolha fundamenta-se na distribuição real de escritas do SDDP:
+aproximadamente 87\% dos blocos gerados por cenário possuem tamanho
+inferior a 128~KB (Figura~\ref{fig:histograma_mensagens}), de modo que a
+grande maioria das operações segue o caminho assíncrono, mantendo os
+processos computacionais desbloqueados.
+
 
 A~Figura~\ref{fig:fluxo_escrita_independente} resume o fluxo de decisão
 adotado na implementação. Após o cálculo do \textit{offset} correspondente ao

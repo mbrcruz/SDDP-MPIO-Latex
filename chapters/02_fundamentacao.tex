@@ -59,6 +59,16 @@ pequenas e frequentes tendem a se beneficiar do \textit{eager}, enquanto
 mensagens grandes favorecem o \textit{rendezvous}, especialmente quando a
 aplicação opera próxima aos limites de memória ou de rede.
 
+Um aspecto relevante em aplicações com padrão \textit{bag-of-tasks} é o
+custo de bloqueio imposto ao remetente pela operação \texttt{MPI\_Send}.
+Quando múltiplos \textit{ranks} concorrem por um único receptor --- como
+no modelo centralizado de E/S do SDDP ---, o tempo de bloqueio cresce
+com o volume de dados enviado: o remetente fica suspenso enquanto o
+receptor não disponibiliza capacidade de recepção. Esse comportamento se
+agrava à medida que o número de remetentes simultâneos aumenta, pois cada
+mensagem não processada introduz uma espera adicional para os demais
+trabalhadores.
+
 A Figura~\ref{fig:mpi_protocolos_e_io} resume essa relação entre
 comunicação ponto a ponto e E/S paralela. O fluxo centralizado usa a rede
 para mover os resultados até um escritor único; o fluxo MPI-IO remove essa
