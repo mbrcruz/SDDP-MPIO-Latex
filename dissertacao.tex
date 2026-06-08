@@ -10,8 +10,7 @@
 %   - bibliografy.bib
 %   - Figuras em figuras/ referenciadas no texto
 %===============================================================================
-% Use a opção [numbers] se preferir citações no estilo numérico [1].
-% Sem [numbers], natbib usa formato autor-ano (Pereira & Pinto, 1991).
+% Citações numéricas no formato [1], [1,2] ou [1--3].
 \documentclass[msc]{coppe}
 
 \usepackage{booktabs}              % tabelas mais elegantes
@@ -24,6 +23,7 @@
 \usepackage{xcolor}                % preserva os ToDo's em vermelho do paper original
 \usepackage{url}
 \usepackage{hyperref}
+\setcitestyle{numbers,square,comma,sort&compress}
 \usepackage{listings}              % opcional, para trechos de código
 \usepackage{float}                 % opção [H] para fixar posição de figuras
 \usepackage{placeins}              % \FloatBarrier para conter floats em seções
