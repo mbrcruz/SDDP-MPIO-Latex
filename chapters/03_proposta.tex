@@ -87,7 +87,7 @@ execução. Na Figura~\ref{fig:SDDP_timeline_MPIIO}, esse efeito aparece
 no \textit{rank}~2, que executa mais ciclos de simulação e escrita do
 que seus pares no mesmo intervalo. Esse desbalanceamento, intrínseco
 ao padrão \textit{bag-of-tasks}, dificulta a adoção de escritas
-coletivas: chamadas coletivas exigem que todos os \textit{ranks}
+coletivas~\cite{Zhang:09CollectiveIO}: chamadas coletivas exigem que todos os \textit{ranks}
 participem conjuntamente da mesma operação de E/S, o que forçaria os
 processos mais rápidos a aguardar a chegada dos mais lentos a cada
 ponto coletivo, anulando parte do paralelismo ganho com a distribuição

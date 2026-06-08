@@ -1,4 +1,4 @@
-\begin{thebibliography}{26}
+\begin{thebibliography}{27}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -167,6 +167,13 @@
 \MakeUppercase{{Operador Nacional do Sistema El\'etrico}}.
 \newblock \coppeenquote{Programa Mensal da Opera\c{c}\~ao --- {PMO}}.
   \url{https://www.ons.org.br/}, 2023.
+
+\bibitem[\MakeUppercase{Zhang}\emph{ et~al.}(2009)Zhang, Espinosa, Iskra,
+  Raicu, Foster, e Wilde]{Zhang:09CollectiveIO}
+\MakeUppercase{Zhang, Z., Espinosa, A., Iskra, K., \MakeLowercase{et~al.}}
+\newblock \coppeenquote{Design and Evaluation of a Collective {IO} Model for
+  Loosely Coupled Petascale Programming}. 2009.
+\newblock arXiv preprint.
 
 \bibitem[\MakeUppercase{Thakur}\emph{ et~al.}(1999{\natexlab{b}})Thakur, Gropp,
   e Lusk]{Rwe:99}
