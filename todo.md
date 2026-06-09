@@ -1,7 +1,7 @@
 ## Correções pequenas
 
-- Fazer experimentos assincronos independentes ( AWS e SDumont) - substituir figuras no texto.
-
+- introdução 
+    - Tirar uso pelo ONS e avisar que o SDDP é desenvolvido pela PSR , sendo o modelo oficial em x paises
 
 - Trabalhar no capitulo III 
 
@@ -10,6 +10,7 @@
     - possivel break rendevous e eager em 128KB
     - AGregadores pode aumentar o consumo de memoria
     - Deadlock com two phase E/S - mais escritas no necessarios e numero de cenarios desalinhado por processo
+    - Validação dos dados: formato arquivos
     - ~~Formato dados~~
     - ~~Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous ) - minimzar pressão pelo uso de memoria.~~
     - Processo Gerenciador de tarefas";    
@@ -57,18 +58,17 @@
     
 - Experimentos
 
-    - Ultimos experimentos ( ASYNC )
-        - Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final (Necessário para escrever menos no capitulo IV) - em fila
-        - Metodologia dos experimentos e intrumentação    
-        - bind-to core
-        - Banda agregada percebida pela aplicação. 
-        - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node. 
-        - Por que stripe de 1 MB?                
-        - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes ???
-        - ~~Stripe count~~
-        - ~~Validação: compara os 3 implementacoes AWS com 16 nodes~~
+        - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes ???Por que stripe de 1 MB?                
+        - ~~Ultimos experimentos ( ASYNC ) Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final (Necessário para escrever menos no capitulo IV)~~
+        - ~~Metodologia dos experimentos e intrumentação~~
+        - ~~bind-to core~~
+        - ~~Banda agregada percebida pela aplicação.~~
+        - ~~Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node.~~
+        
+        
+        - ~~Stripe count~~        
         - ~~Tempo total da execução no CSV ( e não somente o bloco de computação )~~
-        - ~~teste ASYNC AWS , computando tempo de log , sem log block, para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV) ~~
+        - ~~teste ASYNC AWS , computando tempo de log , sem log block,para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV) ~~
         - ~~teste ASYNC 4 OSTS~~
         
    
