@@ -7,6 +7,7 @@
 
     - RING 4 
     - BUFFERING de registros    - 
+    - possivel break rendevous e eager em 128KB
     - AGregadores pode aumentar o consumo de memoria
     - Deadlock com two phase E/S - mais escritas no necessarios e numero de cenarios desalinhado por processo
     - ~~Formato dados~~
@@ -78,9 +79,11 @@
     - Buscar trabalhos para relacionados ao problema
 
 - Conclusões e Trabalhos Futuros ( ROMIO )
+    - RING 4 foi suficiente para praticamente zerar o tempo de wait
     - Consumo de memoria e possiveis soluções, impediu uso de hiper threading
     - fila SDumont
     - mesmo com bufferização alguns arquivos ficaram intervead , por teria apenas 1 registro por cenário e estagio e apresentou blocos muito muito menores, embora ter sido mitigado com sobreposição de E/S/COmputação.
+    - 117 arquivos, tendo varios arquivos 
     - Problema de disponibilidade de instancias na mesma região na AWS
     - testes com placa de redes infinity band elastic Fabric
     - Teste com diferentes tamanho de stripes 
