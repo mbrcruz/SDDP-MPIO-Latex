@@ -5,11 +5,14 @@
 
 - Trabalhar no capitulo III 
 
+    - RING 4 
+    - BUFFERING de registros    - 
+    - AGregadores pode aumentar o consumo de memoria
+    - Deadlock com two phase E/S - mais escritas no necessarios e numero de cenarios desalinhado por processo
     - ~~Formato dados~~
     - ~~Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous ) - minimzar pressão pelo uso de memoria.~~
     - Processo Gerenciador de tarefas";    
-    - ~~Fortan,C/C++,Mosel~~
-   
+    - ~~Fortan,C/C++,Mosel~~   
     - ~~Introdução da arquitetura proposta~~
     - ~~Visão geral e explicação da arquitetura proposta.~~
     - ~~novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.~~  
@@ -75,9 +78,14 @@
     - Buscar trabalhos para relacionados ao problema
 
 - Conclusões e Trabalhos Futuros ( ROMIO )
+    - Consumo de memoria e possiveis soluções, impediu uso de hiper threading
+    - fila SDumont
+    - mesmo com bufferização alguns arquivos ficaram intervead , por teria apenas 1 registro por cenário e estagio e apresentou blocos muito muito menores, embora ter sido mitigado com sobreposição de E/S/COmputação.
+    - Problema de disponibilidade de instancias na mesma região na AWS
     - testes com placa de redes infinity band elastic Fabric
     - Teste com diferentes tamanho de stripes 
     - teste com abordagem assincrona para todos os tamanhos.
+    - teste com two phase E/S para avalia se a coordenação - os testes diveram dead lock por ter mais escritas por cenário e também com desalinhamento do numero de cenarios por processo. 
 
 
 
