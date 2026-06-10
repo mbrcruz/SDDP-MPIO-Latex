@@ -10,7 +10,7 @@
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Arquitetura atual de E/S do SDDP com o \textit {rank}~0 atuando como processo distribuidor e o \textit {rank}~1 como processo escritor.}}{14}{figure.2.5}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Arquitetura proposta com MPI-IO e Lustre, com o \textit {rank}~0 atuando como processo distribuidor e os demais processos escrevendo diretamente em arquivos compartilhados.}}{16}{figure.3.1}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Linha de tempo da simulação final do SDDP com MPI-IO, destacando o \textit {rank}~0 como processo distribuidor.}}{18}{figure.3.2}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Linha de tempo da simulação final do SDDP com MPI-IO. O \textit {rank}~0 atua apenas como processo distribuidor; os \textit {ranks} trabalhadores executam cenários, sincronizam na chamada coletiva \texttt {MPI\_File\_open} antes da primeira escrita, realizam escritas independentes e sincronizam novamente em \texttt {MPI\_File\_close}.}}{18}{figure.3.2}%
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Fluxo de decisão para escritas independentes com MPI-IO (limite de 128~KB adotado neste trabalho como parâmetro de projeto, conforme discussão no texto).}}{20}{figure.3.3}%
 \contentsline {figure}{\numberline {3.4}{\ignorespaces Formato lógico dos arquivos binários de resultado do SDDP.}}{21}{figure.3.4}%
 \addvspace {10\p@ }

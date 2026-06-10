@@ -53,7 +53,8 @@
 
 - Experimentos
 
-         - intervalo de confiança ok ?
+         - novo histograma
+         - intervalo de confiança
          - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre.                        
         - Ultimos experimentos ( ASYNC RING 32 ) - Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final
         - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes - Por que stripe de 1 MB?        
@@ -97,14 +98,14 @@
 
 --- Revisão orientadores
 
-   
+- Verificar conjugação verbal
 
     Capítulo 3
 
 - ~~Diagrama coordenação MPI-IO Open/Close ~~
 - ~~E Numerar os cenários , tirar os azuis - ok~~ 
 - ~~Figura OSTs - implementação ok~~
-- arquivo diario e RING 32
+- Explicação sobre Arquivo diarios e RING 32
 - Melhorar explicações da implementação figura 3.2  - Antes e no label  da escrita , acertar open antes da primeira escrita. 
 - Pseudo código da implementação 
 - Ring 32
@@ -115,7 +116,6 @@
 
 Fundamentação teorica 
 
-Não destacar ambiente em nuvem , substituir por ambiente computacional e criar sessão AWS para falar as configurações e SDumont também . 
-
-Melhorar explicação sobre o Lustre na fundamentação teórica 
+- Não destacar ambiente em nuvem , substituir por  ambiente computacional e criar sessão AWS para falar as configurações e SDumont também . 
+- Melhorar explicação sobre o Lustre na fundamentação teórica 
 

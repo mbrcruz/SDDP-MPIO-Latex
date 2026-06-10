@@ -77,8 +77,8 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Modelo de execução}{16}{section.3.2}\protected@file@percent }
 \citation{Cirne:2003}
 \citation{Zhang:09CollectiveIO}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Linha de tempo da simulação final do SDDP com MPI-IO, destacando o \textit  {rank}~0 como processo distribuidor.}}{18}{figure.3.2}\protected@file@percent }
-\newlabel{fig:SDDP_timeline_MPIIO}{{3.2}{18}{Linha de tempo da simulação final do SDDP com MPI-IO, destacando o \textit {rank}~0 como processo distribuidor}{figure.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Linha de tempo da simulação final do SDDP com MPI-IO. O \textit  {rank}~0 atua apenas como processo distribuidor; os \textit  {ranks} trabalhadores executam cenários, sincronizam na chamada coletiva \texttt  {MPI\_File\_open} antes da primeira escrita, realizam escritas independentes e sincronizam novamente em \texttt  {MPI\_File\_close}.}}{18}{figure.3.2}\protected@file@percent }
+\newlabel{fig:SDDP_timeline_MPIIO}{{3.2}{18}{Linha de tempo da simulação final do SDDP com MPI-IO. O \textit {rank}~0 atua apenas como processo distribuidor; os \textit {ranks} trabalhadores executam cenários, sincronizam na chamada coletiva \texttt {MPI\_File\_open} antes da primeira escrita, realizam escritas independentes e sincronizam novamente em \texttt {MPI\_File\_close}}{figure.3.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Detalhes de implementação}{18}{section.3.3}\protected@file@percent }
 \citation{Wea:99,Rrw:05}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Implementação das escritas independentes}{19}{subsection.3.3.1}\protected@file@percent }

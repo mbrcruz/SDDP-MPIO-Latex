@@ -51,12 +51,12 @@ por meio das primitivas do MPI-IO~\cite{mpiioCite}.
 
 A~Figura~\ref{fig:SDDP_timeline_MPIIO} ilustra a linha do tempo da
 execução do SDDP segundo a arquitetura proposta. Essa representação
-destaca a separação entre as chamadas \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} e o período
-em que os processos executam, de forma independente, a simulação dos
-cenários e a escrita dos respectivos resultados. Com isso, evidencia-se
-que a coordenação global fica concentrada nas etapas de preparação e
-finalização dos arquivos, enquanto o ciclo principal de processamento
-permanece distribuído entre os processos.
+destaca a separação entre o processo distribuidor, a chamada coletiva
+\texttt{MPI\_File\_open} entre os \textit{ranks} trabalhadores, as
+escritas independentes e a chamada \texttt{MPI\_File\_close}. Com isso,
+evidencia-se que a coordenação global fica restrita aos pontos de
+abertura e fechamento dos arquivos, enquanto as escritas realizadas após
+a abertura permanecem independentes.
 
 O processo distribuidor representa o \textit{rank}~0, responsável por
 distribuir as tarefas aos demais \textit{ranks}. Quando não está enviando uma
@@ -64,12 +64,14 @@ nova tarefa, esse \textit{rank} permanece aguardando o
 recebimento das tarefas concluídas pelos \textit{ranks} trabalhadores. Por
 esse motivo, sua linha é representada integralmente como comunicação.
 
-Antes do início do ciclo de tarefas, os processos participam de uma
-operação coletiva de abertura dos arquivos de resultado. Esse ponto de
-chamada \texttt{MPI\_File\_open} estabelece o estado compartilhado necessário às
-escritas independentes que se seguem.
+Antes da primeira escrita, os \textit{ranks} trabalhadores participam de
+uma operação coletiva de abertura dos arquivos de resultado. Esse ponto
+de chamada \texttt{MPI\_File\_open} atua como uma barreira entre os
+trabalhadores: processos que chegam antes aguardam os demais antes de
+iniciar as escritas independentes. O processo distribuidor não participa
+dessa chamada coletiva.
 
-A partir desse momento, cada \textit{rank} trabalhador executa o ciclo
+Cada \textit{rank} trabalhador executa o ciclo
 \textit{bag-of-tasks}~\cite{Cirne:2003}: recebe do processo distribuidor
 uma tarefa correspondente a um cenário, resolve a simulação desse
 cenário e, ao término, efetua escritas independentes nos diversos
@@ -108,8 +110,12 @@ dos arquivos de resultado.
   \makebox[\textwidth][c]{%
     \includegraphics[width=0.95\paperwidth]{figuras/SDDP_timeline_MPIIO.png}%
   }
-  \caption{Linha de tempo da simulação final do SDDP com MPI-IO, destacando o
-  \textit{rank}~0 como processo distribuidor.}
+  \caption{Linha de tempo da simulação final do SDDP com MPI-IO. O
+  \textit{rank}~0 atua apenas como processo distribuidor; os
+  \textit{ranks} trabalhadores executam cenários, sincronizam na chamada
+  coletiva \texttt{MPI\_File\_open} antes da primeira escrita, realizam
+  escritas independentes e sincronizam novamente em
+  \texttt{MPI\_File\_close}.}
   \label{fig:SDDP_timeline_MPIIO}
 \end{figure}
 
