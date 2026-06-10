@@ -218,8 +218,8 @@
 \bibitem[\MakeUppercase{{Amazon Web Services}}(2024){Amazon Web
   Services}]{aws:24}
 \MakeUppercase{{Amazon Web Services}}.
-\newblock \coppeenquote{Amazon {EC2} {C}7i Instances --- {C}ompute
-  {O}ptimized}. \url{https://aws.amazon.com/ec2/instance-types/c7i/}, 2024.
+\newblock \coppeenquote{Amazon {EC2} {R}7i Instances --- {M}emory {O}ptimized}.
+  \url{https://aws.amazon.com/ec2/instance-types/r7i/}, 2024.
 
 \bibitem[\MakeUppercase{Dickens} e \MakeUppercase{Logan}(2008)Dickens e
   Logan]{Dickens:08}
