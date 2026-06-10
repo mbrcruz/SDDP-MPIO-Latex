@@ -82,10 +82,10 @@
     - SDumont: 13,7× ganho de banda percebida;
     - impacto de 4 vs 10 OSTs.
     -As siversas escritas de blocos menores estão associados com um padrão de arquivos diarios, poucos arquivos estão nesse formato e que escreve um registro por dia do mês, os dias não foram agrupados como no arquivo horario, embora ter sido mitigado com sobreposição de E/S/COmputação.
-    - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre. 
+    - 117 arquivos (sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre. 
     - Problema de disponibilidade de instancias na mesma região na AWS
     - Testes com placa de redes infinity band elastic Fabric
-    - Teste com diferentes tamanho de stripes 
-    - teste com abordagem assincrona para todos os tamanhos.
+    - Teste com diferentes tamanho de stripes .
+    - teste com abordagem assincrona para diferentes tamanho de blocos de dados.
     - teste com two phase E/S para avalia se a coordenação - os testes diveram dead lock por ter mais escritas por cenário e também com desalinhamento do numero de cenarios por processo. 
 
