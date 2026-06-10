@@ -76,7 +76,11 @@
     - AWS demora para muitos nós na mesma zona de disponiilidade.
     - fila SDumont
 
-    - Consumo de memoria e possiveis soluções, impediu uso de hiper threading
+    - AWS: 36,7% de redução no tempo total em 32 nós;
+    - AWS: 113× ganho de banda percebida;
+    - SDumont: 43,0% de redução no tempo total em 32 nós;
+    - SDumont: 13,7× ganho de banda percebida;
+    - impacto de 4 vs 10 OSTs.
     -As siversas escritas de blocos menores estão associados com um padrão de arquivos diarios, poucos arquivos estão nesse formato e que escreve um registro por dia do mês, os dias não foram agrupados como no arquivo horario, embora ter sido mitigado com sobreposição de E/S/COmputação.
     - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre. 
     - Problema de disponibilidade de instancias na mesma região na AWS
