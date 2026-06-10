@@ -1,17 +1,21 @@
 ## Correções pequenas
 
 - introdução 
-    - Tirar uso pelo ONS e avisar que o SDDP é desenvolvido pela PSR , sendo o modelo oficial em x paises
+    - Tirar uso pelo ONS e avisar que o SDDP é desenvolvido pela PSR , sendo o modelo oficial em x paises            
+    - Por que não paralelização da leitura.
+    - importancia de usar mais cenários.
+    - aquecimento global X aumento saidas
 
 - Trabalhar no capitulo III 
 
-    - RING 4 
-    - BUFFERING de registros    - 
+    - RING 32 
+    
     - possivel break rendevous e eager em 128KB
     - AGregadores pode aumentar o consumo de memoria
     - Deadlock com two phase E/S - mais escritas no necessarios e numero de cenarios desalinhado por processo
     - Validação dos dados: formato arquivos
     -- migrar : Considerações de conguração
+    - ~~BUFFERING de registros~~
     - ~~Formato dados~~
     - ~~Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous ) - minimzar pressão pelo uso de memoria.~~
     - Processo Gerenciador de tarefas";    
@@ -40,82 +44,44 @@
     - arquivo compartilhado    
     - acesso continguo vs strides  ( favorece o TWO PHASE I/O )
     - Stripe e OSTs
-
     - SDDP
         - Introdução - Explicar o que é um cenario.        - 
         - arquitetura atual.
         - Comparar formato dos resultados horário e por bloco.
         - pipeline SDDP com algoritmo atual
-        -
-- Introdução
-    - Por que não paralelização da leitura.
-    - importancia de usar mais cenários.
-    - aquecimento global X aumento saidas
-
-    
 
 
-
-    
 - Experimentos
 
-        - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes ???Por que stripe de 1 MB?                
-        - ~~Ultimos experimentos ( ASYNC ) Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final (Necessário para escrever menos no capitulo IV)~~
-        - ~~Metodologia dos experimentos e intrumentação~~
-        - ~~bind-to core~~
-        - ~~Banda agregada percebida pela aplicação.~~
-        - ~~Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node.~~
-        
-        
-        - ~~Stripe count~~        
-        - ~~Tempo total da execução no CSV ( e não somente o bloco de computação )~~
-        - ~~teste ASYNC AWS , computando tempo de log , sem log block,para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV) ~~
-        - ~~teste ASYNC 4 OSTS~~
-        
-   
-    - Teste com IOR two phase I/O e banda. 
-    - ~~teste ASYNC SDumont ( Falta 32 nós) ~~
+
+         - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre.                        
+        - Ultimos experimentos ( ASYNC RING 32 ) - Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final
+        - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes - Por que stripe de 1 MB?        
+        - bind-to core
+        - Banda agregada percebida pela aplicação
+        - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node.
+        - Stripe count      
+        - Tempo total da execução no CSV ( e não somente o bloco de computação )
+        - teste ASYNC AWS , computando tempo de log , sem log block,para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV)
+        - teste ASYNC 4 OSTS
+        - Metodologia dos experimentos e intrumentação
+
 
 - Trabalhos relacionados
     - Buscar trabalhos para relacionados ao problema
 
 - Conclusões e Trabalhos Futuros ( ROMIO )
-    - RING 32 foi suficiente para praticamente zerar o tempo de wait
-    - Consumo de memoria e possiveis soluções, impediu uso de hiper threading
+    - RING 3 foi suficiente para praticamente zerar o tempo de wait
+    
+    - AWS demora para muitos nós na mesma zona de disponiilidade.
     - fila SDumont
-    - mesmo com bufferização alguns arquivos ficaram intervead , por teria apenas 1 registro por cenário e estagio e apresentou blocos muito muito menores, embora ter sido mitigado com sobreposição de E/S/COmputação.
-    - 117 arquivos, tendo varios arquivos 
+
+    - Consumo de memoria e possiveis soluções, impediu uso de hiper threading
+    -As siversas escritas de blocos menores estão associados com um padrão de arquivos diarios, poucos arquivos estão nesse formato e que escreve um registro por dia do mês, os dias não foram agrupados como no arquivo horario, embora ter sido mitigado com sobreposição de E/S/COmputação.
+    - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre. 
     - Problema de disponibilidade de instancias na mesma região na AWS
-    - testes com placa de redes infinity band elastic Fabric
+    - Testes com placa de redes infinity band elastic Fabric
     - Teste com diferentes tamanho de stripes 
     - teste com abordagem assincrona para todos os tamanhos.
     - teste com two phase E/S para avalia se a coordenação - os testes diveram dead lock por ter mais escritas por cenário e também com desalinhamento do numero de cenarios por processo. 
 
-
-
-
-
-- JULHO - ARTIGO
-    - Modelo analitico
-    - Validação com IOR
-
-
-
-- ~~Figura de blocos de dados -  dificil de ler ( tirar espaço interno - aumentar espaço em cima) - label do eixo y errado. É a contenção do IOR.~~
-- ~~Desvio padrão computação está errado no SDumont~~
-- ~~Padronizacao das cores das figuras~~ 
-- ~~Coordenação MPI-IO = MPI_File_Open/MPI_-File_Close.~~
-- ~~Coletivas = MPI_File_Open/MPI_File_Close~~
-- ~~cuidado com texo "mensagens"~~
-- ~~melhorar figura histograma e texto~~ 
-- ~~regenerar figuras e atualizar texto~~
-- ~~Gerar novamente figura de quantidade de blocos de dados~~
-- ~~Tirar label figura histrograma - faltou descrição dos eixos~~
-- ~~corrigir labels figura blocos~~
-
-
-##  Melhorias menores
-
-- Figura sobre impacto E/S sobre o grupo de mensagem por tamanho
-- Explicar formato resultados ( bloco e horarios)
-- Impacto sobre 12 estagios ( AWS e SDumont )
