@@ -11,6 +11,7 @@
     - AGregadores pode aumentar o consumo de memoria
     - Deadlock com two phase E/S - mais escritas no necessarios e numero de cenarios desalinhado por processo
     - Validação dos dados: formato arquivos
+    -- migrar : Considerações de conguração
     - ~~Formato dados~~
     - ~~Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous ) - minimzar pressão pelo uso de memoria.~~
     - Processo Gerenciador de tarefas";    
@@ -79,7 +80,7 @@
     - Buscar trabalhos para relacionados ao problema
 
 - Conclusões e Trabalhos Futuros ( ROMIO )
-    - RING 4 foi suficiente para praticamente zerar o tempo de wait
+    - RING 32 foi suficiente para praticamente zerar o tempo de wait
     - Consumo de memoria e possiveis soluções, impediu uso de hiper threading
     - fila SDumont
     - mesmo com bufferização alguns arquivos ficaram intervead , por teria apenas 1 registro por cenário e estagio e apresentou blocos muito muito menores, embora ter sido mitigado com sobreposição de E/S/COmputação.

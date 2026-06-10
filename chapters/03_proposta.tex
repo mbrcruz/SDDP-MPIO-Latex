@@ -209,6 +209,16 @@ do tamanho do registro associado à combinação
 $(\text{estágio}, \text{cenário}, \text{hora})$ e da quantidade de
 elementos do sistema elétrico armazenados em cada registro.
 
+Para os arquivos no formato horário, nos quais cada registro corresponde a uma
+hora dentro de um par $(\text{estágio}, \text{cenário})$, os processos não
+emitem uma escrita por hora. Em vez disso, cada processo acumula em memória
+todos os registros horários pertencentes ao mesmo estágio e cenário e, ao
+término do cálculo, realiza uma única escrita agregada cobrindo o bloco
+completo de horas. Essa estratégia reduz o número de chamadas de E/S e
+aumenta o volume médio por operação, favorecendo o alinhamento dos blocos
+às fronteiras de \textit{stripe} do Lustre e evitando a contenção de locks
+associada a escritas pequenas e desalinhadas~\cite{LiaoIPDPS:07}.
+
 \subsection{Formato dos resultados}
 \label{sec:formato_resultados}
 

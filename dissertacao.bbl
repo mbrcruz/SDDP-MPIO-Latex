@@ -1,4 +1,4 @@
-\begin{thebibliography}{27}
+\begin{thebibliography}{32}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -175,6 +175,15 @@
   Loosely Coupled Petascale Programming}. 2009.
 \newblock arXiv preprint.
 
+\bibitem[\MakeUppercase{Liao}\emph{ et~al.}(2007)Liao, Ching, Coloma,
+  Choudhary, e Kandemir]{LiaoIPDPS:07}
+\MakeUppercase{Liao, W.-k., Ching, A., Coloma, K., \MakeLowercase{et~al.}}
+\newblock \coppeenquote{Improving {MPI} Independent Write Performance Using a
+  Two-Stage Write-Behind Buffering Method}. In: \emph{Proceedings of the 21st
+  IEEE International Parallel and Distributed Processing Symposium}, IPDPS '07.
+  IEEE, 2007.
+\newblock \doi{10.1109/IPDPS.2007.370485}.
+
 \bibitem[\MakeUppercase{Thakur}\emph{ et~al.}(1999{\natexlab{b}})Thakur, Gropp,
   e Lusk]{Rwe:99}
 \MakeUppercase{Thakur, R., Gropp, W., Lusk, E.}
@@ -211,5 +220,37 @@
 \MakeUppercase{{Amazon Web Services}}.
 \newblock \coppeenquote{Amazon {EC2} {C}7i Instances --- {C}ompute
   {O}ptimized}. \url{https://aws.amazon.com/ec2/instance-types/c7i/}, 2024.
+
+\bibitem[\MakeUppercase{Dickens} e \MakeUppercase{Logan}(2008)Dickens e
+  Logan]{Dickens:08}
+\MakeUppercase{Dickens, P.~M., Logan, J.}
+\newblock \coppeenquote{Towards an Understanding of the Performance of {MPI-IO}
+  in {Lustre} File Systems}. In: \emph{Proceedings of the IEEE International
+  Conference on Cluster Computing}, CLUSTER '08, pp. 254--263. IEEE, 2008.
+\newblock \doi{10.1109/CLUSTR.2008.4663791}.
+
+\bibitem[\MakeUppercase{Dickens} e \MakeUppercase{Logan}(2010)Dickens e
+  Logan]{Dickens:10}
+\MakeUppercase{Dickens, P.~M., Logan, J.}
+\newblock \coppeenquote{A High Performance Implementation of {MPI-IO} for a
+  {Lustre} File System Environment}, \emph{Concurrency and Computation:
+  Practice and Experience}, v.~22, n.~11, \penalty0 pp.~1433--1449, 2010.
+\newblock \doi{10.1002/cpe.1491}.
+
+\bibitem[\MakeUppercase{Gropp}\emph{ et~al.}(2008)Gropp, Kimpe, Ross, Thakur, e
+  Tr{\"a}ff]{Gropp:08}
+\MakeUppercase{Gropp, W., Kimpe, D., Ross, R., \MakeLowercase{et~al.}}
+\newblock \coppeenquote{Self-Consistent {MPI-IO} Performance Requirements and
+  Expectations}. In: \emph{Proceedings of the 15th European PVM/MPI Users'
+  Group Meeting}, EuroPVM/MPI '08, pp. 167--176. Springer, 2008.
+
+\bibitem[\MakeUppercase{Liao} e \MakeUppercase{Choudhary}(2008)Liao e
+  Choudhary]{Liao:08}
+\MakeUppercase{Liao, W.-k., Choudhary, A.}
+\newblock \coppeenquote{Dynamically Adapting File Domain Partitioning Methods
+  for Collective {I/O} Based on Underlying Parallel File System Locking
+  Protocols}. In: \emph{Proceedings of the ACM/IEEE Conference on
+  Supercomputing}, SC '08. IEEE, 2008.
+\newblock \doi{10.1109/SC.2008.5222722}.
 
 \end{thebibliography}

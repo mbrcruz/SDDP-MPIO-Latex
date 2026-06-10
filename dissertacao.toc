@@ -46,5 +46,5 @@
 \contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{41}{subsection.4.2.3}%
 \contentsline {section}{\numberline {4.3}Síntese das avaliações}{47}{section.4.3}%
 \contentsline {chapter}{\numberline {5}Trabalhos relacionados}{49}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{50}{chapter.6}%
-\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{51}{chapter*.8}%
+\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{51}{chapter.6}%
+\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{52}{chapter*.8}%

@@ -1,2 +1,48 @@
 \chapter{Trabalhos relacionados}
 \label{cap:trabalhos_relacionados}
+
+O trabalho de \citeauthor{Dickens:08}~\cite{Dickens:08} introduziu o uso de MPI-IO
+sobre o Lustre, identificando que as premissas de otimização do ROMIO conflitam com
+o modelo de byte-range locking do filesystem: para padrões não-interleaved, nos quais
+cada processo escreve em uma região exclusiva, escritas independentes evitam contenção
+de locks e superam as coletivas em desempenho.
+Esse diagnóstico abriu uma linha de pesquisa diretamente relevante para este trabalho,
+explorada em~\cite{Dickens:10}, \cite{LiaoIPDPS:07}, \cite{Gropp:08} e~\cite{Liao:08},
+e fundamenta a escolha de \texttt{MPI\_File\_write\_at} como primitiva de E/S paralela
+no SDDP.
+
+\citeauthor{LiaoIPDPS:07}~\cite{LiaoIPDPS:07} demonstraram que escritas
+independentes cujo tamanho não preenche uma unidade de \textit{stripe} do
+Lustre forçam a aquisição de múltiplos locks sequenciais, degradando o
+desempenho. Como solução, os autores propuseram um mecanismo de
+\textit{two-stage write-behind buffering} que acumula dados em memória até
+completar um bloco alinhado à fronteira de \textit{stripe} antes de emitir a
+escrita ao filesystem. Essa abordagem é adotada neste trabalho nos arquivos
+no formato horário, nos quais os registros de um mesmo par
+$(\text{estágio}, \text{cenário})$ são acumulados e gravados em uma única
+operação agregada.
+
+Em continuação direta, \citeauthor{Dickens:10}~\cite{Dickens:10} propuseram a Y-lib,
+uma biblioteca que substitui o driver ADIO padrão do ROMIO para Lustre, implementando
+hierarchical striping e split writing para alinhar as operações de E/S às fronteiras
+de stripe e reduzir a contenção de locks. Os experimentos reportados pelos autores
+mostram ganhos de até 220\% sobre a implementação padrão, confirmando que o Lustre
+requer tratamento específico para extrair desempenho em escritas paralelas.
+
+\citeauthor{Gropp:08}~\cite{Gropp:08} formalizaram que, quando os acessos de
+diferentes processos não são interleaved --- isto é, cada processo escreve em
+uma região exclusiva do arquivo ---, a chamada \texttt{MPI\_File\_write\_all}
+degenera para \texttt{MPI\_File\_write} acrescida de overhead de sincronização,
+tornando as escritas coletivas estritamente piores do que as independentes nesse
+regime. Esse resultado fundamenta teoricamente a escolha de
+\texttt{MPI\_File\_write\_at} no SDDP, cujo padrão de acesso é precisamente
+não-interleaved.
+
+\citeauthor{Liao:08}~\cite{Liao:08} mostraram que o particionamento de
+\textit{file domains} do two-phase I/O do ROMIO não coincide com as fronteiras
+de \textit{stripe} do Lustre, gerando contenção de locks mesmo em operações
+coletivas bem-formadas. Os autores propuseram um particionamento adaptativo
+ao protocolo de locking do filesystem subjacente, reduzindo essa contenção.
+Esse resultado complementa \cite{Dickens:08}, reforçando que, para o padrão
+de acesso do SDDP, escritas independentes com offsets pré-calculados evitam
+inteiramente o problema de particionamento identificado pelos autores.
