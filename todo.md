@@ -101,14 +101,14 @@
 
     Capítulo 3
 
-Diagrama coordenação MPI-IO Open/Close 
-E Numerar os cenários , tirar os azuis - ok 
-
-Figura OSTs - implementação ok 
-Melhorar explicações da implementação figura 3.2  Antes e no label  da escrita . 
-Pseudo código da implementação 
-Ring 32
-Configuração como sumário do capítulo 3
+- ~~Diagrama coordenação MPI-IO Open/Close ~~
+- ~~E Numerar os cenários , tirar os azuis - ok~~ 
+- ~~Figura OSTs - implementação ok~~
+- arquivo diario e RING 32
+- Melhorar explicações da implementação figura 3.2  - Antes e no label  da escrita , acertar open antes da primeira escrita. 
+- Pseudo código da implementação 
+- Ring 32
+- Configuração como sumário do capítulo 3
 
 
 

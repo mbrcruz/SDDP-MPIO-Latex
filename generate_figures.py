@@ -337,8 +337,12 @@ def sddp_timeline_plot(output: str) -> None:
         ("Rank N", 0.45, 0.45, 0.84, [(4, 0.9), (8, 2.8), ("X", 1.1)]),
     ]
     coord_start_x = 0.15
-    initial_coord_end_x = 1.10
-    final_coord_end_x = 8.15
+    final_coord_end_x = 9.00
+    file_open_width = 0.32
+    open_end_x = (
+        max(coord_start_x + initial_comm_width + tasks[0][1] for _, _, initial_comm_width, _, tasks in processes[1:])
+        + file_open_width
+    )
     io_widths = [0.34, 0.38, 0.36, 0.30]
     post_io_comm_widths = [
         [0.35, 0.35, 0.35],
@@ -381,12 +385,13 @@ def sddp_timeline_plot(output: str) -> None:
         x = coord_start_x
         block(x, y, initial_comm_width, 0.3, colors["comm"], f"{tasks[0][0]}", size=8.0)
         x += initial_comm_width
-        block(x, y, initial_coord_end_x - x, 0.5, colors["coord"], "", size=8.5)
-        x = initial_coord_end_x
         for idx, (scenario, compute_width) in enumerate(tasks):
             label_size = 6.0 if compute_width < 0.8 else 7.2 if compute_width < 1.1 else 8.8
             block(x, y, compute_width, 0.5, colors["resolve"], f"{scenario}", size=label_size)
             x += compute_width
+            if idx == 0:
+                block(x, y, open_end_x - x, 0.5, colors["coord"], "", size=8.5)
+                x = open_end_x
             block(x, y, io_widths[idx], 0.34, colors["io"], f"{scenario}", size=8.0)
             x += io_widths[idx]
             is_last = idx == len(tasks) - 1
