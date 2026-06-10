@@ -67,6 +67,20 @@ granularidade das operações no desempenho da comunicação e da E/S.
   \label{fig:histograma_mensagens}
 \end{figure}
 
+A distribuição observada na Figura~\ref{fig:histograma_mensagens}
+está diretamente associada à organização dos arquivos de resultado
+produzidos pelo SDDP. Nos experimentos foram gerados 117 arquivos
+de resultado: 104 no formato horário e 13 no formato diário. Nos
+arquivos horários, os registros de um par
+$(\text{estágio}, \text{cenário})$ são acumulados em memória e
+gravados em uma única operação agregada, conforme descrito na
+Seção~\ref{sec:formato_resultados}; já nos arquivos diários, cada
+dia do mês é gravado individualmente, sem agregação entre dias.
+Essa diferença de granularidade explica o perfil observado: os
+13~arquivos diários respondem pela grande maioria dos blocos
+pequenos (até 1~KB), enquanto os blocos médios e grandes provêm
+dos 104~arquivos horários.
+
 % =============================================================
 \section{Experimento AWS}
 \label{sec:exp_aws}

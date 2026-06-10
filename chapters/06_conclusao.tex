@@ -1,31 +1,111 @@
 \chapter{Conclusões e trabalhos futuros}
 \label{cap:conclusao}
 
-Os resultados apresentados nesta dissertação evidenciam que o desempenho
-da aplicação SDDP é fortemente influenciado pela estratégia adotada para
-as operações de entrada e saída (E/S). A análise detalhada do
-comportamento do \texttt{MPI\_Send} revelou que o tempo de bloqueio
-associado ao envio de blocos de dados representa um dos principais fatores
-limitantes da escalabilidade do modelo, sobretudo quando há um único
-processo responsável pela escrita em disco. Esse gargalo torna-se mais
-pronunciado à medida que cresce o número de nós computacionais,
-restringindo a sobreposição entre comunicação e computação e,
-consequentemente, a eficiência paralela da aplicação.
+Esta dissertação investigou os gargalos de E/S da fase de simulação
+final do algoritmo SDDP e propôs uma arquitetura paralela baseada em
+escritas independentes com MPI-IO sobre o sistema de arquivos
+Lustre, substituindo a estratégia atual com processo escritor único.
+A avaliação experimental conduzida em dois ambientes distintos ---
+AWS (FSx for Lustre dedicado) e Santos Dumont (LNCC, Lustre
+compartilhado) --- confirma que a arquitetura proposta endereça
+efetivamente o gargalo identificado e produz ganhos expressivos de
+desempenho e escalabilidade.
 
-A adoção de uma arquitetura de E/S MPI-IO, baseada em MPI-IO e
-no sistema de arquivos Lustre, mostrou-se uma alternativa promissora
-para mitigar esses efeitos. Essa abordagem permite que múltiplos
-processos MPI realizem operações de escrita de forma paralela e
-coordenada, eliminando a dependência de um processo escritor único e
-aproveitando o paralelismo nativo do sistema de arquivos. Além de
-reduzir o tempo de bloqueio dos processos, essa solução potencializa o
-uso da largura de banda agregada e melhora a escalabilidade em
-aplicações com alto volume de dados.
+Na configuração de 32 nós, a arquitetura MPI-IO reduz o tempo total
+de execução em 36,7\% no Experimento AWS e em 43,0\% no Experimento
+SDumont, em relação à implementação atual. A banda agregada
+percebida pela aplicação cresce em 113$\times$ na AWS e
+13,7$\times$ no SDumont. O contraste qualitativo entre as duas
+implementações é tão relevante quanto a magnitude desses ganhos:
+enquanto a implementação atual exibe colapso da banda a partir de
+8~nós --- decorrente da saturação do adaptador de rede do processo
+escritor único ---, a implementação proposta apresenta perfil
+monotonicamente crescente de banda em toda a faixa avaliada,
+indicando que a infraestrutura de armazenamento ainda não atingiu
+seu limite nominal. Esse comportamento se sustenta em ambos os
+ambientes, atestando a portabilidade da solução entre
+infraestruturas heterogêneas --- nuvem dedicada e supercomputador
+compartilhado.
 
-Como trabalhos futuros, propõe-se investigar o impacto de diferentes
-estratégias de agregação de escrita coletiva (\textit{two-phase I/O}) e
-o uso de \textit{hints} do ROMIO para otimizar o alinhamento das
-operações de escrita com a configuração de \textit{striping} do Lustre.
-Tais aprimoramentos poderão contribuir para a consolidação de um modelo
-de E/S escalável e portátil, aplicável a uma ampla gama de aplicações
-científicas e de engenharia com padrões intensivos de acesso a dados.
+A análise do impacto do número de \textit{Object Storage Targets}
+(OSTs) reforça que o dimensionamento da camada de armazenamento é
+parte essencial do ganho: passar de 4 para 10~OSTs no FSx for
+Lustre amplia a banda agregada percebida em aproximadamente
+5,6$\times$ em 16~nós e 23,6$\times$ em 32~nós, com redução do
+tempo médio das escritas nas classes de bloco maiores. Esse
+resultado sugere que, em \textit{deployments} futuros, o
+\texttt{stripe\_count} e o \texttt{stripe\_size} do Lustre devem
+ser tratados como parâmetros de projeto, e não como detalhe
+operacional.
+
+\paragraph{Padrão de acesso dos arquivos diários.} Dos 117 arquivos
+de resultado produzidos pelo SDDP nos experimentos, 104 seguem o
+formato horário e 13 seguem o formato diário. Embora minoritários
+em quantidade, os arquivos diários respondem por todas as escritas
+de blocos muito pequenos observadas no \textit{workload}: cada
+registro corresponde a um dia do mês e, diferentemente dos arquivos
+horários --- nos quais os registros horários de um par
+$(\text{estágio}, \text{cenário})$ são agregados em uma única
+escrita ---, os dias não foram agrupados nos arquivos diários. O
+impacto desse padrão fragmentado é parcialmente mitigado pela
+sobreposição entre E/S e computação proporcionada pelas escritas
+assíncronas, mas a frequência de pequenas requisições ao Lustre
+permanece como fonte residual de sobrecarga e direciona uma das
+linhas de continuidade deste trabalho.
+
+\paragraph{Disponibilidade de instâncias na nuvem.} A execução do
+Experimento AWS enfrentou dificuldades de disponibilidade de
+instâncias \texttt{r7i.12xlarge} na mesma região, dado o caráter
+\textit{memory-optimized} dessa família e a demanda concorrente
+sobre o \textit{pool} de recursos. Essa limitação operacional
+restringiu a janela de experimentação e deve ser considerada no
+planejamento de futuras execuções em nuvem para cargas HPC.
+
+\section*{Trabalhos futuros}
+
+A partir dos resultados e limitações apresentados, identificam-se
+as seguintes direções de continuidade:
+
+\begin{itemize}
+  \item \textbf{Reorganização do padrão de acesso dos arquivos
+        diários}, agrupando os registros mensais em uma única
+        escrita por $(\text{estágio}, \text{cenário})$ ---
+        analogamente ao que já é feito nos arquivos horários ---,
+        de modo a eliminar a parcela residual de pequenas
+        requisições ao Lustre identificada nestes experimentos.
+
+  \item \textbf{Avaliação com adaptadores de rede de alta
+        velocidade}, como InfiniBand HDR/NDR e \textit{Elastic
+        Fabric Adapter} (EFA) da AWS, para investigar em que
+        medida a rede deixa de ser fator limitante e como o custo
+        da Coordenação MPI-IO escala em redes de baixa latência.
+
+  \item \textbf{Sensibilidade ao tamanho de \textit{stripe} do
+        Lustre}, com experimentos variando o \texttt{stripe\_size}
+        para mapear o \textit{trade-off} entre fragmentação das
+        requisições e distribuição efetiva entre os OSTs.
+
+  \item \textbf{Sensibilidade ao limite síncrono/assíncrono}, com
+        experimentos variando o ponto de corte entre escritas
+        assíncronas e síncronas (por exemplo, 64, 128 e
+        256~KB) para refinar empiricamente o parâmetro de projeto
+        adotado neste trabalho.
+
+  \item \textbf{Avaliação de \textit{two-phase I/O}}, isto é, de
+        escritas coletivas com agregação interna pela biblioteca
+        MPI-IO. Tentativas preliminares conduzidas durante esta
+        pesquisa resultaram em \textit{deadlock}, atribuído à
+        combinação de múltiplas escritas por cenário com o
+        desalinhamento do número de cenários processados por cada
+        \textit{rank} no padrão \textit{bag-of-tasks}. A
+        viabilização dessa estratégia exigiria mecanismos de
+        sincronização que reconciliem a natureza dinâmica da
+        distribuição de tarefas com a semântica coletiva das
+        operações de E/S.
+\end{itemize}
+
+A consolidação dessas direções pode contribuir para a construção de
+uma arquitetura de E/S ainda mais escalável e portátil, aplicável
+não apenas ao SDDP, mas a uma classe mais ampla de aplicações
+científicas com padrões \textit{bag-of-tasks} e produção intensiva
+de resultados.
