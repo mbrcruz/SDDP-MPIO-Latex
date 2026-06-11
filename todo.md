@@ -57,8 +57,9 @@
 
 - Experimentos
 
-    - novo histograma
-    - intervalo de confiança stddev ?
+    - Colocar os experimentos sincronos
+    - intervalo de confiança stddev ?    
+    - novo histograma de blocos de dados    
     - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre.                        
     - Ultimos experimentos ( ASYNC RING 32 ) - Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final
     - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes - Por que stripe de 1 MB?        
