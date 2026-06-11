@@ -5,6 +5,7 @@
     - Por que não paralelização da leitura.
     - importancia de usar mais cenários.
     - aquecimento global X aumento saidas
+    - Não mexer no padrão de acesso.
 
 - Trabalhar no capitulo III 
 
@@ -25,7 +26,8 @@
     - ~~novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.~~  
     - ~~Relacionar com arquivos compartilhados - blocos de dados separados em OSTs~~
     - ~~Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp.~~
-    - ~~Mostrar como os arquivos são distribuidos em stripes.~~   
+    - ~~Mostrar como os arquivos são distribuidos em stripes.~~  
+
     - Equação explícita do offset. A descrição em prosa (l. 234–239) é defensável, mas uma equação tornaria a proposta verificável. Custo: 4 linhas.
     - Limiar 128 KB sem ancora empírica (Subseção 3.3.2, l. 178–186). Vale citar o histograma do Cap. 4 (Fig. 4.1, fig:histograma_mensagens) — a justificativa empírica está pronta para uso, é só ligar.
     - \paperwidth em três figuras (l. 42, l. 89, l. 145). As três usam \includegraphics[width=0.95\paperwidth], o que faz a figura sangrar para fora da área de texto. Convenção COPPE pede \textwidth. Confira no PDF compilado se o efeito é intencional.
@@ -37,13 +39,15 @@
 
 - Capitulo 2
     - ~~reduzir titulos da fundamentação teorica~~
+    - Não destacar ambiente em nuvem , substituir por  ambiente computacional e criar sessão AWS para falar as configurações e SDumont também . 
     - Bag-of-tasks
-    - MPI (  MPI-IO ) sendo uma unica seção - Melhorar referencias e texto, colocar - figura sobre Eager vs rendevous 
-    - falar sobre escrita independentes e colletiva , vantagens de ambas
-    - escritas sincronas e assincronas
+    - ~~MPI (  MPI-IO ) sendo uma unica seção - Melhorar referencias e texto, colocar - figura sobre Eager vs rendevous ~~
+    - ~~falar sobre escrita independentes e colletiva , vantagens de ambas~~
+    - ~~escritas sincronas e assincronas~~
     - arquivo compartilhado    
-    - acesso continguo vs strides  ( favorece o TWO PHASE I/O )
-    - Stripe e OSTs
+    - Acesso continguo vs strides  ( favorece o TWO PHASE I/O )
+    - Melhorar explicação sobre o Lustre na fundamentação teórica
+        - Stripe e OSTs
     - SDDP
         - Introdução - Explicar o que é um cenario.        - 
         - arquitetura atual.
@@ -53,19 +57,19 @@
 
 - Experimentos
 
-         - novo histograma
-         - intervalo de confiança
-         - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre.                        
-        - Ultimos experimentos ( ASYNC RING 32 ) - Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final
-        - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes - Por que stripe de 1 MB?        
-        - bind-to core
-        - Banda agregada percebida pela aplicação
-        - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node.
-        - Stripe count      
-        - Tempo total da execução no CSV ( e não somente o bloco de computação )
-        - teste ASYNC AWS , computando tempo de log , sem log block,para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV)
-        - teste ASYNC 4 OSTS
-        - Metodologia dos experimentos e intrumentação
+    - novo histograma
+    - intervalo de confiança stddev ?
+    - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre.                        
+    - Ultimos experimentos ( ASYNC RING 32 ) - Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final
+    - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes - Por que stripe de 1 MB?        
+    - bind-to core
+    - Stripe count  
+    - Banda agregada percebida pela aplicação
+    - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node.         
+    - ~~Tempo total da execução no CSV ( e não somente o bloco de computação )~~
+    - ~~teste ASYNC AWS , computando tempo de log , sem log block,para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV)~~
+    - ~~teste ASYNC 4 OSTS~~
+    - ~~Metodologia dos experimentos e intrumentação~~
 
 
 - Trabalhos relacionados
@@ -102,27 +106,20 @@
 
 - introdução 
     - amplamente adotado em supercomputadores listados no
-TOP500
+    TOP500
     - Tirar uso pelo ONS e avisar que o SDDP é desenvolvido pela PSR , sendo o modelo oficial em x paises  
     - cada cenário resolvido tem seu bloco de resultados enviado, via
 MPI_Send, ao processo escritor, 
 
-
-
-- Fundamentação teorica 
-
-    - Não destacar ambiente em nuvem , substituir por  ambiente computacional e criar sessão AWS para falar as configurações e SDumont também . 
-    - Melhorar explicação sobre o Lustre na fundamentação teórica 
-
 -Capítulo 3
 
-    - ~~Diagrama coordenação MPI-IO Open/Close ~~
-    - ~~E Numerar os cenários , tirar os azuis - ok~~ 
-    - ~~Figura OSTs - implementação ok~~
-    - Explicação sobre Arquivo diarios e RING 32
-    - Melhorar explicações da implementação figura 3.2  - Antes e no label  da escrita , acertar open antes da primeira escrita. 
-    - Pseudo código da implementação
-    - Configuração como sumário do capítulo 3
+- ~~Diagrama coordenação MPI-IO Open/Close ~~
+- ~~E Numerar os cenários , tirar os azuis - ok~~ 
+- ~~Figura OSTs - implementação ok~~
+- Explicação sobre Arquivo diarios e RING 32
+- Melhorar explicações da implementação figura 3.2  - Antes e no label  da escrita , acertar open antes da primeira escrita. 
+- Pseudo código da implementaçãoS
+- Configuração como sumário do capítulo 3
 
 
 
