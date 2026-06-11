@@ -85,6 +85,25 @@ as seguintes direções de continuidade:
         para mapear o \textit{trade-off} entre fragmentação das
         requisições e distribuição efetiva entre os OSTs.
 
+  \item \textbf{Buferização alinhada às \textit{stripes} do Lustre},
+        substituindo o esquema atual --- em que cada \textit{rank}
+        acumula em memória o bloco correspondente ao estágio
+        completo de um cenário antes de submetê-lo em uma única
+        chamada \texttt{MPI\_File\_iwrite\_at} ou
+        \texttt{MPI\_File\_write\_at} --- por uma política que
+        segmente as escritas pelos limites das \textit{stripes}, de
+        modo que cada submissão MPI-IO incida sobre exatamente uma
+        \textit{stripe} e, portanto, sobre exatamente um OST.
+        Liao~\textit{et al.}~\cite{LiaoIPDPS:07} demonstram, em um
+        contexto mais geral de escritas independentes em MPI-IO,
+        que um esquema de bufferização em dois estágios alinhado ao
+        particionamento do sistema de arquivos paralelo melhora
+        significativamente o desempenho das escritas pequenas e
+        desalinhadas; o mesmo princípio aplica-se diretamente ao
+        perfil de E/S do SDDP horário, com potencial de reduzir a
+        contenção entre \textit{ranks} concorrentes sobre os mesmos
+        OSTs.
+
   \item \textbf{Sensibilidade ao limite síncrono/assíncrono}, com
         experimentos variando o ponto de corte entre escritas
         assíncronas e síncronas (por exemplo, 64, 128 e

@@ -1,7 +1,7 @@
 ## Correções pequenas
 
 - introdução 
-    - Tirar uso pelo ONS e avisar que o SDDP é desenvolvido pela PSR , sendo o modelo oficial em x paises            
+             
     - Por que não paralelização da leitura.
     - importancia de usar mais cenários.
     - aquecimento global X aumento saidas
@@ -96,26 +96,35 @@
 
 
 
---- Revisão orientadores
+- Revisão orientadores
 
-- Verificar conjugação verbal
+    - Verificar conjugação verbal
 
-    Capítulo 3
-
-- ~~Diagrama coordenação MPI-IO Open/Close ~~
-- ~~E Numerar os cenários , tirar os azuis - ok~~ 
-- ~~Figura OSTs - implementação ok~~
-- Explicação sobre Arquivo diarios e RING 32
-- Melhorar explicações da implementação figura 3.2  - Antes e no label  da escrita , acertar open antes da primeira escrita. 
-- Pseudo código da implementação 
-- Ring 32
-- Configuração como sumário do capítulo 3
+- introdução 
+    - amplamente adotado em supercomputadores listados no
+TOP500
+    - Tirar uso pelo ONS e avisar que o SDDP é desenvolvido pela PSR , sendo o modelo oficial em x paises  
+    - cada cenário resolvido tem seu bloco de resultados enviado, via
+MPI_Send, ao processo escritor, 
 
 
 
+- Fundamentação teorica 
 
-Fundamentação teorica 
+    - Não destacar ambiente em nuvem , substituir por  ambiente computacional e criar sessão AWS para falar as configurações e SDumont também . 
+    - Melhorar explicação sobre o Lustre na fundamentação teórica 
 
-- Não destacar ambiente em nuvem , substituir por  ambiente computacional e criar sessão AWS para falar as configurações e SDumont também . 
-- Melhorar explicação sobre o Lustre na fundamentação teórica 
+-Capítulo 3
+
+    - ~~Diagrama coordenação MPI-IO Open/Close ~~
+    - ~~E Numerar os cenários , tirar os azuis - ok~~ 
+    - ~~Figura OSTs - implementação ok~~
+    - Explicação sobre Arquivo diarios e RING 32
+    - Melhorar explicações da implementação figura 3.2  - Antes e no label  da escrita , acertar open antes da primeira escrita. 
+    - Pseudo código da implementação
+    - Configuração como sumário do capítulo 3
+
+
+
+
 
