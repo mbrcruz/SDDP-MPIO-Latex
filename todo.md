@@ -57,16 +57,17 @@
 
 - Experimentos
 
-    - Colocar os experimentos sincronos
-    - intervalo de confiança stddev ?    
-    - novo histograma de blocos de dados    
+        
+    - Novo histograma de blocos de dados    
     - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre.                        
-    - Ultimos experimentos ( ASYNC RING 32 ) - Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final
-    - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes - Por que stripe de 1 MB?        
     - bind-to core
-    - Stripe count  
-    - Banda agregada percebida pela aplicação
-    - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node.         
+    - Stripe count      
+    - Ultimos experimentos ( ASYNC RING 32 ) - Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final   
+    - Colocar os experimentos sincronos?    
+    - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node.    
+    - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes - Por que stripe de 1 MB?     
+    - ~~Banda agregada percebida pela aplicação~~
+    - ~~intervalo de confiança stddev - calculo os 2~~     
     - ~~Tempo total da execução no CSV ( e não somente o bloco de computação )~~
     - ~~teste ASYNC AWS , computando tempo de log , sem log block,para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV)~~
     - ~~teste ASYNC 4 OSTS~~
@@ -77,8 +78,8 @@
     - Buscar trabalhos para relacionados ao problema
 
 - Conclusões e Trabalhos Futuros ( ROMIO )
-    - RING 3 foi suficiente para praticamente zerar o tempo de wait
     
+    - RING 32 foi suficiente para praticamente zerar o tempo de wait    
     - AWS demora para muitos nós na mesma zona de disponiilidade.
     - fila SDumont
 
