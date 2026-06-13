@@ -6,35 +6,11 @@
     - importancia de usar mais cenários.
     - aquecimento global X aumento saidas
     - Não mexer no padrão de acesso.
-
-- Trabalhar no capitulo III 
-
-    - RING 32     
-    - possivel break rendevous e eager em 128KB    
-    - Deadlock com two phase E/S - mais escritas no necessarios e numero de cenarios desalinhado por processo
-    - Validação dos dados: formato arquivos
-    -- migrar : Considerações de configuração
-    - Equação explícita do offset. A descrição em prosa (l. 234–239) é defensável, mas uma equação tornaria a proposta verificável. Custo: 4 linhas.
-    
-    - \paperwidth em três figuras (l. 42, l. 89, l. 145). As três usam \includegraphics[width=0.95\paperwidth], o que faz a figura sangrar para fora da área de texto. Convenção COPPE pede \textwidth. Confira no PDF compilado se o efeito é intencional.
-    - Ponte para Cap. 4 no fim da Seção 3.4. Falta apontar quais valores de stripe_count foram adotados nos experimentos (10 AWS, 6 SDumont, ambos com stripe_size = 1MB).
-    Caption da Fig. 3.3 ainda genérica (l. 147): "Formato lógico dos arquivos binários de resultado do SDDP." — pode ganhar uma frase descritiva.
-    - ~~BUFFERING de registros~~
-    - ~~Formato dados~~
-    - ~~Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous ) - minimzar pressão pelo uso de memoria.~~
-    - Processo Gerenciador de tarefas";    
-    - ~~Fortan,C/C++,Mosel~~   
-    - ~~Introdução da arquitetura proposta~~
-    - ~~Visão geral e explicação da arquitetura proposta.~~
-    - ~~novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.~~  
-    - ~~Relacionar com arquivos compartilhados - blocos de dados separados em OSTs~~
-    - ~~Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp.~~
-    - ~~Mostrar como os arquivos são distribuidos em stripes.~~  
-    - ~~Limiar 128 KB sem ancora empírica (Subseção 3.3.2, l. 178–186). Vale citar o histograma do Cap. 4 (Fig. 4.1, fig:histograma_mensagens) — a justificativa empírica está pronta para uso, é só ligar~~
-
-    
-    
-    
+    - amplamente adotado em supercomputadores listados no
+    TOP500
+    - Tirar uso pelo ONS e avisar que o SDDP é desenvolvido pela PSR , sendo o modelo oficial em x paises  
+    - cada cenário resolvido tem seu bloco de resultados enviado, via
+MPI_Send, ao processo escrito
 
 
 - Capitulo 2
@@ -53,6 +29,40 @@
         - arquitetura atual.
         - Comparar formato dos resultados horário e por bloco.
         - pipeline SDDP com algoritmo atual
+
+- Trabalhar no capitulo III 
+
+    - Verificar conjugação verbal
+    - Pseudo código da implementaçãoS
+    - RING 32     
+    - possivel break rendevous e eager em 128KB    
+    - Deadlock com two phase E/S - mais escritas no necessarios e numero de cenarios desalinhado por processo
+    - Validação dos dados: formato arquivos  
+    - Equação explícita do offset. A descrição em prosa (l. 234–239) é defensável, mas uma equação tornaria a proposta verificável. Custo: 4 linhas.    
+    - \paperwidth em três figuras (l. 42, l. 89, l. 145). As três usam \includegraphics[width=0.95\paperwidth], o que faz a figura sangrar para fora da área de texto. Convenção COPPE pede \textwidth. Confira no PDF compilado se o efeito é intencional.
+    - Ponte para Cap. 4 no fim da Seção 3.4. Falta apontar quais valores de stripe_count foram adotados nos experimentos (10 AWS, 6 SDumont, ambos com stripe_size = 1MB).
+    Caption da Fig. 3.3 ainda genérica (l. 147): "Formato lógico dos arquivos binários de resultado do SDDP." — pode ganhar uma frase descritiva.
+    
+    - ~~migrar : Considerações de configuração~~
+    - ~~BUFFERING de registros~~
+    - ~~Formato dados~~
+    - ~~Falar como que foi implementado com escrita assincrona para blocos até 128K e sincrona para blocos maiores  ( Mencionar Eager e Rendevous ) - minimzar pressão pelo uso de memoria.~~
+    - Processo Gerenciador de tarefas";    
+    - ~~Fortan,C/C++,Mosel~~   
+    - ~~Introdução da arquitetura proposta~~
+    - ~~Visão geral e explicação da arquitetura proposta.~~
+    - ~~novo pipeline SDDP - execução ,  escrita , reeexução , reescrita de dados e independencia de processos.~~  
+    - ~~Relacionar com arquivos compartilhados - blocos de dados separados em OSTs~~
+    - ~~Apresentar o modelo de Escrita independente E/S , e dizer porque não foi selecionado a escrita coletiva que precisa de um certa coordenação entre os processos, pois o SDDP funciona resolver problemas indepentes e sincronizacao de escrita pode ser prejudicial neste casp.~~
+    - ~~Mostrar como os arquivos são distribuidos em stripes.~~  
+    - ~~Limiar 128 KB sem ancora empírica (Subseção 3.3.2, l. 178–186). Vale citar o histograma do Cap. 4 (Fig. 4.1, fig:histograma_mensagens) — a justificativa empírica está pronta para uso, é só ligar~~
+
+    
+    
+    
+
+
+
 
 
 - Experimentos
@@ -104,24 +114,10 @@
 
 - Revisão orientadores
 
-    - Verificar conjugação verbal
+    
 
 - introdução 
-    - amplamente adotado em supercomputadores listados no
-    TOP500
-    - Tirar uso pelo ONS e avisar que o SDDP é desenvolvido pela PSR , sendo o modelo oficial em x paises  
-    - cada cenário resolvido tem seu bloco de resultados enviado, via
-MPI_Send, ao processo escritor, 
 
--Capítulo 3
-
-- ~~Diagrama coordenação MPI-IO Open/Close ~~
-- ~~E Numerar os cenários , tirar os azuis - ok~~ 
-- ~~Figura OSTs - implementação ok~~
-- Explicação sobre Arquivo diarios e RING 32
-- Melhorar explicações da implementação figura 3.2  - Antes e no label  da escrita , acertar open antes da primeira escrita. 
-- Pseudo código da implementaçãoS
-- Configuração como sumário do capítulo 3
 
 
 
