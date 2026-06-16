@@ -366,15 +366,22 @@ de interconexão de alta velocidade baseada em InfiniBand.
 
 O InfiniBand é a tecnologia de interconexão predominante em
 supercomputadores, oferecendo largura de banda elevada e, sobretudo,
-latência muito baixa na troca de mensagens entre processos. Esse desempenho
-deriva em grande parte do suporte nativo à comunicação RDMA, que permite o
-acesso direto à memória de nós remotos sem intervenção do sistema
-operacional, eliminando cópias intermediárias e reduzindo a carga sobre o
-processador. Tais características são particularmente relevantes para
-aplicações com troca intensa de mensagens e operações coletivas de E/S,
-como o SDDP, em que a baixa latência na comunicação entre \textit{ranks} MPI
-é tão importante quanto a banda
-disponível~\cite{Fds:03,RlGmmts:05}.
+latência muito baixa na troca de mensagens entre processos. Tais
+características são particularmente relevantes para aplicações com troca
+intensa de mensagens e operações coletivas de E/S, como o SDDP, em que a
+baixa latência na comunicação entre \textit{ranks} MPI é tão importante
+quanto a banda disponível~\cite{Fds:03,RlGmmts:05}.
+
+Embora o InfiniBand suporte nativamente a comunicação RDMA
+(\textit{Remote Direct Memory Access}) --- que permite o acesso direto à
+memória de nós remotos sem intervenção do sistema operacional --- esse
+caminho não foi explorado nos experimentos deste trabalho. Utilizou-se a
+biblioteca MPICH versão~3.2 com o dispositivo de comunicação \textit{ch3},
+no qual a troca de mensagens ocorre sobre a pilha de rede convencional
+(IP sobre InfiniBand) e não pela interface nativa de \textit{verbs}/RDMA.
+Dessa forma, o ambiente SDumont se beneficia da elevada banda e da baixa
+latência do InfiniBand, mas sem o ganho adicional de cópia zero
+proporcionado pelo RDMA.
 
 \section{O Programa Mensal da Operação (PMO)}
 No setor elétrico brasileiro, o Programa Mensal da Operação (PMO) é um
