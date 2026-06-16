@@ -25,6 +25,27 @@
 \usepackage{hyperref}
 \setcitestyle{numbers,square,comma,sort&compress}
 \usepackage{listings}              % opcional, para trechos de código
+
+% --- Estilo de pseudocódigo (sem novas dependências; usa listings) ---
+\definecolor{pseudocomment}{rgb}{0.35,0.35,0.35}
+\lstdefinestyle{pseudocodigo}{
+  basicstyle=\small\ttfamily,
+  numbers=left, numberstyle=\tiny\color{gray}, numbersep=10pt,
+  keywordstyle=\bfseries,
+  morekeywords={procedimento,para,cada,se,fim,retorna,mod},
+  commentstyle=\itshape\color{pseudocomment},
+  morecomment=[l]{//},
+  frame=single, framesep=6pt, rulecolor=\color{gray!60},
+  xleftmargin=20pt, framexleftmargin=18pt,
+  columns=fullflexible, keepspaces=true, showstringspaces=false,
+  breaklines=true, breakatwhitespace=true,
+  extendedchars=true, mathescape=true,
+  literate={á}{{\'a}}1 {à}{{\`a}}1 {ã}{{\~a}}1 {â}{{\^a}}1
+           {é}{{\'e}}1 {ê}{{\^e}}1 {í}{{\'i}}1 {ó}{{\'o}}1
+           {ô}{{\^o}}1 {õ}{{\~o}}1 {ú}{{\'u}}1 {ç}{{\c c}}1
+           {Á}{{\'A}}1 {É}{{\'E}}1 {º}{{\textordmasculine}}1
+}
+
 \usepackage{float}                 % opção [H] para fixar posição de figuras
 \usepackage{placeins}              % \FloatBarrier para conter floats em seções
 

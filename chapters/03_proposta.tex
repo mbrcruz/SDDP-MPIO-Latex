@@ -121,13 +121,7 @@ dos arquivos de resultado.
 
 \section{Detalhes de implementação}
 
-A implementação do SDDP é composta por módulos com responsabilidades
-distintas. Os módulos principais da aplicação, escritos em Fortran, controlam
-o fluxo de execução da simulação e orquestram a chamada aos módulos de acesso
-a dados, enquanto os algoritmos de otimização são escritos em Mosel. Já os
-módulos de acesso a dados são implementados em \texttt{C++}, concentrando as rotinas de
-leitura e escrita dos arquivos de entrada e saída. Foi nesse ponto da
-arquitetura que a solução baseada em MPI-IO foi incorporada, substituindo o
+Foi nesse ponto da arquitetura que a solução baseada em MPI-IO foi incorporada, substituindo o
 fluxo centralizado de escrita por operações paralelas realizadas diretamente
 pelos processos MPI. Essa separação permitiu introduzir a nova estratégia de
 E/S sem alterar a estrutura principal do algoritmo SDDP, preservando a lógica
@@ -248,6 +242,72 @@ completo de horas. Essa estratégia reduz o número de chamadas de E/S e
 aumenta o volume médio por operação, favorecendo o alinhamento dos blocos
 às fronteiras de \textit{stripe} do Lustre e evitando a contenção de locks
 associada a escritas pequenas e desalinhadas~\cite{LiaoIPDPS:07}.
+
+A~Figura~\ref{fig:pseudocodigo_writeregistry} consolida, em pseudocódigo, a
+rotina executada por cada \textit{rank} trabalhador ao concluir um cenário,
+correspondente ao método \texttt{writeRegistry} da implementação em
+\texttt{C++}. Sua organização torna explícitas as quatro questões
+fundamentais que toda escrita independente precisa responder e que foram
+discutidas ao longo desta seção. A primeira é \emph{o que e quanto gravar}:
+os valores dos elementos do sistema elétrico são serializados em um
+registro e os patamares (horas) de um mesmo par
+$(\text{estágio}, \text{cenário})$ são acumulados em memória, emitindo-se
+uma única escrita agregada apenas quando o último bloco do estágio é
+processado. A segunda é \emph{onde gravar}: o \textit{offset} de destino é
+derivado da posição lógica do cenário no arquivo
+(Seção~\ref{sec:formato_resultados}). A terceira é \emph{como gravar}: a
+escrita é sempre independente e segue pelo caminho assíncrono
+(\texttt{MPI\_File\_iwrite\_at}) ou síncrono
+(\texttt{MPI\_File\_write\_at}) conforme o limite de 128~KB.
+
+A quarta questão é \emph{quando aguardar}. Como as escritas assíncronas
+exigem que o \textit{buffer} de origem permaneça válido até a conclusão da
+operação, a implementação mantém um conjunto de \textit{buffers}
+pré-alocados, organizados de forma circular (\textit{ring buffer}). Antes
+de reutilizar uma posição desse conjunto, o processo verifica, por meio de
+\texttt{MPI\_Wait}, se a escrita anteriormente associada àquela posição já
+foi concluída; esse ponto é o único bloqueio no caminho de escrita e, em
+regime, raramente é atingido, pois o número de posições é dimensionado para
+absorver as escritas pendentes. As operações eventualmente ainda em curso
+são finalizadas de forma agregada por uma chamada \texttt{MPI\_Waitall} no
+fechamento dos arquivos, fora da janela de medição.
+
+\begin{figure}[H]
+  \centering
+  \begin{lstlisting}[style=pseudocodigo]
+procedimento writeRegistry()
+    // O QUE: serializa os valores do cenario no registro
+    para cada elemento i do sistema eletrico:
+        registro[i] <- float(dados[i])
+
+    slot <- contador mod TAM_ANEL            // anel de buffers pre-alocados
+    // QUANDO: so reutiliza o slot apos a escrita anterior concluir
+    se requisicao[slot] != NULA:
+        MPI_Wait(requisicao[slot])
+
+    // QUANTO: acumula o patamar (hora) no bloco do estagio corrente
+    buffer[slot][offset_do_patamar] <- registro
+
+    se patamar = ultimo bloco do estagio:
+        // ONDE: posicao logica do cenario no arquivo de resultado
+        irec     <- posicaoLogica(estagio, cenario, patamar)
+        offset   <- irec * tamRegistro
+        tamBloco <- tamRegistro * (numero de blocos do estagio)
+
+        // COMO: escrita independente, assincrona ou sincrona
+        se tamBloco < 128 KB:
+            MPI_File_iwrite_at(fh, offset, buffer[slot], tamBloco, requisicao[slot])
+            contador <- contador + 1
+        senao:
+            MPI_File_write_at(fh, offset, buffer[slot], tamBloco)
+  \end{lstlisting}
+  \caption{Pseudocódigo da escrita independente executada por cada
+  \textit{rank} trabalhador ao concluir um cenário (método
+  \texttt{writeRegistry}), organizado segundo as quatro questões
+  fundamentais: \emph{o que/quanto}, \emph{onde}, \emph{como} e
+  \emph{quando aguardar}.}
+  \label{fig:pseudocodigo_writeregistry}
+\end{figure}
 
 \subsection{Formato dos resultados}
 \label{sec:formato_resultados}
