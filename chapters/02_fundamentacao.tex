@@ -275,19 +275,76 @@ conclusão da operação. \\
 \end{table}
 
 \section{Sistema de arquivos paralelo Lustre}
-Projetado especificamente para cargas massivas de HPC, ele distribui os
-dados em \textit{Object Storage Targets} (OSTs) e os metadados em
-\textit{Metadata Servers} (MDS), permitindo acesso paralelo e balanceado a
-múltiplos clientes. Além disso, o Lustre utiliza a técnica de
-\textit{striping}, na qual um arquivo é dividido em blocos
-(\textit{chunks} ou \textit{stripes}) distribuídos entre diferentes OSTs.
-O tamanho do \textit{stripe} e o número de OSTs utilizados podem ser
-configurados de acordo com o padrão de acesso da aplicação, influenciando
-diretamente no \textit{throughput} e na escalabilidade: \textit{stripes}
-maiores tendem a favorecer grandes operações sequenciais, enquanto
-\textit{stripes} menores podem beneficiar acessos concorrentes e
-distribuídos~\cite{Pjb:02}. Graças a essa flexibilidade e alto desempenho,
-o Lustre tornou-se amplamente adotado em supercomputadores listados no
+\label{sec:lustre}
+O Lustre é um sistema de arquivos paralelo projetado especificamente para
+cargas massivas de HPC, no qual a separação entre o fluxo de metadados e o
+fluxo de dados é o princípio central de sua arquitetura. Essa separação
+permite que múltiplos clientes acessem o armazenamento de forma paralela e
+balanceada, escalando a banda agregada com o número de servidores
+disponíveis~\cite{Pjb:02,LustreManual}. A
+Figura~\ref{fig:lustre_arquitetura} apresenta uma visão geral dos
+componentes do sistema, descritos a seguir.
+
+O \textit{Metadata Server} (MDS) é o componente responsável pelos
+metadados do sistema de arquivos, isto é, pelo \textit{namespace} (estrutura
+de diretórios, nomes de arquivos), pelas permissões e pela informação sobre
+em quais alvos de armazenamento residem os dados de cada arquivo. Os
+metadados propriamente ditos são persistidos em um ou mais
+\textit{Metadata Targets} (MDTs), os dispositivos de bloco associados ao
+MDS. Quando um cliente abre um arquivo, ele primeiro consulta o MDS para
+localizar os dados; uma vez obtida essa informação, as operações
+subsequentes de leitura e escrita ocorrem diretamente com os servidores de
+dados, sem passar novamente pelo MDS. Isso evita que o servidor de
+metadados se torne um gargalo durante as transferências de dados.
+
+O armazenamento dos dados é realizado pelos \textit{Object Storage Servers}
+(OSSs), que gerenciam o acesso aos \textit{Object Storage Targets} (OSTs)
+--- os dispositivos de bloco onde os dados dos arquivos são efetivamente
+gravados. Cada OSS administra um ou mais OSTs, e o conjunto de OSTs define a
+capacidade total e a banda agregada de E/S do sistema. Como os clientes se
+comunicam simultaneamente com vários OSSs, o paralelismo de acesso cresce
+com o número de OSTs, sendo este um dos principais fatores de
+escalabilidade do Lustre.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/Lustre_arquitetura.png}
+  \caption{Arquitetura do sistema de arquivos paralelo Lustre. O servidor
+  de metadados (MDS/MDT) mantém o \textit{namespace}, enquanto os dados são
+  distribuídos entre os OSTs gerenciados pelos OSSs. Os clientes consultam o
+  MDS para localizar o arquivo e, em seguida, acessam os dados diretamente
+  nos OSTs.}
+  \label{fig:lustre_arquitetura}
+\end{figure}
+
+Para distribuir os dados entre os OSTs, o Lustre emprega a técnica de
+\textit{striping}, na qual um arquivo é dividido em blocos de tamanho fixo
+(\textit{stripes}) gravados de forma circular (\textit{round-robin}) em um
+subconjunto de OSTs, conforme ilustrado na
+Figura~\ref{fig:lustre_striping}. Dois parâmetros controlam esse
+comportamento: o \textit{stripe size}, que define o tamanho de cada bloco, e
+o \textit{stripe count}, que indica em quantos OSTs o arquivo é espalhado.
+Ao distribuir um único arquivo por vários OSTs, o \textit{striping} permite
+que diferentes partes sejam lidas ou escritas em paralelo, multiplicando a
+banda efetiva percebida pela aplicação.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/Lustre_striping.png}
+  \caption{Distribuição de um arquivo em \textit{stripes} pelos OSTs no
+  Lustre. Com \textit{stripe count} igual a 4, os blocos são alocados de
+  forma circular entre os OSTs, viabilizando o acesso paralelo aos dados.}
+  \label{fig:lustre_striping}
+\end{figure}
+
+A escolha desses parâmetros deve considerar o padrão de acesso da
+aplicação, pois influencia diretamente o \textit{throughput} e a
+escalabilidade: \textit{stripes} maiores e \textit{stripe counts} menores
+tendem a favorecer grandes operações sequenciais, enquanto \textit{stripes}
+menores distribuídos por mais OSTs podem beneficiar acessos concorrentes e
+de granularidade fina, embora aumentem a sobrecarga de coordenação entre os
+alvos~\cite{Pjb:02}. Graças a essa flexibilidade e ao alto desempenho, o
+Lustre tornou-se amplamente adotado em supercomputadores listados no
 TOP500, constituindo um elemento-chave para aplicações científicas e
 industriais que exigem desempenho extremo em E/S.
 

@@ -628,6 +628,164 @@ def sddp_architecture2_plot(output: str) -> None:
     finish(fig, output)
 
 
+def lustre_architecture_plot(output: str) -> None:
+    from matplotlib.patches import FancyBboxPatch
+
+    LC = {
+        "client": "#EAF2FB", "client_b": "#2B6CB0",
+        "net": "#E8EEF5", "net_b": "#607D8B",
+        "mds": "#FCEBEA", "mds_b": "#C53030",
+        "mdt": "#F9D5D2",
+        "oss": "#E9F7EF", "oss_b": "#2E7D32",
+        "ost": "#BFE6C5",
+        "text": "#263238", "muted": "#607D8B", "arrow": "#455A64",
+    }
+
+    def rbox(ax, x, y, w, h, face, edge, lw=1.8):
+        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.0,rounding_size=0.10",
+                                    facecolor=face, edgecolor=edge, linewidth=lw))
+
+    def tx(ax, x, y, s, size=10, weight="normal", color=None, style="normal"):
+        ax.text(x, y, s, fontsize=size, fontweight=weight, ha="center", va="center",
+                color=color or LC["text"], style=style)
+
+    def ar(ax, x1, y1, x2, y2, color=None, lw=1.6, style="-|>"):
+        ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
+                    arrowprops=dict(arrowstyle=style, color=color or LC["arrow"],
+                                    linewidth=lw, shrinkA=0, shrinkB=0))
+
+    fig, ax = plt.subplots(figsize=(11.5, 7.2))
+    ax.set_xlim(0, 11.5)
+    ax.set_ylim(0, 7.2)
+    ax.axis("off")
+    fig.patch.set_facecolor("white")
+
+    cli_y, cw, ch = 6.05, 1.9, 0.85
+    cli_specs = [(0.6, "Cliente 1"), (2.75, "Cliente 2"), (4.9, "..."), (6.55, "Cliente N")]
+    cli_cx = []
+    for x, label in cli_specs:
+        if label == "...":
+            tx(ax, x + 0.35, cli_y + ch / 2, "...", 20, "bold", LC["muted"])
+            cli_cx.append(x + 0.35)
+            continue
+        rbox(ax, x, cli_y, cw, ch, LC["client"], LC["client_b"], 2.0)
+        tx(ax, x + cw / 2, cli_y + ch / 2, label, 11, "bold", LC["client_b"])
+        cli_cx.append(x + cw / 2)
+    tx(ax, 9.7, cli_y + ch / 2, "Processos MPI\n(nós de cálculo)", 9.5, "normal", LC["muted"], style="italic")
+
+    net_y, net_h = 4.95, 0.62
+    rbox(ax, 0.6, net_y, 9.0, net_h, LC["net"], LC["net_b"], 1.6)
+    tx(ax, 5.1, net_y + net_h / 2, "Rede de interconexão de alta velocidade", 12, "bold", LC["net_b"])
+    for cx in cli_cx:
+        ar(ax, cx, cli_y, cx, net_y + net_h, LC["client_b"], 1.4)
+
+    mds_x, mds_y, mds_w, mds_h = 0.6, 3.05, 2.6, 1.2
+    rbox(ax, mds_x, mds_y, mds_w, mds_h, LC["mds"], LC["mds_b"], 2.0)
+    tx(ax, mds_x + mds_w / 2, mds_y + mds_h - 0.30, "MDS", 13, "bold", LC["mds_b"])
+    tx(ax, mds_x + mds_w / 2, mds_y + 0.32, "Metadata Server\n(namespace, permissões)", 8.6, "normal", LC["muted"])
+    mdt_y = 1.35
+    rbox(ax, mds_x + 0.45, mdt_y, mds_w - 0.9, 0.85, LC["mdt"], LC["mds_b"], 1.6)
+    tx(ax, mds_x + mds_w / 2, mdt_y + 0.43, "MDT\n(metadados)", 9.2, "bold", LC["mds_b"])
+    ar(ax, mds_x + mds_w / 2, mds_y, mds_x + mds_w / 2, mdt_y + 0.85)
+    ar(ax, mds_x + mds_w / 2, net_y, mds_x + mds_w / 2, mds_y + mds_h, LC["mds_b"], 1.6, style="<|-|>")
+
+    oss_specs = [(3.95, "OSS 1"), (6.05, "OSS 2"), (8.15, "OSS M")]
+    oss_w, oss_h, oss_y = 1.85, 1.2, 3.05
+    ost_y = 1.35
+    for ox, label in oss_specs:
+        rbox(ax, ox, oss_y, oss_w, oss_h, LC["oss"], LC["oss_b"], 2.0)
+        tx(ax, ox + oss_w / 2, oss_y + oss_h - 0.30, label, 12, "bold", LC["oss_b"])
+        tx(ax, ox + oss_w / 2, oss_y + 0.34, "Object Storage\nServer", 8.4, "normal", LC["muted"])
+        ar(ax, ox + oss_w / 2, net_y, ox + oss_w / 2, oss_y + oss_h, LC["oss_b"], 1.6, style="<|-|>")
+        for dx in [0.12, 1.00]:
+            rbox(ax, ox + dx - 0.06, ost_y, 0.82, 0.85, LC["ost"], LC["oss_b"], 1.4)
+            tx(ax, ox + dx + 0.35, ost_y + 0.43, "OST", 8.8, "bold", LC["oss_b"])
+        ar(ax, ox + oss_w / 2, oss_y, ox + 0.41, ost_y + 0.85)
+        ar(ax, ox + oss_w / 2, oss_y, ox + 1.29, ost_y + 0.85)
+
+    tx(ax, 1.9, 2.55, "Caminho de metadados", 9.0, "bold", LC["mds_b"], style="italic")
+    tx(ax, 6.95, 0.92, "Caminho de dados (OSS → OST)", 9.0, "bold", LC["oss_b"], style="italic")
+    tx(ax, 5.75, 0.55, "Os clientes consultam o MDS para localizar o arquivo e, em seguida, "
+       "leem/escrevem os dados diretamente nos OSTs por meio dos OSS.",
+       9.2, "normal", LC["muted"], style="italic")
+
+    fig.tight_layout()
+    FIGURES_DIR.mkdir(exist_ok=True)
+    fig.savefig(FIGURES_DIR / output, dpi=300, bbox_inches="tight")
+    plt.close(fig)
+
+
+def lustre_striping_plot(output: str) -> None:
+    from matplotlib.patches import FancyBboxPatch
+
+    LC = {"ost": "#BFE6C5", "ost_b": "#2E7D32", "oss_b": "#2E7D32",
+          "text": "#263238", "muted": "#607D8B", "arrow": "#455A64"}
+
+    def rbox(ax, x, y, w, h, face, edge, lw=1.8):
+        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.0,rounding_size=0.10",
+                                    facecolor=face, edgecolor=edge, linewidth=lw))
+
+    def tx(ax, x, y, s, size=10, weight="normal", color=None, style="normal"):
+        ax.text(x, y, s, fontsize=size, fontweight=weight, ha="center", va="center",
+                color=color or LC["text"], style=style)
+
+    def ar(ax, x1, y1, x2, y2, color=None, lw=1.6, style="-|>"):
+        ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
+                    arrowprops=dict(arrowstyle=style, color=color or LC["arrow"],
+                                    linewidth=lw, shrinkA=0, shrinkB=0))
+
+    fig, ax = plt.subplots(figsize=(11.5, 6.4))
+    ax.set_xlim(0, 11.5)
+    ax.set_ylim(0, 6.4)
+    ax.axis("off")
+    fig.patch.set_facecolor("white")
+
+    n_ost = 4
+    stripe_colors = ["#4C78A8", "#F58518", "#54A24B", "#E45756"]
+
+    tx(ax, 5.75, 6.05, "Arquivo lógico (visão da aplicação)", 12.5, "bold", LC["text"])
+    fx0, fy, sw, sh = 0.9, 5.0, 1.18, 0.78
+    n_stripes = 8
+    for i in range(n_stripes):
+        col = stripe_colors[i % n_ost]
+        x = fx0 + i * sw
+        rbox(ax, x, fy, sw - 0.06, sh, col, col, 0.0)
+        ax.add_patch(plt.Rectangle((x, fy), sw - 0.06, sh, fill=False, edgecolor="white", linewidth=1.4))
+        tx(ax, x + (sw - 0.06) / 2, fy + sh / 2, f"stripe {i}", 9.2, "bold", "white")
+    ax.annotate("", xy=(fx0 + sw - 0.06, fy - 0.20), xytext=(fx0, fy - 0.20),
+                arrowprops=dict(arrowstyle="<|-|>", color=LC["muted"], linewidth=1.3))
+    tx(ax, fx0 + (sw - 0.06) / 2, fy - 0.45, "stripe size\n(ex.: 1 MB)", 8.6, "bold", LC["muted"])
+
+    oy, ow, oh = 1.0, 2.25, 1.5
+    gap = (11.5 - n_ost * ow) / (n_ost + 1)
+    ost_cx = []
+    for j in range(n_ost):
+        ox = gap + j * (ow + gap)
+        rbox(ax, ox, oy, ow, oh, LC["ost"], LC["ost_b"], 2.0)
+        tx(ax, ox + ow / 2, oy + oh - 0.28, f"OST {j}", 12, "bold", LC["oss_b"])
+        ost_cx.append(ox + ow / 2)
+        mine = [i for i in range(n_stripes) if i % n_ost == j]
+        bw = 0.62
+        bx0 = ox + (ow - len(mine) * bw - (len(mine) - 1) * 0.12) / 2
+        for k, i in enumerate(mine):
+            bx = bx0 + k * (bw + 0.12)
+            rbox(ax, bx, oy + 0.28, bw, 0.55, stripe_colors[j], stripe_colors[j], 0.0)
+            tx(ax, bx + bw / 2, oy + 0.28 + 0.275, f"{i}", 9.0, "bold", "white")
+
+    for i in range(n_ost):
+        sx = fx0 + i * sw + (sw - 0.06) / 2
+        ar(ax, sx, fy, ost_cx[i], oy + oh, stripe_colors[i], 1.7)
+
+    tx(ax, 5.75, 0.45, "stripe count = 4: os stripes do arquivo são distribuídos de forma "
+       "circular (round-robin) entre os OSTs, permitindo E/S paralela.",
+       9.2, "normal", LC["muted"], style="italic")
+
+    fig.tight_layout()
+    FIGURES_DIR.mkdir(exist_ok=True)
+    fig.savefig(FIGURES_DIR / output, dpi=300, bbox_inches="tight")
+    plt.close(fig)
+
+
 def main() -> None:
     sd_current = read_csv(PATHS["sd_current"], max_nodes=16)
     sd_mpiio = read_csv(PATHS["sd_mpiio"], max_nodes=16)
@@ -643,3 +801,6 @@ def main() -> None:
     message_size_plot(aws_current, aws_mpiio, "EnvioPorTamanho_AWS.png")
     message_count_by_size_plot("histograma_mensagens.png")
     sddp_timeline_plot("SDDP_timeline_MPIIO.png")
+
+    lustre_architecture_plot("Lustre_arquitetura.png")
+    lustre_striping_plot("Lustre_striping.png")

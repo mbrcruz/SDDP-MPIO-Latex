@@ -15,13 +15,13 @@ MPI_Send, ao processo escrito
 
 - Capitulo 2
    
-    - Não destacar ambiente em nuvem , substituir por  ambiente computacional e criar sessão AWS para falar as configurações e SDumont também . 
-    - Bag-of-tasks
-    - arquivo compartilhado        
-    - Melhorar explicação sobre o Lustre na fundamentação teórica
-        - Stripe e OSTs
-    - Acesso continguo vs strides  ( favorece o TWO PHASE I/O )
     
+    - Rendevous
+    - Acesso continguo vs strides (Favorece o TWO PHASE I/O )  - na seção MPI-IO  
+    - arquivo compartilhado   
+    - Bag-of-tasks    
+    - ~~Não destacar ambiente em nuvem , substituir por  ambiente computacional e criar sessão AWS para falar as configurações e SDumont também . ~~
+    - ~~Melhorar explicação sobre o Lustre na fundamentação teórica -  Stripe e OSTs~~
      - ~~reduzir titulos da fundamentação teorica~~
     - ~~MPI (  MPI-IO ) sendo uma unica seção - Melhorar referencias e texto, colocar - figura sobre Eager vs rendevous ~~
     - ~~falar sobre escrita independentes e colletiva , vantagens de ambas~~
