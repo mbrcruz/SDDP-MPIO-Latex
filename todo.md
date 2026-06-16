@@ -14,21 +14,23 @@ MPI_Send, ao processo escrito
 
 
 - Capitulo 2
-    - ~~reduzir titulos da fundamentação teorica~~
+   
     - Não destacar ambiente em nuvem , substituir por  ambiente computacional e criar sessão AWS para falar as configurações e SDumont também . 
     - Bag-of-tasks
+    - arquivo compartilhado        
+    - Melhorar explicação sobre o Lustre na fundamentação teórica
+        - Stripe e OSTs
+    - Acesso continguo vs strides  ( favorece o TWO PHASE I/O )
+    
+     - ~~reduzir titulos da fundamentação teorica~~
     - ~~MPI (  MPI-IO ) sendo uma unica seção - Melhorar referencias e texto, colocar - figura sobre Eager vs rendevous ~~
     - ~~falar sobre escrita independentes e colletiva , vantagens de ambas~~
     - ~~escritas sincronas e assincronas~~
-    - arquivo compartilhado    
-    - Acesso continguo vs strides  ( favorece o TWO PHASE I/O )
-    - Melhorar explicação sobre o Lustre na fundamentação teórica
-        - Stripe e OSTs
-    - SDDP
-        - Introdução - Explicar o que é um cenario.        - 
-        - arquitetura atual.
-        - Comparar formato dos resultados horário e por bloco.
-        - pipeline SDDP com algoritmo atual
+    - ~~SDDP~~
+        - ~~Introdução - Explicar o que é um cenario.        - ~~
+        - ~~arquitetura atual.~~
+        - ~~Comparar formato dos resultados horário e por bloco.~~
+        - ~~pipeline SDDP com algoritmo atual~~
 
 - Trabalhar no capitulo III 
 

@@ -291,41 +291,90 @@ o Lustre tornou-se amplamente adotado em supercomputadores listados no
 TOP500, constituindo um elemento-chave para aplicações científicas e
 industriais que exigem desempenho extremo em E/S.
 
-\section{Adaptadores de rede em HPC: Ethernet e InfiniBand}
-Os adaptadores de rede são componentes críticos para o desempenho em
-sistemas de computação de alto desempenho, sendo a Ethernet e o InfiniBand
-as tecnologias mais utilizadas. A Ethernet, tradicionalmente projetada para
-redes locais corporativas, evoluiu para padrões de alta velocidade, como
-40/100/400~Gbps, oferecendo elevada taxa de transferência
-(\textit{bandwidth}), embora apresente latências relativamente maiores,
-frequentemente na ordem de dezenas de microssegundos. Já o InfiniBand foi
-desenvolvido especificamente para ambientes de HPC, combinando altas
-larguras de banda --- que podem ultrapassar 400~Gbps em implementações
-modernas --- com latências extremamente baixas, tipicamente abaixo de
-2~$\mu$s, graças a recursos como comunicação RDMA (\textit{Remote Direct
-Memory Access}). Essa diferença torna o InfiniBand preferido em
-supercomputadores e \textit{clusters} científicos, onde a baixa latência na
-troca de dados entre processos é tão relevante quanto a banda disponível, enquanto a
-Ethernet, pelo menor custo e ampla compatibilidade, mantém espaço em
-sistemas híbridos e \textit{datacenters}~\cite{Fds:03,RlGmmts:05}.
+\section{Ambientes computacionais}
+\label{sec:ambientes_computacionais}
+Os experimentos deste trabalho foram conduzidos em dois ambientes de
+computação de alto desempenho (HPC) com características distintas: a nuvem
+pública da Amazon Web Services (AWS) e o supercomputador Santos Dumont
+(SDumont). Embora ambos ofereçam recursos comparáveis de processamento e
+armazenamento paralelo, eles se diferenciam de forma marcante na tecnologia
+de interconexão entre nós, fator determinante para o desempenho de
+aplicações paralelas. A Ethernet, tradicionalmente projetada para redes
+locais corporativas, evoluiu para padrões de alta velocidade e oferece
+elevada taxa de transferência (\textit{bandwidth}), porém apresenta
+latências relativamente maiores, frequentemente na ordem de dezenas de
+microssegundos. Já o InfiniBand foi desenvolvido especificamente para
+ambientes de HPC, combinando altas larguras de banda com latências
+extremamente baixas, tipicamente abaixo de 2~$\mu$s, graças a recursos como
+comunicação RDMA (\textit{Remote Direct Memory Access}). Essa diferença
+torna o InfiniBand preferido em supercomputadores e \textit{clusters}
+científicos, enquanto a Ethernet, pelo menor custo e ampla
+compatibilidade, predomina em \textit{datacenters} e ambientes de
+nuvem~\cite{Fds:03,RlGmmts:05}. As subseções a seguir descrevem cada
+ambiente e suas respectivas tecnologias de rede.
 
-\section{Computação em nuvem para HPC: AWS}
+\subsection{Ambiente de nuvem: AWS}
+\label{sec:ambiente_aws}
 A Amazon Web Services (AWS) tem se consolidado como uma das principais
 plataformas de computação em nuvem para aplicações de \textit{High
 Performance Computing} (HPC), oferecendo recursos sob demanda que permitem
-a execução de cargas de trabalho intensivas em computação e E/S. Entre os
-serviços disponíveis, destacam-se as instâncias otimizadas para HPC, como
-as famílias C, H e P, que fornecem alto poder de processamento aliado a
-interconexões de baixa latência por meio do \textit{Elastic Fabric Adapter}
-(EFA), permitindo a utilização de bibliotecas como MPI em escala. Para
+a execução de cargas de trabalho intensivas em computação e E/S. Para
 atender aplicações intensivas em dados, a AWS integra sistemas de
 armazenamento de alto desempenho, como o Amazon FSx for Lustre, que
 viabiliza acesso paralelo e em larga escala, semelhante a sistemas de
-arquivos utilizados em supercomputadores tradicionais. Essa combinação de
-infraestrutura elástica, rede de alto desempenho e suporte a ferramentas
-amplamente usadas em HPC torna a nuvem da AWS uma alternativa competitiva
-frente a \textit{clusters} locais, especialmente em cenários que demandam
-escalabilidade e flexibilidade~\cite{Krlkssj:10,Hmns:20}.
+arquivos utilizados em supercomputadores
+tradicionais~\cite{Krlkssj:10,Hmns:20}.
+
+No que se refere à rede, as instâncias da AWS empregam o
+\textit{Elastic Network Adapter} (ENA), uma interface de rede virtual de
+alto desempenho baseada em Ethernet, que oferece largura de banda elevada
+e baixa sobrecarga de processador por meio de recursos como
+\textit{checksum offload} e distribuição de tráfego em múltiplas filas. O
+ENA constitui a base da conectividade entre instâncias e do acesso ao FSx
+for Lustre, sustentando a comunicação MPI utilizada nos
+experimentos~\cite{aws:ena}.
+
+Por se tratar de uma infraestrutura virtualizada e compartilhada, a
+topologia física dos nós não é exposta diretamente ao usuário. A AWS
+organiza seus recursos em \textit{regiões}, subdivididas em
+\textit{zonas de disponibilidade} (\textit{Availability Zones}) ---
+conjuntos isolados de \textit{datacenters} com energia, refrigeração e
+rede independentes. Instâncias em uma mesma zona de disponibilidade
+apresentam latência de rede mais baixa entre si, razão pela qual todos os
+nós dos experimentos foram alocados em uma única zona. Para reduzir ainda
+mais a latência de comunicação, utilizou-se um \textit{Placement Group} do
+tipo \textit{cluster}, mecanismo que agrupa as instâncias logicamente
+próximas dentro da mesma zona de disponibilidade, em um segmento de rede de
+baixa latência e alta vazão. Essa configuração aproxima o desempenho de
+comunicação da nuvem ao de um \textit{cluster} dedicado, sendo recomendada
+para cargas de trabalho de HPC fortemente acopladas, como as do
+SDDP~\cite{aws:placement}. O próprio sistema de arquivos Amazon FSx for
+Lustre também é provisionado em uma única zona de disponibilidade,
+coincidente com a das instâncias de cálculo, de modo que o acesso ao
+armazenamento permaneça no mesmo segmento de rede de baixa latência,
+evitando o tráfego entre zonas distintas.
+
+\subsection{Ambiente de supercomputação: Santos Dumont}
+\label{sec:ambiente_sdumont}
+O supercomputador Santos Dumont (SDumont), instalado no Laboratório
+Nacional de Computação Científica (LNCC), em Petrópolis-RJ, atua como nó
+central (Tier-0) do Sistema Nacional de Processamento de Alto Desempenho
+(SINAPAD) e representa um ambiente de HPC tradicional, com infraestrutura
+dedicada e exclusiva para aplicações científicas. Diferentemente da nuvem,
+sua topologia é fixa e conhecida, e seus nós são interligados por uma rede
+de interconexão de alta velocidade baseada em InfiniBand.
+
+O InfiniBand é a tecnologia de interconexão predominante em
+supercomputadores, oferecendo largura de banda elevada e, sobretudo,
+latência muito baixa na troca de mensagens entre processos. Esse desempenho
+deriva em grande parte do suporte nativo à comunicação RDMA, que permite o
+acesso direto à memória de nós remotos sem intervenção do sistema
+operacional, eliminando cópias intermediárias e reduzindo a carga sobre o
+processador. Tais características são particularmente relevantes para
+aplicações com troca intensa de mensagens e operações coletivas de E/S,
+como o SDDP, em que a baixa latência na comunicação entre \textit{ranks} MPI
+é tão importante quanto a banda
+disponível~\cite{Fds:03,RlGmmts:05}.
 
 \section{O Programa Mensal da Operação (PMO)}
 No setor elétrico brasileiro, o Programa Mensal da Operação (PMO) é um

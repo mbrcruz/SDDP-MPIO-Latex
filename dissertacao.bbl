@@ -1,4 +1,4 @@
-\begin{thebibliography}{32}
+\begin{thebibliography}{34}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -162,6 +162,24 @@
   \textless\url{https://aws.amazon.com/blogs/compute/running-simcenter-star-ccm-on-aws/}\textgreater
   .
 
+\bibitem[\MakeUppercase{{Amazon Web Services}}(2024{\natexlab{a}}){Amazon Web
+  Services}]{aws:ena}
+\MakeUppercase{{Amazon Web Services}}.
+\newblock \coppeenquote{Elastic Network Adapter ({ENA}) --- Enhanced Networking
+  on {Linux}}. Amazon {EC2} User Guide, 2024{\natexlab{a}}.
+\newblock Dispon{\' i}vel em:
+  \textless\url{https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking-ena.html}\textgreater
+  .
+
+\bibitem[\MakeUppercase{{Amazon Web Services}}(2024{\natexlab{b}}){Amazon Web
+  Services}]{aws:placement}
+\MakeUppercase{{Amazon Web Services}}.
+\newblock \coppeenquote{Placement Groups for {Amazon EC2} Instances}. Amazon
+  {EC2} User Guide, 2024{\natexlab{b}}.
+\newblock Dispon{\' i}vel em:
+  \textless\url{https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html}\textgreater
+  .
+
 \bibitem[\MakeUppercase{{Operador Nacional do Sistema
   El\'etrico}}(2023){Operador Nacional do Sistema El\'etrico}]{ons:23}
 \MakeUppercase{{Operador Nacional do Sistema El\'etrico}}.
@@ -215,11 +233,11 @@
   \url{https://www.intel.com/content/www/us/en/products/details/processors/xeon/scalable.html},
   2023.
 
-\bibitem[\MakeUppercase{{Amazon Web Services}}(2024){Amazon Web
+\bibitem[\MakeUppercase{{Amazon Web Services}}(2024{\natexlab{c}}){Amazon Web
   Services}]{aws:24}
 \MakeUppercase{{Amazon Web Services}}.
 \newblock \coppeenquote{Amazon {EC2} {R}7i Instances --- {M}emory {O}ptimized}.
-  \url{https://aws.amazon.com/ec2/instance-types/r7i/}, 2024.
+  \url{https://aws.amazon.com/ec2/instance-types/r7i/}, 2024{\natexlab{c}}.
 
 \bibitem[\MakeUppercase{Dickens} e \MakeUppercase{Logan}(2008)Dickens e
   Logan]{Dickens:08}
