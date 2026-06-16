@@ -20,10 +20,24 @@ completar um bloco alinhado à fronteira de \textit{stripe} antes de emitir a
 escrita ao filesystem. Essa abordagem \emph{não foi adotada} nesta
 dissertação: a implementação descrita no Capítulo~\ref{cap:proposta}
 apenas agrega os registros horários por par
-$(\text{estágio}, \text{cenário})$ em uma única escrita, sem alinhamento
-explícito às fronteiras de \textit{stripe}. A incorporação desse
-alinhamento como aprimoramento da arquitetura proposta é discutida entre
-os trabalhos futuros (Capítulo~\ref{cap:conclusao}).
+$(\text{estágio}, \text{cenário})$ em uma única escrita, sem
+alinhamento explícito às fronteiras de \textit{stripe}. Ainda assim,
+parte das escritas resultantes \emph{acaba se alinhando
+incidentalmente} ao tamanho de \textit{stripe} configurado no Lustre
+(1~MB nos experimentos), em decorrência do padrão de acesso do SDDP
+no formato horário: arquivos com algumas centenas de elementos do
+sistema elétrico produzem blocos por par
+$(\text{estágio}, \text{cenário})$ próximos ou múltiplos da fronteira
+de \textit{stripe} (cf.~Seção~\ref{sec:formato_resultados}). Esse
+alinhamento incidental tende a beneficiar parte das operações de E/S
+do SDDP --- evitando, para esses blocos, a aquisição de múltiplos
+locks descrita por \citeauthor{LiaoIPDPS:07} --- e ajuda a explicar o
+desempenho já obtido pela arquitetura proposta mesmo na ausência de
+um mecanismo explícito de bufferização alinhada. A incorporação
+\emph{sistemática} desse alinhamento como aprimoramento da
+arquitetura proposta, beneficiando inclusive os arquivos cujos
+blocos por cenário ficam desalinhados, é discutida entre os
+trabalhos futuros (Capítulo~\ref{cap:conclusao}).
 
 Em continuação direta, \citeauthor{Dickens:10}~\cite{Dickens:10} propuseram a Y-lib,
 uma biblioteca que substitui o driver ADIO padrão do ROMIO para Lustre, implementando
