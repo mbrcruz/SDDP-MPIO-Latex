@@ -15,11 +15,10 @@ MPI_Send, ao processo escrito
 
 - Capitulo 2
    
-    
-    - Rendevous
-    - Acesso continguo vs strides (Favorece o TWO PHASE I/O )  - na seção MPI-IO  
-    - arquivo compartilhado   
-    - Bag-of-tasks    
+    - Acesso continguo vs strides (Favorece o TWO PHASE I/O ) - na seção MPI-IO  
+    - Arquivo compartilhado   
+    - Bag-of-tasks
+    - ~~Rendevous~~ 
     - ~~Não destacar ambiente em nuvem , substituir por  ambiente computacional e criar sessão AWS para falar as configurações e SDumont também . ~~
     - ~~Melhorar explicação sobre o Lustre na fundamentação teórica -  Stripe e OSTs~~
      - ~~reduzir titulos da fundamentação teorica~~

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  16 JUN 2026 13:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  16 JUN 2026 13:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -881,117 +881,128 @@ Cap\'{\i }tulo 1.
 Cap\'{\i }tulo 2.
 [5
 
-] [6
+]
+<figuras/Eager-and-Rendezvous-Protocols.png, id=523, 731.01105pt x 342.5598pt>
+File: figuras/Eager-and-Rendezvous-Protocols.png Graphic file (type png)
+<use figuras/Eager-and-Rendezvous-Protocols.png>
+Package pdftex.def Info: figuras/Eager-and-Rendezvous-Protocols.png  used on input line 74.
+(pdftex.def)             Requested size: 426.79135pt x 199.9968pt.
+ [6
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.120 
-      ] [7]
-Underfull \hbox (badness 10000) in paragraph at lines 274--274
-[]|\T1/cmr/m/n/12 Assíncrona in-de-
- []
-
-[8
+l.93 
+      <./figuras/Eager-and-Rendezvous-Protocols.png (PNG copy)>] [7
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.276 
-      ] [9
-pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.308 
-      ]
-<figuras/Lustre_arquitetura.png, id=551, 823.878pt x 512.8761pt>
-File: figuras/Lustre_arquitetura.png Graphic file (type png)
-<use figuras/Lustre_arquitetura.png>
-Package pdftex.def Info: figuras/Lustre_arquitetura.png  used on input line 311.
-(pdftex.def)             Requested size: 426.79135pt x 265.67975pt.
-<figuras/Lustre_striping.png, id=554, 823.878pt x 455.301pt>
-File: figuras/Lustre_striping.png Graphic file (type png)
-<use figuras/Lustre_striping.png>
-Package pdftex.def Info: figuras/Lustre_striping.png  used on input line 333.
-(pdftex.def)             Requested size: 426.79135pt x 235.85472pt.
- [10
+l.157 
+      ] [8]
+Underfull \hbox (badness 10000) in paragraph at lines 296--296
+[]|\T1/cmr/m/n/12 Assíncrona in-de-
+ []
+
+[9
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.339 
-       <./figuras/Lustre_arquitetura.png>] [11
+l.298 
+      ] [10
+pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.330 
+      ]
+<figuras/Lustre_arquitetura.png, id=563, 823.878pt x 512.8761pt>
+File: figuras/Lustre_arquitetura.png Graphic file (type png)
+<use figuras/Lustre_arquitetura.png>
+Package pdftex.def Info: figuras/Lustre_arquitetura.png  used on input line 333.
+(pdftex.def)             Requested size: 426.79135pt x 265.67975pt.
+<figuras/Lustre_striping.png, id=566, 823.878pt x 455.301pt>
+File: figuras/Lustre_striping.png Graphic file (type png)
+<use figuras/Lustre_striping.png>
+Package pdftex.def Info: figuras/Lustre_striping.png  used on input line 355.
+(pdftex.def)             Requested size: 426.79135pt x 235.85472pt.
+ [11
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.372 
-       <./figuras/Lustre_striping.png>] [12] [13] [14]
-<figuras/SDDP_cenarios_estagios.png, id=599, 968.418pt x 283.5393pt>
-File: figuras/SDDP_cenarios_estagios.png Graphic file (type png)
-<use figuras/SDDP_cenarios_estagios.png>
-Package pdftex.def Info: figuras/SDDP_cenarios_estagios.png  used on input line 521.
-(pdftex.def)             Requested size: 426.79135pt x 124.95668pt.
- [15
+l.361 
+       <./figuras/Lustre_arquitetura.png>] [12
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.558 
-       <./figuras/SDDP_cenarios_estagios.png>]
-<figuras/SDDP_architecture.png, id=607, 2007.5pt x 1380.15625pt>
-File: figuras/SDDP_architecture.png Graphic file (type png)
-<use figuras/SDDP_architecture.png>
-Package pdftex.def Info: figuras/SDDP_architecture.png  used on input line 645.
-(pdftex.def)             Requested size: 298.75264pt x 205.39293pt.
+l.394 
+       <./figuras/Lustre_striping.png>] [13] [14] [15]
+<figuras/SDDP_cenarios_estagios.png, id=611, 968.418pt x 283.5393pt>
+File: figuras/SDDP_cenarios_estagios.png Graphic file (type png)
+<use figuras/SDDP_cenarios_estagios.png>
+Package pdftex.def Info: figuras/SDDP_cenarios_estagios.png  used on input line 543.
+(pdftex.def)             Requested size: 426.79135pt x 124.95668pt.
  [16
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.657 
-      
+l.580 
+       <./figuras/SDDP_cenarios_estagios.png>]
+<figuras/SDDP_architecture.png, id=619, 2007.5pt x 1380.15625pt>
+File: figuras/SDDP_architecture.png Graphic file (type png)
+<use figuras/SDDP_architecture.png>
+Package pdftex.def Info: figuras/SDDP_architecture.png  used on input line 667.
+(pdftex.def)             Requested size: 298.75264pt x 205.39293pt.
+ [17
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.657 
-       <./figuras/SDDP_architecture.png (PNG copy)>]) (chapters/03_proposta.tex [17]
+l.679 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.2.8}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.679 
+       <./figuras/SDDP_architecture.png (PNG copy)>]) (chapters/03_proposta.tex [18]
 Cap\'{\i }tulo 3.
-[18
+[19
 
 ]
-<figuras/SDDP_architecture2.png, id=630, 917.829pt x 527.3301pt>
+<figuras/SDDP_architecture2.png, id=642, 917.829pt x 527.3301pt>
 File: figuras/SDDP_architecture2.png Graphic file (type png)
 <use figuras/SDDP_architecture2.png>
 Package pdftex.def Info: figuras/SDDP_architecture2.png  used on input line 43.
 (pdftex.def)             Requested size: 567.63065pt x 326.1286pt.
- [19
+ [20
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.73 
       <./figuras/SDDP_architecture2.png>]
-<figuras/SDDP_timeline_MPIIO.png, id=640, 886.9938pt x 397.2441pt>
+<figuras/SDDP_timeline_MPIIO.png, id=652, 886.9938pt x 397.2441pt>
 File: figuras/SDDP_timeline_MPIIO.png Graphic file (type png)
 <use figuras/SDDP_timeline_MPIIO.png>
 Package pdftex.def Info: figuras/SDDP_timeline_MPIIO.png  used on input line 112.
 (pdftex.def)             Requested size: 567.63065pt x 254.22928pt.
- [20] [21
+ [21] [22
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.149 
-       <./figuras/SDDP_timeline_MPIIO.png>] [22] [23
+       <./figuras/SDDP_timeline_MPIIO.png>] [23] [24
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.264 
       ]
-<figuras/formato_arquivos_resultado.png, id=673, 903.375pt x 411.939pt>
+<figuras/formato_arquivos_resultado.png, id=686, 903.375pt x 411.939pt>
 File: figuras/formato_arquivos_resultado.png Graphic file (type png)
 <use figuras/formato_arquivos_resultado.png>
 Package pdftex.def Info: figuras/formato_arquivos_resultado.png  used on input line 285.
 (pdftex.def)             Requested size: 567.63065pt x 258.85664pt.
- [24
+ [25
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.306 
-       <./figuras/formato_arquivos_resultado.png>] [25]
+       <./figuras/formato_arquivos_resultado.png>] [26]
 Overfull \hbox (7.7622pt too wide) in paragraph at lines 394--394
 []|\T1/cmtt/m/n/10.95 mpiio-collective-{p}.log| 
  []
@@ -1001,7 +1012,7 @@ Underfull \hbox (badness 3375) in paragraph at lines 399--403
 []|\T1/cmr/m/n/10.95 Temporizadores in-ter-nos do SDDP, em par-ti-cu-lar
  []
 
-[26
+[27
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -1009,22 +1020,22 @@ l.411
       ]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 432.
- [27] [28]) (chapters/04_avaliacoes.tex [29]
+ [28] [29]) (chapters/04_avaliacoes.tex [30]
 Cap\'{\i }tulo 4.
-[30
+[31
 
 ]
-<figuras/histograma_mensagens.png, id=724, 786.2976pt x 354.123pt>
+<figuras/histograma_mensagens.png, id=736, 786.2976pt x 354.123pt>
 File: figuras/histograma_mensagens.png Graphic file (type png)
 <use figuras/histograma_mensagens.png>
 Package pdftex.def Info: figuras/histograma_mensagens.png  used on input line 64.
 (pdftex.def)             Requested size: 426.79135pt x 192.21239pt.
- [31
+ [32
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.83 
-      <./figuras/histograma_mensagens.png>] [32] [33
+      <./figuras/histograma_mensagens.png>] [33] [34
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -1032,128 +1043,128 @@ l.205
       ]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 242.
- [34
+ [35
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.296 
       ]
-<figuras/Banda_AWS.png, id=756, 859.2903pt x 354.123pt>
+<figuras/Banda_AWS.png, id=768, 859.2903pt x 354.123pt>
 File: figuras/Banda_AWS.png Graphic file (type png)
 <use figuras/Banda_AWS.png>
 Package pdftex.def Info: figuras/Banda_AWS.png  used on input line 336.
 (pdftex.def)             Requested size: 426.79135pt x 175.88309pt.
- [35
+ [36
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.341 
-      ] [36
+      ] [37
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.378 C
        abe observar que, na implementaÃ§Ã£o MPI-IO, o tempo de E/S torna-se uma <./figuras/Banda_AWS.png>]
-<figuras/Tempo_execucao_AWS.png, id=768, 946.737pt x 678.6153pt>
+<figuras/Tempo_execucao_AWS.png, id=780, 946.737pt x 678.6153pt>
 File: figuras/Tempo_execucao_AWS.png Graphic file (type png)
 <use figuras/Tempo_execucao_AWS.png>
 Package pdftex.def Info: figuras/Tempo_execucao_AWS.png  used on input line 411.
 (pdftex.def)             Requested size: 426.79135pt x 305.92287pt.
- [37]
-<figuras/EnvioPorTamanho_AWS.png, id=776, 787.0203pt x 631.6398pt>
+ [38]
+<figuras/EnvioPorTamanho_AWS.png, id=788, 787.0203pt x 631.6398pt>
 File: figuras/EnvioPorTamanho_AWS.png Graphic file (type png)
 <use figuras/EnvioPorTamanho_AWS.png>
 Package pdftex.def Info: figuras/EnvioPorTamanho_AWS.png  used on input line 438.
 (pdftex.def)             Requested size: 426.79135pt x 342.53575pt.
- [38
+ [39
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.443 
-       <./figuras/Tempo_execucao_AWS.png>] [39
+       <./figuras/Tempo_execucao_AWS.png>] [40
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.472 
        <./figuras/EnvioPorTamanho_AWS.png>]
-<figuras/Experimento_OSTs.png, id=790, 787.0203pt x 631.6398pt>
+<figuras/Experimento_OSTs.png, id=802, 787.0203pt x 631.6398pt>
 File: figuras/Experimento_OSTs.png Graphic file (type png)
 <use figuras/Experimento_OSTs.png>
 Package pdftex.def Info: figuras/Experimento_OSTs.png  used on input line 504.
 (pdftex.def)             Requested size: 426.79135pt x 342.53575pt.
- [40]
-<figuras/Experimento_OSTs_banda.png, id=796, 570.933pt x 354.123pt>
+ [41]
+<figuras/Experimento_OSTs_banda.png, id=808, 570.933pt x 354.123pt>
 File: figuras/Experimento_OSTs_banda.png Graphic file (type png)
 <use figuras/Experimento_OSTs_banda.png>
 Package pdftex.def Info: figuras/Experimento_OSTs_banda.png  used on input line 533.
 (pdftex.def)             Requested size: 426.79135pt x 264.72702pt.
- [41
+ [42
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.539 
-       <./figuras/Experimento_OSTs.png>] [42
+       <./figuras/Experimento_OSTs.png>] [43
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.566 D
-       iferentemente do FSx for Lustre dedicado utilizado no Experimento AWS, o <./figuras/Experimento_OSTs_banda.png>] [43
+       iferentemente do FSx for Lustre dedicado utilizado no Experimento AWS, o <./figuras/Experimento_OSTs_banda.png>] [44
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.637 
-      ] [44
+      ] [45
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.708 
       ]
-<figuras/Banda_SDumont.png, id=820, 859.2903pt x 354.123pt>
+<figuras/Banda_SDumont.png, id=832, 859.2903pt x 354.123pt>
 File: figuras/Banda_SDumont.png Graphic file (type png)
 <use figuras/Banda_SDumont.png>
 Package pdftex.def Info: figuras/Banda_SDumont.png  used on input line 770.
 (pdftex.def)             Requested size: 426.79135pt x 175.88309pt.
- [45
+ [46
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.775 
-      ] [46
+      ] [47
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.827 
        <./figuras/Banda_SDumont.png>]
-<figuras/Tempo_execucao_SDumont.png, id=831, 946.737pt x 678.6153pt>
+<figuras/Tempo_execucao_SDumont.png, id=843, 946.737pt x 678.6153pt>
 File: figuras/Tempo_execucao_SDumont.png Graphic file (type png)
 <use figuras/Tempo_execucao_SDumont.png>
 Package pdftex.def Info: figuras/Tempo_execucao_SDumont.png  used on input line 830.
 (pdftex.def)             Requested size: 426.79135pt x 305.92287pt.
- [47
+ [48
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.847 
        <./figuras/Tempo_execucao_SDumont.png>]
-<figuras/EnvioPorTamanho_SDumont.png, id=839, 787.0203pt x 631.6398pt>
+<figuras/EnvioPorTamanho_SDumont.png, id=852, 787.0203pt x 631.6398pt>
 File: figuras/EnvioPorTamanho_SDumont.png Graphic file (type png)
 <use figuras/EnvioPorTamanho_SDumont.png>
 Package pdftex.def Info: figuras/EnvioPorTamanho_SDumont.png  used on input line 888.
 (pdftex.def)             Requested size: 426.79135pt x 342.53575pt.
- [48] [49
+ [49] [50
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.9}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.918 
-       <./figuras/EnvioPorTamanho_SDumont.png>]) [50] (chapters/05_trabalhos_relacionados.tex [51]
+       <./figuras/EnvioPorTamanho_SDumont.png>]) [51] (chapters/05_trabalhos_relacionados.tex [52]
 Cap\'{\i }tulo 5.
-[52
+[53
 
-]) (chapters/06_conclusao.tex [53]
+]) (chapters/06_conclusao.tex [54]
 Cap\'{\i }tulo 6.
-[54
+[55
 
-] [55]) [56] (dissertacao.bbl [57
+] [56]) [57] (dissertacao.bbl [58
 
 
 ]
@@ -1176,7 +1187,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 157--164
 \T1/cmr/m/n/12 Dis-po-ní-vel em: <[]$\T1/cmtt/m/n/12 https : / / aws . amazon . com / blogs / compute /
  []
 
-[58] [59]) [60] 
+[59] [60]) [61] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
 (dissertacao.aux)
  ***********
@@ -1187,17 +1198,17 @@ Package rerunfilecheck Info: File `dissertacao.out' has not changed.
 (rerunfilecheck)             Checksum: 7745DAC425B2795A1B1B5F616F697655;9304.
  ) 
 Here is how much of TeX's memory you used:
- 30585 strings out of 467871
- 612790 string characters out of 5418376
- 1067601 words of memory out of 5000000
- 58715 multiletter control sequences out of 15000+600000
+ 30595 strings out of 467871
+ 613171 string characters out of 5418376
+ 1067979 words of memory out of 5000000
+ 58723 multiletter control sequences out of 15000+600000
  648939 words of font info for 89 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 98i,14n,118p,524b,803s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,14n,118p,579b,803s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1440.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1200.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on dissertacao.pdf (73 pages, 2258320 bytes).
+Output written on dissertacao.pdf (74 pages, 2339214 bytes).
 PDF statistics:
- 1748 PDF objects out of 2073 (max. 8388607)
- 188 named destinations out of 1000 (max. 500000)
- 602 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1759 PDF objects out of 2073 (max. 8388607)
+ 190 named destinations out of 1000 (max. 500000)
+ 607 words of extra memory for PDF output out of 10000 (max. 10000000)
 

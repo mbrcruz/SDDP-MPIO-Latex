@@ -59,6 +59,28 @@ pequenas e frequentes tendem a se beneficiar do \textit{eager}, enquanto
 mensagens grandes favorecem o \textit{rendezvous}, especialmente quando a
 aplicação opera próxima aos limites de memória ou de rede.
 
+A Figura~\ref{fig:eager_rendezvous} ilustra esquematicamente as duas
+estratégias. No protocolo \textit{eager}, o emissor transmite os dados
+sem negociação prévia, contando com \textit{buffers} no lado do
+receptor para absorver eventuais descompassos entre a chegada da
+mensagem e a chamada de recepção. No protocolo \textit{rendezvous}, o
+emissor envia primeiro um cabeçalho de controle e aguarda a
+confirmação do receptor (\textit{Ready to Receive}) antes de iniciar
+a transferência efetiva dos dados, dispensando o uso de
+\textit{buffers} intermediários no caminho de recepção.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/Eager-and-Rendezvous-Protocols.png}
+  \caption{Comparação esquemática entre os protocolos \textit{Eager} e
+  \textit{Rendezvous} em comunicação MPI ponto a ponto. No
+  \textit{Eager}, o emissor transmite os dados imediatamente, sem
+  negociação prévia; no \textit{Rendezvous}, há uma etapa de
+  \textit{handshake} entre emissor e receptor antes da transferência
+  efetiva, eliminando a necessidade de \textit{buffers} intermediários.}
+  \label{fig:eager_rendezvous}
+\end{figure}
+
 Um aspecto relevante em aplicações com padrão \textit{bag-of-tasks} é o
 custo de bloqueio imposto ao remetente pela operação \texttt{MPI\_Send}.
 Quando múltiplos \textit{ranks} concorrem por um único receptor --- como
