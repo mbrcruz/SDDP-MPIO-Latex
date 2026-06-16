@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex dissertacao"] 1781621076.05149 "dissertacao.aux" "dissertacao.bbl" "dissertacao" 1781621085.83164 0
+["bibtex dissertacao"] 1781621076.05149 "dissertacao.aux" "dissertacao.bbl" "dissertacao" 1781621519.06969 0
   "./bibliografy.bib" 1781617914 14143 1099d62b3a6c7d1f3d3ed97a0e23ec1c ""
   "./coppe-unsrt.bst" 1777308582 25650 61933cb294d3991de272bce8b0a93a1f ""
-  "dissertacao.aux" 1781621082 29994 cad8aa52759d1492b62d4cb7e771b79c "pdflatex"
+  "dissertacao.aux" 1781621516 29994 cad8aa52759d1492b62d4cb7e771b79c "pdflatex"
   (generated)
   "dissertacao.bbl"
   "dissertacao.blg"
   (rewritten before read)
-["pdflatex"] 1781621076.70546 "d:/Marcelo/Projetos/Latex/dissertacao.tex" "dissertacao.pdf" "dissertacao" 1781621085.83415 0
+["pdflatex"] 1781621510.48188 "d:/Marcelo/Projetos/Latex/dissertacao.tex" "dissertacao.pdf" "dissertacao" 1781621519.07116 0
   "C:/Users/mcruz/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1777946178 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/mcruz/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbi1200.pk" 1777334678 42728 1c6bc7754d614d43a4cbbf9d5dbb1628 ""
   "C:/Users/mcruz/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecbx0800.pk" 1778204566 19872 5f777f3ec9636bd464ac61b432bfaa67 ""
@@ -251,22 +251,22 @@
   "C:/Users/mcruz/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/mcruz/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
   "chapters/01_introducao.tex" 1779474544 9518 a5ccec3f442b81e3c87093443ca2c3c6 ""
-  "chapters/02_fundamentacao.tex" 1781621064 36710 b794c44e5c2cc657bbecca77333871fc ""
+  "chapters/02_fundamentacao.tex" 1781621506 36723 bd1f3db9f05f4ab4936c7a443e369078 ""
   "chapters/03_proposta.tex" 1781287141 30329 3d780bfdf606c77e72c59caa8ef73696 ""
   "chapters/04_avaliacoes.tex" 1781619732 54496 d8b9e9d16209cf9062dc1edb64be172f ""
   "chapters/05_trabalhos_relacionados.tex" 1781052556 3095 bf2e21465aad7c19e55d692203eafc82 ""
   "chapters/06_conclusao.tex" 1781139826 7017 9e53ada4e5f119b26638c49878a6ff50 ""
   "coppe.cls" 1780684014 28624 ec198598682696872c22253d2fcdf072 ""
   "d:/Marcelo/Projetos/Latex/dissertacao.tex" 1781097584 5550 2862a6e032e97f416942d5059d84e1f9 ""
-  "dissertacao.aux" 1781621082 29994 cad8aa52759d1492b62d4cb7e771b79c "pdflatex"
+  "dissertacao.aux" 1781621516 29994 cad8aa52759d1492b62d4cb7e771b79c "pdflatex"
   "dissertacao.bbl" 1781621076 13452 d42cf40eafc0dfe1f023c9379395755c "bibtex dissertacao"
   "dissertacao.lab" 1778446171 1362 8846ec808c0c5b54987bc89278861235 ""
-  "dissertacao.lof" 1781621083 4829 a3dc3d8e2f59f9e5fd7676562bc7cece "pdflatex"
+  "dissertacao.lof" 1781621516 4829 a3dc3d8e2f59f9e5fd7676562bc7cece "pdflatex"
   "dissertacao.los" 1778446171 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "dissertacao.lot" 1781621083 2317 fa794b1389ce0ae24eed25bdd8130c12 "pdflatex"
-  "dissertacao.out" 1781621083 9304 7745dac425b2795a1b1b5f616f697655 "pdflatex"
+  "dissertacao.lot" 1781621516 2317 fa794b1389ce0ae24eed25bdd8130c12 "pdflatex"
+  "dissertacao.out" 1781621516 9304 7745dac425b2795a1b1b5f616f697655 "pdflatex"
   "dissertacao.tex" 1781097584 5550 2862a6e032e97f416942d5059d84e1f9 ""
-  "dissertacao.toc" 1781621083 4586 22e9010201dbb0342cf009650a9b8775 "pdflatex"
+  "dissertacao.toc" 1781621516 4586 22e9010201dbb0342cf009650a9b8775 "pdflatex"
   "figuras/Banda_AWS.png" 1781363311 51256 ea63b2f44e33bc6e5baf9ff0c4448613 ""
   "figuras/Banda_SDumont.png" 1781363418 46905 0bd65ed5f5ae357d99f5bcafa5db556d ""
   "figuras/EnvioPorTamanho_AWS.png" 1781363378 115638 9fec6859fc31bf0a29adbfd1bc3a7c2f ""

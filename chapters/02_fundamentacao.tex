@@ -343,10 +343,10 @@ escalabilidade: \textit{stripes} maiores e \textit{stripe counts} menores
 tendem a favorecer grandes operações sequenciais, enquanto \textit{stripes}
 menores distribuídos por mais OSTs podem beneficiar acessos concorrentes e
 de granularidade fina, embora aumentem a sobrecarga de coordenação entre os
-alvos~\cite{Pjb:02}. Graças a essa flexibilidade e ao alto desempenho, o
-Lustre tornou-se amplamente adotado em supercomputadores listados no
-TOP500, constituindo um elemento-chave para aplicações científicas e
-industriais que exigem desempenho extremo em E/S.
+alvos~\cite{Pjb:02}. Dessa forma, a configuração do \textit{striping} é uma
+das principais alavancas de desempenho disponíveis ao usuário, e seus
+efeitos sobre a escalabilidade da E/S do SDDP são investigados em detalhe
+nos experimentos do Capítulo~\ref{cap:avaliacoes}.
 
 \section{Ambientes computacionais}
 \label{sec:ambientes_computacionais}
