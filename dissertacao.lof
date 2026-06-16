@@ -1,0 +1,31 @@
+\babel@toc {brazilian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {brazilian}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Comparação esquemática entre os protocolos \textit {Eager} e \textit {Rendezvous} em comunicação MPI ponto a ponto. No \textit {Eager}, o emissor transmite os dados imediatamente, sem negociação prévia; no \textit {Rendezvous}, há uma etapa de \textit {handshake} entre emissor e receptor antes da transferência efetiva, eliminando a necessidade de \textit {buffers} intermediários.}}{6}{figure.2.1}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Relação entre comunicação ponto a ponto e E/S paralela. No modelo centralizado, os resultados passam por um processo escritor; no modelo MPI-IO, os próprios processos escrevem diretamente no arquivo.}}{7}{figure.2.2}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Diferença entre escritas independentes e coletivas em MPI-IO. Escritas independentes preservam autonomia dos processos; escritas coletivas permitem agregação e reordenação das requisições pela biblioteca MPI-IO.}}{9}{figure.2.3}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Arquitetura do sistema de arquivos paralelo Lustre. O servidor de metadados (MDS/MDT) mantém o \textit {namespace}, enquanto os dados são distribuídos entre os OSTs gerenciados pelos OSSs. Os clientes consultam o MDS para localizar o arquivo e, em seguida, acessam os dados diretamente nos OSTs.}}{11}{figure.2.4}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Distribuição de um arquivo em \textit {stripes} pelos OSTs no Lustre. Com \textit {stripe count} igual a 4, os blocos são alocados de forma circular entre os OSTs, viabilizando o acesso paralelo aos dados.}}{12}{figure.2.5}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Estrutura de cenários e estágios do SDDP. Cada célula corresponde a um subproblema $(\text {estágio}, \text {cenário})$. Os cenários são mutuamente independentes e podem ser distribuídos entre \textit {ranks} MPI, caracterizando uma aplicação \textit {bag-of-tasks}.}}{16}{figure.2.6}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Comparação esquemática entre os formatos de resultados por patamares e horário do SDDP.}}{17}{figure.2.7}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Arquitetura atual de E/S do SDDP com o \textit {rank}~0 atuando como processo distribuidor e o \textit {rank}~1 como processo escritor.}}{17}{figure.2.8}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Arquitetura proposta com MPI-IO e Lustre, com o \textit {rank}~0 atuando como processo distribuidor e os demais processos escrevendo diretamente em arquivos compartilhados.}}{20}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Linha de tempo da simulação final do SDDP com MPI-IO. O \textit {rank}~0 atua apenas como processo distribuidor; os \textit {ranks} trabalhadores executam cenários, sincronizam na chamada coletiva \texttt {MPI\_File\_open} antes da primeira escrita, realizam escritas independentes e sincronizam novamente em \texttt {MPI\_File\_close}.}}{22}{figure.3.2}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Fluxo de decisão para escritas independentes com MPI-IO (limite de 128~KB adotado neste trabalho como parâmetro de projeto, conforme discussão no texto).}}{24}{figure.3.3}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Pseudocódigo da escrita independente executada por cada \textit {rank} trabalhador ao concluir um cenário (método \texttt {writeRegistry}), organizado segundo as quatro questões fundamentais: \emph {o que/quanto}, \emph {onde}, \emph {como} e \emph {quando aguardar}.}}{26}{figure.3.4}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Formato lógico dos arquivos binários de resultado do SDDP.}}{27}{figure.3.5}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{34}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média percebida pela aplicação no Experimento AWS.}}{39}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Tempo de execução no Experimento AWS.}}{41}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}}{42}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs.}}{44}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Banda agregada média percebida pela aplicação na implementação MPI-IO para configurações com 4 e 10~OSTs em 16 e 32~nós.}}{45}{figure.4.6}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Banda agregada média percebida pela aplicação nas implementações atual e MPI-IO no Experimento SDumont.}}{49}{figure.4.7}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{50}{figure.4.8}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{52}{figure.4.9}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }

@@ -121,16 +121,18 @@ dos arquivos de resultado.
 
 \section{Detalhes de implementação}
 
-Foi nesse ponto da arquitetura que a solução baseada em MPI-IO foi incorporada, substituindo o
-fluxo centralizado de escrita por operações paralelas realizadas diretamente
-pelos processos MPI. Essa separação permitiu introduzir a nova estratégia de
-E/S sem alterar a estrutura principal do algoritmo SDDP, preservando a lógica
-de simulação e restringindo as mudanças ao caminho de persistência dos
-resultados. Na prática, as rotinas MPI-IO são utilizadas para abrir os
-arquivos de resultado de forma compartilhada e permitir que cada processo
-grave diretamente os blocos produzidos pela simulação em posições previamente
-calculadas, conforme a organização lógica dos arquivos descrita na
-Seção~\ref{sec:formato_resultados}.
+Os módulos de acesso a dados do SDDP, responsáveis pelas rotinas de leitura e
+escrita dos arquivos de entrada e saída, são implementados em \texttt{C++}.
+Foi nesse ponto da arquitetura que a solução baseada em MPI-IO foi
+incorporada, substituindo o fluxo centralizado de escrita por operações
+paralelas realizadas diretamente pelos processos MPI. Concentrar a mudança
+nesse módulo permitiu introduzir a nova estratégia de E/S sem alterar a
+estrutura principal do algoritmo: a lógica de simulação foi preservada e as
+modificações ficaram restritas ao caminho de persistência dos resultados. Na
+prática, as rotinas MPI-IO abrem os arquivos de resultado de forma
+compartilhada e permitem que cada processo grave diretamente os blocos
+produzidos pela simulação em posições previamente calculadas, conforme a
+organização lógica descrita na Seção~\ref{sec:formato_resultados}.
 
 \subsection{Implementação das escritas independentes}
 \label{sec:escritas_independentes}
