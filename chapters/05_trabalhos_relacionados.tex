@@ -17,10 +17,13 @@ Lustre forçam a aquisição de múltiplos locks sequenciais, degradando o
 desempenho. Como solução, os autores propuseram um mecanismo de
 \textit{two-stage write-behind buffering} que acumula dados em memória até
 completar um bloco alinhado à fronteira de \textit{stripe} antes de emitir a
-escrita ao filesystem. Essa abordagem é adotada neste trabalho nos arquivos
-no formato horário, nos quais os registros de um mesmo par
-$(\text{estágio}, \text{cenário})$ são acumulados e gravados em uma única
-operação agregada.
+escrita ao filesystem. Essa abordagem \emph{não foi adotada} nesta
+dissertação: a implementação descrita no Capítulo~\ref{cap:proposta}
+apenas agrega os registros horários por par
+$(\text{estágio}, \text{cenário})$ em uma única escrita, sem alinhamento
+explícito às fronteiras de \textit{stripe}. A incorporação desse
+alinhamento como aprimoramento da arquitetura proposta é discutida entre
+os trabalhos futuros (Capítulo~\ref{cap:conclusao}).
 
 Em continuação direta, \citeauthor{Dickens:10}~\cite{Dickens:10} propuseram a Y-lib,
 uma biblioteca que substitui o driver ADIO padrão do ROMIO para Lustre, implementando
