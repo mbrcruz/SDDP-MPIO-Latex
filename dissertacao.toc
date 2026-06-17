@@ -14,7 +14,7 @@
 \contentsline {section}{\numberline {2.1}MPI, protocolos de comunicação e operações paralelas de arquivos}{5}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Sistema de arquivos paralelo Lustre}{10}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Ambientes computacionais}{12}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Ambiente de nuvem: AWS}{13}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.1}Ambiente AWS}{13}{subsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.3.2}Ambiente de supercomputação: Santos Dumont}{14}{subsection.2.3.2}%
 \contentsline {section}{\numberline {2.4}O Programa Mensal da Operação (PMO)}{14}{section.2.4}%
 \contentsline {section}{\numberline {2.5}Algoritmo SDDP}{15}{section.2.5}%
