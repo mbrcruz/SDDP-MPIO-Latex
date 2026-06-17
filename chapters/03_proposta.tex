@@ -124,7 +124,7 @@ dos arquivos de resultado.
 Os módulos de acesso a dados do SDDP, responsáveis pelas rotinas de leitura e
 escrita dos arquivos de entrada e saída, são implementados como uma
 biblioteca \texttt{C++}.
-Foi nesse ponto da arquitetura que a solução baseada em MPI-IO foi
+Foi nesse ponto da aplicação que a solução baseada em MPI-IO foi
 incorporada, substituindo o fluxo centralizado de escrita por operações
 paralelas realizadas diretamente pelos processos MPI. Concentrar a mudança
 nesse módulo permitiu introduzir a nova estratégia de E/S sem alterar a
