@@ -33,15 +33,17 @@ MPI_Send, ao processo escrito
 
 - Trabalhar no capitulo III 
     
-    - Equação explícita do offset. A descrição em prosa (l. 234–239) é defensável, mas uma equação tornaria a proposta verificável. Custo: 4 linhas.   
-    - Pseudo código da implementação
+    
     - Verificar conjugação verbal
-    - Arquivo diarios
-    - RING 32            
+    - Arquivo diarios                 
     - Validação dos dados: formato arquivos  
     - \paperwidth em três figuras (l. 42, l. 89, l. 145). As três usam \includegraphics[width=0.95\paperwidth], o que faz a figura sangrar para fora da área de texto. Convenção COPPE pede \textwidth. Confira no PDF compilado se o efeito é intencional.
     - Ponte para Cap. 4 no fim da Seção 3.4. Falta apontar quais valores de stripe_count foram adotados nos experimentos (10 AWS, 6 SDumont, ambos com stripe_size = 1MB).
-    Caption da Fig. 3.3 ainda genérica (l. 147): "Formato lógico dos arquivos binários de resultado do SDDP." — pode ganhar uma frase descritiva.         
+    Caption da Fig. 3.3 ainda genérica (l. 147): "Formato lógico dos arquivos binários de resultado do SDDP." — pode ganhar uma frase descritiva.   
+    
+    - ~~Equação explícita do offset. A descrição em prosa (l. 234–239) é defensável, mas uma equação tornaria a proposta verificável. Custo: 4 linhas.~~  
+    - ~~Pseudo código da implementação~~
+    - ~~RING 32~~      
     - ~~Deadlock com two phase E/S - mais escritas no necessarios e numero de cenarios desalinhado por processo~~
     - ~~Possivel break rendevous e eager em 128KB    ~~
     - ~~migrar : Considerações de configuração~~

@@ -6,6 +6,18 @@
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 \newcommand{\coppeenquote}[1]{``#1''}
 
+\bibitem[\MakeUppercase{{Message Passing Interface Forum}}(2023){Message
+  Passing Interface Forum}]{mpiCite}
+\MakeUppercase{{Message Passing Interface Forum}}.
+\newblock \coppeenquote{{MPI}: A Message-Passing Interface Standard, Version
+  4.1}. 2023.
+\newblock \url{https://www.mpi-forum.org/}.
+
+\bibitem[\MakeUppercase{Ross}\emph{ et~al.}(2010)Ross, Thakur, e Gropp]{Rr:10}
+\MakeUppercase{Ross, R., Thakur, R., Gropp, W.}
+\newblock \emph{Parallel {I/O} for High Performance Computing}.
+\newblock  Burlington, MA, Morgan Kaufmann, 2010.
+
 \bibitem[\MakeUppercase{Kang}\emph{ et~al.}(2020)Kang, Lee, Hou, Ross, Agrawal,
   Choudhary, e Liao]{Kang:20}
 \MakeUppercase{Kang, Q., Lee, S., Hou, K.-y., \MakeLowercase{et~al.}}
@@ -78,13 +90,6 @@
   \emph{Proceedings of the 3rd IFIP Conference on E-Commerce, E-Business and
   E-Government (I3E)}, 2003.
 
-\bibitem[\MakeUppercase{{Message Passing Interface Forum}}(2023){Message
-  Passing Interface Forum}]{mpiCite}
-\MakeUppercase{{Message Passing Interface Forum}}.
-\newblock \coppeenquote{{MPI}: A Message-Passing Interface Standard, Version
-  4.1}. 2023.
-\newblock \url{https://www.mpi-forum.org/}.
-
 \bibitem[\MakeUppercase{{Message Passing Interface Forum}}(1997){Message
   Passing Interface Forum}]{mpiioCite}
 \MakeUppercase{{Message Passing Interface Forum}}.
@@ -107,11 +112,6 @@
   {MPICH}}, \emph{The International Journal of High Performance Computing
   Applications}, v.~19, n.~1, \penalty0 pp.~49--66, 2005.
 \newblock \doi{10.1177/1094342005051521}.
-
-\bibitem[\MakeUppercase{Ross}\emph{ et~al.}(2010)Ross, Thakur, e Gropp]{Rr:10}
-\MakeUppercase{Ross, R., Thakur, R., Gropp, W.}
-\newblock \emph{Parallel {I/O} for High Performance Computing}.
-\newblock  Burlington, MA, Morgan Kaufmann, 2010.
 
 \bibitem[\MakeUppercase{Thakur}\emph{ et~al.}(1999{\natexlab{a}})Thakur, Gropp,
   e Lusk]{Wre:99}

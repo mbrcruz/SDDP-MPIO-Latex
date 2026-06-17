@@ -247,56 +247,60 @@ associada a escritas pequenas e desalinhadas~\cite{LiaoIPDPS:07}.
 
 A~Figura~\ref{fig:pseudocodigo_writeregistry} consolida, em pseudocódigo, a
 rotina executada por cada \textit{rank} trabalhador ao concluir um cenário,
-correspondente ao método \texttt{writeRegistry} da implementação em
-\texttt{C++}. Sua organização torna explícitas as quatro questões
-fundamentais que toda escrita independente precisa responder e que foram
-discutidas ao longo desta seção. A primeira é \emph{o que e quanto gravar}:
-os valores dos elementos do sistema elétrico são serializados em um
-registro e os patamares (horas) de um mesmo par
+correspondente ao método \texttt{escreveRegistro}. Sua organização pode ser
+lida segundo os três aspectos
+ortogonais que o padrão MPI-IO atribui às rotinas de acesso a dados ---
+\textit{positioning}, \textit{coordination} e
+\textit{synchronism}~\cite{mpiCite,Rr:10} ---, somados a uma decisão de
+\textit{layout} dos blocos gravados. Quanto à \textit{coordination}, a
+escrita é sempre independente (não coletiva): cada processo emite sua própria
+operação, em consonância com o modelo \textit{bag-of-tasks} discutido
+anteriormente. O \textit{positioning} é dado por \textit{offset} explícito:
+a posição de destino é derivada da posição lógica do cenário no arquivo
+(Seção~\ref{sec:formato_resultados}), sem uso de ponteiros implícitos de
+arquivo. O \textit{synchronism} é escolhido por bloco: o caminho não
+bloqueante (\texttt{MPI\_File\_iwrite\_at}) é adotado para blocos menores que
+128~KB e o bloqueante (\texttt{MPI\_File\_write\_at}) para os demais.
+Por fim, a decisão de \textit{layout} determina o que e quanto gravar: os
+valores dos elementos do sistema elétrico são serializados em um registro e
+os patamares (horas) de um mesmo par
 $(\text{estágio}, \text{cenário})$ são acumulados em memória, emitindo-se
 uma única escrita agregada apenas quando o último bloco do estágio é
-processado. A segunda é \emph{onde gravar}: o \textit{offset} de destino é
-derivado da posição lógica do cenário no arquivo
-(Seção~\ref{sec:formato_resultados}). A terceira é \emph{como gravar}: a
-escrita é sempre independente e segue pelo caminho assíncrono
-(\texttt{MPI\_File\_iwrite\_at}) ou síncrono
-(\texttt{MPI\_File\_write\_at}) conforme o limite de 128~KB.
+processado, o que aumenta o tamanho médio das requisições~\cite{Wre:99}.
 
-A quarta questão é \emph{quando aguardar}. Como as escritas assíncronas
-exigem que o \textit{buffer} de origem permaneça válido até a conclusão da
-operação, a implementação mantém um conjunto de \textit{buffers}
-pré-alocados, organizados de forma circular (\textit{ring buffer}). Antes
-de reutilizar uma posição desse conjunto, o processo verifica, por meio de
-\texttt{MPI\_Wait}, se a escrita anteriormente associada àquela posição já
-foi concluída; esse ponto é o único bloqueio no caminho de escrita e, em
-regime, raramente é atingido, pois o número de posições é dimensionado para
-absorver as escritas pendentes. As operações eventualmente ainda em curso
-são finalizadas de forma agregada por uma chamada \texttt{MPI\_Waitall} no
-fechamento dos arquivos, fora da janela de medição.
+As escritas não bloqueantes exigem que o \textit{buffer} de origem permaneça
+válido até a conclusão da operação~\cite{mpiCite,Wea:99}. Para isso, a
+implementação reserva um conjunto de 32 \textit{buffers} pré-alocados e os
+reutiliza de forma circular (\textit{ring buffer}): antes de reutilizar uma
+posição, o processo aguarda (\texttt{MPI\_Wait}) a conclusão da escrita
+anterior associada a ela. Esse é o único ponto de bloqueio no caminho de
+escrita e, em regime, raramente é atingido. Ao final, as escritas ainda
+pendentes são concluídas em conjunto por \texttt{MPI\_Waitall}, fora da
+janela de medição.
 
 \begin{figure}[H]
   \centering
   \begin{lstlisting}[style=pseudocodigo]
-procedimento writeRegistry()
-    // O QUE: serializa os valores do cenario no registro
+procedimento escreveRegistro()
+    // LAYOUT: serializa os valores do cenario no registro
     para cada elemento i do sistema eletrico:
         registro[i] <- float(dados[i])
 
     slot <- contador mod TAM_ANEL            // anel de buffers pre-alocados
-    // QUANDO: so reutiliza o slot apos a escrita anterior concluir
+    // SYNCHRONISM: so reutiliza o slot apos a escrita anterior concluir
     se requisicao[slot] != NULA:
         MPI_Wait(requisicao[slot])
 
-    // QUANTO: acumula o patamar (hora) no bloco do estagio corrente
+    // LAYOUT: acumula o patamar (hora) no bloco do estagio corrente
     buffer[slot][offset_do_patamar] <- registro
 
     se patamar = ultimo bloco do estagio:
-        // ONDE: posicao logica do cenario no arquivo de resultado
+        // POSITIONING: offset explicito do cenario no arquivo de resultado
         irec     <- posicaoLogica(estagio, cenario, patamar)
         offset   <- irec * tamRegistro
         tamBloco <- tamRegistro * (numero de blocos do estagio)
 
-        // COMO: escrita independente, assincrona ou sincrona
+        // COORDINATION independente + SYNCHRONISM por tamanho de bloco
         se tamBloco < 128 KB:
             MPI_File_iwrite_at(fh, offset, buffer[slot], tamBloco, requisicao[slot])
             contador <- contador + 1
@@ -305,9 +309,10 @@ procedimento writeRegistry()
   \end{lstlisting}
   \caption{Pseudocódigo da escrita independente executada por cada
   \textit{rank} trabalhador ao concluir um cenário (método
-  \texttt{writeRegistry}), organizado segundo as quatro questões
-  fundamentais: \emph{o que/quanto}, \emph{onde}, \emph{como} e
-  \emph{quando aguardar}.}
+  \texttt{escreveRegistro}), anotado segundo os aspectos de acesso a dados do
+  MPI-IO --- \textit{positioning}, \textit{coordination} e
+  \textit{synchronism}~\cite{mpiCite,Rr:10} --- e a decisão de \textit{layout}
+  dos blocos.}
   \label{fig:pseudocodigo_writeregistry}
 \end{figure}
 
