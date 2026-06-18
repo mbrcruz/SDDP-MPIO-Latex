@@ -17,8 +17,7 @@ Lustre forçam a aquisição de múltiplos locks sequenciais, degradando o
 desempenho. Como solução, os autores propuseram um mecanismo de
 \textit{two-stage write-behind buffering} que acumula dados em memória até
 completar um bloco alinhado à fronteira de \textit{stripe} antes de emitir a
-escrita ao filesystem. Essa abordagem \emph{não foi adotada} nesta
-dissertação: a implementação descrita no Capítulo~\ref{cap:proposta}
+escrita ao filesystem. Esta dissertação \emph{não adotou} essa abordagem: a implementação descrita no Capítulo~\ref{cap:proposta}
 apenas agrega os registros horários por par
 $(\text{estágio}, \text{cenário})$ em uma única escrita, sem
 alinhamento explícito às fronteiras de \textit{stripe}. Ainda assim,
@@ -34,9 +33,9 @@ do SDDP --- evitando, para esses blocos, a aquisição de múltiplos
 locks descrita por \citeauthor{LiaoIPDPS:07} --- e ajuda a explicar o
 desempenho já obtido pela arquitetura proposta mesmo na ausência de
 um mecanismo explícito de bufferização alinhada. A incorporação
-\emph{sistemática} desse alinhamento como aprimoramento da
-arquitetura proposta, beneficiando inclusive os arquivos cujos
-blocos por cenário ficam desalinhados.
+\emph{sistemática} desse alinhamento permanece como direção de
+aprimoramento da arquitetura proposta, beneficiando inclusive os arquivos
+cujos blocos por cenário ficam desalinhados.
 
 Em continuação direta, \citeauthor{Dickens:10}~\cite{Dickens:10} propuseram a Y-lib,
 uma biblioteca que substitui o driver ADIO padrão do ROMIO para Lustre, implementando
