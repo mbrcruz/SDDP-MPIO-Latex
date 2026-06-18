@@ -27,13 +27,13 @@
 \contentsline {subsection}{\numberline {3.3.1}Implementação das escritas independentes}{22}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Formato dos resultados}{26}{subsection.3.3.2}%
 \contentsline {section}{\numberline {3.4}Instrumentação}{28}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Registros gerados pela instrumentação}{28}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Tempo de computação}{29}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Tempo de \texttt {MPI\_File\_open}/\texttt {MPI\_File\_close}}{29}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.1}Registros gerados pela instrumentação}{29}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Tempo de computação}{30}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Tempo de \texttt {MPI\_File\_open}/\texttt {MPI\_File\_close}}{30}{subsection.3.4.3}%
 \contentsline {subsection}{\numberline {3.4.4}Tempo total de E/S}{30}{subsection.3.4.4}%
-\contentsline {subsection}{\numberline {3.4.5}Tempo de bloqueio na transferência dos blocos de dados}{30}{subsection.3.4.5}%
+\contentsline {subsection}{\numberline {3.4.5}Tempo de bloqueio na transferência dos blocos de dados}{31}{subsection.3.4.5}%
 \contentsline {subsection}{\numberline {3.4.6}Banda agregada média percebida pela aplicação}{31}{subsection.3.4.6}%
-\contentsline {paragraph}{Relação entre banda percebida e tempo de bloqueio.}{31}{section*.7}%
+\contentsline {paragraph}{Relação entre banda percebida e tempo de bloqueio.}{32}{section*.7}%
 \contentsline {chapter}{\numberline {4}Avaliações}{33}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Experimento AWS}{35}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{35}{subsection.4.1.1}%

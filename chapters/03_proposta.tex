@@ -13,20 +13,20 @@ saída, evitando a concentração das operações de E/S em um único processo.
 
 O ponto central da proposta é explorar, simultaneamente, o paralelismo da
 aplicação MPI e o paralelismo do sistema de arquivos. Como os resultados
-produzidos por diferentes processos são independentes, suas escritas
-podem ser posicionadas previamente e executadas em paralelo. No Lustre, os
-arquivos são distribuídos em \textit{stripes} entre diferentes
-\textit{Object Storage Targets} (OSTs); assim, múltiplas escritas
-independentes podem ser atendidas por OSTs distintos, aumentando a largura
-de banda agregada e reduzindo a contenção observada no modelo com escritor
-centralizado.
+produzidos por diferentes processos são independentes, a aplicação pode
+posicionar suas escritas previamente e executá-las em paralelo. O Lustre
+distribui os arquivos em \textit{stripes} entre diferentes
+\textit{Object Storage Targets} (OSTs); assim, o sistema de arquivos pode
+atender múltiplas escritas independentes em OSTs distintos, aumentando a
+largura de banda agregada e reduzindo a contenção observada no modelo com
+escritor centralizado.
 
 Dessa forma, a proposta visa reduzir dois gargalos da arquitetura original. O
-primeiro é o gargalo de comunicação, pois os dados deixam de ser enviados
-ao processo escritor antes de serem persistidos. O segundo é o gargalo de
-armazenamento, pois a escrita passa a ser distribuída entre os recursos do
-sistema de arquivos paralelo, em vez de ser serializada por um único
-processo.
+primeiro é o gargalo de comunicação, pois a aplicação deixa de enviar os
+dados ao processo escritor antes de persisti-los. O segundo é o gargalo de
+armazenamento, pois a proposta passa a distribuir a escrita entre os
+recursos do sistema de arquivos paralelo, em vez de serializá-la em um
+único processo.
 
 A~Figura~\ref{fig:SDDP_architecture2} apresenta uma visão geral da
 arquitetura proposta. O \textit{rank}~0 atua como processo distribuidor,
@@ -54,7 +54,7 @@ execução do SDDP segundo a arquitetura proposta. Essa representação
 destaca a separação entre o processo distribuidor, a chamada coletiva
 \texttt{MPI\_File\_open} entre os \textit{ranks} trabalhadores, as
 escritas independentes e a chamada \texttt{MPI\_File\_close}. Com isso,
-evidencia-se que a coordenação global fica restrita aos pontos de
+a figura evidencia que a coordenação global fica restrita aos pontos de
 abertura e fechamento dos arquivos, enquanto as escritas realizadas após
 a abertura permanecem independentes.
 
@@ -62,7 +62,7 @@ O processo distribuidor representa o \textit{rank}~0, responsável por
 distribuir as tarefas aos demais \textit{ranks}. Quando não está enviando uma
 nova tarefa, esse \textit{rank} permanece aguardando o
 recebimento das tarefas concluídas pelos \textit{ranks} trabalhadores. Por
-esse motivo, sua linha é representada integralmente como comunicação.
+esse motivo, a figura representa sua linha integralmente como comunicação.
 
 Antes da primeira escrita, os \textit{ranks} trabalhadores participam de
 uma operação coletiva de abertura dos arquivos de resultado. Esse ponto
@@ -101,7 +101,7 @@ indefinidamente, à espera de um participante que jamais chegaria.
 Por essas razões, a estratégia de escritas independentes mostra-se
 mais aderente ao modelo de execução adotado.
 
-Quando não há mais cenários a serem resolvidos, inicia-se uma nova
+Quando não há mais cenários a resolver, a aplicação inicia uma nova
 chamada \texttt{MPI\_File\_close}, responsável pelo fechamento coletivo
 dos arquivos de resultado.
 
@@ -122,14 +122,15 @@ dos arquivos de resultado.
 \section{Detalhes de implementação}
 
 Os módulos de acesso a dados do SDDP, responsáveis pelas rotinas de leitura e
-escrita dos arquivos de entrada e saída, são implementados como uma
+escrita dos arquivos de entrada e saída, constituem uma
 biblioteca \texttt{C++}.
-Foi nesse ponto da aplicação que a solução baseada em MPI-IO foi
-incorporada, substituindo o fluxo centralizado de escrita por operações
-paralelas realizadas diretamente pelos processos MPI. Concentrar a mudança
+Foi nesse ponto da aplicação que este trabalho incorporou a solução
+baseada em MPI-IO, substituindo o fluxo centralizado de escrita por
+operações paralelas realizadas diretamente pelos processos MPI. Concentrar a mudança
 nesse módulo permitiu introduzir a nova estratégia de E/S sem alterar a
-estrutura principal do algoritmo: a lógica de simulação foi preservada e as
-modificações ficaram restritas ao caminho de persistência dos resultados. Na
+estrutura principal do algoritmo: a proposta preservou a lógica de
+simulação e restringiu as modificações ao caminho de persistência dos
+resultados. Na
 prática, as rotinas MPI-IO abrem os arquivos de resultado de forma
 compartilhada e permitem que cada processo grave diretamente os blocos
 produzidos pela simulação em posições previamente calculadas, conforme a
@@ -146,11 +147,11 @@ sincronização explícita entre escritas concorrentes.
 
 A implementação adota escritas independentes de MPI-IO, combinando chamadas
 assíncronas e síncronas conforme o tamanho do bloco de dados. Para blocos
-menores que 128~KB, são utilizadas operações assíncronas, permitindo que o
-processo solicite a escrita e retome a execução sem aguardar imediatamente a
-conclusão da operação. Para blocos iguais ou superiores a 128~KB, são
-utilizadas operações síncronas, nas quais o processo aguarda a conclusão da
-escrita antes de prosseguir.
+menores que 128~KB, a implementação utiliza operações assíncronas,
+permitindo que o processo solicite a escrita e retome a execução sem
+aguardar imediatamente a conclusão da operação. Para blocos iguais ou superiores a 128~KB, a
+implementação emprega operações síncronas, nas quais o processo aguarda a
+conclusão da escrita antes de prosseguir.
 
 A escolha de combinar chamadas assíncronas e síncronas separadas por
 um limite de tamanho fundamenta-se na assimetria entre os
@@ -162,7 +163,7 @@ supera o custo fixo, reduzindo o ganho da assincronia e aumentando a
 pressão sobre \textit{buffers} internos e \textit{request slots}
 pendentes~\cite{Rr:10,Wea:99}.
 
-Adota-se, portanto, um limite de 128~KB para separar os dois
+Este trabalho adota, portanto, um limite de 128~KB para separar os dois
 caminhos, seguindo uma racionalidade conceitualmente análoga à dos
 protocolos Eager e Rendezvous em comunicação MPI
 ponto-a-ponto~\cite{Wea:99,Rrw:05}: tratamento imediato e leve para
@@ -217,12 +218,12 @@ de comunicação observado anteriormente, isolando melhor o impacto da mudança
 no mecanismo de escrita.
 
 Como cada cenário ocupa um \textit{offset} próprio em cada arquivo
-de resultado, elimina-se o risco de escritas concorrentes incidirem
-sobre uma mesma região. Essa propriedade constitui um benefício
+de resultado, esse arranjo elimina o risco de escritas concorrentes
+incidirem sobre uma mesma região. Essa propriedade constitui um benefício
 relevante da implementação proposta, pois dispensa o emprego de
 mecanismos de bloqueio (\textit{locks}) para assegurar a corretude
-das operações concorrentes. Na implementação, o \textit{offset} de cada
-escrita é calculado a partir da posição lógica do cenário no arquivo
+das operações concorrentes. Na implementação, o processo calcula o \textit{offset} de cada
+escrita a partir da posição lógica do cenário no arquivo
 (conforme detalhado na Seção~\ref{sec:formato_resultados}),
 do tamanho do registro associado à combinação
 $(\text{estágio}, \text{cenário}, \text{hora})$ e da quantidade de
@@ -248,18 +249,18 @@ ortogonais que o padrão MPI-IO atribui às rotinas de acesso a dados ---
 \textit{layout} dos blocos gravados. Quanto à \textit{coordination}, a
 escrita é sempre independente (não coletiva): cada processo emite sua própria
 operação, em consonância com o modelo \textit{bag-of-tasks} discutido
-anteriormente. O \textit{positioning} é dado por \textit{offset} explícito:
-a posição de destino é derivada da posição lógica do cenário no arquivo
-(Seção~\ref{sec:formato_resultados}), sem uso de ponteiros implícitos de
-arquivo. O \textit{synchronism} é escolhido por bloco: o caminho não
-bloqueante (\texttt{MPI\_File\_iwrite\_at}) é adotado para blocos menores que
-128~KB e o bloqueante (\texttt{MPI\_File\_write\_at}) para os demais.
-Por fim, a decisão de \textit{layout} determina o que e quanto gravar: os
-valores dos elementos do sistema elétrico são serializados em um registro e
-os patamares (horas) de um mesmo par
-$(\text{estágio}, \text{cenário})$ são acumulados em memória, emitindo-se
-uma única escrita agregada apenas quando o último bloco do estágio é
-processado, o que aumenta o tamanho médio das requisições~\cite{Wre:99}.
+anteriormente. O \textit{positioning} emprega \textit{offset} explícito:
+o processo deriva a posição de destino da posição lógica do cenário no
+arquivo (Seção~\ref{sec:formato_resultados}), sem uso de ponteiros
+implícitos de arquivo. A implementação escolhe o \textit{synchronism} por bloco: ela adota o
+caminho não bloqueante (\texttt{MPI\_File\_iwrite\_at}) para blocos menores
+que 128~KB e o bloqueante (\texttt{MPI\_File\_write\_at}) para os demais.
+Por fim, a decisão de \textit{layout} determina o que e quanto gravar: o
+processo serializa os valores dos elementos do sistema elétrico em um
+registro e acumula em memória os patamares (horas) de um mesmo par
+$(\text{estágio}, \text{cenário})$, emitindo uma única escrita agregada
+apenas quando processa o último bloco do estágio, o que aumenta o tamanho
+médio das requisições~\cite{Wre:99}.
 
 As escritas não bloqueantes exigem que o \textit{buffer} de origem permaneça
 válido até a conclusão da operação~\cite{mpiCite,Wea:99}. Para isso, a
@@ -267,9 +268,9 @@ implementação reserva um conjunto de 32 \textit{buffers} pré-alocados e os
 reutiliza de forma circular (\textit{ring buffer}): antes de reutilizar uma
 posição, o processo aguarda (\texttt{MPI\_Wait}) a conclusão da escrita
 anterior associada a ela. Esse é o único ponto de bloqueio no caminho de
-escrita e, em regime, raramente é atingido. Ao final, as escritas ainda
-pendentes são concluídas em conjunto por \texttt{MPI\_Waitall}, fora da
-janela de medição.
+escrita e, em regime, o processo raramente o atinge. Ao final, ele conclui
+em conjunto as escritas ainda pendentes por meio de \texttt{MPI\_Waitall},
+fora da janela de medição.
 
 \begin{figure}[H]
   \centering
@@ -313,25 +314,26 @@ procedimento escreveRegistro()
 \label{sec:formato_resultados}
 
 A implementação proposta preserva o formato dos arquivos de resultado
-utilizado pelo SDDP. Essa decisão foi adotada para manter a compatibilidade
+utilizado pelo SDDP. Este trabalho adotou essa decisão para manter a compatibilidade
 com a cadeia de softwares que consome esses arquivos em etapas posteriores
 do fluxo de trabalho. Assim, a mudança introduzida pela solução MPI-IO
-concentra-se na forma como os dados são gravados, sem alterar a estrutura
-lógica esperada pelos demais programas que dependem das saídas da simulação.
+concentra-se na forma como a aplicação grava os dados, sem alterar a
+estrutura lógica esperada pelos demais programas que dependem das saídas da
+simulação.
 Além disso, a manutenção do formato original permite estabelecer uma linha de
 base para comparações futuras com outras propostas de organização dos arquivos
 de resultado.
 
 A~Figura~\ref{fig:formato_arquivos_resultado} detalha a organização
-lógica dos arquivos binários de resultado. Cada registro é identificado
-pelas três primeiras colunas, correspondentes ao estágio, ao cenário e à
-hora. A partir da quarta coluna são armazenados os valores associados aos
-elementos do sistema elétrico. Neste trabalho, um elemento do sistema
+lógica dos arquivos binários de resultado. Cada registro traz, nas
+três primeiras colunas, o estágio, o cenário e a hora. A partir da quarta
+coluna, o arquivo armazena os valores associados aos elementos do sistema
+elétrico. Neste trabalho, um elemento do sistema
 elétrico corresponde a uma entidade física ou lógica modelada pelo SDDP e
 representada como uma coluna do arquivo de resultado. Esse elemento pode
 ser, por exemplo, uma usina hidrelétrica, uma usina térmica, um
 reservatório, uma barra, uma interligação ou qualquer outro componente do
-sistema elétrico cuja grandeza seja registrada na saída da simulação. Os
+sistema elétrico cuja grandeza a simulação registre em sua saída. Os
 valores desses elementos variam em função da combinação
 $(\text{estágio}, \text{cenário}, \text{hora})$.
 Essa estrutura permite calcular diretamente a região de escrita de cada
@@ -364,13 +366,13 @@ Dessa forma,
 a estrutura física do sistema elétrico modelado influencia diretamente o volume
 de dados produzido e, consequentemente, o tamanho das escritas realizadas.
 
-No Lustre, cada bloco gravado nos arquivos de resultado é alocado em um
+O Lustre aloca cada bloco gravado nos arquivos de resultado em um
 \textit{stripe} específico de um OST. Quando o volume acumulado ultrapassa
-o tamanho configurado para o \textit{stripe}, um novo \textit{stripe} é
-alocado em outro OST. A atribuição dos \textit{stripes} aos OSTs ocorre
-de forma circular (\textit{round-robin}), de modo que cada arquivo de
-resultado é fisicamente distribuído entre os múltiplos \textit{stripes}
-alocados em OSTs distintos. Esse padrão permite paralelizar as operações
+o tamanho configurado para o \textit{stripe}, ele aloca um novo
+\textit{stripe} em outro OST. A atribuição dos \textit{stripes} aos OSTs
+ocorre de forma circular (\textit{round-robin}), de modo que o sistema
+distribui fisicamente cada arquivo de resultado entre os múltiplos
+\textit{stripes} alocados em OSTs distintos. Esse padrão permite paralelizar as operações
 de escrita sobre um mesmo arquivo, com grau de paralelismo limitado pelo
 número de OSTs definido na configuração de \textit{striping} associada ao
 arquivo~\cite{LustreManual}.
@@ -400,20 +402,20 @@ independente é a escolha mais aderente ao padrão de execução avaliado.
 \label{sec:instrumentacao}
 
 A avaliação empírica da proposta requer medições detalhadas dos tempos consumidos em cada etapa do ciclo de
-execução do SDDP. Para isso, tanto a implementação atual quanto a
-implementação proposta foram instrumentadas no módulo de persistência
-do SDDP --- o mesmo ponto da arquitetura no qual a solução baseada em
-MPI-IO foi incorporada nesta proposta. Os cronômetros foram
-posicionados imediatamente antes e depois das chamadas instrumentadas
-utilizando \texttt{MPI\_Wtime}, primitiva da própria biblioteca MPI cuja
+execução do SDDP. Para isso, este trabalho instrumentou tanto a
+implementação atual quanto a proposta no módulo de persistência
+do SDDP --- o mesmo ponto da arquitetura no qual incorporou a solução
+baseada em MPI-IO. Posicionou os cronômetros imediatamente antes e depois
+das chamadas instrumentadas utilizando \texttt{MPI\_Wtime}, primitiva da
+própria biblioteca MPI cuja
 resolução é adequada para temporização de operações de E/S e
 comunicação. Dessa forma, os tempos refletem exatamente o que cada
 processo observa em sua execução, sem interferência de relógios externos
 ou de ferramentas de \textit{profiling} fora do espaço de memória da
 aplicação.
 
-A instrumentação foi mantida coerente entre as duas implementações, de
-modo a permitir comparação direta. Cada métrica possui uma definição
+Este trabalho manteve a instrumentação coerente entre as duas
+implementações, de modo a permitir comparação direta. Cada métrica possui uma definição
 operacional única, aplicável tanto ao modelo centralizado --- em que a
 transferência dos blocos de dados ocorre por \texttt{MPI\_Send} e
 \texttt{MPI\_Recv} até o \textit{rank} escritor --- quanto ao modelo
@@ -424,9 +426,9 @@ o tamanho do bloco de dados.
 \subsection{Registros gerados pela instrumentação}
 \label{sec:logs_instrumentacao}
 
-Os tempos coletados são persistidos em arquivos de \textit{log} textuais
-gerados por \textit{rank}, de forma a evitar contenção sobre um mesmo
-descritor de arquivo e a permitir consolidação \textit{off-line}. A
+A instrumentação persiste os tempos coletados em arquivos de \textit{log}
+textuais gerados por \textit{rank}, de forma a evitar contenção sobre um
+mesmo descritor de arquivo e a permitir consolidação \textit{off-line}. A
 estratégia de gravação acumula os valores em memória durante a execução
 e os escreve em disco apenas ao final, fora da janela de medição, de
 modo a minimizar a perturbação introduzida pela própria instrumentação.
@@ -463,7 +465,7 @@ cenários, sem chamadas MPI. \\
 \end{tabular}
 \end{table}
 
-A partir desses arquivos, as métricas são derivadas por agregação. As
+A partir desses arquivos, a análise deriva as métricas por agregação. As
 subseções seguintes descrevem cada métrica em termos das grandezas
 medidas e do significado físico que carregam para a análise de
 desempenho.
@@ -474,7 +476,7 @@ desempenho.
 Corresponde ao tempo gasto por cada \textit{rank} no trabalho útil da
 aplicação --- a resolução numérica dos cenários a ele atribuídos ---,
 excluídas as chamadas MPI de coordenação e as operações de E/S. Esse
-intervalo é obtido a partir do temporizador \texttt{Hourly simulation}
+intervalo provém do temporizador \texttt{Hourly simulation}
 do \texttt{sddptimer\{p\}.log}, que delimita estritamente o trecho de
 código responsável pela simulação horária no SDDP.
 
@@ -493,7 +495,7 @@ comunicação, de E/S e de coordenação podem ser comparados.
 
 Reúne os tempos despendidos em chamadas MPI que não correspondem à
 transferência dos blocos de dados em si, mas sim ao estabelecimento de
-pontos de coordenação entre processos. Estão incluídas, nessa categoria,
+pontos de coordenação entre processos. Essa categoria inclui
 as operações coletivas de abertura e fechamento dos arquivos de
 resultado (\texttt{MPI\_File\_open} e \texttt{MPI\_File\_close}),
 registradas no \texttt{mpiio-collective-\{p\}.log}. Por se tratar de
@@ -561,14 +563,14 @@ escritas concorrentes.
 \subsection{Banda agregada média percebida pela aplicação}
 \label{sec:metrica_banda_percebida}
 
-Define-se, neste trabalho, como \textit{banda agregada percebida pela
+Este trabalho define como \textit{banda agregada percebida pela
 aplicação} a métrica que sintetiza, em uma única grandeza, quanto da
 capacidade de E/S disponível a aplicação SDDP efetivamente consegue
-aproveitar sob seu modelo de execução. É calculada a partir dos registros do \texttt{mpiio-\{p\}.log}
-particionando-se a fase de simulação em janelas de tempo de duração
-fixa~$\Delta$. Para cada janela $w$, computa-se a razão entre o volume
-total de dados gravados por todos os \textit{ranks} naquele intervalo e
-o tempo de E/S acumulado pelo \textit{rank} mais lento da janela:
+aproveitar sob seu modelo de execução. O cálculo parte dos registros do \texttt{mpiio-\{p\}.log},
+particionando a fase de simulação em janelas de tempo de duração
+fixa~$\Delta$. Para cada janela $w$, a métrica corresponde à razão entre o
+volume total de dados gravados por todos os \textit{ranks} naquele intervalo
+e o tempo de E/S acumulado pelo \textit{rank} mais lento da janela:
 
 \[
 B_w \;=\; \frac{\displaystyle\sum_{i=1}^{P} V_{i,w}}{\displaystyle\max_{i=1,\ldots,P}\, T_{i,w}^{\text{E/S}}},
@@ -588,7 +590,7 @@ realizadas para cada configuração, acompanhada do respectivo desvio
 padrão.
 
 \paragraph{Relação entre banda percebida e tempo de bloqueio.}
-A banda percebida é calculada em função do tempo de bloqueio das
+A banda percebida depende do tempo de bloqueio das
 operações de escrita, conforme definido na
 Seção~\ref{sec:metrica_bloqueio}. Para escritas síncronas
 (\texttt{MPI\_File\_write\_at}), o intervalo registrado no
