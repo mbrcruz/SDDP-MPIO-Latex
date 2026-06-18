@@ -153,15 +153,7 @@ utilizadas operações síncronas, nas quais o processo aguarda a conclusão da
 escrita antes de prosseguir.
 
 A escolha de combinar chamadas assíncronas e síncronas separadas por
-um limite de tamanho fundamenta-se em duas observações sobre o regime
-de escrita do SDDP. A primeira é a predominância de blocos pequenos
-no \textit{workload}: como evidenciado no
-Capítulo~\ref{cap:avaliacoes}
-(Figura~\ref{fig:histograma_mensagens}), aproximadamente 87\% dos
-blocos produzidos por cenário possuem tamanho inferior a 128~KB,
-caindo no caminho assíncrono e permitindo que os processos
-computacionais permaneçam desbloqueados durante a maior parte das
-operações de E/S. A segunda observação é a assimetria entre os
+um limite de tamanho fundamenta-se na assimetria entre os
 custos típicos de chamadas assíncronas e síncronas no MPI-IO: para
 blocos pequenos, o custo fixo de coordenação tende a dominar o tempo
 efetivo de transferência, beneficiando o despacho não-bloqueante;
@@ -407,8 +399,7 @@ independente é a escolha mais aderente ao padrão de execução avaliado.
 \section{Instrumentação}
 \label{sec:instrumentacao}
 
-A avaliação empírica apresentada no Capítulo~\ref{cap:avaliacoes} requer
-medições detalhadas dos tempos consumidos em cada etapa do ciclo de
+A avaliação empírica da proposta requer medições detalhadas dos tempos consumidos em cada etapa do ciclo de
 execução do SDDP. Para isso, tanto a implementação atual quanto a
 implementação proposta foram instrumentadas no módulo de persistência
 do SDDP --- o mesmo ponto da arquitetura no qual a solução baseada em
@@ -612,3 +603,4 @@ execução. Uma estratégia que reduza esse tempo de bloqueio --- seja
 por paralelizar escritas em múltiplos OSTs, seja por mascará-las com
 chamadas assíncronas --- eleva a banda percebida, tornando-a adequada
 para a comparação direta entre as duas implementações investigadas.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
