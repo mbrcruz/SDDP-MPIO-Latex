@@ -35,7 +35,7 @@ Lustre amplia a banda agregada percebida em aproximadamente
 tempo médio das escritas nas classes de bloco maiores. Esse
 resultado sugere que, em \textit{deployments} futuros, o
 \texttt{stripe\_count} e o \texttt{stripe\_size} do Lustre devem
-ser tratados como parâmetros de projeto, e não como detalhe
+constituir parâmetros de projeto, e não um detalhe
 operacional.
 
 \paragraph{Padrão de acesso dos arquivos diários.} Dos 117 arquivos
@@ -44,33 +44,32 @@ formato horário e 13 seguem o formato diário. Embora minoritários
 em quantidade, os arquivos diários respondem por todas as escritas
 de blocos muito pequenos observadas no \textit{workload}: cada
 registro corresponde a um dia do mês e, diferentemente dos arquivos
-horários --- nos quais os registros horários de um par
-$(\text{estágio}, \text{cenário})$ são agregados em uma única
-escrita ---, os dias não foram agrupados nos arquivos diários. O
-impacto desse padrão fragmentado é parcialmente mitigado pela
+horários --- nos quais a aplicação agrega os registros horários de um par
+$(\text{estágio}, \text{cenário})$ em uma única escrita ---, ela não agrupa
+os dias nos arquivos diários. A
 sobreposição entre E/S e computação proporcionada pelas escritas
-assíncronas, mas a frequência de pequenas requisições ao Lustre
-permanece como fonte residual de sobrecarga e direciona uma das
-linhas de continuidade deste trabalho.
+assíncronas mitiga parcialmente o impacto desse padrão fragmentado, mas a
+frequência de pequenas requisições ao Lustre permanece como fonte residual
+de sobrecarga e direciona uma das linhas de continuidade deste trabalho.
 
 \paragraph{Disponibilidade de instâncias na nuvem.} A execução do
 Experimento AWS enfrentou dificuldades de disponibilidade de
 instâncias \texttt{r7i.12xlarge} na mesma região, dado o caráter
 \textit{memory-optimized} dessa família e a demanda concorrente
 sobre o \textit{pool} de recursos. Essa limitação operacional
-restringiu a janela de experimentação e deve ser considerada no
-planejamento de futuras execuções em nuvem para cargas HPC.
+restringiu a janela de experimentação, e o planejamento de futuras
+execuções em nuvem para cargas HPC deve considerá-la.
 
 \section*{Trabalhos futuros}
 
-A partir dos resultados e limitações apresentados, identificam-se
-as seguintes direções de continuidade:
+A partir dos resultados e limitações apresentados, este trabalho
+identifica as seguintes direções de continuidade:
 
 \begin{itemize}
   \item \textbf{Reorganização do padrão de acesso dos arquivos
         diários}, agrupando os registros mensais em uma única
         escrita por $(\text{estágio}, \text{cenário})$ ---
-        analogamente ao que já é feito nos arquivos horários ---,
+        analogamente ao que a aplicação já faz nos arquivos horários ---,
         de modo a eliminar a parcela residual de pequenas
         requisições ao Lustre identificada nestes experimentos.
 
