@@ -25,7 +25,7 @@ disponível.
 
 Para enfrentar esse desafio, o padrão \textit{Message Passing
 Interface} (MPI), tradicionalmente empregado na coordenação entre
-processos em aplicações HPC, foi estendido a partir do MPI-2 com a
+processos em aplicações HPC, incorporou, a partir do MPI-2, a
 especificação MPI-IO, que provê primitivas para acesso paralelo a
 arquivos compartilhados~\cite{mpi50Cite}. Combinada a sistemas de
 arquivos paralelos como o Lustre --- amplamente adotado em
@@ -48,30 +48,29 @@ E/S~\cite{Ajc:10, Ssr:19}.
 \section{Motivação}
 
 O algoritmo \textit{Stochastic Dual Dynamic Programming}
-(SDDP)~\cite{MvLm:91} é amplamente utilizado para o planejamento e
-despacho hidrotérmico em sistemas elétricos. No Brasil, o Sistema
-Interligado Nacional (SIN) é operado pelo Operador Nacional do
-Sistema Elétrico (ONS), que utiliza o SDDP no contexto do Programa
-Mensal da Operação (PMO) para projetar a operação eletroenergética
-dos meses seguintes. O algoritmo decompõe o problema em uma malha
+(SDDP)~\cite{MvLm:91} encontra amplo uso no planejamento e no
+despacho hidrotérmico em sistemas elétricos. No Brasil, o Operador
+Nacional do Sistema Elétrico (ONS) opera o Sistema Interligado Nacional
+(SIN) e utiliza o SDDP no contexto do Programa Mensal da Operação (PMO)
+para projetar a operação eletroenergética dos meses seguintes. O algoritmo decompõe o problema em uma malha
 bidimensional de subproblemas indexados por estágio e cenário; a
-fase de simulação final --- etapa em que a política já convergida
-é avaliada em larga escala sobre um conjunto amplo de cenários ---
+fase de simulação final --- etapa em que o algoritmo avalia a política já convergida em larga
+escala sobre um conjunto amplo de cenários ---
 é naturalmente paralela, pois os cenários são mutuamente
-independentes e podem ser distribuídos entre processos MPI segundo
+independentes e a aplicação pode distribuí-los entre processos MPI segundo
 o padrão \textit{bag-of-tasks}~\cite{Cirne:2003}.
 
 A transição da operação programada para resolução horária,
 motivada pela necessidade de capturar adequadamente horários de
 ponta, vales e rampas associados à variabilidade das fontes
 intermitentes, multiplica em uma ordem de grandeza o volume de
-dados produzido por cenário e estágio. Nesse regime, o tempo de
-execução do SDDP deixa de ser dominado exclusivamente pela
-computação e passa a ser fortemente influenciado pelas operações
-de E/S associadas à persistência dos resultados. A arquitetura
+dados produzido por cenário e estágio. Nesse regime, a
+computação deixa de dominar exclusivamente o tempo de execução do SDDP,
+que passa a sofrer forte influência das operações de E/S associadas à
+persistência dos resultados. A arquitetura
 atual do SDDP concentra todas essas operações em um único
-processo escritor: cada cenário resolvido tem seu bloco de
-resultados enviado, via \texttt{MPI\_Send}, ao processo escritor,
+processo escritor: cada cenário resolvido envia seu bloco de
+resultados, via \texttt{MPI\_Send}, ao processo escritor,
 que serializa as gravações em disco. Essa estratégia introduz dois
 gargalos potenciais. O primeiro é o adaptador de rede do nó
 escritor, que recebe todas as transferências concorrentes dos
@@ -79,8 +78,8 @@ processos trabalhadores. O segundo é o próprio caminho de escrita,
 serializado em um único processo, que não aproveita o paralelismo
 do sistema de arquivos subjacente.
 
-Esses gargalos são acentuados pela expansão dos ambientes
-computacionais utilizados no planejamento energético. Além de
+A expansão dos ambientes computacionais utilizados no planejamento
+energético acentua esses gargalos. Além de
 supercomputadores tradicionais, como o Santos Dumont, do
 Laboratório Nacional de Computação Científica (LNCC), surge a
 alternativa da computação em nuvem, em particular a Amazon Web
@@ -105,8 +104,8 @@ ganhos de desempenho e escalabilidade obtidos.
 
 \paragraph{Escopo.} O foco deste trabalho é a \emph{fase de
 simulação final} do SDDP --- etapa executada após a convergência
-da política de operação, em que um conjunto fixo de cortes de
-Benders é avaliado em larga escala sobre múltiplos cenários para
+da política de operação, em que o algoritmo avalia um conjunto fixo de
+cortes de Benders em larga escala sobre múltiplos cenários para
 produzir os resultados operacionais entregues ao planejamento.
 Mais especificamente, o estudo concentra-se na \emph{escrita dos
 resultados} dessa fase, em que se acumula o maior volume de
@@ -162,7 +161,7 @@ As principais contribuições desta dissertação são:
 
 \section{Organização}
 
-No Capítulo~\ref{cap:fundamentacao} são introduzidos os principais
+O Capítulo~\ref{cap:fundamentacao} introduz os principais
 conceitos necessários à compreensão desta dissertação: o padrão
 MPI e seus protocolos de comunicação, as operações paralelas de
 arquivos via MPI-IO, o sistema de arquivos paralelo Lustre, os
@@ -170,16 +169,16 @@ ambientes computacionais utilizados nos experimentos --- a nuvem
 da Amazon Web Services (AWS) e o supercomputador Santos Dumont
 (LNCC), com suas respectivas tecnologias de rede ---, o Programa
 Mensal da Operação e o algoritmo SDDP, incluindo sua arquitetura
-atual de E/S. No
-Capítulo~\ref{cap:proposta} é detalhada a proposta de
+atual de E/S. O
+Capítulo~\ref{cap:proposta} detalha a proposta de
 paralelização dos mecanismos de E/S do SDDP, com o modelo de
 execução, a implementação das escritas independentes, as
 considerações de configuração do Lustre e a instrumentação
-adotada. A descrição dos experimentos realizados nos ambientes
-AWS e Santos Dumont e a discussão dos resultados podem ser
-encontradas no Capítulo~\ref{cap:avaliacoes}. No
-Capítulo~\ref{cap:trabalhos_relacionados} são discutidos os
+adotada. O Capítulo~\ref{cap:avaliacoes} apresenta a descrição dos
+experimentos realizados nos ambientes AWS e Santos Dumont e a discussão
+dos resultados. O
+Capítulo~\ref{cap:trabalhos_relacionados} discute os
 trabalhos relacionados ao conteúdo desta dissertação.
-Finalmente, no Capítulo~\ref{cap:conclusao} são resumidos os
-principais resultados e apresentadas as conclusões, com as
+Finalmente, o Capítulo~\ref{cap:conclusao} resume os
+principais resultados e apresenta as conclusões, com as
 propostas de trabalhos futuros.
