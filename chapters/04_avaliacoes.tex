@@ -12,30 +12,30 @@ desempenho~\cite{Rwe:99,Phrrbrw:09}.
 
 A base de dados utilizada nos experimentos corresponde ao PMO/PAR de
 outubro de 2023. Para a etapa de simulação horária, que constitui o foco
-principal deste estudo, foram considerados 1.536 cenários em ambos os
+principal deste estudo, este trabalho considerou 1.536 cenários em ambos os
 experimentos (AWS e SDumont), com três estágios mensais.
 
-Para cada configuração avaliada, foram executadas cinco repetições; os
-valores reportados nas tabelas e figuras deste capítulo correspondem à
+Para cada configuração avaliada, este trabalho executou cinco repetições;
+os valores reportados nas tabelas e figuras deste capítulo correspondem à
 média e ao desvio padrão dessas amostras.
 
 Como cada \textit{rank} MPI apresentou consumo de memória residente
-superior a 8~GB, optou-se, em ambos os experimentos, por mapear apenas
-um \textit{rank} por núcleo físico --- isto é, sem o uso do
-\textit{hyper-threading}. Essa decisão é imposta pela memória total
-disponível por nó: com 384~GB por nó nos dois ambientes, ativar
+superior a 8~GB, este trabalho optou, em ambos os experimentos, por mapear
+apenas um \textit{rank} por núcleo físico --- isto é, sem o uso do
+\textit{hyper-threading}. A memória total disponível por nó impõe essa
+decisão: com 384~GB por nó nos dois ambientes, ativar
 \textit{hyper-threading} e dobrar o número de \textit{ranks}
-ultrapassaria a memória física agregada, inviabilizando a execução. O
-número de \textit{ranks} por nó foi, portanto, fixado no número de
+ultrapassaria a memória física agregada, inviabilizando a execução. Este
+trabalho fixou, portanto, o número de \textit{ranks} por nó no número de
 núcleos físicos da instância correspondente.
 
 Os experimentos conduzidos neste trabalho caracterizam um cenário de
 \textit{strong scaling}, no qual o tamanho do problema permanece fixo
-enquanto o número de nós computacionais é progressivamente
-aumentado~\cite{Amdahl:67}.
+enquanto o número de nós computacionais aumenta
+progressivamente~\cite{Amdahl:67}.
 Nesse contexto, o acréscimo de recursos implica na redução do volume de
-trabalho por nó, sendo esperado, idealmente, que o tempo total de execução
-diminua de forma aproximadamente linear com o aumento do paralelismo. No
+trabalho por nó, o que, idealmente, faria o tempo total de execução
+diminuir de forma aproximadamente linear com o aumento do paralelismo. No
 entanto, essa tendência teórica pode não se concretizar na prática devido
 à presença de gargalos sistêmicos, especialmente aqueles relacionados às
 operações de entrada e saída (E/S) e à comunicação entre processos. À
@@ -44,19 +44,19 @@ recursos compartilhados --- como o sistema de arquivos e a rede --- pode
 introduzir sobrecargas adicionais, limitando a eficiência do escalonamento
 e reduzindo os ganhos esperados de desempenho.
 
-O tamanho dos blocos de dados foi considerado um fator determinante para a
-análise de desempenho de E/S paralela. A
+Este trabalho considerou o tamanho dos blocos de dados um fator
+determinante para a análise de desempenho de E/S paralela. A
 Figura~\ref{fig:histograma_mensagens} apresenta a distribuição agregada
 do tamanho dos blocos de dados observados ao longo do experimento.
-Observa-se que a distribuição é dominada por blocos de dados pequenos:
+Observa-se que blocos de dados pequenos dominam a distribuição:
 1.801.728 blocos, correspondentes a 80,1\% do total, possuem tamanho de
 até 1~KB. As demais faixas concentram 152.082 blocos até 128~KB (6,8\%),
 267.264 blocos até 1~MB (11,9\%) e 27.648 blocos até 50~MB (1,2\%).
 Esse perfil pode comprometer a escalabilidade, já que operações com
 granularidade fina tendem a aumentar a sobrecarga de metadados e a
 subutilizar a largura de banda disponível~\cite{Rwe:99,Phrrbrw:09}.
-Adicionalmente, será avaliado o tempo de envio dos blocos de dados
-agrupados por faixas de tamanho, de forma a analisar o impacto da
+Adicionalmente, este trabalho avaliará o tempo de envio dos blocos de
+dados agrupados por faixas de tamanho, de forma a analisar o impacto da
 granularidade das operações no desempenho da comunicação e da E/S.
 
 \begin{figure}[H]
@@ -69,13 +69,13 @@ granularidade das operações no desempenho da comunicação e da E/S.
 
 A distribuição observada na Figura~\ref{fig:histograma_mensagens}
 está diretamente associada à organização dos arquivos de resultado
-produzidos pelo SDDP. Nos experimentos foram gerados 117 arquivos
+produzidos pelo SDDP. Nos experimentos, este trabalho gerou 117 arquivos
 de resultado: 104 no formato horário e 13 no formato diário. Nos
-arquivos horários, os registros de um par
-$(\text{estágio}, \text{cenário})$ são acumulados em memória e
-gravados em uma única operação agregada, conforme descrito na
-Seção~\ref{sec:formato_resultados}; já nos arquivos diários, cada
-dia do mês é gravado individualmente, sem agregação entre dias.
+arquivos horários, a aplicação acumula em memória os registros de um par
+$(\text{estágio}, \text{cenário})$ e os grava em uma única operação
+agregada, conforme descrito na Seção~\ref{sec:formato_resultados}; já nos
+arquivos diários, a aplicação grava cada dia do mês individualmente, sem
+agregação entre dias.
 Essa diferença de granularidade explica o perfil observado: os
 13~arquivos diários respondem pela grande maioria dos blocos
 pequenos (até 1~KB), enquanto os blocos médios e grandes provêm
@@ -85,8 +85,8 @@ dos 104~arquivos horários.
 \section{Experimento AWS}
 \label{sec:exp_aws}
 
-O Experimento AWS foi configurado na nuvem da Amazon Web Services (AWS),
-utilizando 32 nós da instância do tipo r7i.12xlarge. Essa instância é
+Este trabalho configurou o Experimento AWS na nuvem da Amazon Web Services
+(AWS), utilizando 32 nós da instância do tipo r7i.12xlarge. Essa instância é
 baseada na quarta geração de processadores Intel Xeon Scalable (Sapphire
 Rapids 8488C), operando a 3,2~GHz, e disponibiliza 24 núcleos físicos com
 suporte a \textit{hyper-threading}, totalizando 48 processadores lógicos.
@@ -99,13 +99,13 @@ categoria de instâncias otimizadas para memória da AWS
 (\textit{memory-optimized}), adequada a aplicações que combinam elevada
 demanda de processamento paralelo com grandes volumes de dados em
 memória --- perfil característico do SDDP, em que cada \textit{rank} MPI
-chega a consumir mais de 8~GB de memória residente. Nos experimentos,
-utilizou-se a biblioteca MPICH2 versão~3.2 e um sistema de arquivos
-paralelo Lustre versão~2.12 de 12~TB, com 1~MDS de 350~GB e 10~OSTs de
-1,165~TB. O \textit{stripe count} foi configurado como 10, com
+chega a consumir mais de 8~GB de memória residente. O experimento utilizou a biblioteca MPICH2 versão~3.2 e um sistema de
+arquivos paralelo Lustre versão~2.12 de 12~TB, com 1~MDS de 350~GB e
+10~OSTs de 1,165~TB. Este trabalho definiu o \textit{stripe count} como 10, com
 \textit{stripes} de 1~MB, disponibilizado por meio do serviço
 Amazon FSx for Lustre. Pelos motivos discutidos na introdução do
-capítulo, configurou-se um \textit{rank} por núcleo físico, totalizando
+capítulo, este trabalho alocou um \textit{rank} por núcleo físico,
+totalizando
 24 \textit{ranks} MPI por nó, que processam cenários em paralelo
 segundo o padrão \textit{bag-of-tasks} descrito na
 Seção~\ref{sec:algoritmo_sddp}~\cite{intel:23,aws:24}.
@@ -133,8 +133,8 @@ concorrentes. Vale notar que a banda percebida em pequena escala
 (60{,}5~Gb/s em 2~nós) excede a capacidade nominal do adaptador de
 rede da r7i.12xlarge (18{,}75~Gb/s). Esse aparente excesso é
 consistente com a definição da métrica
-(Seção~\ref{sec:metrica_banda_percebida}): em 2~nós, os blocos são
-absorvidos com bloqueio mínimo pelos \textit{buffers} da pilha MPI e
+(Seção~\ref{sec:metrica_banda_percebida}): em 2~nós, o sistema
+absorve os blocos com bloqueio mínimo nos \textit{buffers} da pilha MPI e
 do sistema operacional, e o denominador da banda percebida fica
 reduzido. Conforme cresce o número de \textit{ranks} emissores, a serialização
 no nó escritor satura, os bloqueios se acumulam e a banda percebida
@@ -159,15 +159,15 @@ predominantemente o tempo de bloqueio das transferências remotas,
 governadas pela serialização no nó escritor.
 
 Na Tabela~\ref{tab:central_aws}, o tempo total corresponde ao tempo de
-execução medido, que inclui computação, E/S e comunicação. Os tempos de
-I/O e comunicação são apresentados separadamente.
+execução medido, que inclui computação, E/S e comunicação. A tabela
+apresenta separadamente os tempos de I/O e comunicação.
 
 \begin{table}[H]
 \centering
 \caption{Desempenho do Experimento AWS com a implementação atual,
 incluindo tempos de I/O, comunicação, tempo total, \textit{speedup},
-eficiência e percentual de I/O. A eficiência é calculada em relação à
-base de 2~nós.}
+eficiência e percentual de I/O. Este trabalho calcula a eficiência em
+relação à base de 2~nós.}
 \label{tab:central_aws}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -206,15 +206,16 @@ paralelismo dos múltiplos OSTs.
 A Tabela~\ref{tab:mpiio_aws} consolida os resultados obtidos com a
 implementação MPI-IO no Experimento AWS. Assim como na tabela
 anterior, o tempo total corresponde ao tempo de execução medido, que
-inclui computação, E/S, comunicação e \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}. Os tempos de
-I/O, comunicação e \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} são apresentados separadamente.
+inclui computação, E/S, comunicação e \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}. A tabela apresenta
+separadamente os tempos de I/O, comunicação e
+\texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}.
 
 \begin{table}[H]
 \centering
 \caption{Desempenho do Experimento AWS com a implementação MPI-IO,
 incluindo tempos de I/O, comunicação, coordenação, tempo total,
-\textit{speedup}, eficiência e percentual de I/O. A eficiência é
-calculada em relação à base de 2~nós.}
+\textit{speedup}, eficiência e percentual de I/O. Este trabalho calcula a
+eficiência em relação à base de 2~nós.}
 \label{tab:mpiio_aws}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -244,8 +245,8 @@ calculada em relação à base de 2~nós.}
 
 \subsection{Análise comparativa}
 \label{sec:avaliacao_comparativa_aws}
-Os resultados das duas subseções anteriores são consolidados visualmente
-nas figuras a seguir, que apresentam, lado a lado, os perfis de banda
+As figuras a seguir consolidam visualmente os resultados das duas
+subseções anteriores, apresentando, lado a lado, os perfis de banda
 agregada, tempo de execução e tempo de bloqueio de envio em função do
 número de nós para as duas implementações.
 
@@ -264,8 +265,8 @@ cresce com a escala: 38{,}5\% em 2~nós, 83{,}7\% em 4~nós, 94{,}7\% em
 \begin{table}[H]
 \centering
 \caption{Resumo comparativo entre a implementação atual e MPI-IO no
-Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas
-em relação à implementação atual; valores negativos indicam piora.}
+Experimento AWS. Este trabalho calcula a melhoria no total e a melhoria de
+I/O em relação à implementação atual; valores negativos indicam piora.}
 \label{tab:comparativo_aws}
 \small
 \setlength{\tabcolsep}{3pt}
@@ -320,10 +321,10 @@ Essa diferença de comportamento decorre diretamente da eliminação do
 processo escritor único. Na arquitetura atual, todas as escritas
 convergem para um único nó escritor, cuja serialização rapidamente se
 torna ponto de contenção e limita o \textit{throughput} global ---
-explicando a queda contínua da banda observada. Na abordagem MPI-IO, as operações de escrita são distribuídas entre os
-processos MPI, permitindo que múltiplos fluxos de dados sejam enviados
-simultaneamente ao sistema de arquivos Lustre, explorando o paralelismo
-proporcionado pelos múltiplos OSTs. Como consequência, a banda agregada
+explicando a queda contínua da banda observada. Na abordagem MPI-IO, a aplicação distribui as operações de escrita entre os
+processos MPI, permitindo enviar simultaneamente múltiplos fluxos de dados
+ao sistema de arquivos Lustre, explorando o paralelismo proporcionado pelos
+múltiplos OSTs. Como consequência, a banda agregada
 cresce de forma consistente com o número de nós, demonstrando que o
 sistema de armazenamento ainda não atingiu seu limite nominal na maior
 configuração avaliada. Dessa forma, a figura evidencia que a adoção de
@@ -350,7 +351,7 @@ $8{,}97 \times 10^{3}$~s no modelo atual contra $8{,}86 \times
 10^{3}$~s no modelo MPI-IO; em 4~nós, entretanto, a versão MPI-IO
 apresenta $5{,}13 \times 10^{3}$~s contra $4{,}82 \times
 10^{3}$~s da implementação atual. Esse comportamento é coerente, uma vez
-que, em pequena escala, o tempo de execução é dominado pela computação e
+que, em pequena escala, a computação domina o tempo de execução e
 o custo da coordenação ainda tem maior peso relativo.
 
 A divergência entre as duas curvas torna-se evidente a partir de 8~nós e
@@ -379,13 +380,13 @@ Cabe observar que, na implementação MPI-IO, o tempo de E/S torna-se uma
 fração pequena do tempo total em todas as escalas, permanecendo próximo
 ou abaixo de 1\% a partir de 4~nós. Na implementação atual, por outro lado, a
 fração de E/S cresce de 7,6\% em 8~nós para 28,2\% em 16~nós e 49,5\%
-em 32~nós. Na implementação MPI-IO, parte do tempo de simulação passa a
-ser ocupada pelas chamadas \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}: essa parcela cresce
+em 32~nós. Na implementação MPI-IO, as chamadas \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}
+passam a ocupar parte do tempo de simulação: essa parcela cresce
 de 0{,}5\% em 2~nós para 1{,}0\% em 4~nós, 2{,}7\% em 8~nós, 5{,}4\%
 em 16~nós e 11{,}6\% em 32~nós. Esse crescimento percentual, contudo, reflete
 sobretudo a redução do tempo de simulação com o aumento do paralelismo
 e não um aumento da carga útil tratada por essas chamadas. Como
-\texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} são executadas
+a aplicação executa \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}
 uma única vez por execução --- no início e no final ---, trata-se de
 um \emph{overhead fixo} em relação à carga útil do problema: não
 cresce com o número de cenários nem com o número de estágios
@@ -449,13 +450,13 @@ Esta subseção tem como objetivo avaliar, no Experimento AWS, o impacto do núm
 \textit{Object Storage Targets} (OSTs) no desempenho das operações de E/S
 no sistema de arquivos Lustre. Em ambientes HPC, a quantidade de OSTs
 está diretamente relacionada ao grau de paralelismo de E/S disponível,
-uma vez que os dados podem ser distribuídos entre múltiplos dispositivos
+uma vez que o Lustre pode distribuir os dados entre múltiplos dispositivos
 de armazenamento, permitindo acessos concorrentes por diferentes
 processos.
 
 A configuração de 10~OSTs aqui considerada é a mesma utilizada no
 Experimento AWS principal (Subseção~\ref{sec:aws_mpiio},
-Tabela~\ref{tab:mpiio_aws}); a configuração de 4~OSTs foi obtida em
+Tabela~\ref{tab:mpiio_aws}); este trabalho obteve a configuração de 4~OSTs em
 rodada dedicada, com todos os demais parâmetros mantidos constantes ---
 base de dados PMO/PAR de outubro de 2023, 1.536 cenários, três estágios
 mensais, 24 \textit{ranks} MPI por nó e mesma instrumentação MPI-IO.
@@ -463,12 +464,12 @@ Os valores absolutos das duas configurações são, portanto, diretamente
 comparáveis, e o foco da análise é o efeito isolado do número de OSTs
 sobre o desempenho das operações de E/S.
 
-Para esta avaliação, foram realizados experimentos com a abordagem
-MPI-IO variando-se a quantidade de OSTs disponíveis no FSx for Lustre,
+Para esta avaliação, este trabalho realizou experimentos com a abordagem
+MPI-IO, variando a quantidade de OSTs disponíveis no FSx for Lustre,
 comparando configurações com 4~OSTs e 10~OSTs para execuções com 16 e
-32~nós de cálculo. As demais características do experimento foram
-mantidas constantes, incluindo o volume de dados e o padrão de acesso,
-de modo a isolar o efeito da infraestrutura de armazenamento.
+32~nós de cálculo. Este trabalho manteve constantes as demais
+características do experimento, incluindo o volume de dados e o padrão de
+acesso, de modo a isolar o efeito da infraestrutura de armazenamento.
 
 A Figura~\ref{fig:Experimento_OSTs} apresenta o tempo médio de envio
 por classe de tamanho das mensagens. Cada subfigura corresponde a uma
@@ -494,7 +495,7 @@ rápido) e de 1{,}89~s para 113{,}5~ms nas mensagens de até 50~MB
 (cerca de 16{,}6$\times$). Esses resultados mostram que a redução do
 número de OSTs aumenta a contenção no acesso aos dados principalmente
 nas classes de maior volume, sobretudo quando o número de nós de
-cálculo cresce. Embora a escrita seja realizada em paralelo por meio de
+cálculo cresce. Embora a aplicação realize a escrita em paralelo por meio de
 MPI-IO, a disponibilidade de menos alvos de armazenamento limita o
 paralelismo efetivo do Lustre e aumenta o tempo observado nas operações
 de envio dessas classes.
@@ -545,22 +546,23 @@ O Experimento SDumont corresponde ao supercomputador Santos Dumont
 (SDumont), adquirido junto à empresa francesa EVIDEN/ATOS/BULL, que está
 localizado na sede do Laboratório Nacional de Computação Científica
 (LNCC), em Petrópolis-RJ, atuando como nó central (Tier-0) do Sistema
-Nacional de Processamento de Alto Desempenho (SINAPAD). Nesse experimento
-foram utilizados até 32~nós de processamento, cada um equipado com dois
-processadores Intel Xeon Cascade Lake Gold 6252, totalizando 24~núcleos
-físicos por nó, com suporte a \textit{hyper-threading}, o que resulta em
+Nacional de Processamento de Alto Desempenho (SINAPAD). Nesse experimento,
+este trabalho utilizou até 32~nós de processamento, cada um equipado com
+dois processadores Intel Xeon Cascade Lake Gold 6252, totalizando
+24~núcleos físicos por nó, com suporte a \textit{hyper-threading}, o que resulta em
 48~processadores lógicos disponíveis. Cada nó conta ainda com 384~GB de
 memória e interconexão de alta velocidade baseada em InfiniBand EDR de
 100~Gb/s, projetada para reduzir a latência e aumentar a eficiência em
-aplicações paralelas de larga escala. Nos experimentos, foi utilizada a
+aplicações paralelas de larga escala. Nos experimentos, este trabalho utilizou a
 biblioteca MPICH2 versão~3.2 e um sistema de arquivos paralelo Lustre
 v2.12 implementado através do ClusterStor L300 da Cray/HPE. Essa
-implementação do Lustre é composta por 1~nó MDS (com 1~MDT) e 6~nós OSSs
-(cada um servindo 1~OST). O \textit{stripe count} foi configurado como 6,
+implementação do Lustre reúne 1~nó MDS (com 1~MDT) e 6~nós OSSs
+(cada um servindo 1~OST). Este trabalho configurou o \textit{stripe count} como 6,
 com \textit{stripes} de 1~MB, disponibilizando um
 espaço total de armazenamento de 1,1~PB. Pelos motivos discutidos na
-introdução do capítulo, também aqui se configurou um \textit{rank} por
-núcleo físico, totalizando 24 \textit{ranks} MPI por nó, que processam
+introdução do capítulo, também aqui este trabalho configurou um
+\textit{rank} por núcleo físico, totalizando 24 \textit{ranks} MPI por nó,
+que processam
 cenários em paralelo segundo o padrão \textit{bag-of-tasks}.
 
 Diferentemente do FSx for Lustre dedicado utilizado no Experimento AWS, o
@@ -601,7 +603,7 @@ centralizada se intensifica nas maiores escalas.
 \centering
 \caption{Desempenho do Experimento SDumont com a implementação atual. O
 tempo total corresponde ao tempo de execução medido, que inclui computação,
-E/S e comunicação. A eficiência é calculada em relação à base de 2~nós.}
+E/S e comunicação. Este trabalho calcula a eficiência em relação à base de 2~nós.}
 \label{tab:central_sdumont}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -654,7 +656,7 @@ parcela percentual de E/S no tempo de simulação permanece abaixo de
 \centering
 \caption{Desempenho do Experimento SDumont com a implementação MPI-IO. O
 tempo total corresponde ao tempo de execução medido, que inclui computação,
-E/S, comunicação e \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}. A eficiência é calculada em relação
+E/S, comunicação e \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}. Este trabalho calcula a eficiência em relação
 à base de 2~nós.}
 \label{tab:mpiio_sdumont}
 \small
@@ -685,8 +687,8 @@ E/S, comunicação e \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}. A efici
 
 \subsection{Análise comparativa}
 \label{sec:avaliacao_comparativa_sdumont}
-Os resultados das duas subseções anteriores são consolidados visualmente
-nas figuras a seguir, que apresentam, lado a lado, os perfis de banda
+As figuras a seguir consolidam visualmente os resultados das duas
+subseções anteriores, apresentando, lado a lado, os perfis de banda
 agregada, tempo de execução e tempo de bloqueio de envio em função do
 número de nós para as duas implementações no Experimento SDumont.
 
@@ -709,8 +711,8 @@ implementação atual nessas escalas.
 \begin{table}[H]
 \centering
 \caption{Resumo comparativo entre a implementação atual e MPI-IO no
-Experimento SDumont. A melhoria no total e a melhoria de I/O são
-calculadas em relação à implementação atual; valores negativos indicam
+Experimento SDumont. Este trabalho calcula a melhoria no total e a melhoria
+de I/O em relação à implementação atual; valores negativos indicam
 piora.}
 \label{tab:comparativo_sdumont}
 \small
@@ -746,8 +748,8 @@ obtida pela implementação atual e pela implementação MPI-IO. Em 2 e
 4~nós, a implementação atual apresenta a maior banda observada, com
 27{,}9~Gb/s e 24{,}8~Gb/s respectivamente, enquanto a MPI-IO atinge
 5{,}5~Gb/s e 8{,}9~Gb/s --- comportamento esperado em pequena
-escala, em que o custo fixo da camada MPI-IO ainda não é amortizado
-pelo paralelismo de escrita. Em 8~nós, a implementação atual ainda
+escala, em que o paralelismo de escrita ainda não amortiza o custo fixo
+da camada MPI-IO. Em 8~nós, a implementação atual ainda
 registra 23{,}9~Gb/s, enquanto a MPI-IO atinge 12{,}1~Gb/s. A partir de
 16~nós, o quadro se inverte: a implementação atual colapsa para
 4{,}2~Gb/s, enquanto a MPI-IO continua crescendo e alcança 18{,}9~Gb/s --- ganho
@@ -798,8 +800,8 @@ Na implementação atual, a parcela de E/S cresce de forma marcante a
 partir de 16~nós, chegando a representar uma fatia significativa do
 tempo de simulação. Esse comportamento é compatível com a saturação
 do processo escritor centralizado no Lustre compartilhado do
-SDumont. Na implementação MPI-IO, o tempo de E/S é redistribuído
-entre os processos e permanece reduzido em todas as escalas
+SDumont. Na implementação MPI-IO, a aplicação redistribui o tempo de E/S
+entre os processos, que permanece reduzido em todas as escalas
 (abaixo de 5\% do tempo de simulação), enquanto o custo da
 \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} passa a compor uma fração visível do tempo total
 nas maiores configurações --- em particular, cresce de cerca de
@@ -898,7 +900,7 @@ arquitetura original associado à concentração das operações de E/S
 no processo escritor. No SDumont, esse benefício se manifesta a
 partir de 16~nós: a banda agregada cresce monotonicamente até
 34{,}1~Gb/s em 32~nós, contra um perfil que colapsa e satura na
-implementação atual; o tempo de E/S é reduzido em 87{,}3\%
+implementação atual; a abordagem reduz o tempo de E/S em 87{,}3\%
 e 96{,}3\% em 16 e 32~nós, respectivamente. Em 2 e 4~nós, o
 custo fixo da camada MPI-IO ainda sobrepõe-se ao ganho de
 paralelismo de escrita, e a implementação atual é ligeiramente mais
@@ -957,7 +959,7 @@ sair de 4 para 10~OSTs amplia a banda agregada em aproximadamente
 tempo médio das escritas nas classes de bloco maiores. Essa observação
 sugere que, em deployments futuros, o dimensionamento da camada de
 armazenamento --- número de OSTs e largura de \textit{stripe} ---
-deve ser tratado como parâmetro de projeto, e não como detalhe
+deve constituir um parâmetro de projeto, e não um detalhe
 operacional.
 
 Esses resultados não esgotam, porém, o estudo da escalabilidade da
