@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  18 JUN 2026 11:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.29)  18 JUN 2026 11:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -708,7 +708,10 @@ Writing index of abbreviations file dissertacao.abx
 (C:\Users\mcruz\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count368
-) (dissertacao.aux)
+) (dissertacao.aux
+Package babel Info: 'brazilian' activates 'portuges' shorthands.
+(babel)             Reported on input line 8.
+)
 \openout1 = `dissertacao.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
@@ -783,8 +786,6 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package babel Info: 'brazilian' activates 'portuges' shorthands.
-(babel)             Reported on input line 55.
 \c@lstlisting=\count375
 (C:\Users\mcruz\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
@@ -792,13 +793,14 @@ Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@posthook=\toks49
 )
 Package hyperref Info: Link coloring OFF on input line 55.
+ (dissertacao.out) (dissertacao.out)
 \@outlinefile=\write6
 \openout6 = `dissertacao.out'.
 
 Package hyperref Info: Option `breaklinks' set `true' on input line 76.
 Package hyperref Info: Option `raiselinks' set `true' on input line 76.
 Package hyperref Info: Option `pageanchor' set `true' on input line 76.
-<figuras/coppe-logo.pdf, id=42, 177.463pt x 76.285pt>
+<figuras/coppe-logo.pdf, id=222, 177.463pt x 76.285pt>
 File: figuras/coppe-logo.pdf Graphic file (type pdf)
 <use figuras/coppe-logo.pdf>
 Package pdftex.def Info: figuras/coppe-logo.pdf  used on input line 76.
@@ -840,20 +842,7 @@ Underfull \hbox (badness 2393) in paragraph at lines 77--77
 
 [2
 
-]
-
-LaTeX Warning: Reference `front:pageno' on page iii undefined on input line 77.
-
-
-LaTeX Warning: Reference `LastPage' on page iii undefined on input line 77.
-
-
-LaTeX Warning: Reference `bib:begin' on page iii undefined on input line 77.
-
-
-LaTeX Warning: Reference `bib:end' on page iii undefined on input line 77.
-
-[3
+] [3
 
 ] [4
 
@@ -863,135 +852,52 @@ LaTeX Warning: Reference `bib:end' on page iii undefined on input line 77.
 
 ] [7
 
-]
-No file dissertacao.toc.
+] (dissertacao.toc [8
+
+])
 \tf@toc=\write7
 \openout7 = `dissertacao.toc'.
 
-[8
+ [9] (dissertacao.lof [10
 
-]
-No file dissertacao.lof.
+])
 \tf@lof=\write8
 \openout8 = `dissertacao.lof'.
 
-[9
-
-]
-No file dissertacao.lot.
+ [11] (dissertacao.lot)
 \tf@lot=\write9
 \openout9 = `dissertacao.lot'.
 
-(dissertacao.los) (dissertacao.lab [10
+ (dissertacao.los) (dissertacao.lab [12
 
-]) [11
+]) [13
 
 ] (chapters/01_introducao.tex
 Cap\'{\i }tulo 1.
-
-Package natbib Warning: Citation `Kang:20' on page 1 undefined on input line 14.
-
-
-Package natbib Warning: Citation `Luu:15' on page 1 undefined on input line 19.
-
-
-Package natbib Warning: Citation `Xie:20' on page 1 undefined on input line 19.
-
-
-Package natbib Warning: Citation `mpi50Cite' on page 1 undefined on input line 30.
-
-
-Package natbib Warning: Citation `LustreManual' on page 1 undefined on input line 36.
-
-
-Package natbib Warning: Citation `Ajc:10' on page 1 undefined on input line 46.
-
-
-Package natbib Warning: Citation `Ssr:19' on page 1 undefined on input line 46.
-
 [1
 
 
-]
-
-Package natbib Warning: Citation `MvLm:91' on page 2 undefined on input line 51.
-
-
-Package natbib Warning: Citation `Cirne:2003' on page 2 undefined on input line 62.
-
-[2] [3]
-
-LaTeX Warning: Reference `cap:fundamentacao' on page 4 undefined on input line 165.
-
-
-LaTeX Warning: Reference `cap:proposta' on page 4 undefined on input line 174.
-
-
-LaTeX Warning: Reference `cap:avaliacoes' on page 4 undefined on input line 180.
-
-
-LaTeX Warning: Reference `cap:trabalhos_relacionados' on page 4 undefined on input line 181.
-
-
-LaTeX Warning: Reference `cap:conclusao' on page 4 undefined on input line 183.
-
-) (chapters/02_fundamentacao.tex [4]
+] [2] [3]) (chapters/02_fundamentacao.tex [4]
 Cap\'{\i }tulo 2.
-
-Package natbib Warning: Citation `mpiCite' on page 5 undefined on input line 28.
-
-
-Package natbib Warning: Citation `mpiioCite' on page 5 undefined on input line 28.
-
 [5
 
 ]
-
-Package natbib Warning: Citation `Wea:99' on page 6 undefined on input line 57.
-
-
-Package natbib Warning: Citation `Rrw:05' on page 6 undefined on input line 57.
-
-
-LaTeX Warning: Reference `fig:eager_rendezvous' on page 6 undefined on input line 62.
-
-<figuras/Eager-and-Rendezvous-Protocols.png, id=153, 731.01105pt x 342.5598pt>
+<figuras/Eager-and-Rendezvous-Protocols.png, id=531, 731.01105pt x 342.5598pt>
 File: figuras/Eager-and-Rendezvous-Protocols.png Graphic file (type png)
 <use figuras/Eager-and-Rendezvous-Protocols.png>
 Package pdftex.def Info: figuras/Eager-and-Rendezvous-Protocols.png  used on input line 74.
 (pdftex.def)             Requested size: 426.79135pt x 199.9968pt.
-[6
+ [6
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.93 
-      <./figuras/Eager-and-Rendezvous-Protocols.png (PNG copy)>]
-
-LaTeX Warning: Reference `fig:mpi_protocolos_e_io' on page 7 undefined on input line 94.
-
-
-Package natbib Warning: Citation `mpiCite' on page 7 undefined on input line 156.
-
-
-Package natbib Warning: Citation `Rr:10' on page 7 undefined on input line 156.
-
-
-Package natbib Warning: Citation `Wre:99' on page 7 undefined on input line 156.
-
-[7
+      <./figuras/Eager-and-Rendezvous-Protocols.png (PNG copy)>] [7
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.157 
-      ]
-
-Package natbib Warning: Citation `Cirne:2003' on page 8 undefined on input line 165.
-
-[8]
-
-LaTeX Warning: Reference `fig:mpiio_ind_coletiva' on page 9 undefined on input line 211.
-
-
+      ] [8]
 Underfull \hbox (badness 10000) in paragraph at lines 296--296
 []|\T1/cmr/m/n/12 Assíncrona in-de-
  []
@@ -1001,111 +907,50 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2.3}) h
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.298 
-      ]
-
-Package natbib Warning: Citation `Pjb:02' on page 10 undefined on input line 306.
-
-
-Package natbib Warning: Citation `LustreManual' on page 10 undefined on input line 306.
-
-
-LaTeX Warning: Reference `fig:lustre_arquitetura' on page 10 undefined on input line 307.
-
-[10
+      ] [10
 pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.330 
       ]
-<figuras/Lustre_arquitetura.png, id=184, 823.878pt x 512.8761pt>
+<figuras/Lustre_arquitetura.png, id=570, 823.878pt x 512.8761pt>
 File: figuras/Lustre_arquitetura.png Graphic file (type png)
 <use figuras/Lustre_arquitetura.png>
 Package pdftex.def Info: figuras/Lustre_arquitetura.png  used on input line 333.
 (pdftex.def)             Requested size: 426.79135pt x 265.67975pt.
-
-
-LaTeX Warning: Reference `fig:lustre_striping' on page 11 undefined on input line 346.
-
-<figuras/Lustre_striping.png, id=186, 823.878pt x 455.301pt>
+<figuras/Lustre_striping.png, id=573, 823.878pt x 455.301pt>
 File: figuras/Lustre_striping.png Graphic file (type png)
 <use figuras/Lustre_striping.png>
 Package pdftex.def Info: figuras/Lustre_striping.png  used on input line 355.
 (pdftex.def)             Requested size: 426.79135pt x 235.85472pt.
-[11
+ [11
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.361 
-       <./figuras/Lustre_arquitetura.png>]
-
-Package natbib Warning: Citation `Pjb:02' on page 12 undefined on input line 368.
-
-
-Package natbib Warning: Citation `Fds:03' on page 12 undefined on input line 389.
-
-
-Package natbib Warning: Citation `RlGmmts:05' on page 12 undefined on input line 389.
-
-[12
+       <./figuras/Lustre_arquitetura.png>] [12
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.391 
-       <./figuras/Lustre_striping.png>]
-
-Package natbib Warning: Citation `Krlkssj:10' on page 13 undefined on input line 402.
-
-
-Package natbib Warning: Citation `Hmns:20' on page 13 undefined on input line 402.
-
-
-Package natbib Warning: Citation `aws:ena' on page 13 undefined on input line 411.
-
-
-Package natbib Warning: Citation `aws:placement' on page 13 undefined on input line 427.
-
-[13]
-
-Package natbib Warning: Citation `Fds:03' on page 14 undefined on input line 449.
-
-
-Package natbib Warning: Citation `RlGmmts:05' on page 14 undefined on input line 449.
-
-
-Package natbib Warning: Citation `ons:23' on page 14 undefined on input line 476.
-
-
-Package natbib Warning: Citation `MvLm:91' on page 14 undefined on input line 481.
-
-[14]
-
-Package natbib Warning: Citation `Cirne:2003' on page 15 undefined on input line 504.
-
-[15]
-<figuras/SDDP_cenarios_estagios.png, id=218, 968.418pt x 283.5393pt>
+       <./figuras/Lustre_striping.png>] [13] [14] [15]
+<figuras/SDDP_cenarios_estagios.png, id=617, 968.418pt x 283.5393pt>
 File: figuras/SDDP_cenarios_estagios.png Graphic file (type png)
 <use figuras/SDDP_cenarios_estagios.png>
 Package pdftex.def Info: figuras/SDDP_cenarios_estagios.png  used on input line 540.
 (pdftex.def)             Requested size: 426.79135pt x 124.95668pt.
-
-
-LaTeX Warning: Reference `fig:formatos_resultados_sddp' on page 16 undefined on input line 575.
-
-[16
+ [16
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.577 
        <./figuras/SDDP_cenarios_estagios.png>]
-
-LaTeX Warning: Reference `fig:SDDP_architecture' on page 17 undefined on input line 659.
-
-<figuras/SDDP_architecture.png, id=226, 2007.5pt x 1380.15625pt>
+<figuras/SDDP_architecture.png, id=625, 2007.5pt x 1380.15625pt>
 File: figuras/SDDP_architecture.png Graphic file (type png)
 <use figuras/SDDP_architecture.png>
 Package pdftex.def Info: figuras/SDDP_architecture.png  used on input line 664.
 (pdftex.def)             Requested size: 298.75264pt x 205.39293pt.
-[17
+ [17
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -1117,149 +962,55 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2.8}) h
 l.676 
        <./figuras/SDDP_architecture.png (PNG copy)>]) (chapters/03_proposta.tex [18]
 Cap\'{\i }tulo 3.
-
-LaTeX Warning: Reference `fig:SDDP_architecture2' on page 19 undefined on input line 31.
-
-
-Package natbib Warning: Citation `mpiioCite' on page 19 undefined on input line 37.
-
 [19
 
 ]
-<figuras/SDDP_architecture2.png, id=251, 917.829pt x 527.3301pt>
+<figuras/SDDP_architecture2.png, id=648, 917.829pt x 527.3301pt>
 File: figuras/SDDP_architecture2.png Graphic file (type png)
 <use figuras/SDDP_architecture2.png>
 Package pdftex.def Info: figuras/SDDP_architecture2.png  used on input line 43.
 (pdftex.def)             Requested size: 567.63065pt x 326.1286pt.
-
-
-LaTeX Warning: Reference `fig:SDDP_timeline_MPIIO' on page 20 undefined on input line 52.
-
-[20
+ [20
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.73 
       <./figuras/SDDP_architecture2.png>]
-
-Package natbib Warning: Citation `Cirne:2003' on page 21 undefined on input line 75.
-
-
-LaTeX Warning: Reference `fig:SDDP_timeline_MPIIO' on page 21 undefined on input line 88.
-
-
-Package natbib Warning: Citation `Zhang:09CollectiveIO' on page 21 undefined on input line 92.
-
-<figuras/SDDP_timeline_MPIIO.png, id=260, 886.9938pt x 397.2441pt>
+<figuras/SDDP_timeline_MPIIO.png, id=658, 886.9938pt x 397.2441pt>
 File: figuras/SDDP_timeline_MPIIO.png Graphic file (type png)
 <use figuras/SDDP_timeline_MPIIO.png>
 Package pdftex.def Info: figuras/SDDP_timeline_MPIIO.png  used on input line 112.
 (pdftex.def)             Requested size: 567.63065pt x 254.22928pt.
-[21]
-
-LaTeX Warning: Reference `sec:formato_resultados' on page 22 undefined on input line 136.
-
-[22
+ [21] [22
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.146 
-       <./figuras/SDDP_timeline_MPIIO.png>]
-
-Package natbib Warning: Citation `Rr:10' on page 23 undefined on input line 163.
-
-
-Package natbib Warning: Citation `Wea:99' on page 23 undefined on input line 163.
-
-
-Package natbib Warning: Citation `Wea:99' on page 23 undefined on input line 168.
-
-
-Package natbib Warning: Citation `Rrw:05' on page 23 undefined on input line 168.
-
-
-LaTeX Warning: Reference `fig:fluxo_escrita_independente' on page 23 undefined on input line 175.
-
-[23
+       <./figuras/SDDP_timeline_MPIIO.png>] [23
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.218 
-      ]
-
-LaTeX Warning: Reference `sec:formato_resultados' on page 24 undefined on input line 226.
-
-
-Package natbib Warning: Citation `LiaoIPDPS:07' on page 24 undefined on input line 239.
-
-
-LaTeX Warning: Reference `fig:pseudocodigo_writeregistry' on page 24 undefined on input line 241.
-
-
-Package natbib Warning: Citation `mpiCite' on page 24 undefined on input line 247.
-
-
-Package natbib Warning: Citation `Rr:10' on page 24 undefined on input line 247.
-
-
-LaTeX Warning: Reference `sec:formato_resultados' on page 24 undefined on input line 253.
-
-
-Package natbib Warning: Citation `Wre:99' on page 24 undefined on input line 262.
-
-
-Package natbib Warning: Citation `mpiCite' on page 24 undefined on input line 265.
-
-
-Package natbib Warning: Citation `Wea:99' on page 24 undefined on input line 265.
-
-[24]
+      ] [24]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 277.
-
-
-Package natbib Warning: Citation `mpiCite' on page 25 undefined on input line 308.
-
-
-Package natbib Warning: Citation `Rr:10' on page 25 undefined on input line 308.
-
-
-Package natbib Warning: Citation `mpiCite' on page 25 undefined on input line 308.
-
-
-Package natbib Warning: Citation `Rr:10' on page 25 undefined on input line 308.
-
-[25
+ [25
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.324 
       ]
-
-LaTeX Warning: Reference `fig:formato_arquivos_resultado' on page 26 undefined on input line 325.
-
-<figuras/formato_arquivos_resultado.png, id=320, 903.375pt x 411.939pt>
+<figuras/formato_arquivos_resultado.png, id=736, 903.375pt x 411.939pt>
 File: figuras/formato_arquivos_resultado.png Graphic file (type png)
 <use figuras/formato_arquivos_resultado.png>
 Package pdftex.def Info: figuras/formato_arquivos_resultado.png  used on input line 345.
 (pdftex.def)             Requested size: 567.63065pt x 258.85664pt.
-[26
+ [26
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.366 
-       <./figuras/formato_arquivos_resultado.png>]
-
-Package natbib Warning: Citation `LustreManual' on page 27 undefined on input line 376.
-
-
-LaTeX Warning: Reference `cap:proposta' on page 27 undefined on input line 406.
-
-[27]
-
-LaTeX Warning: Reference `tab:logs_instrumentacao' on page 28 undefined on input line 433.
-
-
+       <./figuras/formato_arquivos_resultado.png>] [27]
 Overfull \hbox (7.7622pt too wide) in paragraph at lines 453--453
 []|\T1/cmtt/m/n/10.95 mpiio-collective-{p}.log| 
  []
@@ -1277,619 +1028,192 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.3.1}) ha
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.503 
+      ] [30]) [31] (chapters/04_avaliacoes.tex [32]
+Cap\'{\i }tulo 4.
+[33
+
+]
+<figuras/histograma_mensagens.png, id=788, 786.2976pt x 354.123pt>
+File: figuras/histograma_mensagens.png Graphic file (type png)
+<use figuras/histograma_mensagens.png>
+Package pdftex.def Info: figuras/histograma_mensagens.png  used on input line 64.
+(pdftex.def)             Requested size: 426.79135pt x 192.21239pt.
+ [34
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.83 
+      <./figuras/histograma_mensagens.png>] [35] [36
+pdfTeX warning (ext4): destination with the same identifier (name{table.4.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.205 
+      ] [37
+pdfTeX warning (ext4): destination with the same identifier (name{table.4.2}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.296 
       ]
-
-Package natbib Warning: Citation `mpiioCite' on page 30 undefined on input line 508.
-
-[30]
-
-LaTeX Warning: Reference `sec:metrica_bloqueio' on page 31 undefined on input line 593.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@
-         ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@
-            ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@
-               ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@
-                  ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@^^@
-                     ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@^^@^^@
-                        ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@^^@^^@^^@
-                           ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@^^@^^@^^@^^@
-                              ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                 ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                    ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                       ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                          ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                             ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                ^^@^^@^^@^^@^^@^^@^^@^^@^^@^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
-
-chapters/03_proposta.tex:606: Text line contains an invalid character.
-l.606 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
-                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
-(That makes 100 errors; please try again.) 
+<figuras/Banda_AWS.png, id=821, 859.2903pt x 354.123pt>
+File: figuras/Banda_AWS.png Graphic file (type png)
+<use figuras/Banda_AWS.png>
+Package pdftex.def Info: figuras/Banda_AWS.png  used on input line 336.
+(pdftex.def)             Requested size: 426.79135pt x 175.88309pt.
+ [38
+pdfTeX warning (ext4): destination with the same identifier (name{table.4.3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.341 
+      ] [39
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.2}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.378 C
+       abe observar que, na implementaÃ§Ã£o MPI-IO, o tempo de E/S torna-se uma <./figuras/Banda_AWS.png>]
+<figuras/Tempo_execucao_AWS.png, id=832, 946.737pt x 678.6153pt>
+File: figuras/Tempo_execucao_AWS.png Graphic file (type png)
+<use figuras/Tempo_execucao_AWS.png>
+Package pdftex.def Info: figuras/Tempo_execucao_AWS.png  used on input line 411.
+(pdftex.def)             Requested size: 426.79135pt x 305.92287pt.
+ [40]
+<figuras/EnvioPorTamanho_AWS.png, id=840, 787.0203pt x 631.6398pt>
+File: figuras/EnvioPorTamanho_AWS.png Graphic file (type png)
+<use figuras/EnvioPorTamanho_AWS.png>
+Package pdftex.def Info: figuras/EnvioPorTamanho_AWS.png  used on input line 438.
+(pdftex.def)             Requested size: 426.79135pt x 342.53575pt.
+ [41
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.443 
+       <./figuras/Tempo_execucao_AWS.png>] [42
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.4}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.472 
+       <./figuras/EnvioPorTamanho_AWS.png>]
+<figuras/Experimento_OSTs.png, id=855, 787.0203pt x 631.6398pt>
+File: figuras/Experimento_OSTs.png Graphic file (type png)
+<use figuras/Experimento_OSTs.png>
+Package pdftex.def Info: figuras/Experimento_OSTs.png  used on input line 504.
+(pdftex.def)             Requested size: 426.79135pt x 342.53575pt.
+ [43]
+<figuras/Experimento_OSTs_banda.png, id=861, 570.933pt x 354.123pt>
+File: figuras/Experimento_OSTs_banda.png Graphic file (type png)
+<use figuras/Experimento_OSTs_banda.png>
+Package pdftex.def Info: figuras/Experimento_OSTs_banda.png  used on input line 533.
+(pdftex.def)             Requested size: 426.79135pt x 264.72702pt.
+ [44
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.5}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.539 
+       <./figuras/Experimento_OSTs.png>] [45
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.6}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.566 D
+       iferentemente do FSx for Lustre dedicado utilizado no Experimento AWS, o <./figuras/Experimento_OSTs_banda.png>] [46
+pdfTeX warning (ext4): destination with the same identifier (name{table.4.4}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.637 
+      ] [47
+pdfTeX warning (ext4): destination with the same identifier (name{table.4.5}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.708 
+      ]
+<figuras/Banda_SDumont.png, id=884, 859.2903pt x 354.123pt>
+File: figuras/Banda_SDumont.png Graphic file (type png)
+<use figuras/Banda_SDumont.png>
+Package pdftex.def Info: figuras/Banda_SDumont.png  used on input line 770.
+(pdftex.def)             Requested size: 426.79135pt x 175.88309pt.
+ [48
+pdfTeX warning (ext4): destination with the same identifier (name{table.4.6}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.775 
+      ] [49
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.7}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.827 
+       <./figuras/Banda_SDumont.png>]
+<figuras/Tempo_execucao_SDumont.png, id=896, 946.737pt x 678.6153pt>
+File: figuras/Tempo_execucao_SDumont.png Graphic file (type png)
+<use figuras/Tempo_execucao_SDumont.png>
+Package pdftex.def Info: figuras/Tempo_execucao_SDumont.png  used on input line 830.
+(pdftex.def)             Requested size: 426.79135pt x 305.92287pt.
+ [50
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.8}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.847 
+       <./figuras/Tempo_execucao_SDumont.png>]
+<figuras/EnvioPorTamanho_SDumont.png, id=904, 787.0203pt x 631.6398pt>
+File: figuras/EnvioPorTamanho_SDumont.png Graphic file (type png)
+<use figuras/EnvioPorTamanho_SDumont.png>
+Package pdftex.def Info: figuras/EnvioPorTamanho_SDumont.png  used on input line 888.
+(pdftex.def)             Requested size: 426.79135pt x 342.53575pt.
+ [51] [52
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.9}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.918 
+       <./figuras/EnvioPorTamanho_SDumont.png>]) [53] (chapters/05_trabalhos_relacionados.tex [54]
+Cap\'{\i }tulo 5.
+[55
+
+]) (chapters/06_conclusao.tex [56]
+Cap\'{\i }tulo 6.
+[57
+
+] [58]) [59] (dissertacao.bbl [60
+
+
+]
+Underfull \hbox (badness 3701) in paragraph at lines 157--164
+[]\T1/cmr/m/n/12 TRAN, A., THEK-KE-DATH, B.  ``Run-ning Sim-cen-ter STAR-CCM+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--164
+\T1/cmr/m/n/12 on AWS with AWS Pa-ral-lel-Clus-ter, Elas-tic Fa-bric Adap-
+ []
+
+
+Underfull \hbox (badness 4181) in paragraph at lines 157--164
+\T1/cmr/m/n/12 ter and Ama-zon FSx for Lus-tre''. AWS Com-pute Blog, 2020.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--164
+\T1/cmr/m/n/12 Dis-po-ní-vel em: <[]$\T1/cmtt/m/n/12 https : / / aws . amazon . com / blogs / compute /
+ []
+
+[61] [62]) [63] 
+enddocument/afterlastpage (AED): lastpage setting LastPage.
+(dissertacao.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+ ***********
+Package rerunfilecheck Info: File `dissertacao.out' has not changed.
+(rerunfilecheck)             Checksum: 002C3CADA4F16F567DF8366DCB48E217;9248.
+ ) 
 Here is how much of TeX's memory you used:
- 30547 strings out of 467871
- 608165 string characters out of 5418376
- 1218301 words of memory out of 5000000
- 58771 multiletter control sequences out of 15000+600000
+ 30959 strings out of 467871
+ 616451 string characters out of 5418376
+ 1234989 words of memory out of 5000000
+ 59056 multiletter control sequences out of 15000+600000
  649255 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 98i,11n,118p,565b,1378s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,14n,118p,579b,1378s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1440.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0800.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1200.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\mcruz\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/mcruz/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on dissertacao.pdf (76 pages, 2377375 bytes).
+PDF statistics:
+ 1907 PDF objects out of 2073 (max. 8388607)
+ 220 named destinations out of 1000 (max. 500000)
+ 607 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-chapters/03_proposta.tex:606:  ==> Fatal error occurred, no output PDF file produced!

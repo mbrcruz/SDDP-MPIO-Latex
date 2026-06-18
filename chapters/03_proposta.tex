@@ -403,7 +403,7 @@ A avaliação empírica da proposta requer medições detalhadas dos tempos cons
 execução do SDDP. Para isso, tanto a implementação atual quanto a
 implementação proposta foram instrumentadas no módulo de persistência
 do SDDP --- o mesmo ponto da arquitetura no qual a solução baseada em
-MPI-IO foi incorporada (Seção~\ref{cap:proposta}). Os cronômetros foram
+MPI-IO foi incorporada nesta proposta. Os cronômetros foram
 posicionados imediatamente antes e depois das chamadas instrumentadas
 utilizando \texttt{MPI\_Wtime}, primitiva da própria biblioteca MPI cuja
 resolução é adequada para temporização de operações de E/S e
@@ -603,4 +603,3 @@ execução. Uma estratégia que reduza esse tempo de bloqueio --- seja
 por paralelizar escritas em múltiplos OSTs, seja por mascará-las com
 chamadas assíncronas --- eleva a banda percebida, tornando-a adequada
 para a comparação direta entre as duas implementações investigadas.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

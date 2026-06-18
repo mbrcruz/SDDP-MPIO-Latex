@@ -8,11 +8,12 @@
 \babel@aux{brazilian}{}
 \babel@aux{english}{}
 \babel@aux{brazilian}{}
-\newlabel{cat:lofflag}{{}{:\unhbox \voidb@x \protect \penalty \@M \ il.;}{}{page.viii}{}}
-\@writefile{toc}{\contentsline {chapter}{Lista de Figuras}{ix}{chapter*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{Lista de Tabelas}{x}{chapter*.4}\protected@file@percent }
-\newlabel{front:pageno}{{}{XI}{}{page.xi}{}}
-\@writefile{toc}{\contentsline {chapter}{Lista de Abreviaturas}{xi}{chapter*.5}\protected@file@percent }
+\newlabel{cat:lofflag}{{}{:\unhbox \voidb@x \protect \penalty \@M \ il.;}{}{page.ix}{}}
+\@writefile{toc}{\contentsline {chapter}{Lista de Figuras}{x}{chapter*.3}\protected@file@percent }
+\citation{mpiCite,Rr:10}
+\@writefile{toc}{\contentsline {chapter}{Lista de Tabelas}{xii}{chapter*.4}\protected@file@percent }
+\newlabel{front:pageno}{{}{XIII}{}{page.xiii}{}}
+\@writefile{toc}{\contentsline {chapter}{Lista de Abreviaturas}{xiii}{chapter*.5}\protected@file@percent }
 \citation{Kang:20}
 \citation{Luu:15,Xie:20}
 \citation{mpi50Cite}
@@ -129,3 +130,135 @@
 \newlabel{sec:metrica_io_total}{{3.4.4}{30}{Tempo total de E/S}{subsection.3.4.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.5}Tempo de bloqueio na transferência dos blocos de dados}{30}{subsection.3.4.5}\protected@file@percent }
 \newlabel{sec:metrica_bloqueio}{{3.4.5}{30}{Tempo de bloqueio na transferência dos blocos de dados}{subsection.3.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.6}Banda agregada média percebida pela aplicação}{31}{subsection.3.4.6}\protected@file@percent }
+\newlabel{sec:metrica_banda_percebida}{{3.4.6}{31}{Banda agregada média percebida pela aplicação}{subsection.3.4.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Relação entre banda percebida e tempo de bloqueio.}{31}{section*.7}\protected@file@percent }
+\citation{Rwe:99,Phrrbrw:09}
+\citation{Amdahl:67}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Avaliações}{33}{chapter.4}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cap:avaliacoes}{{4}{33}{Avaliações}{chapter.4}{}}
+\citation{Rwe:99,Phrrbrw:09}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{34}{figure.4.1}\protected@file@percent }
+\newlabel{fig:histograma_mensagens}{{4.1}{34}{Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica}{figure.4.1}{}}
+\citation{aws:ena}
+\citation{intel:23,aws:24}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Experimento AWS}{35}{section.4.1}\protected@file@percent }
+\newlabel{sec:exp_aws}{{4.1}{35}{Experimento AWS}{section.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Avaliação da implementação atual}{35}{subsection.4.1.1}\protected@file@percent }
+\newlabel{sec:aws_atual}{{4.1.1}{35}{Avaliação da implementação atual}{subsection.4.1.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit  {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós.}}{36}{table.4.1}\protected@file@percent }
+\newlabel{tab:central_aws}{{4.1}{36}{Desempenho do Experimento AWS com a implementação atual, incluindo tempos de I/O, comunicação, tempo total, \textit {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós}{table.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Avaliação da implementação MPI-IO com escritas independentes}{37}{subsection.4.1.2}\protected@file@percent }
+\newlabel{sec:aws_mpiio}{{4.1.2}{37}{Avaliação da implementação MPI-IO com escritas independentes}{subsection.4.1.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, coordenação, tempo total, \textit  {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós.}}{37}{table.4.2}\protected@file@percent }
+\newlabel{tab:mpiio_aws}{{4.2}{37}{Desempenho do Experimento AWS com a implementação MPI-IO, incluindo tempos de I/O, comunicação, coordenação, tempo total, \textit {speedup}, eficiência e percentual de I/O. A eficiência é calculada em relação à base de 2~nós}{table.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Análise comparativa}{37}{subsection.4.1.3}\protected@file@percent }
+\newlabel{sec:avaliacao_comparativa_aws}{{4.1.3}{37}{Análise comparativa}{subsection.4.1.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Resumo comparativo entre a implementação atual e MPI-IO no Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora.}}{38}{table.4.3}\protected@file@percent }
+\newlabel{tab:comparativo_aws}{{4.3}{38}{Resumo comparativo entre a implementação atual e MPI-IO no Experimento AWS. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora}{table.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média percebida pela aplicação no Experimento AWS.}}{39}{figure.4.2}\protected@file@percent }
+\newlabel{fig:Banda_AWS}{{4.2}{39}{Banda agregada média percebida pela aplicação no Experimento AWS}{figure.4.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Tempo de execução no Experimento AWS.}}{41}{figure.4.3}\protected@file@percent }
+\newlabel{fig:Tempo_execucao_AWS}{{4.3}{41}{Tempo de execução no Experimento AWS}{figure.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}}{42}{figure.4.4}\protected@file@percent }
+\newlabel{fig:EnvioPorTamanho_AWS}{{4.4}{42}{Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica)}{figure.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Avaliação do impacto do número de OSTs}{42}{subsection.4.1.4}\protected@file@percent }
+\newlabel{sec:exp_osts}{{4.1.4}{42}{Avaliação do impacto do número de OSTs}{subsection.4.1.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs.}}{44}{figure.4.5}\protected@file@percent }
+\newlabel{fig:Experimento_OSTs}{{4.5}{44}{Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs}{figure.4.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Banda agregada média percebida pela aplicação na implementação MPI-IO para configurações com 4 e 10~OSTs em 16 e 32~nós.}}{45}{figure.4.6}\protected@file@percent }
+\newlabel{fig:Experimento_OSTs_banda}{{4.6}{45}{Banda agregada média percebida pela aplicação na implementação MPI-IO para configurações com 4 e 10~OSTs em 16 e 32~nós}{figure.4.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Experimento SDumont}{45}{section.4.2}\protected@file@percent }
+\newlabel{sec:exp_sdumont}{{4.2}{45}{Experimento SDumont}{section.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Avaliação da implementação atual}{46}{subsection.4.2.1}\protected@file@percent }
+\newlabel{sec:sdumont_atual}{{4.2.1}{46}{Avaliação da implementação atual}{subsection.4.2.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S e comunicação. A eficiência é calculada em relação à base de 2~nós.}}{46}{table.4.4}\protected@file@percent }
+\newlabel{tab:central_sdumont}{{4.4}{46}{Desempenho do Experimento SDumont com a implementação atual. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S e comunicação. A eficiência é calculada em relação à base de 2~nós}{table.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Avaliação da implementação MPI-IO com escritas independentes}{47}{subsection.4.2.2}\protected@file@percent }
+\newlabel{sec:sdumont_mpiio}{{4.2.2}{47}{Avaliação da implementação MPI-IO com escritas independentes}{subsection.4.2.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Desempenho do Experimento SDumont com a implementação MPI-IO. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S, comunicação e \texttt  {MPI\_File\_open}/\texttt  {MPI\_File\_close}. A eficiência é calculada em relação à base de 2~nós.}}{47}{table.4.5}\protected@file@percent }
+\newlabel{tab:mpiio_sdumont}{{4.5}{47}{Desempenho do Experimento SDumont com a implementação MPI-IO. O tempo total corresponde ao tempo de execução medido, que inclui computação, E/S, comunicação e \texttt {MPI\_File\_open}/\texttt {MPI\_File\_close}. A eficiência é calculada em relação à base de 2~nós}{table.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Análise comparativa}{47}{subsection.4.2.3}\protected@file@percent }
+\newlabel{sec:avaliacao_comparativa_sdumont}{{4.2.3}{47}{Análise comparativa}{subsection.4.2.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Resumo comparativo entre a implementação atual e MPI-IO no Experimento SDumont. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora.}}{48}{table.4.6}\protected@file@percent }
+\newlabel{tab:comparativo_sdumont}{{4.6}{48}{Resumo comparativo entre a implementação atual e MPI-IO no Experimento SDumont. A melhoria no total e a melhoria de I/O são calculadas em relação à implementação atual; valores negativos indicam piora}{table.4.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Banda agregada média percebida pela aplicação nas implementações atual e MPI-IO no Experimento SDumont.}}{49}{figure.4.7}\protected@file@percent }
+\newlabel{fig:Banda_SDumont}{{4.7}{49}{Banda agregada média percebida pela aplicação nas implementações atual e MPI-IO no Experimento SDumont}{figure.4.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{50}{figure.4.8}\protected@file@percent }
+\newlabel{fig:Tempo_execucao_SDumont}{{4.8}{50}{Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont}{figure.4.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{52}{figure.4.9}\protected@file@percent }
+\newlabel{fig:EnvioPorTamanho_SDumont}{{4.9}{52}{Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica)}{figure.4.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Síntese das avaliações}{53}{section.4.3}\protected@file@percent }
+\newlabel{sec:sintese_avaliacoes}{{4.3}{53}{Síntese das avaliações}{section.4.3}{}}
+\citation{Dickens:08}
+\citation{Dickens:08}
+\citation{Dickens:10}
+\citation{LiaoIPDPS:07}
+\citation{Gropp:08}
+\citation{Liao:08}
+\citation{LiaoIPDPS:07}
+\citation{LiaoIPDPS:07}
+\citation{LiaoIPDPS:07}
+\citation{Dickens:10}
+\citation{Dickens:10}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Trabalhos relacionados}{55}{chapter.5}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cap:trabalhos_relacionados}{{5}{55}{Trabalhos relacionados}{chapter.5}{}}
+\citation{Gropp:08}
+\citation{Gropp:08}
+\citation{Liao:08}
+\citation{Liao:08}
+\citation{Dickens:08}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusões e trabalhos futuros}{57}{chapter.6}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cap:conclusao}{{6}{57}{Conclusões e trabalhos futuros}{chapter.6}{}}
+\citation{LiaoIPDPS:07}
+\@writefile{toc}{\contentsline {paragraph}{Padrão de acesso dos arquivos diários.}{58}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Disponibilidade de instâncias na nuvem.}{58}{section*.9}\protected@file@percent }
+\bibstyle{coppe-unsrt}
+\bibdata{bibliografy}
+\newlabel{bib:begin}{{}{60}{}{page.60}{}}
+\bibcite{mpiCite}{{1}{2023}{{\MakeUppercase    []{{Message Passing Interface Forum}}}}{{Message Passing Interface Forum}}}
+\bibcite{Rr:10}{{2}{2010}{{\MakeUppercase    []{Ross}\emph  { et~al.}}}{{Ross, Thakur, e Gropp}}}
+\bibcite{Kang:20}{{3}{2020}{{\MakeUppercase    []{Kang}\emph  { et~al.}}}{{Kang, Lee, Hou, Ross, Agrawal, Choudhary, e Liao}}}
+\bibcite{Luu:15}{{4}{2015}{{\MakeUppercase    []{Luu}\emph  { et~al.}}}{{Luu, Winslett, Gropp, Ross, Carns, Harms, Prabhat, Byna, e Yao}}}
+\bibcite{Xie:20}{{5}{2020}{{\MakeUppercase    []{Xie}\emph  { et~al.}}}{{Xie, Oral, Zimmer, Choi, Dillow, Klasky, Lofstead, Podhorszki, e Chase}}}
+\bibcite{mpi50Cite}{{6}{2025}{{\MakeUppercase    []{{Message Passing Interface Forum}}}}{{Message Passing Interface Forum}}}
+\bibcite{LustreManual}{{7}{2025}{{\MakeUppercase    []{{OpenSFS and EOFS}}}}{{OpenSFS and EOFS}}}
+\bibcite{Ajc:10}{{8}{2010}{{\MakeUppercase    []{Conejo}\emph  { et~al.}}}{{Conejo, Carri\'on, e Morales}}}
+\bibcite{Ssr:19}{{9}{2020}{{\MakeUppercase    []{Zakaria}\emph  { et~al.}}}{{Zakaria, Ismail, Lipu, e Hannan}}}
+\bibcite{MvLm:91}{{10}{1991}{{\MakeUppercase    []{Pereira} e \MakeUppercase    []{Pinto}}}{{Pereira e Pinto}}}
+\@writefile{toc}{\contentsline {chapter}{Refer\^encias Bibliogr\'aficas}{60}{chapter*.11}\protected@file@percent }
+\bibcite{Cirne:2003}{{11}{2003}{{\MakeUppercase    []{Cirne}\emph  { et~al.}}}{{Cirne, Brasileiro, Sauv\'e, Andrade, Paranhos, Santos-Neto, e Medeiros}}}
+\bibcite{mpiioCite}{{12}{1997}{{\MakeUppercase    []{{Message Passing Interface Forum}}}}{{Message Passing Interface Forum}}}
+\bibcite{Wea:99}{{13}{1999}{{\MakeUppercase    []{Gropp}\emph  { et~al.}}}{{Gropp, Lusk, e Skjellum}}}
+\bibcite{Rrw:05}{{14}{2005}{{\MakeUppercase    []{Thakur}\emph  { et~al.}}}{{Thakur, Rabenseifner, e Gropp}}}
+\bibcite{Wre:99}{{15}{1999{}}{{\MakeUppercase    []{Thakur}\emph  { et~al.}}}{{Thakur, Gropp, e Lusk}}}
+\bibcite{Pjb:02}{{16}{2002}{{\MakeUppercase    []{Braam}}}{{Braam}}}
+\bibcite{Fds:03}{{17}{2003}{{\MakeUppercase    []{Petrini}\emph  { et~al.}}}{{Petrini, Kerbyson, e Pakin}}}
+\bibcite{RlGmmts:05}{{18}{2005}{{\MakeUppercase    []{Graham}\emph  { et~al.}}}{{Graham, Shipman, Barrett, Castain, Bosilca, e Lumsdaine}}}
+\bibcite{Krlkssj:10}{{19}{2010}{{\MakeUppercase    []{Jackson}\emph  { et~al.}}}{{Jackson, Ramakrishnan, Muriki, Canon, Cholia, Shalf, Wasserman, e Wright}}}
+\bibcite{Hmns:20}{{20}{2020}{{\MakeUppercase    []{Tran} e \MakeUppercase    []{Thekkedath}}}{{Tran e Thekkedath}}}
+\bibcite{aws:ena}{{21}{2024{}}{{\MakeUppercase    []{{Amazon Web Services}}}}{{Amazon Web Services}}}
+\bibcite{aws:placement}{{22}{2024{}}{{\MakeUppercase    []{{Amazon Web Services}}}}{{Amazon Web Services}}}
+\bibcite{ons:23}{{23}{2023}{{\MakeUppercase    []{{Operador Nacional do Sistema El\'etrico}}}}{{Operador Nacional do Sistema El\'etrico}}}
+\bibcite{Zhang:09CollectiveIO}{{24}{2009}{{\MakeUppercase    []{Zhang}\emph  { et~al.}}}{{Zhang, Espinosa, Iskra, Raicu, Foster, e Wilde}}}
+\bibcite{LiaoIPDPS:07}{{25}{2007}{{\MakeUppercase    []{Liao}\emph  { et~al.}}}{{Liao, Ching, Coloma, Choudhary, e Kandemir}}}
+\bibcite{Rwe:99}{{26}{1999{}}{{\MakeUppercase    []{Thakur}\emph  { et~al.}}}{{Thakur, Gropp, e Lusk}}}
+\bibcite{Phrrbrw:09}{{27}{2009}{{\MakeUppercase    []{Carns}\emph  { et~al.}}}{{Carns, Latham, Ross, Iskra, Lang, e Riley}}}
+\bibcite{Amdahl:67}{{28}{1967}{{\MakeUppercase    []{Amdahl}}}{{Amdahl}}}
+\bibcite{intel:23}{{29}{2023}{{\MakeUppercase    []{{Intel Corporation}}}}{{Intel Corporation}}}
+\bibcite{aws:24}{{30}{2024{}}{{\MakeUppercase    []{{Amazon Web Services}}}}{{Amazon Web Services}}}
+\bibcite{Dickens:08}{{31}{2008}{{\MakeUppercase    []{Dickens} e \MakeUppercase    []{Logan}}}{{Dickens e Logan}}}
+\bibcite{Dickens:10}{{32}{2010}{{\MakeUppercase    []{Dickens} e \MakeUppercase    []{Logan}}}{{Dickens e Logan}}}
+\bibcite{Gropp:08}{{33}{2008}{{\MakeUppercase    []{Gropp}\emph  { et~al.}}}{{Gropp, Kimpe, Ross, Thakur, e Tr{\"a}ff}}}
+\bibcite{Liao:08}{{34}{2008}{{\MakeUppercase    []{Liao} e \MakeUppercase    []{Choudhary}}}{{Liao e Choudhary}}}
+\newlabel{bib:end}{{}{63}{}{page.63}{}}
+\newlabel{LastPage}{{6}{63}{Trabalhos futuros}{page.63}{}}
+\gdef\lastpage@lastpage{63}
+\gdef\lastpage@lastpageHy{63}
+\gdef \@abspage@last{76}
