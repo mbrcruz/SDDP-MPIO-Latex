@@ -198,7 +198,7 @@ O MPI-IO também oferece variantes não bloqueantes, como
 \texttt{MPI\_File\_iwrite\_at} e \texttt{MPI\_File\_iwrite\_all}. Nessas
 operações, a chamada inicia a E/S e retorna antes de sua conclusão, permitindo
 que a aplicação execute computação ou comunicação enquanto a escrita progride.
-A conclusão é verificada posteriormente por chamadas como
+A aplicação verifica posteriormente a conclusão por meio de chamadas como
 \texttt{MPI\_Wait} ou \texttt{MPI\_Test}. Esse modelo é útil quando há
 trabalho computacional independente logo após a geração dos dados, pois
 permite sobrepor parte do custo de E/S com computação. Contudo, operações
@@ -310,8 +310,8 @@ componentes do sistema, descritos a seguir.
 O \textit{Metadata Server} (MDS) é o componente responsável pelos
 metadados do sistema de arquivos, isto é, pelo \textit{namespace} (estrutura
 de diretórios, nomes de arquivos), pelas permissões e pela informação sobre
-em quais alvos de armazenamento residem os dados de cada arquivo. Os
-metadados propriamente ditos são persistidos em um ou mais
+em quais alvos de armazenamento residem os dados de cada arquivo. O
+Lustre persiste os metadados propriamente ditos em um ou mais
 \textit{Metadata Targets} (MDTs), os dispositivos de bloco associados ao
 MDS. Quando um cliente abre um arquivo, ele primeiro consulta o MDS para
 localizar os dados; uma vez obtida essa informação, as operações
@@ -319,10 +319,10 @@ subsequentes de leitura e escrita ocorrem diretamente com os servidores de
 dados, sem passar novamente pelo MDS. Isso evita que o servidor de
 metadados se torne um gargalo durante as transferências de dados.
 
-O armazenamento dos dados é realizado pelos \textit{Object Storage Servers}
+O Lustre realiza o armazenamento dos dados por meio dos \textit{Object Storage Servers}
 (OSSs), que gerenciam o acesso aos \textit{Object Storage Targets} (OSTs)
---- os dispositivos de bloco onde os dados dos arquivos são efetivamente
-gravados. Cada OSS administra um ou mais OSTs, e o conjunto de OSTs define a
+--- os dispositivos de bloco onde o sistema grava efetivamente os dados
+dos arquivos. Cada OSS administra um ou mais OSTs, e o conjunto de OSTs define a
 capacidade total e a banda agregada de E/S do sistema. Como os clientes se
 comunicam simultaneamente com vários OSSs, o paralelismo de acesso cresce
 com o número de OSTs, sendo este um dos principais fatores de
@@ -332,29 +332,29 @@ escalabilidade do Lustre.
   \centering
   \includegraphics[width=\textwidth]{figuras/Lustre_arquitetura.png}
   \caption{Arquitetura do sistema de arquivos paralelo Lustre. O servidor
-  de metadados (MDS/MDT) mantém o \textit{namespace}, enquanto os dados são
-  distribuídos entre os OSTs gerenciados pelos OSSs. Os clientes consultam o
+  de metadados (MDS/MDT) mantém o \textit{namespace}, enquanto o Lustre
+  distribui os dados entre os OSTs gerenciados pelos OSSs. Os clientes consultam o
   MDS para localizar o arquivo e, em seguida, acessam os dados diretamente
   nos OSTs.}
   \label{fig:lustre_arquitetura}
 \end{figure}
 
 Para distribuir os dados entre os OSTs, o Lustre emprega a técnica de
-\textit{striping}, na qual um arquivo é dividido em blocos de tamanho fixo
-(\textit{stripes}) gravados de forma circular (\textit{round-robin}) em um
+\textit{striping}, na qual divide um arquivo em blocos de tamanho fixo
+(\textit{stripes}) e os grava de forma circular (\textit{round-robin}) em um
 subconjunto de OSTs, conforme ilustrado na
 Figura~\ref{fig:lustre_striping}. Dois parâmetros controlam esse
 comportamento: o \textit{stripe size}, que define o tamanho de cada bloco, e
-o \textit{stripe count}, que indica em quantos OSTs o arquivo é espalhado.
+o \textit{stripe count}, que indica em quantos OSTs o Lustre espalha o arquivo.
 Ao distribuir um único arquivo por vários OSTs, o \textit{striping} permite
-que diferentes partes sejam lidas ou escritas em paralelo, multiplicando a
+que a aplicação leia ou escreva diferentes partes em paralelo, multiplicando a
 banda efetiva percebida pela aplicação.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figuras/Lustre_striping.png}
   \caption{Distribuição de um arquivo em \textit{stripes} pelos OSTs no
-  Lustre. Com \textit{stripe count} igual a 4, os blocos são alocados de
+  Lustre. Com \textit{stripe count} igual a 4, o Lustre aloca os blocos de
   forma circular entre os OSTs, viabilizando o acesso paralelo aos dados.}
   \label{fig:lustre_striping}
 \end{figure}
@@ -369,7 +369,7 @@ alvos~\cite{Pjb:02}.
 
 \section{Ambientes computacionais}
 \label{sec:ambientes_computacionais}
-Os experimentos deste trabalho foram conduzidos em dois ambientes de
+Este trabalho conduziu os experimentos em dois ambientes de
 computação de alto desempenho (HPC) com características distintas: a nuvem
 pública da Amazon Web Services (AWS) e o supercomputador Santos Dumont
 (SDumont). Embora ambos ofereçam recursos comparáveis de processamento e
@@ -410,22 +410,22 @@ ENA constitui a base da conectividade entre instâncias e do acesso ao FSx
 for Lustre, sustentando a comunicação MPI utilizada nos
 experimentos~\cite{aws:ena}.
 
-Por se tratar de uma infraestrutura virtualizada e compartilhada, a
-topologia física dos nós não é exposta diretamente ao usuário. A AWS
+Por se tratar de uma infraestrutura virtualizada e compartilhada, a AWS
+não expõe diretamente ao usuário a topologia física dos nós. Ela
 organiza seus recursos em \textit{regiões}, subdivididas em
 \textit{zonas de disponibilidade} (\textit{Availability Zones}) ---
 conjuntos isolados de \textit{datacenters} com energia, refrigeração e
 rede independentes. Instâncias em uma mesma zona de disponibilidade
-apresentam latência de rede mais baixa entre si, razão pela qual todos os
-nós dos experimentos foram alocados em uma única zona. Para reduzir ainda
-mais a latência de comunicação, utilizou-se um \textit{Placement Group} do
-tipo \textit{cluster}, mecanismo que agrupa as instâncias logicamente
+apresentam latência de rede mais baixa entre si, razão pela qual este
+trabalho alocou todos os nós dos experimentos em uma única zona. Para reduzir ainda
+mais a latência de comunicação, este trabalho utilizou um \textit{Placement
+Group} do tipo \textit{cluster}, mecanismo que agrupa as instâncias logicamente
 próximas dentro da mesma zona de disponibilidade, em um segmento de rede de
 baixa latência e alta vazão. Essa configuração aproxima o desempenho de
-comunicação da nuvem ao de um \textit{cluster} dedicado, sendo recomendada
+comunicação da nuvem ao de um \textit{cluster} dedicado, e a AWS a recomenda
 para cargas de trabalho de HPC fortemente acopladas, como as do
-SDDP~\cite{aws:placement}. O próprio sistema de arquivos Amazon FSx for
-Lustre também é provisionado em uma única zona de disponibilidade,
+SDDP~\cite{aws:placement}. Este trabalho também provisionou o próprio sistema de arquivos Amazon
+FSx for Lustre em uma única zona de disponibilidade,
 coincidente com a das instâncias de cálculo, de modo que o acesso ao
 armazenamento permaneça no mesmo segmento de rede de baixa latência,
 evitando o tráfego entre zonas distintas.
@@ -437,8 +437,8 @@ Nacional de Computação Científica (LNCC), em Petrópolis-RJ, atua como nó
 central (Tier-0) do Sistema Nacional de Processamento de Alto Desempenho
 (SINAPAD) e representa um ambiente de HPC tradicional, com infraestrutura
 dedicada e exclusiva para aplicações científicas. Diferentemente da nuvem,
-sua topologia é fixa e conhecida, e seus nós são interligados por uma rede
-de interconexão de alta velocidade baseada em InfiniBand.
+sua topologia é fixa e conhecida, e uma rede de
+interconexão de alta velocidade baseada em InfiniBand interliga seus nós.
 
 O InfiniBand é a tecnologia de interconexão predominante em
 supercomputadores, oferecendo largura de banda elevada e, sobretudo,
@@ -450,8 +450,8 @@ quanto a banda disponível~\cite{Fds:03,RlGmmts:05}.
 
 Embora o InfiniBand suporte nativamente a comunicação RDMA
 (\textit{Remote Direct Memory Access}) --- que permite o acesso direto à
-memória de nós remotos sem intervenção do sistema operacional --- esse
-caminho não foi explorado nos experimentos deste trabalho. Utilizou-se a
+memória de nós remotos sem intervenção do sistema operacional --- este
+trabalho não explorou esse caminho em seus experimentos. Utilizou a
 biblioteca MPICH versão~3.2 com o dispositivo de comunicação \textit{ch3},
 no qual a troca de mensagens ocorre sobre a pilha de rede convencional
 (IP sobre InfiniBand) e não pela interface nativa de \textit{verbs}/RDMA.
@@ -480,17 +480,17 @@ SIN~\cite{ons:23}.
 O algoritmo SDDP (\textit{Stochastic Dual Dynamic Programming}),
 proposto por~\cite{MvLm:91}, decompõe o problema de planejamento
 hidrotérmico em uma malha bidimensional de subproblemas
-determinísticos: cada subproblema é indexado por um par
+determinísticos: o algoritmo indexa cada subproblema por um par
 $(\text{estágio}, \text{cenário})$, em que os estágios representam
 períodos discretos da operação --- meses, no caso da operação
 programada do SIN --- e os cenários representam realizações
 estocásticas das variáveis relevantes, principalmente afluências aos
-reservatórios. A solução do problema é construída em duas fases. Na fase de
+reservatórios. O algoritmo constrói a solução do problema em duas fases. Na fase de
 \textit{convergência}, iterações \textit{forward}/\textit{backward}
 constroem progressivamente uma política de operação representada por
 um conjunto de cortes de Benders, até atingir um critério de
 convergência. Na fase de \textit{simulação final}, executada após a
-convergência, a política já fixa é avaliada em larga escala sobre um
+convergência, o algoritmo avalia a política já fixa em larga escala sobre um
 conjunto amplo de cenários para produzir os resultados operacionais
 entregues ao planejamento --- variáveis primais, multiplicadores duais,
 custos e despachos. Esta dissertação concentra-se exclusivamente na
@@ -503,18 +503,18 @@ estado nem coordenação durante a execução. Essa propriedade caracteriza
 a fase de simulação final do SDDP como uma aplicação do tipo
 \textit{bag-of-tasks}~\cite{Cirne:2003}: um conjunto de tarefas
 mutuamente independentes que podem ser distribuídas entre processadores
-sem sincronização durante a execução. Os cenários são particionados
-entre os \textit{ranks} MPI e resolvidos em paralelo, de modo que o
+sem sincronização durante a execução. A aplicação particiona os cenários
+entre os \textit{ranks} MPI e os resolve em paralelo, de modo que o
 tempo total da fase de simulação fica limitado pelo cenário mais lento
 e não pela soma sequencial de todos. A natureza \textit{bag-of-tasks}
 da fase de simulação é o que torna esta etapa do SDDP escalável em
 sistemas HPC; é também o que desloca o gargalo da computação para a
 persistência dos resultados, à medida que o número de cenários cresce.
 
-Após a resolução, os resultados de cada subproblema --- variáveis
-primais, multiplicadores duais e custos --- precisam ser persistidos em
-disco, pois alimentam etapas subsequentes do próprio algoritmo e
-análises estatísticas posteriores.
+Após a resolução, a aplicação precisa persistir em disco os resultados de
+cada subproblema --- variáveis primais, multiplicadores duais e custos ---,
+pois eles alimentam etapas subsequentes do próprio algoritmo e análises
+estatísticas posteriores.
 
 A granularidade temporal adotada para os resultados de cada estágio tem
 impacto direto sobre o volume de dados produzido por iteração. A
@@ -549,30 +549,30 @@ aplicação em ambientes HPC.
 \subsection{Comparação dos formatos dos resultados}
 \label{sec:formato_resultados_sddp}
 
-Os resultados produzidos pelo SDDP são organizados em arquivos associados aos
-estágios, cenários e elementos do sistema elétrico. Cada elemento corresponde a
+O SDDP organiza seus resultados em arquivos associados aos estágios,
+cenários e elementos do sistema elétrico. Cada elemento corresponde a
 uma entidade física ou lógica modelada na base de dados do sistema elétrico,
 como usinas hidrelétricas, usinas térmicas, reservatórios, barras,
-interligações ou outros componentes cujas grandezas sejam registradas na saída
-da simulação. Assim, a estrutura dos arquivos depende tanto da granularidade
+interligações ou outros componentes cujas grandezas a simulação registra em sua
+saída. Assim, a estrutura dos arquivos depende tanto da granularidade
 temporal adotada quanto da quantidade de elementos representados no sistema
 analisado.
 
-No formato por patamares, os resultados de cada par
-$(\text{estágio}, \text{cenário})$ são agregados em poucos blocos
+No formato por patamares, o SDDP agrega os resultados de cada par
+$(\text{estágio}, \text{cenário})$ em poucos blocos
 representativos de carga, como pesado, médio e leve. Esse formato reduz o
 número de registros por estágio e cenário, mas também limita a resolução
 temporal disponível para análises posteriores. No formato horário, por outro
-lado, cada estágio é detalhado em horas individuais. Para um estágio mensal de
+lado, o SDDP detalha cada estágio em horas individuais. Para um estágio mensal de
 30 dias, por exemplo, cada par $(\text{estágio}, \text{cenário})$ pode gerar
 720 registros, um para cada hora, aumentando significativamente o volume de
 dados produzido.
 
 Em ambos os formatos, os registros mantêm colunas de identificação seguidas
 pelos valores dos elementos do sistema elétrico. A diferença principal está na
-dimensão temporal interna ao estágio: no formato por patamares, essa dimensão
-é representada por um pequeno conjunto de blocos de carga; no formato horário,
-ela é representada por uma sequência de horas. A~Figura~\ref{fig:formatos_resultados_sddp}
+dimensão temporal interna ao estágio: no formato por patamares, um
+pequeno conjunto de blocos de carga representa essa dimensão; no formato
+horário, uma sequência de horas a representa. A~Figura~\ref{fig:formatos_resultados_sddp}
 compara os dois formatos de maneira esquemática.
 
 \begin{figure}[H]
@@ -648,14 +648,14 @@ compara os dois formatos de maneira esquemática.
 \subsection{Arquitetura atual de E/S do SDDP}
 \label{sec:arq_atual}
 Na arquitetura atual do SDDP, apenas um \textit{rank} MPI (o
-\textit{rank}~1, denominado processo escritor) é designado para realizar
-todas as operações de E/S do sistema. O \textit{rank}~0 atua como processo
+\textit{rank}~1, denominado processo escritor) realiza todas as operações
+de E/S do sistema. O \textit{rank}~0 atua como processo
 distribuidor, coordenando o envio de tarefas e configurações aos demais
 \textit{ranks}. Cada nó de computação, após resolver sua respectiva tarefa, envia
 os resultados por meio de um \textit{buffer} de dados utilizando a função
-\texttt{MPI\_Send}. Esse \textit{buffer} é então recebido pelo processo
-escritor através de uma chamada \texttt{MPI\_Recv} e, posteriormente, os
-dados são gravados em um sistema de arquivos distribuído. A
+\texttt{MPI\_Send}. O processo escritor então recebe esse \textit{buffer} por meio de uma
+chamada \texttt{MPI\_Recv} e, posteriormente, grava os dados em um sistema
+de arquivos distribuído. A
 Figura~\ref{fig:SDDP_architecture} ilustra o funcionamento dessa
 arquitetura.
 
@@ -681,13 +681,11 @@ atividades também utilizam o mesmo adaptador de rede empregado na
 recepção dos \textit{buffers} de dados. Outra hipótese é que o processo
 escritor opera continuamente em um fluxo sequencial de recepção e escrita
 dos dados, o que pode representar um gargalo adicional, sobretudo em
-sistemas com alto volume de dados. Por fim, se houver atrasos na recepção
-ou na gravação dos \textit{buffers} de dados por parte do processo escritor,
-os nós computacionais podem ser obrigados a aguardar, gerando sobrecarga
-no envio dos \textit{buffers} e aumentando o custo computacional da
-execução paralela.
+sistemas com alto volume de dados. Por fim, um atraso do processo escritor na recepção ou na gravação dos
+\textit{buffers} de dados pode obrigar os nós computacionais a aguardar,
+gerando sobrecarga no envio dos \textit{buffers} e aumentando o custo
+computacional da execução paralela.
 
-Para efeitos desta dissertação, o \textit{rank}~0 será referido como
-processo distribuidor, o \textit{rank}~1 como processo escritor, e os
-demais \textit{ranks}, responsáveis pela resolução dos cenários, como
-processos trabalhadores.
+Esta dissertação denomina o \textit{rank}~0 processo distribuidor, o
+\textit{rank}~1 processo escritor, e os demais \textit{ranks}, responsáveis
+pela resolução dos cenários, processos trabalhadores.
