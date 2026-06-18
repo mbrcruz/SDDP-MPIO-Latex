@@ -61,3 +61,26 @@ ao protocolo de locking do filesystem subjacente, reduzindo essa contenção.
 Esse resultado complementa \cite{Dickens:08}, reforçando que, para o padrão
 de acesso do SDDP, escritas independentes com offsets pré-calculados evitam
 inteiramente o problema de particionamento identificado pelos autores.
+
+\citeauthor{GarciaCarballeiraISPDC:23}~\cite{GarciaCarballeiraISPDC:23}
+apresentam o \emph{Expand Ad-Hoc}, um sistema de arquivos paralelo
+\textit{ad-hoc} baseado em servidores MPI em espaço de usuário que
+virtualiza o armazenamento local dos nós de computação --- SSDs ou
+memória compartilhada --- em um volume efêmero, cujo ciclo de vida
+coincide com o do \textit{job} submetido: a aplicação escreve nesse
+volume durante a execução e a sincronização com o \textit{backend}
+persistente (Lustre, GPFS) ocorre apenas nas etapas de
+\textit{stage-in} e \textit{stage-out}, fora da janela crítica da
+computação. Essa abordagem é diretamente relevante para a
+degradação observada no Experimento SDumont
+(Subseções~\ref{sec:sdumont_atual} e~\ref{sec:sdumont_mpiio}), em
+que a concorrência entre o \textit{job} do SDDP e outras cargas de
+HPC sobre o mesmo Lustre compartilhado impôs um teto absoluto de
+banda (34{,}1~Gb/s em 32~nós) uma ordem de grandeza inferior ao
+obtido na AWS com FSx for Lustre dedicado (380{,}3~Gb/s). Compor o
+MPI-IO com escritas independentes sobre uma camada como o Expand
+Ad-Hoc, instanciada nos próprios nós alocados ao \textit{job} SDDP,
+contornaria inteiramente essa contenção externa, com migração ao
+Lustre apenas no \textit{stage-out} final, e tem potencial de
+aproximar o desempenho observado no SDumont do desempenho obtido em
+um \textit{backend} dedicado.

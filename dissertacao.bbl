@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{35}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -270,5 +270,16 @@
   Protocols}. In: \emph{Proceedings of the ACM/IEEE Conference on
   Supercomputing}, SC '08. IEEE, 2008.
 \newblock \doi{10.1109/SC.2008.5222722}.
+
+\bibitem[\MakeUppercase{Garcia-Carballeira}\emph{
+  et~al.}(2023)Garcia-Carballeira, Camarmas-Alonso, Calderon-Mateos, e
+  Carretero]{GarciaCarballeiraISPDC:23}
+\MakeUppercase{Garcia-Carballeira, F., Camarmas-Alonso, D., Calderon-Mateos,
+  A., \MakeLowercase{et~al.}}
+\newblock \coppeenquote{A New {Ad-Hoc} Parallel File System for {HPC}
+  Environments Based on the {Expand} Parallel File System}. In:
+  \emph{Proceedings of the 22nd International Symposium on Parallel and
+  Distributed Computing}, ISPDC '23, pp. 69--76. IEEE, 2023.
+\newblock \doi{10.1109/ISPDC59212.2023.00015}.
 
 \end{thebibliography}
