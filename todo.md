@@ -1,16 +1,16 @@
 ## Correções pequenas
 
 - introdução 
-             
+
+    - Tirar uso pelo ONS e avisar que o SDDP é desenvolvido pela PSR, sendo o modelo oficial em x paises           
     - Por que não paralelização da leitura.
     - importancia de usar mais cenários.
     - aquecimento global X aumento saidas
-    - Não mexer no padrão de acesso.
-    - amplamente adotado em supercomputadores listados no
-    TOP500
-    - Tirar uso pelo ONS e avisar que o SDDP é desenvolvido pela PSR , sendo o modelo oficial em x paises  
+    - Não mexer no padrão de acesso.        
     - cada cenário resolvido tem seu bloco de resultados enviado, via
 MPI_Send, ao processo escrito
+    - ~~amplamente adotado em supercomputadores listados no
+    TOP500~~
 
 
 - Capitulo 2
