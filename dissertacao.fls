@@ -375,6 +375,10 @@ INPUT .\dissertacao.lot
 INPUT .\dissertacao.lot
 INPUT dissertacao.lot
 OUTPUT dissertacao.lot
+INPUT .\dissertacao.loc
+INPUT .\dissertacao.loc
+INPUT dissertacao.loc
+OUTPUT dissertacao.loc
 INPUT .\dissertacao.los
 INPUT .\dissertacao.los
 INPUT dissertacao.los
