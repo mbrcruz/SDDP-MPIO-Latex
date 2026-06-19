@@ -239,7 +239,7 @@ aumenta o volume médio por operação, favorecendo o alinhamento dos blocos
 às fronteiras de \textit{stripe} do Lustre e evitando a contenção de locks
 associada a escritas pequenas e desalinhadas~\cite{LiaoIPDPS:07}.
 
-A~Figura~\ref{fig:pseudocodigo_writeregistry} consolida, em pseudocódigo, a
+O~Código~\ref{cod:pseudocodigo_writeregistry} consolida, em pseudocódigo, a
 rotina executada por cada \textit{rank} trabalhador ao concluir um cenário,
 correspondente ao método \texttt{escreveRegistro}. Sua organização pode ser
 lida segundo os três aspectos
@@ -272,7 +272,7 @@ escrita e, em regime, o processo raramente o atinge. Ao final, ele conclui
 em conjunto as escritas ainda pendentes por meio de \texttt{MPI\_Waitall},
 fora da janela de medição.
 
-\begin{figure}[H]
+\begin{codigo}[H]
   \centering
   \begin{lstlisting}[style=pseudocodigo]
 procedimento escreveRegistro()
@@ -307,8 +307,8 @@ procedimento escreveRegistro()
   MPI-IO --- \textit{positioning}, \textit{coordination} e
   \textit{synchronism}~\cite{mpiCite,Rr:10} --- e a decisão de \textit{layout}
   dos blocos.}
-  \label{fig:pseudocodigo_writeregistry}
-\end{figure}
+  \label{cod:pseudocodigo_writeregistry}
+\end{codigo}
 
 \subsection{Formato dos resultados}
 \label{sec:formato_resultados}

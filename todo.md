@@ -34,13 +34,14 @@ MPI_Send, ao processo escrito
 - Trabalhar no capitulo III 
     
     
-    - Verificar conjugação verbal
-    - Arquivo diarios                 
-    - Validação dos dados: formato arquivos  
-    - \paperwidth em três figuras (l. 42, l. 89, l. 145). As três usam \includegraphics[width=0.95\paperwidth], o que faz a figura sangrar para fora da área de texto. Convenção COPPE pede \textwidth. Confira no PDF compilado se o efeito é intencional.
-    - Ponte para Cap. 4 no fim da Seção 3.4. Falta apontar quais valores de stripe_count foram adotados nos experimentos (10 AWS, 6 SDumont, ambos com stripe_size = 1MB).
-    Caption da Fig. 3.3 ainda genérica (l. 147): "Formato lógico dos arquivos binários de resultado do SDDP." — pode ganhar uma frase descritiva.   
     
+    - Arquivo diarios                 
+    - Ponte para Cap. 4 no fim da Seção 3.4. Falta apontar quais valores de stripe_count foram adotados nos experimentos (10 AWS, 6 SDumont, ambos com stripe_size = 1MB).
+    - Validação dos dados: formato arquivos  
+    - \paperwidth em três figuras (l. 42, l. 89, l. 145). As três usam \includegraphics[width=0.95\paperwidth], o que faz a figura sangrar para fora da área de texto. Convenção COPPE pede \textwidth. Confira no PDF compilado se o efeito é intencional.    
+    - Caption da Fig. 3.3 ainda genérica (l. 147): "Formato lógico dos arquivos binários de resultado do SDDP." — pode ganhar uma frase descritiva.   
+
+    - ~~Verificar conjugação verbal~~    
     - ~~Equação explícita do offset. A descrição em prosa (l. 234–239) é defensável, mas uma equação tornaria a proposta verificável. Custo: 4 linhas.~~  
     - ~~Pseudo código da implementação~~
     - ~~RING 32~~      
@@ -70,24 +71,22 @@ MPI_Send, ao processo escrito
 
 - Experimentos
 
-        
-    - ~~Novo histograma de blocos de dados~~
-    - Amarrar a selecao de projeto de 128K Assincrono.
+    - Amarrar a escolhar de 128K Assincrono no Projeto.
     - Mostrar experimento sincrono?
-    - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre.                        
     - bind-to core
     - Stripe count      
     - Ultimos experimentos ( ASYNC RING 32 ) - Testes ASYNC SDUMOMT , computando tempo de log , sem log block, movendo wait para o final   
     - Colocar os experimentos sincronos?    
     - Comentar que na abordagem central tem uma vantagem, quando o numero de nós e pequena, porque boa parte da carga de trabalho usa comunicação Intra node.    
-    - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes - Por que stripe de 1 MB?     
+    - IOR - teste de diferentes de tamanhos de strip com caso reduzido para orientar a decisão do tamanho dos stripes - Por que stripe de 1 MB?    
+    - ~~Novo histograma de blocos de dados~~ 
+    - ~~117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre.~~                           
     - ~~Banda agregada percebida pela aplicação~~
     - ~~intervalo de confiança stddev - calculo os 2~~     
     - ~~Tempo total da execução no CSV ( e não somente o bloco de computação )~~
     - ~~teste ASYNC AWS , computando tempo de log , sem log block,para confirmar a piora na computacao ( Necessário para escrever menos no capitulo IV)~~
     - ~~teste ASYNC 4 OSTS~~
     - ~~Metodologia dos experimentos e intrumentação~~
-
 
 - Trabalhos relacionados
     - Buscar trabalhos para relacionados ao problema
@@ -97,13 +96,12 @@ MPI_Send, ao processo escrito
     - RING 32 foi suficiente para praticamente zerar o tempo de wait    
     - AWS demora para muitos nós na mesma zona de disponiilidade.
     - fila SDumont
-
     - AWS: 36,7% de redução no tempo total em 32 nós;
     - AWS: 113× ganho de banda percebida;
     - SDumont: 43,0% de redução no tempo total em 32 nós;
     - SDumont: 13,7× ganho de banda percebida;
     - impacto de 4 vs 10 OSTs.
-    -As siversas escritas de blocos menores estão associados com um padrão de arquivos diarios, poucos arquivos estão nesse formato e que escreve um registro por dia do mês, os dias não foram agrupados como no arquivo horario, embora ter sido mitigado com sobreposição de E/S/COmputação.
+    -As Diversas escritas de blocos menores estão associados com um padrão de arquivos diarios, poucos arquivos estão nesse formato e que escreve um registro por dia do mês, os dias não foram agrupados como no arquivo horario, embora ter sido mitigado com sobreposição de E/S/COmputação.
     - 117 arquivos (sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre. 
     - Problema de disponibilidade de instancias na mesma região na AWS
     - Testes com placa de redes infinity band elastic Fabric
