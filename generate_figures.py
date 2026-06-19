@@ -7,6 +7,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.ticker import PercentFormatter, FuncFormatter
 
 
 ROOT = Path(__file__).resolve().parent
@@ -32,7 +33,19 @@ COLORS = {
     "size_2": "#72B7B2",
     "size_3": "#F58518",
     "size_4": "#E45756",
+    "bar_red": "#C0392B",
+    "line_black": "#000000",
 }
+
+
+BLOCK_SIZE_EDGES = [
+    ("<1 KB", 0, 1024),
+    ("<32 KB", 1024, 32 * 1024),
+    ("<64 KB", 32 * 1024, 64 * 1024),
+    ("<128 KB", 64 * 1024, 128 * 1024),
+    ("<1 MB", 128 * 1024, 1024 * 1024),
+    ("<50 MB", 1024 * 1024, 50 * 1024 * 1024),
+]
 
 
 def read_csv(path: Path, max_nodes: int | None = None) -> pd.DataFrame:
@@ -786,6 +799,82 @@ def lustre_striping_plot(output: str) -> None:
     plt.close(fig)
 
 
+def _block_size_stats() -> tuple[list[str], list[int], list[int]]:
+    """Conta e soma os bytes das escritas por faixa de tamanho, a partir dos
+    logs MPI-IO do run AWS de 2 nos (mesma fonte do antigo histograma)."""
+    log_dir = (
+        ROOT / "Pesquisas" / "Results" / "AWS"
+        / "Lustre - 1536 Series - Sem rede" / "2-nodes" / "1"
+    )
+    counts = [0] * len(BLOCK_SIZE_EDGES)
+    volume = [0] * len(BLOCK_SIZE_EDGES)
+    for path in sorted(log_dir.glob("mpiio-*.log")):
+        with path.open(errors="ignore") as log_file:
+            for line in log_file:
+                fields = line.strip().split(",")
+                if len(fields) < 8:
+                    continue
+                try:
+                    size = int(float(fields[-1]))
+                except ValueError:
+                    continue
+                for i, (_, lower, upper) in enumerate(BLOCK_SIZE_EDGES):
+                    if lower <= size < upper:
+                        counts[i] += 1
+                        volume[i] += size
+                        break
+    labels = [label for label, _, _ in BLOCK_SIZE_EDGES]
+    return labels, counts, volume
+
+
+def write_frequency_by_block_plot(output: str) -> None:
+    labels, counts, _ = _block_size_stats()
+    total = sum(counts)
+    percentages = [c / total * 100 if total else 0 for c in counts]
+    x = np.arange(len(labels))
+
+    fig, ax = plt.subplots(figsize=(11, 5.5))
+    bars = ax.bar(x, counts, color=COLORS["bar_red"], label="Escritas (escala log)")
+    ax.set_yscale("log")
+    ax.set_xlabel("Faixa de tamanho")
+    ax.set_ylabel("Frequencia (log$_{10}$)")
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.grid(True, axis="y", which="both", alpha=0.25)
+
+    ax2 = ax.twinx()
+    line, = ax2.plot(x, percentages, color=COLORS["line_black"], marker="o", linewidth=2, label="Porcentagem do total")
+    ax2.set_ylabel("% do total")
+    ax2.set_ylim(0, 100)
+    ax2.yaxis.set_major_formatter(PercentFormatter(xmax=100, decimals=0))
+
+    ax.legend([bars, line], ["Escritas (escala log)", "Porcentagem do total"], loc="upper center", ncol=2, frameon=True)
+    finish(fig, output)
+
+
+def write_volume_by_block_plot(output: str) -> None:
+    labels, counts, volume = _block_size_stats()
+    volume_gb = [v / 1e9 for v in volume]
+    x = np.arange(len(labels))
+
+    fig, ax = plt.subplots(figsize=(11, 5.5))
+    bars = ax.bar(x, volume_gb, color=COLORS["bar_red"], label="Volume (GB)")
+    ax.set_xlabel("Faixa de tamanho")
+    ax.set_ylabel("Volume (GB)")
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:.0f} GB"))
+    ax.grid(True, axis="y", alpha=0.25)
+
+    ax2 = ax.twinx()
+    line, = ax2.plot(x, counts, color=COLORS["line_black"], marker="o", linewidth=2, label="N de escritas (log$_{10}$)")
+    ax2.set_yscale("log")
+    ax2.set_ylabel("N escritas (log$_{10}$)")
+
+    ax.legend([bars, line], ["Volume (GB)", "N de escritas (log$_{10}$)"], loc="upper center", ncol=2, frameon=True)
+    finish(fig, output)
+
+
 def main() -> None:
     sd_current = read_csv(PATHS["sd_current"], max_nodes=16)
     sd_mpiio = read_csv(PATHS["sd_mpiio"], max_nodes=16)
@@ -799,8 +888,13 @@ def main() -> None:
     bandwidth_plot(aws_current, aws_mpiio, "Banda_AWS.png")
     time_plot(aws_current, aws_mpiio, "Tempo_execucao_AWS.png")
     message_size_plot(aws_current, aws_mpiio, "EnvioPorTamanho_AWS.png")
-    message_count_by_size_plot("histograma_mensagens.png")
+    write_frequency_by_block_plot("escrita_frequencia_por_bloco.png")
+    write_volume_by_block_plot("escrita_volume_por_bloco.png")
     sddp_timeline_plot("SDDP_timeline_MPIIO.png")
 
     lustre_architecture_plot("Lustre_arquitetura.png")
     lustre_striping_plot("Lustre_striping.png")
+
+
+if __name__ == "__main__":
+    main()

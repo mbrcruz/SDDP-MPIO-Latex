@@ -18,14 +18,15 @@
 \contentsline {figure}{\numberline {3.4}{\ignorespaces Pseudocódigo da escrita independente executada por cada \textit {rank} trabalhador ao concluir um cenário (método \texttt {escreveRegistro}), anotado segundo os aspectos de acesso a dados do MPI-IO --- \textit {positioning}, \textit {coordination} e \textit {synchronism}~\cite {mpiCite,Rr:10} --- e a decisão de \textit {layout} dos blocos.}}{26}{figure.3.4}%
 \contentsline {figure}{\numberline {3.5}{\ignorespaces Formato lógico dos arquivos binários de resultado do SDDP.}}{27}{figure.3.5}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada da quantidade de blocos de dados por faixa de tamanho no experimento, em escala logarítmica.}}{34}{figure.4.1}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Banda agregada média percebida pela aplicação no Experimento AWS.}}{39}{figure.4.2}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Tempo de execução no Experimento AWS.}}{41}{figure.4.3}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}}{42}{figure.4.4}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs.}}{44}{figure.4.5}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Banda agregada média percebida pela aplicação na implementação MPI-IO para configurações com 4 e 10~OSTs em 16 e 32~nós.}}{45}{figure.4.6}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Banda agregada média percebida pela aplicação nas implementações atual e MPI-IO no Experimento SDumont.}}{49}{figure.4.7}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{50}{figure.4.8}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{52}{figure.4.9}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Distribuição agregada do número de escritas por faixa de tamanho de bloco no experimento (frequência em escala logarítmica; linha: percentual do total).}}{34}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Volume total de dados gravado por faixa de tamanho de bloco no experimento (barras em GB; linha: número de escritas em escala logarítmica).}}{35}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Banda agregada média percebida pela aplicação no Experimento AWS.}}{40}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Tempo de execução no Experimento AWS.}}{42}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Tempo médio de bloqueio das operações de envio em função do tamanho dos blocos de dados no Experimento AWS (escala logarítmica).}}{43}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Tempo médio de envio por classe de tamanho das mensagens para configurações MPI-IO com 4 e 10~OSTs.}}{45}{figure.4.6}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Banda agregada média percebida pela aplicação na implementação MPI-IO para configurações com 4 e 10~OSTs em 16 e 32~nós.}}{46}{figure.4.7}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Banda agregada média percebida pela aplicação nas implementações atual e MPI-IO no Experimento SDumont.}}{50}{figure.4.8}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Decomposição do tempo médio por processo das implementações atual e MPI-IO no Experimento SDumont.}}{51}{figure.4.9}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Tempo médio de bloqueio das operações de envio por tamanho de bloco de dados nas implementações atual e MPI-IO no Experimento SDumont (escala logarítmica).}}{53}{figure.4.10}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

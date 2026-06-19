@@ -45,41 +45,69 @@ introduzir sobrecargas adicionais, limitando a eficiência do escalonamento
 e reduzindo os ganhos esperados de desempenho.
 
 Este trabalho considerou o tamanho dos blocos de dados um fator
-determinante para a análise de desempenho de E/S paralela. A
-Figura~\ref{fig:histograma_mensagens} apresenta a distribuição agregada
-do tamanho dos blocos de dados observados ao longo do experimento.
-Observa-se que blocos de dados pequenos dominam a distribuição:
-1.801.728 blocos, correspondentes a 80,1\% do total, possuem tamanho de
-até 1~KB. As demais faixas concentram 152.082 blocos até 128~KB (6,8\%),
-267.264 blocos até 1~MB (11,9\%) e 27.648 blocos até 50~MB (1,2\%).
-Esse perfil pode comprometer a escalabilidade, já que operações com
-granularidade fina tendem a aumentar a sobrecarga de metadados e a
-subutilizar a largura de banda disponível~\cite{Rwe:99,Phrrbrw:09}.
-Adicionalmente, este trabalho avaliará o tempo de envio dos blocos de
-dados agrupados por faixas de tamanho, de forma a analisar o impacto da
-granularidade das operações no desempenho da comunicação e da E/S.
+determinante para a análise de desempenho de E/S paralela. As
+Figuras~\ref{fig:escrita_frequencia} e~\ref{fig:escrita_volume}
+caracterizam o \textit{workload} de escrita sob duas óticas
+complementares --- a frequência das operações e o volume de dados
+gravado ---, ambas por faixa de tamanho de bloco.
+
+A Figura~\ref{fig:escrita_frequencia} apresenta a distribuição agregada
+do número de escritas por faixa de tamanho. Observa-se que blocos de
+dados pequenos dominam a distribuição: 1.801.728 blocos, correspondentes
+a 80,1\% do total, possuem tamanho de até 1~KB. As faixas intermediárias
+--- até 32~KB, 64~KB e 128~KB --- somam, em conjunto, 152.082 blocos
+(6,8\%), enquanto os blocos de até 1~MB respondem por 267.264 escritas
+(11,9\%) e os de até 50~MB por 27.648 (1,2\%).
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{figuras/histograma_mensagens.png}
-  \caption{Distribuição agregada da quantidade de blocos de dados por
-  faixa de tamanho no experimento, em escala logarítmica.}
-  \label{fig:histograma_mensagens}
+  \includegraphics[width=\textwidth]{figuras/escrita_frequencia_por_bloco.png}
+  \caption{Distribuição agregada do número de escritas por faixa de
+  tamanho de bloco no experimento (frequência em escala logarítmica;
+  linha: percentual do total).}
+  \label{fig:escrita_frequencia}
 \end{figure}
 
-A distribuição observada na Figura~\ref{fig:histograma_mensagens}
-está diretamente associada à organização dos arquivos de resultado
-produzidos pelo SDDP. Nos experimentos, este trabalho gerou 117 arquivos
-de resultado: 104 no formato horário e 13 no formato diário. Nos
-arquivos horários, a aplicação acumula em memória os registros de um par
-$(\text{estágio}, \text{cenário})$ e os grava em uma única operação
-agregada, conforme descrito na Seção~\ref{sec:formato_resultados}; já nos
-arquivos diários, a aplicação grava cada dia do mês individualmente, sem
-agregação entre dias.
-Essa diferença de granularidade explica o perfil observado: os
-13~arquivos diários respondem pela grande maioria dos blocos
-pequenos (até 1~KB), enquanto os blocos médios e grandes provêm
-dos 104~arquivos horários.
+A Figura~\ref{fig:escrita_volume} revela um quadro oposto quando o
+critério passa a ser o volume de dados gravado: embora numerosos, os
+blocos pequenos contribuem com parcela desprezível do total escrito, ao
+passo que praticamente todo o volume se concentra nas duas maiores
+faixas --- aproximadamente 117~GB nos blocos de até 1~MB e cerca de
+446~GB nos de até 50~MB, de um total de cerca de 567~GB gravados. Em outras
+palavras, as escritas pequenas
+predominam em quantidade, mas as grandes predominam em bytes
+transferidos.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/escrita_volume_por_bloco.png}
+  \caption{Volume total de dados gravado por faixa de tamanho de bloco no
+  experimento (barras em GB; linha: número de escritas em escala
+  logarítmica).}
+  \label{fig:escrita_volume}
+\end{figure}
+
+Esse contraste entre frequência e volume pode comprometer a
+escalabilidade: a alta frequência de operações de granularidade fina
+tende a aumentar a sobrecarga de metadados, enquanto o volume concentrado
+nos blocos maiores impõe a maior demanda sobre a largura de banda do
+sistema de arquivos~\cite{Rwe:99,Phrrbrw:09}. Adicionalmente, este
+trabalho avaliará o tempo de envio dos blocos de dados agrupados por
+faixas de tamanho, de forma a analisar o impacto da granularidade das
+operações no desempenho da comunicação e da E/S.
+
+A distribuição observada nas Figuras~\ref{fig:escrita_frequencia}
+e~\ref{fig:escrita_volume} está diretamente associada à organização dos
+arquivos de resultado produzidos pelo SDDP. Nos experimentos, este
+trabalho gerou 117 arquivos de resultado: 104 no formato horário e 13 no
+formato diário. Nos arquivos horários, a aplicação acumula em memória os
+registros de um par $(\text{estágio}, \text{cenário})$ e os grava em uma
+única operação agregada, conforme descrito na
+Seção~\ref{sec:formato_resultados}; já nos arquivos diários, a aplicação
+grava cada dia do mês individualmente, sem agregação entre dias. Essa
+diferença de granularidade explica o perfil observado: os 13~arquivos
+diários respondem pela grande maioria dos blocos pequenos (até 1~KB),
+enquanto os blocos médios e grandes provêm dos 104~arquivos horários.
 
 % =============================================================
 \section{Experimento AWS}

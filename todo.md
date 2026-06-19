@@ -71,7 +71,9 @@ MPI_Send, ao processo escrito
 - Experimentos
 
         
-    - Novo histograma de blocos de dados    
+    - ~~Novo histograma de blocos de dados~~
+    - Amarrar a selecao de projeto de 128K Assincrono.
+    - Mostrar experimento sincrono?
     - 117 arquivos ( sendo 104 arquivos horarios e 13 diarios ), tendo os formato de arquivos diarios , será necessário mudar esse padrão de acesso para reduzir o numero de ida ao Lustre.                        
     - bind-to core
     - Stripe count      
