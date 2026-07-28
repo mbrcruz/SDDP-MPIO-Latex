@@ -1,0 +1,181 @@
+\begin{thebibliography}{}
+
+\bibitem[{Amazon Web Services} 2024a]{aws:24}
+{Amazon Web Services} (2024a).
+\newblock Amazon {EC2} {R}7i instances --- {M}emory {O}ptimized.
+\newblock \url{https://aws.amazon.com/ec2/instance-types/r7i/}.
+
+\bibitem[{Amazon Web Services} 2024b]{aws:ena}
+{Amazon Web Services} (2024b).
+\newblock Elastic network adapter ({ENA}) --- enhanced networking on {Linux}.
+\newblock Amazon {EC2} User Guide.
+
+\bibitem[{Amazon Web Services} 2024c]{aws:placement}
+{Amazon Web Services} (2024c).
+\newblock Placement groups for {Amazon EC2} instances.
+\newblock Amazon {EC2} User Guide.
+
+\bibitem[Amdahl 1967]{Amdahl:67}
+Amdahl, G.~M. (1967).
+\newblock Validity of the single processor approach to achieving large scale
+  computing capabilities.
+\newblock In {\em Proceedings of the April 18--20, 1967, Spring Joint Computer
+  Conference}, AFIPS '67 (Spring), pages 483--485, New York, NY, USA.
+  Association for Computing Machinery.
+
+\bibitem[Braam 2002]{Pjb:02}
+Braam, P.~J. (2002).
+\newblock The {Lustre} storage architecture.
+\newblock {\em Cluster File Systems Inc.}
+
+\bibitem[Carns et~al. 2009]{Phrrbrw:09}
+Carns, P., Latham, R., Ross, R., Iskra, K., Lang, S., and Riley, K. (2009).
+\newblock 24/7 characterization of petascale {I/O} workloads.
+\newblock In {\em Proceedings of the 2009 IEEE International Conference on
+  Cluster Computing and Workshops}, pages 1--10. IEEE.
+
+\bibitem[Cirne et~al. 2003]{Cirne:2003}
+Cirne, W., Brasileiro, F., Sauv\'e, J., Andrade, N., Paranhos, D., Santos-Neto,
+  E., and Medeiros, R. (2003).
+\newblock Grid computing for bag of tasks applications.
+\newblock In {\em Proceedings of the 3rd IFIP Conference on E-Commerce,
+  E-Business and E-Government (I3E)}.
+
+\bibitem[Conejo et~al. 2010]{Ajc:10}
+Conejo, A.~J., Carri\'on, M., and Morales, J.~M. (2010).
+\newblock {\em Decision Making Under Uncertainty in Electricity Markets},
+  volume 153 of {\em International Series in Operations Research \& Management
+  Science}.
+\newblock Springer, New York, NY.
+
+\bibitem[Dickens and Logan 2008]{Dickens:08}
+Dickens, P.~M. and Logan, J. (2008).
+\newblock Towards an understanding of the performance of {MPI-IO} in {Lustre}
+  file systems.
+\newblock In {\em Proceedings of the IEEE International Conference on Cluster
+  Computing}, CLUSTER '08, pages 254--263. IEEE.
+
+\bibitem[Dickens and Logan 2010]{Dickens:10}
+Dickens, P.~M. and Logan, J. (2010).
+\newblock A high performance implementation of {MPI-IO} for a {Lustre} file
+  system environment.
+\newblock {\em Concurrency and Computation: Practice and Experience},
+  22(11):1433--1449.
+
+\bibitem[Garcia-Carballeira et~al. 2023]{GarciaCarballeiraISPDC:23}
+Garcia-Carballeira, F., Camarmas-Alonso, D., Calderon-Mateos, A., and
+  Carretero, J. (2023).
+\newblock A new {Ad-Hoc} parallel file system for {HPC} environments based on
+  the {Expand} parallel file system.
+\newblock In {\em Proceedings of the 22nd International Symposium on Parallel
+  and Distributed Computing}, ISPDC '23, pages 69--76. IEEE.
+
+\bibitem[Graham et~al. 2005]{RlGmmts:05}
+Graham, R.~L., Shipman, G.~M., Barrett, B.~W., Castain, R.~H., Bosilca, G., and
+  Lumsdaine, A. (2005).
+\newblock Open {MPI}: A high-performance, heterogeneous {MPI}.
+\newblock In {\em Proceedings of the 5th International Workshop on Algorithms,
+  Models and Tools for Parallel Computing on Heterogeneous Networks}.
+
+\bibitem[Gropp et~al. 2008]{Gropp:08}
+Gropp, W., Kimpe, D., Ross, R., Thakur, R., and Tr{\"a}ff, J.~L. (2008).
+\newblock Self-consistent {MPI-IO} performance requirements and expectations.
+\newblock In {\em Proceedings of the 15th European PVM/MPI Users' Group
+  Meeting}, EuroPVM/MPI '08, pages 167--176. Springer.
+
+\bibitem[{Intel Corporation} 2023]{intel:23}
+{Intel Corporation} (2023).
+\newblock Intel {X}eon scalable processors --- 4th generation ({S}apphire
+  {R}apids).
+\newblock
+  \url{https://www.intel.com/content/www/us/en/products/details/processors/xeon/scalable.html}.
+
+\bibitem[Kang et~al. 2020]{Kang:20}
+Kang, Q., Lee, S., Hou, K.-y., Ross, R., Agrawal, A., Choudhary, A., and Liao,
+  W.-k. (2020).
+\newblock Improving {MPI} collective {I/O} for high volume non-contiguous
+  requests with intra-node aggregation.
+\newblock {\em IEEE Transactions on Parallel and Distributed Systems},
+  31(11):2682--2695.
+
+\bibitem[Liao et~al. 2007]{LiaoIPDPS:07}
+Liao, W.-k., Ching, A., Coloma, K., Choudhary, A., and Kandemir, M. (2007).
+\newblock Improving {MPI} independent write performance using a two-stage
+  write-behind buffering method.
+\newblock In {\em Proceedings of the 21st IEEE International Parallel and
+  Distributed Processing Symposium}, IPDPS '07. IEEE.
+
+\bibitem[Liao and Choudhary 2008]{Liao:08}
+Liao, W.-k. and Choudhary, A. (2008).
+\newblock Dynamically adapting file domain partitioning methods for collective
+  {I/O} based on underlying parallel file system locking protocols.
+\newblock In {\em Proceedings of the ACM/IEEE Conference on Supercomputing}, SC
+  '08. IEEE.
+
+\bibitem[Luu et~al. 2015]{Luu:15}
+Luu, H., Winslett, M., Gropp, W., Ross, R., Carns, P., Harms, K., Prabhat,
+  Byna, S., and Yao, Y. (2015).
+\newblock A multiplatform study of {I/O} behavior on petascale supercomputers.
+\newblock In {\em Proceedings of the 24th International Symposium on
+  High-Performance Parallel and Distributed Computing}, HPDC '15, pages 33--44,
+  New York, NY, USA. Association for Computing Machinery.
+
+\bibitem[{Message Passing Interface Forum} 1997]{mpiioCite}
+{Message Passing Interface Forum} (1997).
+\newblock {MPI-2}: Extensions to the message-passing interface.
+\newblock Specification.
+
+\bibitem[{Message Passing Interface Forum} 2023]{mpiCite}
+{Message Passing Interface Forum} (2023).
+\newblock {MPI}: A message-passing interface standard, version 4.1.
+\newblock \url{https://www.mpi-forum.org/}.
+
+\bibitem[{Message Passing Interface Forum} 2025]{mpi50Cite}
+{Message Passing Interface Forum} (2025).
+\newblock {MPI}: A message-passing interface standard, version 5.0.
+\newblock \url{https://www.mpi-forum.org/docs/}.
+
+\bibitem[{OpenSFS and EOFS} 2025]{LustreManual}
+{OpenSFS and EOFS} (2025).
+\newblock {\em {Lustre} Software Release 2.x: Operations Manual}.
+\newblock \url{https://doc.lustre.org/lustre_manual.pdf}.
+
+\bibitem[Pereira and Pinto 1991]{MvLm:91}
+Pereira, M. V.~F. and Pinto, L. M. V.~G. (1991).
+\newblock Multi-stage stochastic optimization applied to energy planning.
+\newblock {\em Mathematical Programming}, 52(1--3):359--375.
+
+\bibitem[Petrini et~al. 2003]{Fds:03}
+Petrini, F., Kerbyson, D.~J., and Pakin, S. (2003).
+\newblock The case of the missing supercomputer performance: Achieving optimal
+  performance on the 8,192 processors of {ASCI Q}.
+\newblock In {\em Proceedings of the 2003 ACM/IEEE Conference on
+  Supercomputing}, page~55. ACM.
+
+\bibitem[Thakur et~al. 1999]{Rwe:99}
+Thakur, R., Gropp, W., and Lusk, E. (1999).
+\newblock On implementing {MPI-IO} portably and with high performance.
+\newblock {\em Proceedings of the 6th Workshop on I/O in Parallel and
+  Distributed Systems}, pages 23--32.
+
+\bibitem[Xie et~al. 2020]{Xie:20}
+Xie, B., Oral, S., Zimmer, C., Choi, J.~Y., Dillow, D., Klasky, S., Lofstead,
+  J.~F., Podhorszki, N., and Chase, J.~S. (2020).
+\newblock Characterizing output bottlenecks of a production supercomputer:
+  Analysis and implications.
+\newblock {\em ACM Transactions on Storage}, 15(4):1--39.
+
+\bibitem[Zakaria et~al. 2020]{Ssr:19}
+Zakaria, A., Ismail, F.~B., Lipu, M. S.~H., and Hannan, M.~A. (2020).
+\newblock Uncertainty models for stochastic optimization in renewable energy
+  applications.
+\newblock {\em Renewable Energy}, 145:1543--1571.
+
+\bibitem[Zhang et~al. 2009]{Zhang:09CollectiveIO}
+Zhang, Z., Espinosa, A., Iskra, K., Raicu, I., Foster, I., and Wilde, M.
+  (2009).
+\newblock Design and evaluation of a collective {IO} model for loosely coupled
+  petascale programming.
+\newblock arXiv preprint.
+
+\end{thebibliography}
