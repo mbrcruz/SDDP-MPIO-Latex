@@ -34,31 +34,28 @@
 \maketitle
 
 \begin{abstract}
-Efficient I/O scalability remains a major challenge for parallel applications
-handling massive data volumes on HPC environments. This issue is particularly
-critical in energy-sector optimization models such as Stochastic Dual Dynamic
-Programming (SDDP), which require frequent and distributed access to large
-datasets. This paper investigates the I/O bottlenecks of the final simulation
-phase of the SDDP algorithm and proposes an MPI-IO-based architecture over
-Lustre, replacing the current single-writer strategy. The proposal is
-empirically evaluated on AWS (FSx for Lustre) and on the Santos Dumont
-supercomputer (LNCC), on 2 to 32 nodes. At 32 nodes it reduces total runtime
-by up to 36.7\% (AWS) and 40.4\% (SDumont), with perceived aggregate bandwidth
-gains of 113$\times$ and 13.7$\times$, respectively.
+Efficient I/O scalability remains a major challenge for parallel applications on
+HPC environments, and is particularly critical in energy-sector optimization
+models such as Stochastic Dual Dynamic Programming (SDDP), which require
+frequent, distributed access to large datasets. This paper investigates the I/O
+bottlenecks of the final simulation phase of SDDP and proposes an MPI-IO
+architecture over Lustre that replaces the current single-writer strategy.
+Evaluated on AWS (FSx for Lustre) and the Santos Dumont supercomputer (LNCC),
+from 2 to 32 nodes, at 32 nodes it reduces total runtime by up to 36.7\% (AWS)
+and 40.4\% (SDumont), with perceived aggregate bandwidth gains of 113$\times$ and
+13.7$\times$, respectively.
 \end{abstract}
 
 \begin{resumo}
-A escalabilidade eficiente de E/S continua sendo um desafio crítico em
-aplicações paralelas de dados massivos em ambientes de alto desempenho. O
-problema é particularmente evidente em modelos de otimização do setor
-energético, como o SDDP, que demandam acesso frequente e distribuído a grandes
-conjuntos de dados. Este artigo investiga os gargalos de E/S da fase de
-simulação final do algoritmo SDDP e propõe uma arquitetura baseada em MPI-IO
-sobre Lustre, substituindo a estratégia atual com escritor único. A proposta é
-avaliada empiricamente nos ambientes AWS (FSx for Lustre) e Santos Dumont
-(LNCC), de 2 a 32 nós. Em 32 nós, reduz o tempo total em até 36,7\% (AWS) e
-40,4\% (SDumont), com ganhos de banda agregada percebida de 113$\times$ e
-13,7$\times$, respectivamente.
+A escalabilidade eficiente de E/S é um desafio crítico em aplicações paralelas
+de alto desempenho, sobretudo em modelos de otimização do setor energético como
+o SDDP, que demandam acesso frequente e distribuído a grandes conjuntos de
+dados. Este artigo investiga os gargalos de E/S da fase de simulação final do
+SDDP e propõe uma arquitetura baseada em MPI-IO sobre Lustre, substituindo a
+estratégia atual com escritor único. Avaliada nos ambientes AWS (FSx for Lustre)
+e Santos Dumont (LNCC), de 2 a 32 nós, reduz o tempo total em até 36,7\% (AWS) e
+40,4\% (SDumont) em 32 nós, com ganhos de banda agregada percebida de
+113$\times$ e 13,7$\times$, respectivamente.
 \end{resumo}
 
 \section{Introdução}
@@ -294,9 +291,8 @@ trabalhadores. Esse desbalanceamento, intrínseco ao padrão \textit{bag-of-task
 dificulta a adoção de escritas coletivas~\cite{Zhang:09CollectiveIO}: chamadas
 coletivas exigiriam que todos os \textit{ranks} participassem conjuntamente da
 mesma operação, forçando os processos mais rápidos a aguardar os mais lentos a
-cada ponto coletivo e podendo, em casos extremos, provocar \textit{deadlock}. Por
-essas razões, a estratégia de escritas independentes mostra-se mais aderente ao
-modelo de execução. Quando não há mais cenários a resolver, a aplicação realiza
+cada ponto coletivo. Por essas razões, a estratégia de escritas independentes
+mostra-se mais aderente ao modelo de execução. Quando não há mais cenários a resolver, a aplicação realiza
 o fechamento coletivo dos arquivos (\texttt{MPI\_File\_close}).
 
 \begin{figure}[ht]
@@ -311,7 +307,7 @@ coletiva, realizam escritas independentes e sincronizam no fechamento.}
 \section{Avaliações}
 \label{sec:avaliacoes}
 
-Este capítulo apresenta a avaliação comparativa entre a implementação atual de
+Esta seção apresenta a avaliação comparativa entre a implementação atual de
 E/S e a proposta, com foco em tempo de execução, comunicação, largura de banda
 e tempo de bloqueio das operações de E/S~\cite{Rwe:99,Phrrbrw:09}. A base de
 dados corresponde ao PMO/PAR de outubro de 2023. Para a simulação horária ---
@@ -380,26 +376,30 @@ consistente até 380,3~Gb/s em 32~nós.
 \begin{table}[ht]
 \centering
 \caption{Experimento AWS: desempenho das implementações atual e MPI-IO (banda
-percebida, tempo de E/S, comunicação, \textit{speedup} e eficiência; eficiência
-relativa à base de 2~nós).}
+percebida, tempo de E/S, percentual de E/S, tempo de
+\texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}, tempo total e eficiência;
+eficiência relativa à base de 2~nós; a coluna \emph{open/close} aplica-se
+apenas à MPI-IO).}
 \label{tab:mpiio_aws}
 \footnotesize
-\setlength{\tabcolsep}{3.5pt}
+\setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{c|ccccc|ccccc}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{c|ccccc|cccccc}
 \toprule
-& \multicolumn{5}{c|}{\textbf{Atual}} & \multicolumn{5}{c}{\textbf{MPI-IO}} \\
+& \multicolumn{5}{c|}{\textbf{Atual}} & \multicolumn{6}{c}{\textbf{MPI-IO}} \\
 \textbf{Nós} &
-\textbf{\shortstack{Banda\\(Gb/s)}} & \textbf{\shortstack{I/O\\(s)}} & \textbf{\% I/O} & \textbf{\shortstack{Total\\(s)}} & \textbf{Efic.} &
-\textbf{\shortstack{Banda\\(Gb/s)}} & \textbf{\shortstack{I/O\\(s)}} & \textbf{\% I/O} & \textbf{\shortstack{Total\\(s)}} & \textbf{Efic.} \\
+\textbf{\shortstack{Banda\\(Gb/s)}} & \textbf{\shortstack{E/S\\(s)}} & \textbf{\% E/S} & \textbf{\shortstack{Total\\(s)}} & \textbf{Efic.} &
+\textbf{\shortstack{Banda\\(Gb/s)}} & \textbf{\shortstack{E/S\\(s)}} & \textbf{\% E/S} & \textbf{\shortstack{\emph{open}/\\\emph{close} (s)}} & \textbf{\shortstack{Total\\(s)}} & \textbf{Efic.} \\
 \midrule
-2  & $60{,}5$ & $30{,}9$  & $0{,}3\%$  & $8\,971$ & $100\%$ & $57{,}0$  & $19{,}0$ & $0{,}2\%$ & $8\,859$ & $100\%$ \\
-4  & $51{,}3$ & $78{,}2$  & $1{,}6\%$  & $4\,823$ & $93\%$  & $106{,}0$ & $12{,}8$ & $0{,}3\%$ & $5\,127$ & $86\%$ \\
-8  & $18{,}9$ & $201{,}7$ & $7{,}6\%$  & $2\,639$ & $85\%$  & $167{,}0$ & $10{,}8$ & $0{,}4\%$ & $2\,600$ & $85\%$ \\
-16 & $4{,}5$  & $527{,}9$ & $28{,}2\%$ & $1\,874$ & $60\%$  & $274{,}2$ & $7{,}5$  & $0{,}5\%$ & $1\,558$ & $71\%$ \\
-32 & $3{,}4$  & $996{,}6$ & $49{,}5\%$ & $2\,013$ & $28\%$  & $380{,}3$ & $9{,}0$  & $0{,}7\%$ & $1\,274$ & $44\%$ \\
+2  & $60{,}5$ & $30{,}9$  & $0{,}3\%$  & $8\,971$ & $100\%$ & $57{,}0$  & $19{,}0$ & $0{,}2\%$ & $42{,}5$  & $8\,859$ & $100\%$ \\
+4  & $51{,}3$ & $78{,}2$  & $1{,}6\%$  & $4\,823$ & $93\%$  & $106{,}0$ & $12{,}8$ & $0{,}3\%$ & $51{,}2$  & $5\,127$ & $86\%$ \\
+8  & $18{,}9$ & $201{,}7$ & $7{,}6\%$  & $2\,639$ & $85\%$  & $167{,}0$ & $10{,}8$ & $0{,}4\%$ & $69{,}8$  & $2\,600$ & $85\%$ \\
+16 & $4{,}5$  & $527{,}9$ & $28{,}2\%$ & $1\,874$ & $60\%$  & $274{,}2$ & $7{,}5$  & $0{,}5\%$ & $83{,}5$  & $1\,558$ & $71\%$ \\
+32 & $3{,}4$  & $996{,}6$ & $49{,}5\%$ & $2\,013$ & $28\%$  & $380{,}3$ & $9{,}0$  & $0{,}7\%$ & $147{,}3$ & $1\,274$ & $44\%$ \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 A comparação direta (Tabela~\ref{tab:comparativo_aws}) evidencia o ganho: a
@@ -421,7 +421,7 @@ calculadas em relação à implementação atual; valores negativos indicam pior
 \toprule
 \textbf{Nós} & \textbf{\shortstack{Total\\atual (s)}} & \textbf{\shortstack{Total\\MPI-IO (s)}} &
 \textbf{\shortstack{Melhoria\\total}} & \textbf{\shortstack{Ganho de\\banda}} &
-\textbf{\shortstack{I/O atual\\(s)}} & \textbf{\shortstack{Melhoria\\I/O}} \\
+\textbf{\shortstack{E/S atual\\(s)}} & \textbf{\shortstack{Melhoria\\E/S}} \\
 \midrule
 2  & $8\,971$ & $8\,859$ & $1{,}3\%$   & $0{,}94\times$   & $30{,}9$  & $38{,}5\%$ \\
 4  & $4\,823$ & $5\,127$ & $-6{,}3\%$  & $2{,}07\times$   & $78{,}2$  & $83{,}7\%$ \\
@@ -442,23 +442,26 @@ MPI-IO, a escrita é distribuída entre os processos e os múltiplos OSTs. Quant
 ao tempo total, a implementação atual entra em regime de saturação a partir de
 16~nós e torna-se contraproducente em 32~nós, ao passo que a MPI-IO permanece
 monotonicamente decrescente. Na MPI-IO, as chamadas
-\texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} passam a ocupar parte do tempo
-(de 0,5\% em 2~nós a 11,6\% em 32~nós), mas trata-se de \emph{overhead fixo} em
-relação à carga útil: não cresce com o número de cenários nem de estágios, e sua
-fração percentual inflada reflete o tempo total curto das execuções de teste (só
-três estágios mensais). Em cargas reais de operação programada, com horizonte
-plurianual, essa parcela é diluída a níveis desprezíveis.
+\texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} (coluna \emph{open/close} da
+Tabela~\ref{tab:mpiio_aws}) crescem de 42,5~s (0,5\%) em 2~nós para 147,3~s
+(11,6\%) em 32~nós. Trata-se de \emph{overhead fixo}: executado uma única vez por
+execução, não cresce com o número de cenários nem de estágios. Sua fração
+percentual aparece inflada na tabela e na Figura~\ref{fig:tempo_aws} porque estes
+experimentos usam apenas três estágios mensais, o que mantém curto o tempo total;
+em cargas reais de operação programada, com horizonte plurianual, o custo
+absoluto permanece o mesmo enquanto o tempo total cresce em ordem de magnitude,
+diluindo essa parcela a níveis desprezíveis.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.72\textwidth]{figuras/Banda_AWS.png}
+\includegraphics[width=.68\textwidth]{figuras/Banda_AWS.png}
 \caption{Banda agregada percebida no Experimento AWS.}
 \label{fig:banda_aws}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.58\textwidth]{figuras/Tempo_execucao_AWS.png}
+\includegraphics[width=.50\textwidth]{figuras/Tempo_execucao_AWS.png}
 \caption{Tempo de execução no Experimento AWS.}
 \label{fig:tempo_aws}
 \end{figure}
@@ -513,26 +516,30 @@ tempo de E/S de 87,3\% e 96,3\%, respectivamente.
 \begin{table}[ht]
 \centering
 \caption{Experimento SDumont: desempenho das implementações atual e MPI-IO
-(banda percebida, tempo de E/S, \textit{speedup} e eficiência; eficiência
-relativa à base de 2~nós).}
+(banda percebida, tempo de E/S, tempo de
+\texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}, tempo total e eficiência;
+eficiência relativa à base de 2~nós; a coluna \emph{open/close} aplica-se
+apenas à MPI-IO).}
 \label{tab:mpiio_sdumont}
 \footnotesize
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3.5pt}
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{c|cccc|cccc}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{c|cccc|ccccc}
 \toprule
-& \multicolumn{4}{c|}{\textbf{Atual}} & \multicolumn{4}{c}{\textbf{MPI-IO}} \\
+& \multicolumn{4}{c|}{\textbf{Atual}} & \multicolumn{5}{c}{\textbf{MPI-IO}} \\
 \textbf{Nós} &
-\textbf{\shortstack{Banda\\(Gb/s)}} & \textbf{\shortstack{I/O\\(s)}} & \textbf{\shortstack{Total\\(s)}} & \textbf{Efic.} &
-\textbf{\shortstack{Banda\\(Gb/s)}} & \textbf{\shortstack{I/O\\(s)}} & \textbf{\shortstack{Total\\(s)}} & \textbf{Efic.} \\
+\textbf{\shortstack{Banda\\(Gb/s)}} & \textbf{\shortstack{E/S\\(s)}} & \textbf{\shortstack{Total\\(s)}} & \textbf{Efic.} &
+\textbf{\shortstack{Banda\\(Gb/s)}} & \textbf{\shortstack{E/S\\(s)}} & \textbf{\shortstack{\emph{open}/\\\emph{close} (s)}} & \textbf{\shortstack{Total\\(s)}} & \textbf{Efic.} \\
 \midrule
-2  & $27{,}9$ & $79{,}3$    & $14\,524$ & $100\%$ & $5{,}5$  & $321{,}2$ & $14\,796$ & $100\%$ \\
-4  & $24{,}8$ & $123{,}2$   & $7\,758$  & $94\%$  & $8{,}9$  & $271{,}5$ & $7\,800$  & $95\%$ \\
-8  & $23{,}9$ & $210{,}9$   & $4\,265$  & $85\%$  & $12{,}1$ & $194{,}7$ & $4\,251$  & $87\%$ \\
-16 & $4{,}2$  & $795{,}7$   & $3\,130$  & $58\%$  & $18{,}9$ & $100{,}9$ & $2\,519$  & $73\%$ \\
-32 & $2{,}5$  & $1\,715{,}8$ & $3\,744$ & $24\%$  & $34{,}1$ & $64{,}1$  & $2\,233$  & $41\%$ \\
+2  & $27{,}9$ & $79{,}3$    & $14\,524$ & $100\%$ & $5{,}5$  & $321{,}2$ & $23{,}2$  & $14\,796$ & $100\%$ \\
+4  & $24{,}8$ & $123{,}2$   & $7\,758$  & $94\%$  & $8{,}9$  & $271{,}5$ & $32{,}3$  & $7\,800$  & $95\%$ \\
+8  & $23{,}9$ & $210{,}9$   & $4\,265$  & $85\%$  & $12{,}1$ & $194{,}7$ & $79{,}3$  & $4\,251$  & $87\%$ \\
+16 & $4{,}2$  & $795{,}7$   & $3\,130$  & $58\%$  & $18{,}9$ & $100{,}9$ & $126{,}5$ & $2\,519$  & $73\%$ \\
+32 & $2{,}5$  & $1\,715{,}8$ & $3\,744$ & $24\%$  & $34{,}1$ & $64{,}1$  & $230{,}0$ & $2\,233$  & $41\%$ \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 A Figura~\ref{fig:banda_sdumont} confirma o contraste de \emph{comportamento}: a
@@ -542,23 +549,24 @@ Lustre compartilhado; a MPI-IO exibe perfil monotonicamente crescente. A
 Figura~\ref{fig:tempo_sdumont} decompõe o tempo médio por processo: na
 implementação atual, a parcela de E/S cresce marcadamente a partir de 16~nós,
 enquanto na MPI-IO ela permanece reduzida e o custo de
-\texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} (de 23~s em 2~nós a 230~s em
-32~nós) --- novamente um \emph{overhead fixo} inflado pelo tamanho reduzido das
-execuções de teste --- compõe a fração visível nas maiores configurações. A
+\texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} (coluna \emph{open/close} da
+Tabela~\ref{tab:mpiio_sdumont}, de 23,2~s em 2~nós a 230,0~s em 32~nós) ---
+novamente um \emph{overhead fixo} inflado pelas execuções de apenas três estágios
+mensais --- compõe a fração visível nas maiores configurações. A
 queda de eficiência em 32~nós (24,2\% na atual e 41,4\% na MPI-IO) e a
 variabilidade refletem o caráter compartilhado do Lustre do SDumont; ainda
 assim, a vantagem estrutural da escrita paralela persiste em toda a faixa.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.72\textwidth]{figuras/Banda_SDumont.png}
+\includegraphics[width=.68\textwidth]{figuras/Banda_SDumont.png}
 \caption{Banda agregada percebida no Experimento SDumont.}
 \label{fig:banda_sdumont}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.58\textwidth]{figuras/Tempo_execucao_SDumont.png}
+\includegraphics[width=.50\textwidth]{figuras/Tempo_execucao_SDumont.png}
 \caption{Decomposição do tempo médio por processo no Experimento SDumont.}
 \label{fig:tempo_sdumont}
 \end{figure}
@@ -630,8 +638,9 @@ uma única escrita por $(\text{estágio}, \text{cenário})$; avaliar adaptadores
 rede de alta velocidade (InfiniBand HDR/NDR, EFA da AWS); investigar a
 sensibilidade ao \texttt{stripe\_size} e ao limite síncrono/assíncrono de
 128~KB; adotar bufferização alinhada às \textit{stripes} do Lustre; reavaliar
-escritas coletivas com \textit{two-phase I/O} (que resultou em \textit{deadlock}
-em testes preliminares); e estender a estratégia à fase de convergência.
+escritas coletivas com \textit{two-phase I/O}, que exigiu reorganizar a sequência
+de chamadas coletivas nos testes preliminares; e estender a estratégia à fase de
+convergência.
 
 \bibliographystyle{sbc}
 \bibliography{bibliografy}

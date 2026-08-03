@@ -60,7 +60,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Caracterização do \textit  {workload} de escrita}{7}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Experimento AWS}{7}{}\protected@file@percent }
 \newlabel{sec:exp_aws}{{4.2}{7}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Experimento AWS: desempenho das implementações atual e MPI-IO (banda percebida, tempo de E/S, comunicação, \textit  {speedup} e eficiência; eficiência relativa à base de 2~nós).\relax }}{8}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Experimento AWS: desempenho das implementações atual e MPI-IO (banda percebida, tempo de E/S, percentual de E/S, tempo de \texttt  {MPI\_File\_open}/\texttt  {MPI\_File\_close}, tempo total e eficiência; eficiência relativa à base de 2~nós; a coluna \emph  {open/close} aplica-se apenas à MPI-IO).\relax }}{8}{}\protected@file@percent }
 \newlabel{tab:mpiio_aws}{{1}{8}}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Experimento AWS: resumo comparativo atual $\times $ MPI-IO (melhorias calculadas em relação à implementação atual; valores negativos indicam piora).\relax }}{8}{}\protected@file@percent }
 \newlabel{tab:comparativo_aws}{{2}{8}}
@@ -74,25 +74,25 @@
 \newlabel{fig:osts_banda}{{6}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Experimento SDumont}{10}{}\protected@file@percent }
 \newlabel{sec:exp_sdumont}{{4.3}{10}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Experimento SDumont: desempenho das implementações atual e MPI-IO (banda percebida, tempo de E/S, \textit  {speedup} e eficiência; eficiência relativa à base de 2~nós).\relax }}{10}{}\protected@file@percent }
-\newlabel{tab:mpiio_sdumont}{{3}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Banda agregada percebida no Experimento SDumont.\relax }}{11}{}\protected@file@percent }
-\newlabel{fig:banda_sdumont}{{7}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Decomposição do tempo médio por processo no Experimento SDumont.\relax }}{11}{}\protected@file@percent }
-\newlabel{fig:tempo_sdumont}{{8}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Síntese das avaliações}{11}{}\protected@file@percent }
-\newlabel{sec:sintese}{{4.4}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Síntese das avaliações}{10}{}\protected@file@percent }
+\newlabel{sec:sintese}{{4.4}{10}}
 \citation{Dickens:08}
 \citation{Gropp:08}
 \citation{LiaoIPDPS:07}
 \citation{Dickens:10}
 \citation{Liao:08}
 \citation{GarciaCarballeiraISPDC:23}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Experimento SDumont: desempenho das implementações atual e MPI-IO (banda percebida, tempo de E/S, tempo de \texttt  {MPI\_File\_open}/\texttt  {MPI\_File\_close}, tempo total e eficiência; eficiência relativa à base de 2~nós; a coluna \emph  {open/close} aplica-se apenas à MPI-IO).\relax }}{11}{}\protected@file@percent }
+\newlabel{tab:mpiio_sdumont}{{3}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Banda agregada percebida no Experimento SDumont.\relax }}{11}{}\protected@file@percent }
+\newlabel{fig:banda_sdumont}{{7}{11}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Trabalhos relacionados}{11}{}\protected@file@percent }
+\newlabel{sec:relacionados}{{5}{11}}
 \bibstyle{sbc}
 \bibdata{bibliografy}
 \bibcite{aws:24}{{Amazon Web Services} 2024a}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Trabalhos relacionados}{12}{}\protected@file@percent }
-\newlabel{sec:relacionados}{{5}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Decomposição do tempo médio por processo no Experimento SDumont.\relax }}{12}{}\protected@file@percent }
+\newlabel{fig:tempo_sdumont}{{8}{12}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Conclusões}{12}{}\protected@file@percent }
 \newlabel{sec:conclusao}{{6}{12}}
 \bibcite{aws:ena}{{Amazon Web Services} 2024b}
