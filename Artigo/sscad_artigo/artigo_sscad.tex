@@ -16,6 +16,7 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{tabularx}
+\usepackage{subcaption}
 
 \sloppy
 
@@ -75,7 +76,7 @@ Na arquitetura atual (Figura~\ref{fig:arq_atual}), apenas o \textit{rank}~1 (pro
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.62\textwidth]{figuras/SDDP_architecture.png}
+\includegraphics[width=.62\textwidth]{figuras/SDDP_architecture}
 \caption{Arquitetura atual de E/S do SDDP: o \textit{rank}~0 distribui tarefas e o \textit{rank}~1 concentra todas as operações de escrita.}
 \label{fig:arq_atual}
 \end{figure}
@@ -88,7 +89,7 @@ A solução substitui o modelo atual por uma organização baseada em MPI-IO sob
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{figuras/SDDP_architecture2.png}
+\includegraphics[width=\textwidth]{figuras/SDDP_architecture2}
 \caption{Arquitetura proposta com MPI-IO e Lustre: o \textit{rank}~0 atua como distribuidor e os demais processos escrevem diretamente em arquivos compartilhados.}
 \label{fig:arq_proposta}
 \end{figure}
@@ -101,7 +102,7 @@ Cada \textit{rank} trabalhador executa o ciclo \textit{bag-of-tasks}: recebe uma
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{figuras/SDDP_timeline_MPIIO.png}
+\includegraphics[width=\textwidth]{figuras/SDDP_timeline_MPIIO}
 \caption{Linha de tempo da simulação final do SDDP com MPI-IO: os \textit{ranks} trabalhadores executam cenários, sincronizam na abertura coletiva, realizam escritas independentes e sincronizam no fechamento.}
 \label{fig:timeline}
 \end{figure}
@@ -177,16 +178,20 @@ As Figuras~\ref{fig:banda_aws} e~\ref{fig:tempo_aws} consolidam esse comportamen
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.68\textwidth]{figuras/Banda_AWS.png}
-\caption{Banda agregada percebida no Experimento AWS.}
-\label{fig:banda_aws}
-\end{figure}
-
-\begin{figure}[ht]
+\begin{subfigure}[b]{0.49\textwidth}
 \centering
-\includegraphics[width=.50\textwidth]{figuras/Tempo_execucao_AWS.png}
-\caption{Tempo de execução no Experimento AWS.}
+\includegraphics[width=\textwidth]{figuras/Banda_AWS}
+\caption{Banda agregada percebida.}
+\label{fig:banda_aws}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figuras/Tempo_execucao_AWS}
+\caption{Tempo de execução.}
 \label{fig:tempo_aws}
+\end{subfigure}
+\caption{Experimento AWS: (a) banda agregada percebida e (b) tempo de execução.}
+\label{fig:aws}
 \end{figure}
 
 \subsubsection{Impacto do número de OSTs}~\label{sec:osts}
@@ -195,7 +200,7 @@ Para isolar o efeito da infraestrutura de armazenamento, comparou-se, na abordag
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.62\textwidth]{figuras/Experimento_OSTs_banda.png}
+\includegraphics[width=.62\textwidth]{figuras/Experimento_OSTs_banda}
 \caption{Banda agregada percebida na implementação MPI-IO para 4 e 10~OSTs em
 16 e 32~nós (Experimento AWS).}
 \label{fig:osts_banda}
@@ -236,20 +241,24 @@ O padrão observado na AWS se repete (Tabela~\ref{tab:mpiio_sdumont}). Na implem
 
 A Figura~\ref{fig:banda_sdumont} confirma o contraste de \emph{comportamento}: a implementação atual preserva banda elevada até 8~nós, mas colapsa a partir de 16~nós (entre 2,5 e 4,2~Gb/s), sintoma da saturação do escritor central sob o Lustre compartilhado; a MPI-IO exibe perfil monotonicamente crescente. \textbf{TODO: EXPANDIR DISCUSSÂO}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=.68\textwidth]{figuras/Banda_SDumont.png}
-\caption{Banda agregada percebida no Experimento SDumont.}
-\label{fig:banda_sdumont}
-\end{figure}
-
 A Figura~\ref{fig:tempo_sdumont} decompõe o tempo médio por processo: na implementação atual, a parcela de E/S cresce marcadamente a partir de 16~nós, enquanto na MPI-IO ela permanece reduzida e o custo de \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} (coluna \emph{open/close} da Tabela~\ref{tab:mpiio_sdumont}, de 23,2~s em 2~nós a 230,0~s em 32~nós) --- novamente um \emph{overhead fixo} inflado pelas execuções de apenas três estágios mensais --- compõe a fração visível nas maiores configurações. A queda de eficiência em 32~nós (24,2\% na atual e 41,4\% na MPI-IO) e a variabilidade refletem o caráter compartilhado do Lustre do SDumont; ainda assim, a vantagem estrutural da escrita paralela persiste em toda a faixa.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.50\textwidth]{figuras/Tempo_execucao_SDumont.png}
-\caption{Decomposição do tempo médio por processo no Experimento SDumont.}
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figuras/Banda_SDumont}
+\caption{Banda agregada percebida.}
+\label{fig:banda_sdumont}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figuras/Tempo_execucao_SDumont}
+\caption{Decomposição do tempo médio por processo.}
 \label{fig:tempo_sdumont}
+\end{subfigure}
+\caption{Experimento SDumont: (a) banda agregada percebida e (b) decomposição do tempo médio por processo.}
+\label{fig:sdumont}
 \end{figure}
 
 \subsection{Síntese das avaliações}~\label{sec:sintese}
