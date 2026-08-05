@@ -16,11 +16,10 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{tabularx}
-\usepackage{subcaption}
 
 \sloppy
 
-\title{Investigando Desafios de Escalabilidade de E/S no\\ Algoritmo SDDP em Ambientes HPC\thanks{Esse projeto foi parcialmente financiado com recursos de bolsas de produtividade do CNPq (PQ-C: 304308/2025-0) e da FAPERJ (JCNE: E-26/204.481/2025)}}
+\title{Investigando Problemas de Escalabilidade de E/S no\\ Algoritmo SDDP em Ambientes HPC\thanks{Esse projeto foi parcialmente financiado com recursos de bolsas de produtividade do CNPq (PQ-C: 304308/2025-0) e da FAPERJ (JCNE: E-26/204.481/2025)}}
 
 \author{Marcelo Barros da Cruz\inst{1}, Claudio Luis de Amorim\inst{1}, Diego Leonel Cadette Dutra\inst{1}}
 
@@ -44,13 +43,13 @@ A escalabilidade eficiente de E/S é um desafio crítico em aplicações paralel
 
 \section{Introdução}~\label{sec:introducao}
 
-A computação de alto desempenho (\textit{High-Performance Computing} --- HPC) tornou-se ferramenta indispensável para aplicações científicas que processam volumes crescentes de dados~\cite{Kang:20}. Nesses ambientes, o desempenho global de uma aplicação não depende apenas da capacidade computacional dos processadores, mas também da eficiência das operações de entrada e saída (E/S), que frequentemente constituem um dos principais gargalos da execução paralela em larga escala~\cite{Luu:15, Xie:20}. À medida que o número de nós cresce, requisições concorrentes ao sistema de arquivos, contenção sobre adaptadores de rede e custos de coordenação entre processos passam a limitar a escalabilidade efetiva, mesmo quando há paralelismo computacional disponível. Para enfrentar esse desafio, o padrão \textit{Message Passing Interface} (MPI) incorporou, a partir do MPI-2, a especificação MPI-IO, que provê primitivas para acesso paralelo a arquivos compartilhados~\cite{mpi50Cite}. Combinada a sistemas de arquivos paralelos como o Lustre, a MPI-IO permite que múltiplos processos gravem simultaneamente em regiões distintas de um mesmo arquivo, distribuindo a carga de E/S entre vários \textit{Object Storage Targets} (OSTs) e contornando os gargalos típicos de arquiteturas com escritor centralizado~\cite{LustreManual}.
+A computação de alto desempenho (\textit{High-Performance Computing} --- HPC) tornou-se ferramenta indispensável para aplicações científicas que processam volumes crescentes de dados~\cite{Kang:20}. Nesses ambientes, o desempenho global de uma aplicação não depende apenas da capacidade computacional dos processadores, mas também da eficiência das operações de entrada e saída (E/S), que frequentemente constituem um dos principais gargalos da execução paralela em larga escala~\cite{Luu:15, Xie:20}. À medida que o número de nós cresce, requisições concorrentes ao sistema de arquivos, contenção sobre adaptadores de rede e custos de coordenação entre processos passam a limitar a escalabilidade efetiva, mesmo quando há paralelismo computacional disponível. Para enfrentar esse desafio, o padrão \textit{Message Passing Interface} (MPI) incorporou, a partir do MPI-2, a especificação MPI-IO, que provê primitivas para acesso paralelo a arquivos compartilhados~\cite{mpi50Cite}. Combinada a sistemas de arquivos paralelos como o Lustre, a MPI-IO permite que múltiplos processos gravem simultaneamente em regiões distintas de um mesmo arquivo, distribuindo a carga de E/S entre vários \textit{Object Storage Targets} (OSTs) e contornando os gargalos típicos de arquiteturas com escritor entralizado~\cite{LustreManual}.
 
 Esse cenário é especialmente relevante para as ferramentas de planejamento da operação de sistemas elétricos. O algoritmo \textit{Stochastic Dual Dynamic Programming} (SDDP)~\cite{MvLm:91} é amplamente usado no despacho hidrotérmico; no Brasil, o Operador Nacional do Sistema Elétrico (ONS) o utiliza no Programa Mensal da Operação (PMO). O algoritmo decompõe o problema em uma malha bidimensional de subproblemas indexados por estágio e cenário; a fase de simulação final --- em que a política já convergida é avaliada em larga escala sobre um conjunto amplo de cenários --- é naturalmente paralela, pois os cenários são mutuamente independentes e podem ser distribuídos entre processos MPI segundo o padrão \textit{bag-of-tasks}~\cite{Cirne:2003}. A transição da operação programada para resolução horária, motivada pela necessidade de capturar horários de ponta, vales e rampas associados à variabilidade das fontes intermitentes, multiplica em uma ordem de grandeza o volume de dados produzido por cenário e estágio~\cite{Ajc:10, Ssr:19}. Nesse regime, a computação deixa de dominar exclusivamente o tempo de execução, que passa a sofrer forte influência das operações de E/S. A arquitetura atual do SDDP concentra todas essas operações em um único processo escritor: cada cenário resolvido envia seu bloco de resultados, via \texttt{MPI\_Send}, ao processo escritor, que serializa as gravações em disco. Essa estratégia introduz dois gargalos: o adaptador de rede do nó escritor, que recebe todas as transferências concorrentes, e o próprio caminho de escrita serializado em um único processo, que não aproveita o paralelismo do sistema de arquivos subjacente. A expansão dos ambientes computacionais utilizados no planejamento energético --- de supercomputadores como o Santos Dumont (LNCC) à nuvem, como a Amazon Web Services (AWS) com FSx for Lustre --- acentua esses gargalos, já que cada plataforma impõe características distintas de hardware, rede e sistema de arquivos.
 
-Este artigo propõe e avalia uma arquitetura paralela de E/S para o SDDP, baseada em escritas independentes com MPI-IO sobre o sistema de arquivos Lustre, com o objetivo de substituir a estratégia atual com processo escritor único. O foco é a \emph{fase de simulação final} do SDDP e, mais especificamente, a \emph{escrita dos resultados} dessa fase, em que se acumula o maior volume de dados. Estão fora do escopo a fase iterativa de geração de cortes, a paralelização das leituras de entrada e o escalonamento de tarefas entre \textit{ranks}, mantido conforme a estratégia \textit{bag-of-tasks} existente. As principais contribuições são: (i) o diagnóstico dos gargalos da arquitetura atual de E/S do SDDP, com identificação do papel do processo escritor único; (ii) a proposta de uma arquitetura de E/S paralela baseada em MPI-IO sobre Lustre, com escritas independentes por processo em \textit{offsets} previamente calculados, preservando o formato dos arquivos consumidos pela cadeia de softwares do planejamento; (iii) a instrumentação detalhada das duas implementações com métricas operacionalmente equivalentes; (iv) a avaliação experimental comparativa em dois ambientes distintos --- AWS com FSx for Lustre dedicado e Santos Dumont com Lustre compartilhado ---, de 2 a 32 nós; e (v) a análise da influência do número de OSTs na escalabilidade da E/S paralela.
+Este artigo propõe e avalia uma arquitetura paralela de E/S para o SDDP, baseada em escritas independentes com MPI-IO sobre o sistema de arquivos Lustre, com o objetivo de substituir a estratégia atual com processo escritor único. O foco é a \emph{fase de simulação final} do SDDP e, mais especificamente, a \emph{escrita dos resultados} dessa fase, em que se cumula o maior volume de dados. Estão fora do escopo a fase iterativa de geração de cortes, a paralelização das leituras de entrada e o escalonamento de tarefas entre \textit{ranks}, mantido conforme a estratégia \textit{bag-of-tasks} existente. As principais contribuições são: (i) o diagnóstico dos gargalos da arquitetura atual de E/S do SDDP, com identificação do papel do processo escritor único; (ii) a proposta de uma arquitetura de E/S paralela baseada em MPI-IO sobre Lustre, com escritas independentes por processo em \textit{offsets} previamente calculados, preservando o formato dos arquivos consumidos pela cadeia de softwares do planejamento; (iii) a instrumentação detalhada das duas implementações com métricas operacionalmente equivalentes; (iv) a avaliação experimental comparativa em dois ambientes distintos --- AWS com FSx for Lustre dedicado e Santos Dumont com Lustre compartilhado ---, de 2 a 32 nós; e (v) a análise da influência do número de OSTs na escalabilidade da E/S paralela.
 
-O restante deste artigo segue esta organização: a Seção~\ref{sec:fundamentacao} apresenta os conceitos fundamentais; a Seção~\ref{sec:proposta} detalha nossa proposta; A Seção~\ref{sec:avaliacoes} traz a avaliação e a análise experimental da abordagem, enquanto na Seção~\ref{sec:relacionados} são sumarizados os principais trabalhos relacionados. Finalmente, a Seção~\ref{sec:conclusao} fornece as considerações finais e delineia direções para trabalhos futuros. \textbf{TODO: REVISAR AO FINAL}
+O restante deste artigo segue esta organização: a Seção~\ref{sec:fundamentacao} apresenta os conceitos fundamentais; A Seção~\ref{sec:Proposta} detalha nossa proposta. A Seção~\ref{sec:avaliacoes} traz a avaliação e a análise experimental da abordagem, enquanto na Seção~\ref{sec:relacionados} são sumarizados os principais trabalhos relacionados. Finalmente, a Seção~\ref{sec:conclusao} fornece as considerações finais e delineia direções para trabalhos futuros. \textbf{TODO: REVISAR AO FINAL}
 
 \section{Fundamentação}~\label{sec:fundamentacao}
 
@@ -76,7 +75,7 @@ Na arquitetura atual (Figura~\ref{fig:arq_atual}), apenas o \textit{rank}~1 (pro
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.62\textwidth]{figuras/SDDP_architecture}
+\includegraphics[width=.62\textwidth]{figuras/SDDP_architecture.png}
 \caption{Arquitetura atual de E/S do SDDP: o \textit{rank}~0 distribui tarefas e o \textit{rank}~1 concentra todas as operações de escrita.}
 \label{fig:arq_atual}
 \end{figure}
@@ -89,7 +88,7 @@ A solução substitui o modelo atual por uma organização baseada em MPI-IO sob
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{figuras/SDDP_architecture2}
+\includegraphics[width=\textwidth]{figuras/SDDP_architecture2.png}
 \caption{Arquitetura proposta com MPI-IO e Lustre: o \textit{rank}~0 atua como distribuidor e os demais processos escrevem diretamente em arquivos compartilhados.}
 \label{fig:arq_proposta}
 \end{figure}
@@ -98,11 +97,11 @@ A solução substitui o modelo atual por uma organização baseada em MPI-IO sob
 
 A Figura~\ref{fig:timeline} ilustra a linha do tempo da execução segundo a arquitetura proposta, destacando a separação entre o processo distribuidor, a chamada coletiva \texttt{MPI\_File\_open} entre os \textit{ranks}  trabalhadores, as escritas independentes e a chamada \texttt{MPI\_File\_close}. A coordenação global fica restrita aos pontos de abertura e fechamento dos arquivos, enquanto as escritas realizadas após a abertura permanecem independentes. O \textit{rank}~0 distribui as tarefas e, quando não está enviando uma nova tarefa, aguarda o recebimento das concluídas; por isso sua linha é representada integralmente como comunicação. Antes da primeira escrita, os trabalhadores participam de uma abertura coletiva dos arquivos (\texttt{MPI\_File\_open}), que atua como barreira; o distribuidor não participa dessa chamada.
 
-Cada \textit{rank} trabalhador executa o ciclo \textit{bag-of-tasks}: recebe uma tarefa correspondente a um cenário, resolve a simulação e, ao término, efetua escritas independentes nos diversos arquivos de resultado, persistindo os blocos no formato proprietário do SDDP; concluída a persistência, solicita uma nova tarefa. Como o tempo de resolução de cada cenário varia, a distribuição dinâmica conduz a um desbalanceamento natural da carga de escrita entre os trabalhadores. Esse desbalanceamento, intrínseco ao padrão \textit{bag-of-tasks}, dificulta a adoção de escritas coletivas~\cite{Zhang:09CollectiveIO}: chamadas coletivas exigiriam que todos os \textit{ranks} participassem conjuntamente da mesma operação, forçando os processos mais rápidos a aguardar os mais lentos a cada ponto coletivo. Por essas razões, a estratégia de escritas independentes mostra-se mais aderente ao modelo de execução. Quando não há mais cenários a resolver, a aplicação realiza o fechamento coletivo dos arquivos (\texttt{MPI\_File\_close}).
+Cada \textit{rank} trabalhador executa o ciclo \textit{bag-of-tasks}: recebe uma tarefa correspondente a um cenário, resolve a simulação e, ao término, efetua escritas independentes nos diversos arquivos de resultado, persistindo os blocos no formato proprietário do SDDP; concluída a persistência, solicita uma nova tarefa. Como o tempo de resolução de cada cenário varia, a distribuição dinâmica conduz a um desbalanceamento natural da carga de escrita entre o trabalhadores. Esse desbalanceamento, intrínseco ao padrão \textit{bag-of-tasks}, dificulta a adoção de escritas coletivas~\cite{Zhang:09CollectiveIO}: chamadas coletivas exigiriam que todos os \textit{ranks} participassem conjuntamente da mesma operação, forçando os processos mais rápidos a aguardar os mais lentos a cada ponto coletivo. Por essas razões, a estratégia de escritas independentes mostra-se mais aderente ao modelo de execução. Quando não há mais cenários a resolver, a aplicação realiza o fechamento coletivo dos arquivos (\texttt{MPI\_File\_close}).
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{figuras/SDDP_timeline_MPIIO}
+\includegraphics[width=\textwidth]{figuras/SDDP_timeline_MPIIO.png}
 \caption{Linha de tempo da simulação final do SDDP com MPI-IO: os \textit{ranks} trabalhadores executam cenários, sincronizam na abertura coletiva, realizam escritas independentes e sincronizam no fechamento.}
 \label{fig:timeline}
 \end{figure}
@@ -123,7 +122,7 @@ O tamanho dos blocos é determinante para a E/S paralela. Blocos pequenos domina
 
 O Experimento AWS utilizou 32 nós da instância r7i.12xlarge (Intel Xeon Sapphire Rapids 8488C a 3,2~GHz, 24 núcleos físicos, 384~GB DDR5, rede ENA de até 18,75~Gbps)~\cite{aws:ena}. Empregou-se MPICH~3.2 e um Lustre v2.12 de 12~TB via Amazon FSx, com 1~MDS, 10~OSTs, \textit{stripe count} 10 e \textit{stripes} de 1~MB. Alocou-se um \textit{rank} por núcleo físico, totalizando 24 \textit{ranks} por nó~\cite{intel:23,aws:24}.
 
-Na \textbf{implementação atual} (Tabela~\ref{tab:mpiio_aws}, colunas \emph{atual}), o tempo total cai com o aumento de nós até 16~nós (de 8.971~s em 2~nós para 1.874~s em 16~nós), mas volta a crescer para 2.013~s em 32~nós --- regime saturado típico de \textit{strong scaling} limitado por E/S. A banda degrada-se de 60,5~Gb/s em 2~nós para 3,4~Gb/s em 32~nós, e o percentual do tempo dedicado à E/S cresce de 0,34\% para 49,51\%, coerente com a serialização no nó escritor como ponto de contenção. Na \textbf{implementação MPI-IO} (Tabela~\ref{tab:mpiio_aws}), em que cada processo escreve diretamente no FSx, o tempo total decresce monotonicamente até 1.274~s em 32~nós, o tempo de E/S permanece próximo ou abaixo de 1\% a partir de 4~nós e a banda cresce de forma consistente até 380,3~Gb/s em 32~nós.
+Na \textbf{implementação atual} (Tabela~\ref{tab:mpiio_aws}, colunas \emph{atual}), o tempo total cai com o aumento de nós até 16~nós (de 8.971~s em 2~nós para 1.874~s em 16~nós), mas volta a crescer para 2.013~s em 32~nós --- regime saturado típico de \textit{strong scaling} limitado por E/S. A banda degrada-se de 60,5~Gb/s em 2~nós para 3,4~Gb/s em 32~nós, e o percentual do tempo dedicado à E/S cresce de 0,34\% para 49,51\%, coerente com a erialização no nó escritor como ponto de contenção. Na \textbf{implementação MPI-IO} (Tabela~\ref{tab:mpiio_aws}), em que cada processo escreve diretamente no FSx o tempo total decresce monotonicamente até 1.274~s em 32~nós, o tempo de E/S permanece próximo ou abaixo de 1\% a partir de 4~nós e a banda cresce de forma consistente até 380,3~Gb/s em 32~nós.
 
 \begin{table}[ht]
 \centering
@@ -178,20 +177,16 @@ As Figuras~\ref{fig:banda_aws} e~\ref{fig:tempo_aws} consolidam esse comportamen
 
 \begin{figure}[ht]
 \centering
-\begin{subfigure}[b]{0.49\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figuras/Banda_AWS}
-\caption{Banda agregada percebida.}
+\includegraphics[width=.68\textwidth]{figuras/Banda_AWS.png}
+\caption{Banda agregada percebida no Experimento AWS.}
 \label{fig:banda_aws}
-\end{subfigure}\hfill
-\begin{subfigure}[b]{0.49\textwidth}
+\end{figure}
+
+\begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{figuras/Tempo_execucao_AWS}
-\caption{Tempo de execução.}
+\includegraphics[width=.50\textwidth]{figuras/Tempo_execucao_AWS.png}
+\caption{Tempo de execução no Experimento AWS.}
 \label{fig:tempo_aws}
-\end{subfigure}
-\caption{Experimento AWS: (a) banda agregada percebida e (b) tempo de execução.}
-\label{fig:aws}
 \end{figure}
 
 \subsubsection{Impacto do número de OSTs}~\label{sec:osts}
@@ -200,7 +195,7 @@ Para isolar o efeito da infraestrutura de armazenamento, comparou-se, na abordag
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.62\textwidth]{figuras/Experimento_OSTs_banda}
+\includegraphics[width=.62\textwidth]{figuras/Experimento_OSTs_banda.png}
 \caption{Banda agregada percebida na implementação MPI-IO para 4 e 10~OSTs em
 16 e 32~nós (Experimento AWS).}
 \label{fig:osts_banda}
@@ -216,7 +211,7 @@ O padrão observado na AWS se repete (Tabela~\ref{tab:mpiio_sdumont}). Na implem
 
 \begin{table}[ht]
 \centering
-\caption{Experimento SDumont: desempenho das implementações atual e MPI-IO (banda percebida, tempo de E/S, tempo de \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}, tempo total e eficiência). Valores em média\,$\pm$\,desvio padrão de cinco repetições, exceto eficiência (pontual); eficiência relativa à base de 2~nós; a coluna \emph{open/close} aplica-se apenas à MPI-IO.}
+\caption{Experimento SDumont: desempenho das implementações atual e MPI-IO (banda percebida, tempo de E/S, tempo de texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}, tempo total e eficiência). Valores em média\,$\pm$\,desvio padrão de cinco repetições, exceto eficiência (pontual); eficiência relativa à base de 2~nós; a coluna \emph{open/close} aplica-se apenas à MPI-IO.}
 \label{tab:mpiio_sdumont}
 \footnotesize
 \setlength{\tabcolsep}{2.5pt}
@@ -241,33 +236,29 @@ O padrão observado na AWS se repete (Tabela~\ref{tab:mpiio_sdumont}). Na implem
 
 A Figura~\ref{fig:banda_sdumont} confirma o contraste de \emph{comportamento}: a implementação atual preserva banda elevada até 8~nós, mas colapsa a partir de 16~nós (entre 2,5 e 4,2~Gb/s), sintoma da saturação do escritor central sob o Lustre compartilhado; a MPI-IO exibe perfil monotonicamente crescente. \textbf{TODO: EXPANDIR DISCUSSÂO}
 
-A Figura~\ref{fig:tempo_sdumont} decompõe o tempo médio por processo: na implementação atual, a parcela de E/S cresce marcadamente a partir de 16~nós, enquanto na MPI-IO ela permanece reduzida e o custo de \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} (coluna \emph{open/close} da Tabela~\ref{tab:mpiio_sdumont}, de 23,2~s em 2~nós a 230,0~s em 32~nós) --- novamente um \emph{overhead fixo} inflado pelas execuções de apenas três estágios mensais --- compõe a fração visível nas maiores configurações. A queda de eficiência em 32~nós (24,2\% na atual e 41,4\% na MPI-IO) e a variabilidade refletem o caráter compartilhado do Lustre do SDumont; ainda assim, a vantagem estrutural da escrita paralela persiste em toda a faixa.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.68\textwidth]{figuras/Banda_SDumont.png}
+\caption{Banda agregada percebida no Experimento SDumont.}
+\label{fig:banda_sdumont}
+\end{figure}
+
+A Figura~\ref{fig:tempo_sdumont} decompõe o tempo médio por processo: na implementação atual, a parcela de E/S cresce marcadamente a partir de 16~nós, enquanto na MPI-IO ela permanece reduzida e o custo de texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} (coluna \emph{open/close} da Tabela~\ref{tab:mpiio_sdumont}, de 23,2~s em 2~nós a 230,0~s em 32~nós) --- novamente um \emph{overhead fixo} inflado pelas execuções de apenas três estágios mensais --- compõe a fração visível nas maiores configurações. A queda de eficiência em 32~nós (24,2\% na atual e 41,4\% na MPI-IO) e a variabilidade refletem o caráter compartilhado do Lustre do SDumont; ainda assim, a vantagem estrutural da escrita paralela persiste em toda a faixa.
 
 \begin{figure}[ht]
 \centering
-\begin{subfigure}[b]{0.49\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figuras/Banda_SDumont}
-\caption{Banda agregada percebida.}
-\label{fig:banda_sdumont}
-\end{subfigure}\hfill
-\begin{subfigure}[b]{0.49\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figuras/Tempo_execucao_SDumont}
-\caption{Decomposição do tempo médio por processo.}
+\includegraphics[width=.50\textwidth]{figuras/Tempo_execucao_SDumont.png}
+\caption{Decomposição do tempo médio por processo no Experimento SDumont.}
 \label{fig:tempo_sdumont}
-\end{subfigure}
-\caption{Experimento SDumont: (a) banda agregada percebida e (b) decomposição do tempo médio por processo.}
-\label{fig:sdumont}
 \end{figure}
 
 \subsection{Síntese das avaliações}~\label{sec:sintese}
 
-Os dois experimentos convergem para um diagnóstico comum, ainda que com magnitudes diferentes. Em pequena escala (2 e 4~nós), a implementação atual é competitiva ou ligeiramente superior, pois o gargalo do escritor único ainda não saturou e o custo fixo da camada MPI-IO pesa relativamente. Nas maiores escalas, o quadro se inverte --- na AWS a partir de 8~nós, no SDumont a partir de 16~nós ---, com a degradação da implementação atual refletindo a contenção sobre a serialização no nó escritor, enquanto a MPI-IO exibe perfil monotonicamente crescente de banda. Esse contraste qualitativo de comportamento --- e não apenas o ganho pontual em uma escala --- é o resultado mais robusto. A magnitude do benefício, porém, depende fortemente da infraestrutura: no FSx dedicado da AWS, a proposta atinge 380,3~Gb/s em 32~nós (113$\times$ sobre a atual) e reduz o tempo total em até 36,7\%; no Lustre compartilhado do SDumont, chega a 34,1~Gb/s (13,7$\times$) e reduz o tempo total em até 40,4\%, mesmo sob concorrência com outras cargas. A preservação da vantagem estrutural nesse regime sugere que a arquitetura é portátil entre ambientes heterogêneos.
+Os dois experimentos convergem para um diagnóstico comum, ainda que com magnitudes diferentes. Em pequena escala (2 e 4~nós), a implementação atual é competitiva ou ligeiramente superior, pois o gargalo do escritor único ainda não saturou e o custo fixo da camada MPI-IO pesa relativamente. Nas maiores escalas, o quadro se inverte --- na AWS a partir de 8~nós, no SDumont a partir de 16~nós ---, com a degradação da implementação atual refletindo a contenção sobre a serialização no nó escritor, enquanto a MPI-IO exibe perfil monotonicamente crescente de banda. Esse contraste qualitativo de omportamento --- e não apenas o ganho pontual em uma escala --- é o resultado mais robusto. A magnitude do benefício, porém, depende fortemente da infraestrutura: no FSx dedicado da AWS, a proposta atinge 380,3~Gb/s em 32~nós (113$\times$ sobre a atual) e reduz o tempo total em até 36,7\%; no Lustre compartilhado do SDumont, chega a 34,1~Gb/s (13,7$\times$) e reduz o tempo total em até 40,4\%, mesmo sob concorrência com outras cargas. A preservação da vantagem estrutural nesse regime sugere que a arquitetura é portátil entre ambientes heterogêneos.
 
 \section{Trabalhos relacionados}~\label{sec:relacionados}
 
-Dickens e Logan~\cite{Dickens:08} introduziram o uso de MPI-IO sobre Lustre, mostrando que, para padrões não-\textit{interleaved} --- em que cada processo escreve em região exclusiva ---, escritas independentes evitam a contenção de \textit{locks} e superam as coletivas; esse diagnóstico fundamenta a escolha de \texttt{MPI\_File\_write\_at} neste trabalho. Gropp \textit{et al.}~\cite{Gropp:08} formalizaram que, nesse regime, \texttt{MPI\_File\_write\_all} degenera para uma escrita simples acrescida de sincronização, tornando as coletivas estritamente piores --- exatamente o padrão de acesso do SDDP. Liao \textit{et al.}~\cite{LiaoIPDPS:07} demonstraram que escritas menores que uma unidade de \textit{stripe} forçam múltiplos \textit{locks} sequenciais e propuseram \textit{two-stage write-behind buffering} alinhado às fronteiras de \textit{stripe}; este trabalho não adota alinhamento explícito, mas parte das escritas do SDDP horário alinha-se incidentalmente ao \textit{stripe} de 1~MB, o que ajuda a explicar o desempenho obtido. Dickens e Thakur~\cite{Dickens:10} e Liao e Choudhary~\cite{Liao:08} exploram estratégias adicionais de alinhamento e particionamento adaptativo para reduzir contenção no Lustre. Por fim, García-Carballeira \textit{et al.}~\cite{GarciaCarballeiraISPDC:23} apresentam o \emph{Expand Ad-Hoc}, um sistema de arquivos efêmero em espaço de usuário sobre o armazenamento local dos nós; compor a proposta com uma camada desse tipo poderia contornar a contenção externa observada no SDumont, com migração ao Lustre apenas no \textit{stage-out}.
+Dickens e Logan~\cite{Dickens:08} introduziram o uso de MPI-IO sobre Lustre, mostrando que, para padrões não-\textit{interleaved} --- em que cada processo escreve em região exclusiva ---, escritas independentes evitam a contenção de \textit{locks} e superam as coletivas; esse diagnóstico undamenta a escolha de \texttt{MPI\_File\_write\_at} neste trabalho. Gropp \textit{et al.}~\cite{Gropp:08} formalizaram que, nesse regime, \texttt{MPI\_File\_write\_all} degenera para uma escrita simples acrescida de sincronização, tornando as coletivas estritamente piores --- exatamente o padrão de acesso do SDDP. Liao \textit{et al.}~\cite{LiaoIPDPS:07} demonstraram que escritas menores que uma unidade de \textit{stripe} forçam múltiplos \textit{locks} sequenciais e propuseram \textit{two-stage write-behind buffering} alinhado às fronteiras de \textit{stripe}; este trabalho não adota alinhamento explícito, mas parte das escritas do SDDP horário alinha-se incidentalmente ao \textit{stripe} de 1~MB, o que ajuda a explicar o desempenho obtido. Dickens e Thakur~\cite{Dickens:10} e Liao e Choudhary~\cite{Liao:08} exploram estratégias adicionais de alinhamento e particionamento adaptativo para reduzir contenção no Lustre. Por fim, García-Carballeira \textit{et al.}~\cite{GarciaCarballeiraISPDC:23} apresentam o \emph{Expand Ad-Hoc}, um sistema de arquivos efêmero em espaço de usuário sobre o armazenamento local dos nós; compor a proposta com uma camada desse tipo poderia contornar a contenção externa observada no SDumont, com migração ao Lustre apenas no \textit{stage-out}.
 
 \section{Conclusões}~\label{sec:conclusao}
 
