@@ -80,7 +80,7 @@ Na arquitetura atual (Figura~\ref{fig:arq_atual}), apenas o \textit{rank}~1 (pro
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figuras/SDDP_architecture.png}
-\caption{Arquitetura atual de E/S do SDDP: o \textit{rank}~0 distribui tarefas e o \textit{rank}~1 concentra todas as operações de escrita.}
+\caption{Arquitetura centralizada de E/S do SDDP (implementação atual): o \textit{rank}~0 distribui tarefas, o \textit{rank}~1 é o único escritor e concentra todas as operações de escrita, e os demais \textit{ranks} executam os cenários.}
 \label{fig:arq_atual}
 \end{figure}
 
