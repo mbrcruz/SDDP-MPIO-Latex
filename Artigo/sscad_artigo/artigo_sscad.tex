@@ -17,12 +17,20 @@
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{subcaption}
+\usepackage{etoolbox}
+\usepackage{orcidlink}
+
+\usepackage{listings}
+\usepackage{color}
+
+\usepackage{needspace}
+\usepackage{etoolbox}
 
 \sloppy
 
-\title{Investigando Problemas de Escalabilidade de E/S no\\ Algoritmo SDDP em Ambientes HPC\thanks{Esse projeto foi parcialmente financiado com recursos de bolsas de produtividade do CNPq (PQ-C: 304308/2025-0) e da FAPERJ (JCNE: E-26/204.481/2025)}}
+\title{Escalando a E/S do SDDP em Ambientes HPC: da Escrita Serializada às Escritas Paralelas com MPI-IO sobre Lustre\thanks{Esse projeto foi parcialmente financiado com recursos de bolsas de produtividade do CNPq (PQ-C: 304308/2025-0) e da FAPERJ (JCNE: E-26/204.481/2025). Recursos computacionais do SDumont alocados ao projeto wnnParIO}}
 
-\author{Marcelo Barros da Cruz\inst{1}, Claudio Luis de Amorim\inst{1}, Diego Leonel Cadette Dutra\inst{1}}
+\author{Marcelo Barros da Cruz\orcidlink{0009-0008-5751-1238}\inst{1}, Claudio Luis de Amorim\orcidlink{0000-0003-1651-1967}\inst{1}, Diego Leonel Cadette Dutra\orcidlink{0000-0003-4262-7242}\inst{1}}
 
 \address{Programa de Engenharia de Sistemas e Computação (PESC) --- COPPE\\ 
 Universidade Federal do Rio de Janeiro (UFRJ)\\
@@ -106,8 +114,7 @@ A instrumentação via \texttt{MPI\_Wtime} no módulo de persistência assegura 
 O tamanho dos blocos é determinante para a E/S paralela. Blocos pequenos dominam em \emph{frequência}: 1.801.728 escritas (80,1\% do total) têm até 1~KB, enquanto as faixas intermediárias somam 152.082 (6,8\%), os blocos de até 1~MB respondem por 267.264 (11,9\%) e os de até 50~MB por 27.648 (1,2\%). Em \emph{volume}, porém, o quadro se inverte: praticamente todo o total escrito (cerca de 567~GB) concentra-se nas duas maiores faixas --- aproximadamente 117~GB nos blocos de até 1~MB e 446~GB nos de até 50~MB. Esse contraste --- escritas pequenas predominam em quantidade, grandes em bytes --- decorre da organização dos 117 arquivos de resultado gerados: 104 no formato horário, em que os registros de um par $(\text{estágio}, \text{cenário})$ são acumulados em memória e gravados em uma única operação agregada, e 13 no formato diário, em que cada dia é gravado individualmente, respondendo pela maioria dos blocos pequenos. A alta frequência de operações de granularidade fina tende a aumentar a sobrecarga de metadados, enquanto o volume concentrado nos blocos maiores impõe a maior demanda sobre a largura de banda~\cite{Rwe:99,Phrrbrw:09}.
 
 % =============================================================
-\subsection{Experimento AWS}
-\label{sec:exp_aws}
+\subsection{Experimento AWS}~\label{sec:exp_aws}
 
 O Experimento AWS utilizou 32 nós da instância r7i.12xlarge (Intel Xeon Sapphire Rapids 8488C a 3,2~GHz, 24 núcleos físicos, 384~GB DDR5, rede ENA de até 18,75~Gbps)~\cite{aws:ena}. Empregou-se MPICH~3.2 e um Lustre v2.12 de 12~TB via Amazon FSx, com 1~MDS, 10~OSTs, \textit{stripe count} 10 e \textit{stripes} de 1~MB. Alocou-se um \textit{rank} por núcleo físico, totalizando 24 \textit{ranks} por nó~\cite{intel:23,aws:24}.
 
@@ -265,8 +272,9 @@ Este trabalho diagnosticou e resolveu o gargalo crítico de E/S na fase de simul
 
 Mais do que os ganhos expressivos de desempenho e largura de banda observados em 32 nós, o resultado mais robusto deste estudo é o contraste qualitativo de comportamento: enquanto a estratégia centralizada colapsa devido à saturação do escritor, a arquitetura com MPI-IO exibe um perfil de escalabilidade monotonicamente crescente em ambas as infraestruturas. Isso demonstra não apenas a eficácia técnica da abordagem, mas também a sua portabilidade entre ecossistemas heterogêneos de computação de alto desempenho. Ademais, a análise do número de OSTs reforça que o dimensionamento da camada de armazenamento (\textit{stripe count} e \textit{stripe size}) deve ser tratado como parâmetro estrutural de projeto.
 
-Como direções para trabalhos futuros, destacam-se a reestruturação do modelo de persistência dos arquivos diários para mitigar o overhead de E/S granular; a exploração de interconexões de altíssima velocidade (InfiniBand HDR/NDR, AWS EFA) com bufferização alinhada ao \textit{stripe} do Lustre; a reavaliação de escritas coletivas com \textit{two-phase I/O}; o diagnóstico das variações observadas no tempo de computação para uma mesma configuração no ambiente AWS; e a extensão da arquitetura à fase de geração de cortes do SDDP.
+%Como direções para trabalhos futuros, destacam-se a reestruturação do modelo de persistência dos arquivos diários para mitigar o overhead de E/S granular; a exploração de interconexões de altíssima velocidade (InfiniBand HDR/NDR, AWS EFA) com bufferização alinhada ao \textit{stripe} do Lustre; a reavaliação de escritas coletivas com \textit{two-phase I/O}; o diagnóstico das variações observadas no tempo de computação para uma mesma configuração no ambiente AWS; e a extensão da arquitetura à fase de geração de cortes do SDDP.
 
+Como direções para trabalhos futuros, destacam-se a reestruturação do modelo de persistência dos arquivos diários para mitigar o overhead de E/S granular; a exploração de interconexões de altíssima velocidade (InfiniBand HDR/NDR, AWS EFA) com bufferização alinhada ao stripe do Lustre; a reavaliação de escritas coletivas com two-phase I/O; a investigação da piora pontual observada em 4 nós no ambiente AWS (Seção~\ref{sec:exp_aws}), onde o tempo total da implementação MPI-IO superou o da implementação atual apesar do ganho já mensurável de banda — indício de que fatores fora do módulo de E/S, possivelmente variações no tempo de computação entre repetições, dominaram esse ponto específico da curva; e a extensão da arquitetura à fase de geração de cortes do SDDP.
 
 \bibliographystyle{sbc}
 \bibliography{bibliografy}
