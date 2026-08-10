@@ -994,6 +994,19 @@ armazenamento --- número de OSTs e largura de \textit{stripe} ---
 deve constituir um parâmetro de projeto, e não um detalhe
 operacional.
 
+Cabe, por fim, uma ressalva sobre a eficiência paralela absoluta.
+Apesar dos ganhos de E/S, a eficiência permanece bem abaixo do ideal
+linear nas maiores escalas, situando-se em 43{,}5\% na AWS e 41{,}4\%
+no SDumont em 32~nós. Esse comportamento é esperado no regime de
+\textit{strong scaling} adotado: com o problema de tamanho fixo, cada
+processo resolve um número cada vez menor de cenários à medida que se
+adicionam nós, de modo que custos aproximadamente constantes da fase
+de computação --- sobretudo os associados ao acesso à memória ---
+deixam de ser amortizados e passam a limitar o \textit{speedup}. Trata-se
+de um gargalo de natureza computacional, distinto do gargalo de E/S
+tratado nesta dissertação; seu diagnóstico detalhado foge ao escopo
+deste trabalho e fica como tema de continuidade.
+
 Esses resultados não esgotam, porém, o estudo da escalabilidade da
 fase de simulação final do SDDP. A faixa avaliada estendeu-se até
 32~nós na AWS e no SDumont; configurações maiores podem revelar
