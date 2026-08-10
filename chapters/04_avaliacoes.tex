@@ -415,14 +415,13 @@ em 16~nós e 11{,}6\% em 32~nós. Esse crescimento percentual, contudo, reflete
 sobretudo a redução do tempo de simulação com o aumento do paralelismo
 e não um aumento da carga útil tratada por essas chamadas. Como
 a aplicação executa \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}
-uma única vez por execução --- no início e no final ---, trata-se de
-um \emph{overhead fixo} em relação à carga útil do problema: não
-cresce com o número de cenários nem com o número de estágios
-resolvidos. Esse custo, no entanto, varia com o número de nós
-computacionais, já que envolve sincronização coletiva entre todos os
-\textit{ranks} envolvidos na abertura do arquivo compartilhado --- e
-é exatamente esse comportamento que se observa nos dados, com a
-parcela absoluta crescendo de 42~s em 2~nós para 147~s em 32~nós.
+uma única vez por execução --- na abertura e no fechamento dos
+arquivos, no início e no final ---, esse custo \textbf{independe do
+tamanho da carga}: não cresce com o número de cenários nem com o
+número de estágios resolvidos, dependendo apenas do número de nós
+que participam da operação coletiva. É exatamente esse comportamento
+que se observa nos dados: para um mesmo tamanho de problema, a
+parcela absoluta cresce de 42~s em 2~nós para 147~s em 32~nós.
 Os experimentos aqui apresentados consideram
 apenas três estágios mensais, o que mantém o tempo total de
 simulação relativamente curto e infla a fração percentual da
@@ -806,15 +805,12 @@ absorver maior paralelismo de escrita.
 A Figura~\ref{fig:Tempo_execucao_SDumont} detalha o tempo médio por
 processo no Experimento SDumont, separando as parcelas de computação,
 comunicação, E/S e \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}. A parcela \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}
-corresponde às chamadas
-\texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}, executadas
-\emph{uma única vez} por execução --- na abertura e no fechamento do
-arquivo de saída. Trata-se, portanto, de um \emph{overhead fixo} em
-relação à carga útil do problema: não cresce com o número de
-cenários nem com o número de estágios resolvidos. Esse custo, no
-entanto, varia com o número de nós computacionais, já que envolve
-sincronização coletiva entre todos os \textit{ranks} envolvidos na
-abertura do arquivo compartilhado. As
+corresponde às chamadas de abertura e fechamento do arquivo de
+saída, executadas \emph{uma única vez} por execução. Pelo mesmo
+motivo já discutido para o Experimento AWS, esse custo independe do
+tamanho da carga --- não cresce com o número de cenários nem de
+estágios --- e depende apenas do número de nós envolvidos na operação
+coletiva. As
 barras de erro indicam somente o desvio padrão do tempo de execução
 total. Em 2 e 4~nós, a implementação MPI-IO apresenta tempo total
 levemente superior ao da implementação atual: o custo das operações
@@ -835,22 +831,16 @@ entre os processos, que permanece reduzido em todas as escalas
 nas maiores configurações --- em particular, cresce de cerca de
 23~s em 2~nós para 126~s em 16~nós e 230~s em 32~nós.
 
-É importante destacar que a fração relativa da \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close}
-observada nestes experimentos é maior do que se espera em execuções
-reais do SDDP. Como já discutido, trata-se de um overhead fixo em
-relação à carga útil do problema --- não cresce com o número de
-cenários nem com o número de estágios resolvidos ---, de modo que
-sua participação no tempo total decresce à medida que a carga
-computacional aumenta. Nas execuções aqui realizadas, com apenas
-três estágios mensais e $1\,536$ cenários, o tempo total de
-simulação é relativamente baixo, o que infla o peso percentual dessa
-parcela. Em execuções de operação programada típicas do SIN, com
-horizonte de vários anos em resolução mensal e número de cenários
-muito maior, o custo absoluto de coordenação, para uma dada
-configuração de nós, permanece o mesmo enquanto o tempo total de
-computação cresce em ordem de magnitude
---- diluindo a fração relativa da \texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} para níveis
-desprezíveis. Assim, a figura evidencia que a abordagem proposta
+Como já discutido para o Experimento AWS, a fração relativa da
+\texttt{MPI\_File\_open}/\texttt{MPI\_File\_close} observada nestes
+experimentos é maior do que a esperada em execuções reais do SDDP:
+com apenas três estágios mensais e $1\,536$ cenários, o tempo total
+de simulação é relativamente baixo, o que infla o peso percentual
+dessa parcela. Em execuções de operação programada típicas do SIN,
+com horizonte de vários anos e número de cenários muito maior, o
+custo absoluto de coordenação permanece o mesmo enquanto o tempo
+total de computação cresce em ordem de magnitude, diluindo essa
+fração para níveis desprezíveis. Assim, a figura evidencia que a abordagem proposta
 reduz o gargalo centralizado de escrita; o custo residual de
 coordenação, embora visível na escala dos experimentos, não é uma
 limitação intrínseca da arquitetura proposta.
