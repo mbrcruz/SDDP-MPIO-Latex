@@ -794,6 +794,20 @@ contrapartida, apresenta perfil monotonicamente crescente de banda,
 indicando que a infraestrutura de armazenamento ainda é capaz de
 absorver maior paralelismo de escrita.
 
+Ainda assim, o desempenho absoluto da escrita paralela no SDumont
+permanece muito aquém do observado na AWS. O SDumont é um
+supercomputador \textbf{compartilhado por centenas de \textit{jobs}}
+de diferentes usuários, que disputam simultaneamente os mesmos
+servidores de metadados (MDS) e OSTs do Lustre. Essa concorrência
+externa impõe um teto de banda: \textbf{mesmo com a MPI-IO}, a banda
+máxima alcançada (34{,}1~Gb/s em 32~nós) fica cerca de uma ordem de
+grandeza \textbf{abaixo} da obtida na AWS com o FSx for Lustre
+dedicado (380{,}3~Gb/s). Em outras palavras, a escrita paralela
+preserva a vantagem estrutural sobre o escritor único --- eliminando
+o colapso de banda observado em larga escala ---, mas seu desempenho
+absoluto no SDumont é limitado pela contenção com as demais cargas
+que compartilham o sistema de arquivos.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{figuras/Banda_SDumont.png}
