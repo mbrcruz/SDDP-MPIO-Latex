@@ -263,14 +263,20 @@ apenas quando processa o último bloco do estágio, o que aumenta o tamanho
 médio das requisições~\cite{Wre:99}.
 
 As escritas não bloqueantes exigem que o \textit{buffer} de origem permaneça
-válido até a conclusão da operação~\cite{mpiCite,Wea:99}. Para isso, a
-implementação reserva um conjunto de 32 \textit{buffers} pré-alocados e os
-reutiliza de forma circular (\textit{ring buffer}): antes de reutilizar uma
-posição, o processo aguarda (\texttt{MPI\_Wait}) a conclusão da escrita
-anterior associada a ela. Esse é o único ponto de bloqueio no caminho de
-escrita e, em regime, o processo raramente o atinge. Ao final, ele conclui
-em conjunto as escritas ainda pendentes por meio de \texttt{MPI\_Waitall},
-fora da janela de medição.
+válido até a conclusão da operação~\cite{mpiCite,Wea:99}. Para assegurar
+essa validade sem serializar o fluxo de escrita, a implementação reserva um
+conjunto de 32 \textit{buffers} pré-alocados e os reutiliza de forma
+circular (\textit{ring buffer}): antes de reaproveitar uma posição, o
+processo aguarda, por meio de \texttt{MPI\_Wait}, a conclusão da escrita
+anteriormente associada àquele \textit{buffer}. Esse é o único ponto de
+bloqueio no caminho de escrita e, em regime permanente, o processo
+raramente o atinge, pois a operação de E/S correspondente costuma já ter
+sido concluída quando o \textit{buffer} volta a ser necessário. Ao final da
+simulação, as escritas ainda pendentes são concluídas conjuntamente por
+meio de \texttt{MPI\_Waitall}. O tempo despendido nessas esperas --- tanto
+nos \texttt{MPI\_Wait} realizados ao longo da simulação quanto no
+\texttt{MPI\_Waitall} final --- foi contabilizado nas medições e mostrou-se
+desprezível frente ao tempo total de escrita.
 
 \begin{codigo}[H]
   \centering
