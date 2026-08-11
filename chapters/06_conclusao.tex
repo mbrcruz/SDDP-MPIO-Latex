@@ -120,6 +120,38 @@ identifica as seguintes direções de continuidade:
         sincronização que reconciliem a natureza dinâmica da
         distribuição de tarefas com a semântica coletiva das
         operações de E/S.
+
+  \item \textbf{Diagnóstico das variações no tempo de computação para
+        uma mesma configuração}, caracterizando as flutuações
+        observadas na fase de computação entre execuções com o mesmo
+        número de nós. Como discutido na Seção~\ref{sec:sintese_avaliacoes},
+        a eficiência paralela permanece abaixo do ideal linear no
+        regime de \textit{strong scaling}: com o problema de tamanho
+        fixo, custos aproximadamente constantes da computação ---
+        sobretudo os associados ao acesso à memória --- deixam de ser
+        amortizados à medida que se adicionam nós. A investigação
+        detalhada desse gargalo computacional, distinto do gargalo de
+        E/S tratado nesta dissertação (por exemplo, via
+        \textit{profiling} da hierarquia de memória e da largura de
+        banda de acesso), permitiria isolar seus efeitos dos de E/S e
+        orientar otimizações futuras da fase de simulação.
+
+  \item \textbf{Investigação da piora pontual observada em 4~nós no
+        Experimento AWS} (Seção~\ref{sec:avaliacao_comparativa_aws}),
+        em que o tempo total da implementação MPI-IO superou o da
+        implementação atual apesar do ganho já mensurável de banda.
+        Esse resultado é indício de que fatores externos ao módulo de
+        E/S --- possivelmente variações no tempo de computação entre
+        repetições --- dominaram esse ponto específico da curva. Sua
+        caracterização, articulada com o diagnóstico das variações de
+        computação mencionado acima, ajudaria a separar os efeitos de
+        E/S dos efeitos computacionais na análise de escalabilidade.
+
+  \item \textbf{Extensão da arquitetura à fase de geração de cortes do
+        SDDP}, avaliando em que medida a estratégia de escritas
+        independentes com MPI-IO se aplica ao padrão de comunicação e
+        de sincronização dessa fase, distinto do da fase de simulação
+        final tratada nesta dissertação.
 \end{itemize}
 
 A consolidação dessas direções pode contribuir para a construção de
