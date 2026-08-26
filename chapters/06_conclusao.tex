@@ -18,8 +18,8 @@ percebida pela aplicação cresce em 113$\times$ na AWS e
 13,7$\times$ no SDumont. O contraste qualitativo entre as duas
 implementações é tão relevante quanto a magnitude desses ganhos:
 enquanto a implementação atual exibe colapso da banda a partir de
-8~nós na AWS e de 16~nós no SDumont --- decorrente da saturação do
-adaptador de rede do processo escritor único ---, a implementação proposta apresenta perfil
+8~nós na AWS e de 16~nós no SDumont --- decorrente da serialização
+inerente à implementação centralizada em um único processo escritor ---, a implementação proposta apresenta perfil
 monotonicamente crescente de banda em toda a faixa avaliada,
 indicando que a infraestrutura de armazenamento ainda não atingiu
 seu limite nominal. Esse comportamento se sustenta em ambos os
