@@ -1,6 +1,6 @@
-PWD d:\Marcelo\Projetos\Latex
+PWD D:\Marcelo\Projetos\Latex
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT d:\Marcelo\Projetos\Latex\dissertacao.tex
+INPUT dissertacao.tex
 OUTPUT dissertacao.log
 INPUT .\coppe.cls
 INPUT coppe.cls
@@ -356,13 +356,12 @@ INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\sym
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecti1200.tfm
-INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbi1200.tfm
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecrm2488.tfm
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx2488.tfm
-INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx1200.tfm
 INPUT .\dissertacao.toc
 INPUT .\dissertacao.toc
 INPUT dissertacao.toc
+INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx1200.tfm
 INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt1200.tfm
 OUTPUT dissertacao.toc
 INPUT .\dissertacao.lof
@@ -533,6 +532,7 @@ INPUT .\figuras\Experimento_OSTs_banda.png
 INPUT .\figuras\Experimento_OSTs_banda.png
 INPUT .\figuras\Experimento_OSTs_banda.png
 INPUT .\figuras\Experimento_OSTs_banda.png
+INPUT C:\Users\mcruz\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbi1200.tfm
 INPUT .\figuras\Banda_SDumont.png
 INPUT .\figuras\Banda_SDumont.png
 INPUT .\figuras\Banda_SDumont.png
@@ -570,6 +570,8 @@ INPUT dissertacao.bbl
 INPUT dissertacao.aux
 INPUT .\dissertacao.out
 INPUT .\dissertacao.out
+INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbi1200.pk
+INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbi1200.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1440.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1440.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecit1095.pk
@@ -604,8 +606,6 @@ INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecb
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx2488.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx2488.pk
-INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbi1200.pk
-INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbi1200.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk
 INPUT C:\Users\mcruz\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk
