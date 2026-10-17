@@ -103,7 +103,7 @@ Cada \textit{rank} trabalhador executa o ciclo \textit{bag-of-tasks}: recebe uma
 
 \section{Avaliações}~\label{sec:avaliacoes}
 
-A avaliação compara a implementação atual de E/S com a proposta, focando em tempo de execução, comunicação, largura de banda e bloqueio de E/S~\cite{Rwe:99,Phrrbrw:09} sobre a base PMO/PAR de outubro de 2023. Os experimentos empregaram dois ambientes: a nuvem \textbf{AWS} (com instâncias ENA e Amazon FSx for Lustre sob \textit{Placement Group} \textit{cluster})~\cite{aws:ena, aws:placement} e o supercomputador \textbf{Santos Dumont (SDumont/LNCC)}, com InfiniBand EDR e MPICH 3.2 via \textit{ch3} sobre IP (sem RDMA)~\cite{Fds:03,RlGmmts:05}. 
+A avaliação compara a implementação atual de E/S com a proposta, focando em tempo de execução, comunicação, largura de banda e bloqueio de E/S~\cite{Rwe:99,Phrrbrw:09} sobre a base PMO de outubro de 2023. Os experimentos empregaram dois ambientes: a nuvem \textbf{AWS} (com instâncias ENA e Amazon FSx for Lustre sob \textit{Placement Group} \textit{cluster})~\cite{aws:ena, aws:placement} e o supercomputador \textbf{Santos Dumont (SDumont/LNCC)}, com InfiniBand EDR e MPICH 3.2 via \textit{ch3} sobre IP (sem RDMA)~\cite{Fds:03,RlGmmts:05}. 
 
 Para a simulação horária, executaram-se 1.536 cenários com três estágios mensais em ambos os ambientes, com cinco repetições por configuração (reportando média e desvio padrão). O mapeamento utilizou um \textit{rank} por núcleo físico (sem \textit{hyper-threading}), pois o consumo superior a 8~GB de RAM por \textit{rank} esgotaria a capacidade de 384~GB por nó se dobrado. Trata-se de um cenário de \textit{strong scaling}~\cite{Amdahl:67}, com tamanho de problema fixo e variação no número de nós.
 
